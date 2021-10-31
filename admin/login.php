@@ -1,4 +1,15 @@
 <?php
+
+	if (!isset($_GET['login']))
+	{
+		$_login = "false";
+	}else{
+		$_login = "true";
+	}
+
+	if ($_login != "true")
+	{
+
 ?>
 
 <!doctype html>
@@ -68,3 +79,7 @@
     
   </body>
 </html>
+
+<?php
+	}
+	?>

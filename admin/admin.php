@@ -9,6 +9,13 @@
 		header("Location: admin.php?page=content");
 	}
 
+  if (isset($_GET['edit']))
+	{
+		$edit = $_GET['edit'];
+	}else{
+    $edit = 'false';
+  }
+
 ?>
 
 <!doctype html>
@@ -21,9 +28,25 @@
     <meta name="generator" content="Hugo 0.88.1">
     <title>Dashboard Template · Bootstrap v5.1</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/dashboard/">
+<?php
+    if($pagetype =='essay' && $edit == 'true')
+  {
+    ?>
+<!-- Main Quill library -->
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-    
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+<!-- Core build with no theme, formatting, non-essential modules -->
+<link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+<script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
+</script>
+  <?php
+  }
+  ?>   
 
     <!-- Bootstrap core CSS -->
 <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -138,9 +161,12 @@ if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
 <?php
 }
 
-  if($pagetype =='essay')
+  if($pagetype =='essay' && $edit == 'false')
   {
     include 'gui\essay.php';
+  }elseif($pagetype =='essay' && $edit == 'true')
+  {
+    include 'gui\essay-edit.php';
   }elseif($pagetype =='content')
   {
     include 'gui\content.php';
@@ -159,9 +185,23 @@ if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
 ?>
   </div>
 </div>
-
-
     <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+    <?php
+    if($pagetype =='essay' && $edit == 'true')
+  {
+    ?>
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+  var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+</script>
+  <?php
+  }
+  ?> 
 
       <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
   </body>

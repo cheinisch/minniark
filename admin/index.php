@@ -2,10 +2,14 @@
 session_start();
 
 
-
-if($_SESSION['user_id'] == "2")
+if (isset($_SESSION['user_id']))
 {
-	header("Location: admin.php");
+	if($_SESSION['user_id'] == "2")
+	{
+		header("Location: admin.php");
+	}else{
+		include 'login.php';
+	}
 }else{
 	include 'login.php';
 }

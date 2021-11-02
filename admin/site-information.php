@@ -12,7 +12,21 @@
         
       </div>
       <h3>Site Info</h3>
-      <p>Site Version: <i><?php echo $ini['app_version']; ?></i></p>
+      <table>
+        <tr>
+            <td>APP Version: </td>
+            <td><i><?php echo $ini['app_version']; ?></i></td>
+        </tr>
+      </table>
       <h3>Server Info</h3>
-      <p>PHP Version: <i><?php echo phpversion(); ?></i></p>
+      <table>
+        <tr>
+            <td>PHP Version: </td>
+            <td><i><?php echo phpversion(); ?></i></td>
+        </tr>
+        <tr>
+            <td>Operation System: </td>
+            <td><i><?php echo php_uname('s'); ?></i></td>
+        </tr>
+      </table>
     </main>

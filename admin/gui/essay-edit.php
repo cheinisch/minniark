@@ -31,14 +31,14 @@
                     <input type="text" id="title" placeholder="Title" autocomplete="off" class="form-control"
                            th:field="*{title}"/>
                 </div>
-
-                <div id="editor">
+                <label for="content">Content:</label> 
+                <div id="editor" class=form-group">
                   <p>Hello World!</p>
                   <p>Some initial <strong>bold</strong> text</p>
                   <p><br></p>
                 </div>
 
-                <button class="btn btn-primary" type="submit">Submit form</button>
+                <button class="btn btn-primary" type="submit">Save Changes</button>
             </form>
     </main>
     <div id="sidebar" class="col-lg-2 bg-light">

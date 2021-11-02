@@ -113,8 +113,8 @@
             </a>
           </li>
         </ul>
-      </div>
-    </nav>
+        
+        
 <?php
   if($pagetype =='essay')
   {

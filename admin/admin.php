@@ -6,7 +6,7 @@
 	{
 		$pagetype = $_GET['page'];
 	}else{
-		$pagetype = 'default';
+		header("Location: admin.php?page=content");
 	}
 
 ?>

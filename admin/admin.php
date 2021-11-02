@@ -57,7 +57,7 @@
   </button>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Sign out</a>
+      <a class="nav-link px-3" href="login.php?login=logoff">Sign out</a>
     </div>
   </div>
 </header>
@@ -126,7 +126,7 @@
   {
     include 'album.php';
   }else{
-    include 'dasboard.php';
+    include 'dashboard.php';
   }
 ?>
   </div>

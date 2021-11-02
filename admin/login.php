@@ -1,13 +1,17 @@
 <?php
 
+  $_login = "false";
+
 	if (!isset($_GET['login']))
 	{
 		$_login = "false";
+	}elseif(isset($_GET['login'])){
+		$_login = $_GET['login'];
 	}else{
 		$_login = "true";
 	}
 
-	if ($_login != "true")
+	if ($_login == "false")
 	{
 
 ?>
@@ -81,7 +85,12 @@
 </html>
 
 <?php
-	}else{
+	}elseif($_GET['login'] == 'logoff')
+  {
+    session_start();
+    session_destroy();
+    header("Location: index.php");
+  }else{
 		session_start();
 		$_SESSION['user_id'] = "2";
 		header("Location: index.php");

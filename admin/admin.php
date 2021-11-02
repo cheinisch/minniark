@@ -140,21 +140,21 @@ if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
 
   if($pagetype =='essay')
   {
-    include 'essay.php';
+    include 'gui\essay.php';
   }elseif($pagetype =='content')
   {
-    include 'content.php';
+    include 'gui\content.php';
   }elseif($pagetype =='album')
   {
-    include 'album.php';
+    include 'gui\album.php';
   }elseif($pagetype =='site-information')
   {
-    include 'site-information.php';
+    include 'gui\site-information.php';
   }elseif($pagetype =='site-settings')
   {
-    include 'site-settings.php';
+    include 'gui\site-settings.php';
   }else{
-    include 'dashboard.php';
+    include 'gui\dashboard.php';
   }
 ?>
   </div>

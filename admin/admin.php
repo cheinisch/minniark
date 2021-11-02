@@ -53,8 +53,21 @@
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Picture CMS</a>
   <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-light">Content</a></li>
-        <li><a href="#" class="nav-link px-2 link-secondary">Settings</a></li>
+    <?php
+      if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
+      {
+    ?>
+      <li><a href="admin.php?page=content" class="nav-link px-2 link-light">Content</a></li>
+      <li><a href="admin.php?page=site-information" class="nav-link px-2 link-secondary">Settings</a></li>
+    <?php
+      }else
+      {
+    ?>
+      <li><a href="admin.php?page=content" class="nav-link px-2 link-secondary">Content</a></li>
+      <li><a href="admin.php?page=site-information" class="nav-link px-2 link-light">Settings</a></li>
+    <?php
+      }
+    ?>
       </ul>
       <div class="col-md-3 text-end">        
         <div class="nav-item text-nowrap">
@@ -65,7 +78,10 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 </header>
-
+<?php
+if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
+{
+  ?>
 <div class="container-fluid">
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -95,9 +111,33 @@
               Content
             </a>
           </li>          
-        </ul>       
+        </ul>
         
+        <?php
+}elseif($pagetype == 'site-information' || $pagetype == 'site-settings')
+{
+  ?>
+  <div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="admin.php?page=site-information">
+              <span data-feather="home"></span>
+              Site Information
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="admin.php?page=site-settings">
+              <span data-feather="file"></span>
+              Site Settings
+            </a>
+          </li>         
+        </ul>
 <?php
+}
+
   if($pagetype =='essay')
   {
     include 'essay.php';
@@ -107,6 +147,12 @@
   }elseif($pagetype =='album')
   {
     include 'album.php';
+  }elseif($pagetype =='site-information')
+  {
+    include 'site-information.php';
+  }elseif($pagetype =='site-settings')
+  {
+    include 'site-settings.php';
   }else{
     include 'dashboard.php';
   }

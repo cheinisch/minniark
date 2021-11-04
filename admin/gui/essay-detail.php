@@ -6,13 +6,13 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="admin.php?page=essay-detail">
               <span data-feather="file-text"></span>
               Essay 1 
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="admin.php?page=essay-detail">
               <span data-feather="file-text"></span>
               Essay 2
             </a>
@@ -26,7 +26,7 @@
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-danger">Delete</button>
-            <a href="admin.php?page=essay&edit=true" type="button" class="btn btn-sm btn-outline-primary">Edit</a>
+            <a href="admin.php?page=essay-edit" type="button" class="btn btn-sm btn-outline-primary">Edit</a>
           </div>
           </div>
       </div>

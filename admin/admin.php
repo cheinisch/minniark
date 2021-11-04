@@ -29,7 +29,7 @@
     <title>Dashboard Template · Bootstrap v5.1</title>
 
 <?php
-    if($pagetype =='essay' && $edit == 'true')
+    if($pagetype =='essay-edit')
   {
     ?>
 <!-- Main Quill library -->
@@ -103,7 +103,7 @@
   </button>
 </header>
 <?php
-if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
+if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail' || $pagetype == 'content' || $pagetype == 'album')
 {
   ?>
 <div class="container-fluid">
@@ -162,10 +162,13 @@ if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
 <?php
 }
 
-  if($pagetype =='essay' && $edit == 'false')
+  if($pagetype =='essay')
   {
     include 'gui\essay.php';
-  }elseif($pagetype =='essay' && $edit == 'true')
+  }elseif($pagetype =='essay-detail')
+  {
+    include 'gui\essay-detail.php';
+  }elseif($pagetype =='essay-edit')
   {
     include 'gui\essay-edit.php';
   }elseif($pagetype =='content')
@@ -188,7 +191,7 @@ if($pagetype == 'essay' || $pagetype == 'content' || $pagetype == 'album')
 </div>
     <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
     <?php
-    if($pagetype =='essay' && $edit == 'true')
+    if($pagetype =='essay-edit')
   {
     ?>
 <!-- Include the Quill library -->

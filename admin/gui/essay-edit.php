@@ -6,13 +6,13 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="admin.php?page=essay-detail">
               <span data-feather="file-text"></span>
-              Essay 1
+              Essay 1 
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="admin.php?page=essay-detail">
               <span data-feather="file-text"></span>
               Essay 2
             </a>
@@ -20,7 +20,7 @@
         </ul>
         </div>
     </nav>
-    <main class="col-md-8 ms-sm-auto col-lg-8 px-md-4">
+    <main class="col-md-8 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Essays</h1>
       </div>
@@ -41,6 +41,3 @@
                 <button class="btn btn-primary" type="submit">Save Changes</button>
             </form>
     </main>
-    <div id="sidebar" class="col-lg-2 bg-light">
-      
-          </div>

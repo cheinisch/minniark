@@ -29,5 +29,36 @@ function get_essay($id){
 
 }
 
+function pcs_get_theme_path()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `theme` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $theme = $result->fetch_assoc();
+    $theme = "storage/themes/".$theme["theme"]."/";
+    return $theme;
+}
+
+
+function pcs_get_page_title()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `site-title` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["site-title"];
+}
+
 
 ?>

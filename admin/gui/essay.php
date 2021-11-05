@@ -5,18 +5,21 @@
           </a>
         </h6>
         <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=essay-detail">
+        <?php
+            $essaylist = get_essays();
+            while($row = $essaylist->fetch_assoc())
+            {
+              ?>
+              <li class="nav-item">
+            <a class="nav-link" href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>">
               <span data-feather="file-text"></span>
-              Essay 1 
+              <?php echo $row["essay_title"]; ?>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=essay-detail">
-              <span data-feather="file-text"></span>
-              Essay 2
-            </a>
-          </li>
+              <?php
+            }
+
+        ?>
         </ul>
         </div>
     </nav>
@@ -24,24 +27,22 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Essays</h1>
       </div>
-      <div class="row">
-      <h3><a href="admin.php?page=essay-detail">Essay Title</a></h3>
-      <p>
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-      </p>
-          </div>
-          <div class="row">
-      <h3>Essay Title</h3>
-      <p>
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-      </p>
-          </div>
-          <div class="row">
-      <h3>Essay Title</h3>
-      <p>
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-      </p>
-          </div>
 
+      <ul class="nav flex-column mb-2">
+        <?php
+            $essaylist = get_essays();
+            while($row = $essaylist->fetch_assoc())
+            {
+              ?>
+              <div class="row">
+      <h3><a href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>"><?php echo $row["essay_title"]; ?></a></h3>
+      <p>
+            <?php echo $row["essay_text"]; ?>
+            </p>
+            </div>
+              <?php
+            }
+
+        ?>
       </div>
     </main>

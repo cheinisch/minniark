@@ -37,7 +37,13 @@
               <div class="row">
       <h3><a href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>"><?php echo $row["essay_title"]; ?></a></h3>
       <p>
-            <?php echo $row["essay_text"]; ?>
+            <?php
+            $string		=	$row["essay_text"]; // Text
+            $length		=	512; // Zeichenlänge
+            
+            $string		=	preg_replace( '/[^ ]*$/', '', substr( $string, 0, $length ) ) . ' ...';
+            
+            echo $string; ?>
             </p>
             </div>
               <?php

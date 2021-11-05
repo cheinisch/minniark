@@ -5,7 +5,7 @@ require 'db-connect.php';
 function get_essays(){
 
     $conn = OpenCon();
-
+    $conn->query("SET NAMES 'utf8'");
     $sql = "SELECT * FROM essay;";
     $result = $conn->query($sql);
 
@@ -18,6 +18,7 @@ function get_essays(){
 function get_essay($id){
 
     $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
 
     $sql = "SELECT * FROM `essay` WHERE `id` = $id;";
     $result = $conn->query($sql);

@@ -1,5 +1,7 @@
 <?php
 
+  include 'inc/functions.php';
+
   $pagetype = 'default';
 
 	if (isset($_GET['page']))

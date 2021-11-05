@@ -6,12 +6,25 @@ function get_essays(){
 
     $conn = OpenCon();
 
-$sql = "SELECT * FROM essay";
-$result = $conn->query($sql);
+    $sql = "SELECT * FROM essay;";
+    $result = $conn->query($sql);
 
-$conn->close();
+    $conn->close();
 
-return $result;
+    return $result;
+
+}
+
+function get_essay($id){
+
+    $conn = OpenCon();
+
+    $sql = "SELECT * FROM `essay` WHERE `id` = $id;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    return $result;
 
 }
 

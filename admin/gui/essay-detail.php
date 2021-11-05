@@ -33,13 +33,14 @@
           </div>
           </div>
       </div>
-      <h3>Essay Title</h3>
-      <p>
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-      </p>
-      <p>
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-      </p>
+
+      <?php
+        $row = get_essay($_GET['id']);
+        $essay = $row->fetch_assoc();
+      ?>
+
+      <h3><?php echo $essay["essay_title"]; ?></h3>
+      <?php echo $essay["essay_text"]; ?>
       <div class="border-bottom mb-4"></div>
       <div class="row">
         <div class="col-lg-2">
@@ -61,10 +62,10 @@
       </div>
       <div class="row">
         <div class="col-lg-2">
-            Create Date: 2022-02-02
+            Last Update: <?php echo $essay["latest_update"]; ?>
         </div>
         <div class="col-lg-2">
-        Publish Date: 2022-02-02 - <a href="#">edit</a>
+        Publish Date: <?php echo $essay["publish_date"]; ?> - <a href="#">edit</a>
         </div>
         <div class="col-lg-6">
         

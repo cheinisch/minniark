@@ -143,7 +143,12 @@ function pcs_get_essay_date()
 
 function pcs_get_main_menu()
 {
-    
+    ?>
+    <li><a href="#" class="active">Timeline</a></li>
+    <li><a href="index.php?content=essays" <?php if (isset($_GET['content'])){if($_GET['content'] == 'albums'){ echo 'class="active"'; }}?>>Albums</a></li>
+        <li><a href="index.php?content=essays" <?php if (isset($_GET['content'])){if($_GET['content'] == 'essay' || $_GET['content'] == 'essays'){ echo 'class="active"'; }}?>>Essays</a></li>
+        <li><a href="#">Page</a></li>
+        <?php
 }
 
 ?>

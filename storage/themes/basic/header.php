@@ -19,10 +19,7 @@
                 <h1 class="display-5"><?php echo pcs_get_page_title(); ?></h1>
                 <header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Timeline</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Albums</a></li>
-        <li class="nav-item"><a href="index.php?content=essays" class="nav-link">Essays</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Page</a></li>
+        <?php pcs_get_main_menu(); ?>
       </ul>
     </header>
             </div>

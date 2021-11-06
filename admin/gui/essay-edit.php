@@ -5,18 +5,21 @@
           </a>
         </h6>
         <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=essay-detail">
+        <?php
+            $essaylist = get_essays();
+            while($row = $essaylist->fetch_assoc())
+            {
+              ?>
+              <li class="nav-item">
+            <a class="nav-link" href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>">
               <span data-feather="file-text"></span>
-              Essay 1 
+              <?php echo $row["essay_title"]; ?>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=essay-detail">
-              <span data-feather="file-text"></span>
-              Essay 2
-            </a>
-          </li>
+              <?php
+            }
+
+        ?>
         </ul>
         </div>
     </nav>

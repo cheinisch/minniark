@@ -29,6 +29,16 @@ function get_essay($id){
 
 }
 
+function trunc($phrase, $max_words) {
+    $phrase_array = explode(' ',$phrase);
+    if(count($phrase_array) > $max_words && $max_words > 0)
+       $phrase = implode(' ',array_slice($phrase_array, 0, $max_words)).'...';
+    return $phrase;
+ }
+
+
+ // Begin public functions
+
 function pcs_get_theme_path()
 {
     $conn = OpenCon();
@@ -60,5 +70,80 @@ function pcs_get_page_title()
     return $title["site-title"];
 }
 
+function pcs_get_essays()
+{
+
+    $essaylist = get_essays();
+            while($row = $essaylist->fetch_assoc())
+            {
+
+    ?>
+    <article class="blog-post">
+    <h2 class="blog-post-title"><a href="index.php?content=essay&id=<?php echo $row["id"]; ?>"><?php echo $row["essay_title"]; ?></a></h2>
+    <p class="blog-post-meta"><?php echo $row["publish_date"]; ?> by <a href="#">Mark</a></p>
+    <?php echo trunc($row["essay_text"],200); ?>
+    </article>
+        <?php
+            }
+}
+
+function pcs_get_essay_title()
+{
+
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `essay` where `id` = $id;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["essay_title"];
+}
+
+function pcs_get_essay_text()
+{
+
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `essay` where `id` = $id;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["essay_text"];
+}
+
+function pcs_get_essay_date()
+{
+
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `essay` where `id` = $id;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["publish_date"];
+}
+
+function pcs_get_main_menu()
+{
+    
+}
 
 ?>

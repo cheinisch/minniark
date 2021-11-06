@@ -16,7 +16,7 @@ if (isset($_GET['content']))
     {
         include $theme."essay.php";
         //pcs_get_essays();
-    }elseif($_GET['content'] == 'album')
+    }elseif($_GET['content'] == 'albums')
     {
         include $theme."album.php";
     }

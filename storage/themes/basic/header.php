@@ -19,7 +19,7 @@
                 <h1 class="display-5"><?php echo pcs_get_page_title(); ?></h1>
                 <header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
-        <?php pcs_get_main_menu(); ?>
+        <?php pcs_get_main_menu("link","active_link"); ?>
       </ul>
     </header>
             </div>

@@ -15,6 +15,19 @@ function get_essays(){
 
 }
 
+function get_albums(){
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+    $sql = "SELECT * FROM album;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    return $result;
+
+}
+
 function get_essay($id){
 
     $conn = OpenCon();
@@ -141,27 +154,30 @@ function pcs_get_essay_date()
     return $title["publish_date"];
 }
 
-function pcs_get_main_menu()
+function pcs_get_main_menu($list_item, $active_list_item)
 {
     ?>
-    <li><a href="#">Timeline</a></li>
-    <li><a href="index.php?content=albums" <?php if (isset($_GET['content'])){if($_GET['content'] == 'albums'){ echo 'class="active"'; }}?>>Albums</a></li>
-        <li><a href="index.php?content=essays" <?php if (isset($_GET['content'])){if($_GET['content'] == 'essay' || $_GET['content'] == 'essays'){ echo 'class="active"'; }}?>>Essays</a></li>
-        <li><a href="#">Page</a></li>
+    <li class="nav-item"><a href="#" class="nav-link">Timeline</a></li>
+    <li class="nav-item"><a href="index.php?content=albums" class="nav-link">Albums</a></li>
+        <li class="nav-item"><a href="index.php?content=essays" class="nav-link">Essays</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Page</a></li>
         <?php
 }
+
 
 function pcs_albums_item($item)
 {
 
 $text = 'testtext mit ein bisschen länge';
 
-    for($i = 0; $i < 4; $i++)
-    {
+    $albumlist = get_albums();
+
+    while($row = $albumlist->fetch_assoc())
+            {
 
         $vars = array(
-            '{{date}}'       => '1. August',
-            '{{text}}'        => $text,
+            '{{date}}'       => date('F j, Y', $row["album_date"]),
+            '{{text}}'        => $row["album_text"],
             '{{thumbnail}}' => 'someothertext'
           );
 

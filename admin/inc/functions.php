@@ -151,4 +151,22 @@ function pcs_get_main_menu()
         <?php
 }
 
+function pcs_albums_item($item)
+{
+    for($i = 0; $i < 5; $i++)
+    {
+        echo $item;
+    }
+}
+
+function pcs_start_loop()
+{
+
+}
+
+function pcs_end_loop()
+{
+
+}
+
 ?>

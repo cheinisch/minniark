@@ -18,6 +18,11 @@ if (isset($_GET['content']))
         //pcs_get_essays();
     }elseif($_GET['content'] == 'albums')
     {
+        include $theme."albums.php";
+        //pcs_get_albums
+    }
+    elseif($_GET['content'] == 'album')
+    {
         include $theme."album.php";
     }
 }else{

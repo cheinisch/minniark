@@ -156,12 +156,32 @@ function pcs_get_essay_date()
 
 function pcs_get_main_menu($list_item, $active_list_item)
 {
-    ?>
-    <li class="nav-item"><a href="#" class="nav-link">Timeline</a></li>
-    <li class="nav-item"><a href="index.php?content=albums" class="nav-link">Albums</a></li>
-        <li class="nav-item"><a href="index.php?content=essays" class="nav-link">Essays</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Page</a></li>
-        <?php
+    $menu[] = array('type' => 'albums', 
+    'title'   => "Albums");
+
+    $menu[] = array('type' => 'essays', 
+    'title'   => "Essays");
+
+    for($i = 0;$i < count($menu);$i ++)
+    {
+
+        $vars = array(
+            '{{type}}'       => $menu[$i]["type"],
+            '{{title}}'        => $menu[$i]["title"]
+          );
+
+          if(isset($_GET['content']))
+          {
+          if($_GET['content'] == $menu[$i]["type"])
+          {
+            echo strtr($active_list_item, $vars);
+          }else{
+        echo strtr($list_item, $vars);
+          }
+        }else{
+            echo strtr($list_item, $vars);
+        }
+    }
 }
 
 

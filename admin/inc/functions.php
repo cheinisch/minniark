@@ -153,9 +153,19 @@ function pcs_get_main_menu()
 
 function pcs_albums_item($item)
 {
-    for($i = 0; $i < 5; $i++)
+
+$text = 'testtext mit ein bisschen länge';
+
+    for($i = 0; $i < 4; $i++)
     {
-        echo $item;
+
+        $vars = array(
+            '{{date}}'       => '1. August',
+            '{{text}}'        => $text,
+            '{{thumbnail}}' => 'someothertext'
+          );
+
+        echo strtr($item, $vars);
     }
 }
 

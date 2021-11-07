@@ -131,20 +131,20 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
           </li>
           <li class="nav-item">
             <a class="nav-link" href="admin.php?page=essay">
-              <span data-feather="shopping-cart"></span>
+              <span data-feather="essay"></span>
               Essays
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="admin.php?page=content">
-              <span data-feather="users"></span>
+              <span data-feather="content"></span>
               Content
             </a>
           </li>          
         </ul>
         
         <?php
-}elseif($pagetype == 'site-information' || $pagetype == 'site-settings')
+}elseif($pagetype == 'site-information' || $pagetype == 'site-settings' || $pagetype == 'user-settings')
 {
   ?>
   <div class="container-fluid">
@@ -160,10 +160,16 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
           </li>
           <li class="nav-item">
             <a class="nav-link" href="admin.php?page=site-settings">
-              <span data-feather="file"></span>
+              <span data-feather="settings"></span>
               Site Settings
             </a>
-          </li>         
+          </li>  
+          <li class="nav-item">
+            <a class="nav-link" href="admin.php?page=user-settings">
+              <span data-feather="settings"></span>
+              User Settings
+            </a>
+          </li>        
         </ul>
 <?php
 }
@@ -189,6 +195,9 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
   }elseif($pagetype =='site-settings')
   {
     include 'gui\site-settings.php';
+  }elseif($pagetype =='user-settings')
+  {
+    include 'gui\user-settings.php';
   }else{
     include 'gui\dashboard.php';
   }

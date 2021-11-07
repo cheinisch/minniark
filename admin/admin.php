@@ -81,7 +81,7 @@
   <body>
     
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="admin.php"><?php echo $ini['app_version']; ?></a>
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="admin.php"><?php echo $ini['app_name']; ?></a>
   <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <?php
       if(str_contains($pagetype,'essay') || str_contains($pagetype,'content') || str_contains($pagetype,'album'))

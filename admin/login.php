@@ -1,5 +1,11 @@
 <?php
 
+if(!@include_once('inc/functions.php')) {
+  // do something
+  include "inc/functions.php";
+}
+  
+
   $ini = parse_ini_file('app.ini');
 
 
@@ -59,19 +65,29 @@
   <body class="text-center">
     
 <main class="form-signin">
-  <form action="login.php?login=true" method="post">
+  <form action="login.php?login=login" method="post">
     <img class="mb-4" src="assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
+      <input type="email" class="form-control" id="floatingInput" name="user" placeholder="name@example.com">
+      <label for="floatingInput">User</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
       <label for="floatingPassword">Password</label>
     </div>
-
+    <?php
+      if(isset($_GET['success']))
+      {
+        if($_GET['success'] == 'false')
+        {
+    ?>
+    <p>Wrong Login Data <a href="#">Reset Passwort</a></p>
+      <?php
+        }
+      }
+      ?>
     <div class="checkbox mb-3">
       <label>
         <input type="checkbox" value="remember-me"> Remember me
@@ -88,14 +104,27 @@
 </html>
 
 <?php
+  }elseif($_GET['login'] == 'login')
+  {
+    echo $_POST["user"];
+
+    if(login($_POST["user"], $_POST["password"]))
+    {
+      session_start();
+		$_SESSION['user_id'] = $_POST["user"];
+		header("Location: index.php");
+    }else{
+      header("Location: index.php?success=false");
+    }
+  
 	}elseif($_GET['login'] == 'logoff')
   {
     session_start();
     session_destroy();
     header("Location: index.php");
   }else{
-		session_start();
+		/*session_start();
 		$_SESSION['user_id'] = "2";
-		header("Location: index.php");
+		header("Location: index.php");*/
 	}
 ?>

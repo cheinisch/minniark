@@ -49,6 +49,53 @@ function trunc($phrase, $max_words) {
     return $phrase;
  }
 
+ function login($user, $password)
+ {
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `admin_mail`, `admin_passwd` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $userdata = $result->fetch_assoc();
+
+    if($user == $userdata["admin_mail"])
+    {
+        if($password == $userdata["admin_passwd"])
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+
+    return false;
+
+ }
+
+ function userid()
+ {
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `admin_mail`, `admin_passwd` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $userdata = $result->fetch_assoc();
+
+    return $userdata["admin_mail"];
+    
+
+ }
+
 
  // Begin public functions
 

@@ -96,6 +96,21 @@ function trunc($phrase, $max_words) {
 
  }
 
+ function get_userdata()
+ {
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `admin_mail`, `admin_user` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $userdata = $result->fetch_assoc();
+
+    return $userdata; 
+ }
+
 
  // Begin public functions
 

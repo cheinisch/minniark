@@ -1,3 +1,9 @@
+<?php
+
+  $userdata = get_userdata();
+
+?>
+
 </div>
     </nav>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -14,11 +20,11 @@
         <div class="col-lg-4">
 <div class="form-group">
     <label for="exampleInputPassword1">Username</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Username">
+    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Username" value="<?php echo $userdata["admin_user"]; ?>">
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="<?php echo $userdata["admin_mail"]; ?>">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>

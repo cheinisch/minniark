@@ -64,7 +64,7 @@ function trunc($phrase, $max_words) {
 
     if($user == $userdata["admin_mail"])
     {
-        if($password == $userdata["admin_passwd"])
+        if(password_verify($password,$userdata["admin_passwd"]))
         {
             return true;
         }else{
@@ -111,6 +111,47 @@ function trunc($phrase, $max_words) {
     return $userdata; 
  }
 
+ function set_userdata($username, $usermail, $userpasswd, $current_user)
+ {
+
+    if(!empty($username))
+    {
+
+        echo $username." ".$current_user;
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `admin_user` = '$username' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($usermail))
+    {
+
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `admin_mail` = '$usermail' WHERE `config`.`admin_user` = '$current_user';";
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($userpasswd))
+    {
+        $options = [
+            'cost' => 11,
+        ];
+
+        $hash = password_hash($userpasswd, PASSWORD_BCRYPT, $options);
+
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `admin_passwd` = '$hash' WHERE `config`.`admin_user` = '$current_user';";
+        $conn->query($sql);
+        $conn->close();
+    }
+ }
+
 
  // Begin public functions
 
@@ -155,7 +196,7 @@ function pcs_get_essays()
     ?>
     <article class="blog-post">
     <h2 class="blog-post-title"><a href="index.php?content=essay&id=<?php echo $row["id"]; ?>"><?php echo $row["essay_title"]; ?></a></h2>
-    <p class="blog-post-meta"><?php echo $row["publish_date"]; ?> by <a href="#">Mark</a></p>
+    <p class="blog-post-meta"><?php echo $row["publish_date"]; ?> by <?php echo ip_get_author(); ?></p>
     <?php echo trunc($row["essay_text"],200); ?>
     </article>
         <?php
@@ -267,14 +308,11 @@ $text = 'testtext mit ein bisschen länge';
     }
 }
 
-function pcs_start_loop()
+function ip_get_author()
 {
+    $author = get_userdata();
 
-}
-
-function pcs_end_loop()
-{
-
+    return $author["admin_user"];
 }
 
 ?>

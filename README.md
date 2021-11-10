@@ -3,4 +3,4 @@ Da Koken.me 2018/2019 eingestellt wurde, ist das ein Versuch, ein eigenes CMS zu
 
 Aktuell wird an der Admingui gearbeitet
 
-Datenbank fehlt noch komplett
+Es gibt ein Basislayout mit dem Namen "Basic"

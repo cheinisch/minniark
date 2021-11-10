@@ -118,25 +118,25 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link" href="#">
               <span data-feather="home"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=album">
+            <a class="nav-link <?php if($pagetype =='album'){ echo "active"; }?>" href="admin.php?page=album">
               <span data-feather="file"></span>
               Albums
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=essay">
+            <a class="nav-link <?php if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail'){ echo "active"; }?>" href="admin.php?page=essay">
               <span data-feather="essay"></span>
               Essays
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=content">
+            <a class="nav-link <?php if($pagetype =='content'){ echo "active"; }?>" href="admin.php?page=content">
               <span data-feather="content"></span>
               Content
             </a>
@@ -153,19 +153,19 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="admin.php?page=site-information">
+            <a class="nav-link <?php if($pagetype =='site-information'){ echo "active"; }?>" href="admin.php?page=site-information">
               <span data-feather="home"></span>
               Site Information
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=site-settings">
+            <a class="nav-link <?php if($pagetype =='site-settings'){ echo "active"; }?>" href="admin.php?page=site-settings">
               <span data-feather="settings"></span>
               Site Settings
             </a>
           </li>  
           <li class="nav-item">
-            <a class="nav-link" href="admin.php?page=user-settings">
+            <a class="nav-link <?php if($pagetype =='user-settings'){ echo "active"; }?>" href="admin.php?page=user-settings">
               <span data-feather="settings"></span>
               User Settings
             </a>

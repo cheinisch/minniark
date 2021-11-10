@@ -239,6 +239,7 @@ function trunc($phrase, $max_words) {
 
 
  // Begin public functions
+ // These Functions are in the API
 
 function pcs_get_theme_path()
 {
@@ -541,12 +542,68 @@ function ip_get_album_images($layout)
 
         $vars = array(
             '{{thumbnail}}' => "storage/images/".$row["content-filename"],
-            '{{image-id}}' => $row["id"]
+            '{{image-id}}' => "index.php?content=single-image&id=".$row["id"]
           );
 
         echo strtr($layout, $vars);
     }
 
+}
+
+function ip_get_image()
+{
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `id` = $id;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    if(!isset($image["content-filename"]))
+    {
+        return "storage/images/error_images/fff.png";    
+    }
+
+    return "storage/images/".$image["content-filename"];
+}
+
+function ip_get_image_title()
+{
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `id` = $id;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    return $image["content-name"];
+}
+
+function ip_get_image_text()
+{
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `id` = $id;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    return $image["content-text"];
 }
 
 ?>

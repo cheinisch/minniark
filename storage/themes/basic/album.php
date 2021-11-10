@@ -7,7 +7,7 @@
 <div class="row" data-masonry='{"percentPosition": true }'>
     <?php echo ip_get_album_images('<div class="col-sm-6 col-lg-4 mb-4">
       <div class="card">
-        <img class="card-img-top" width="100%" height="100%" src="{{thumbnail}}">
+        <a href="{{image-id}}"><img class="card-img-top" width="100%" height="100%" src="{{thumbnail}}"></a>
       </div>
     </div>'); ?>
 </div>

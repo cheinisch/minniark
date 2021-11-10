@@ -371,7 +371,7 @@ $text = 'testtext mit ein bisschen länge';
         $vars = array(
             '{{date}}'       => date('F j, Y', $row["album_date"]),
             '{{text}}'        => $row["album_text"],
-            '{{thumbnail}}' => 'someothertext'
+            '{{thumbnail}}' => ip_get_album_thumbnail($row["id"])
           );
 
         echo strtr($item, $vars);
@@ -458,6 +458,26 @@ function ip_get_sitekeywords()
     $title = $result->fetch_assoc();
 
     return $title["site-keywords"];
+}
+
+function ip_get_album_thumbnail($albumid)
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    if(!isset($image["content-filename"]))
+    {
+        return "storage/images/error_images/fff.png";    
+    }
+
+    return "storage/images/".$image["content-filename"];
 }
 
 ?>

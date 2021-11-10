@@ -9,7 +9,7 @@
             
 
             <div class="card-body">
-              <p class="card-text">{{text}}</p>
+              <p class="card-text"><a href="{{album_url}}">{{text}}</a></p>
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-muted">{{date}}</small>
               </div>

@@ -222,6 +222,21 @@ function trunc($phrase, $max_words) {
 
  }
 
+ function get_album_images()
+ {
+        $id = $_GET['id'];
+
+        $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content-album-id` = $id;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    return $result;
+ }
+
 
  // Begin public functions
 
@@ -361,7 +376,7 @@ function pcs_get_main_menu($list_item, $active_list_item)
 function pcs_albums_item($item)
 {
 
-$text = 'testtext mit ein bisschen länge';
+    $text = 'testtext mit ein bisschen länge';
 
     $albumlist = get_albums();
 
@@ -370,8 +385,9 @@ $text = 'testtext mit ein bisschen länge';
 
         $vars = array(
             '{{date}}'       => date('F j, Y', $row["album_date"]),
-            '{{text}}'        => $row["album_text"],
-            '{{thumbnail}}' => ip_get_album_thumbnail($row["id"])
+            '{{text}}'        => $row["album_title"],
+            '{{thumbnail}}' => ip_get_album_thumbnail($row["id"]),
+            '{{album_url}}' => "index.php?content=album&id=".$row["id"]
           );
 
         echo strtr($item, $vars);
@@ -478,6 +494,59 @@ function ip_get_album_thumbnail($albumid)
     }
 
     return "storage/images/".$image["content-filename"];
+}
+
+function ip_get_album_description()
+{
+    $albumid = $_GET["id"];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `album` where `id` = $albumid;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $album = $result->fetch_assoc();
+
+    return $album["album_text"];
+}
+
+function ip_get_album_title()
+{
+    $albumid = $_GET["id"];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `album` where `id` = $albumid;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $album = $result->fetch_assoc();
+
+    return $album["album_title"];
+}
+
+function ip_get_album_images($layout)
+{
+
+    
+    $imagelist = get_album_images();
+
+    while($row = $imagelist->fetch_assoc())
+            {
+
+        $vars = array(
+            '{{thumbnail}}' => "storage/images/".$row["content-filename"],
+            '{{image-id}}' => $row["id"]
+          );
+
+        echo strtr($layout, $vars);
+    }
+
 }
 
 ?>

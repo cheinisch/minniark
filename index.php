@@ -25,6 +25,10 @@ if (isset($_GET['content']))
     {
         include $theme."album.php";
     }
+    elseif($_GET['content'] == 'single-image')
+    {
+        include $theme."single-image.php";
+    }
 }else{
     include $theme."timeline.php";
 }

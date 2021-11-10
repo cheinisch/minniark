@@ -385,4 +385,79 @@ function ip_get_author()
     return $author["admin_user"];
 }
 
+function ip_get_sitename()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `site-name` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["site-name"];
+}
+
+function ip_get_sitetitle()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `site-title` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["site-title"];
+}
+
+function ip_get_sitetagline()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `site-tagline` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["site-tagline"];
+}
+
+function ip_get_sitecopyright()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `site-copyright` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["site-copyright"];
+}
+
+function ip_get_sitekeywords()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT `site-keywords` FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["site-keywords"];
+}
+
 ?>

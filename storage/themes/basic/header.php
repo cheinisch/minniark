@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="author" content="Christian Heinisch">
         <meta name="generator" content="Hugo 0.88.1">
-        <title><?php echo pcs_get_page_title(); ?></title>
+        <title><?php echo ip_get_sitetitle(); ?></title>
 
         <!-- CSS -->
         <link href="<?php echo pcs_get_theme_path(); ?>css/bootstrap.min.css" rel="stylesheet">
@@ -16,7 +16,8 @@
     <body>
         <div class="container">
             <div class="text-center">
-                <h1 class="display-5"><?php echo pcs_get_page_title(); ?></h1>
+                <h1 class="display-5"><?php echo ip_get_sitename(); ?></h1>
+                <p><?php echo ip_get_sitetagline(); ?></p>
                 <header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
         <?php pcs_get_main_menu('<li class="nav-item"><a href="index.php?content={{type}}" class="nav-link">{{title}}</a></li>','<li class="nav-item"><a href="index.php?content={{type}}" class="nav-link active">{{title}}</a></li>'); ?>

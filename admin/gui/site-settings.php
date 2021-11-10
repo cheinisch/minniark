@@ -1,18 +1,12 @@
 <?php
 
-  $userdata = get_userdata();
+  $sitedata = get_sitedata();
 
   if(isset($_GET['change']))
   {
     if($_GET['change'] == "true")
     {
-      if(empty($_POST["userpasswd"]))
-      {
-        $passwd = null;
-      }else{
-        $passwd = $_POST["userpasswd"];
-      }
-      set_sitedata($_POST["username"],$_POST["usermail"],$passwd, $userdata["admin_user"]);
+      set_sitedata($_POST["sitename"],$_POST["sitetitle"],$_POST["sitetagline"],$_POST["sitecopyright"],$_POST["sitekeywords"], $sitedata["admin_user"]);
     }
 
     header("Location: admin.php?page=site-settings");
@@ -23,7 +17,7 @@
 </div>
     </nav>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <form action="admin.php?page=sitesettings&change=true" method="post">
+        <form action="admin.php?page=site-settings&change=true" method="post">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Site Settings</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
@@ -35,20 +29,24 @@
     <div class="row">
         <div class="col-lg-4">
 <div class="form-group">
-    <label for="exampleInputPassword1">Site Name</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Username" name="username" value="<?php echo $userdata["admin_user"]; ?>">
+    <label for="InputName">Site Name</label>
+    <input type="text" class="form-control" id="InputName" placeholder="Site Name" name="sitename" value="<?php echo $sitedata["site-name"]; ?>">
   </div>
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name="usermail" value="<?php echo $userdata["admin_mail"]; ?>">
+    <label for="InputTitle">Site Title</label>
+    <input type="text" class="form-control" id="InputTitle" placeholder="Site Title" name="sitetitle" value="<?php echo $sitedata["site-title"]; ?>">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="userpasswd" placeholder="Please leave field empty, if no change">
+    <label for="InputTagline">Tagline</label>
+    <input type="text" class="form-control" id="InputTagline" placeholder="Tagline" name="sitetagline" value="<?php echo $sitedata["site-tagline"]; ?>">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Confirm Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Please leave field empty, if no change">
+    <label for="InputCopyright">Copyright</label>
+    <input type="text" class="form-control" id="InputCopyright" placeholder="Copyright" name="sitecopyright" value="<?php echo $sitedata["site-copyright"]; ?>">
+  </div>
+  <div class="form-group">
+    <label for="InputKeywords">Keywords</label>
+    <input type="text" class="form-control" id="InputKeywords" placeholder="Keywords" name="sitekeywords" value="<?php echo $sitedata["site-keywords"]; ?>">
   </div>
 </div>
 </div>

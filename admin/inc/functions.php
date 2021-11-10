@@ -152,6 +152,76 @@ function trunc($phrase, $max_words) {
     }
  }
 
+ function get_sitedata()
+ {
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `config`;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $sitedata = $result->fetch_assoc();
+
+    return $sitedata; 
+ }
+
+ function set_sitedata($sitename, $sitetitle, $sitetagline, $sitecopyright, $sitekeywords, $current_user)
+ {
+
+    if(!empty($sitename))
+    {
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `site-name` = '$sitename' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($sitetitle))
+    {
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `site-title` = '$sitetitle' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($sitetagline))
+    {
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `site-tagline` = '$sitetagline' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($sitecopyright))
+    {
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `site-copyright` = '$sitecopyright' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($sitekeywords))
+    {
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `site-keywords` = '$sitekeywords' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+ }
+
 
  // Begin public functions
 

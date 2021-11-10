@@ -7,6 +7,7 @@
         <meta name="author" content="Christian Heinisch">
         <meta name="generator" content="Hugo 0.88.1">
         <title><?php echo ip_get_sitetitle(); ?></title>
+        <meta name="keywords" content="<?php echo ip_get_sitekeywords(); ?>"/>
 
         <!-- CSS -->
         <link href="<?php echo pcs_get_theme_path(); ?>css/bootstrap.min.css" rel="stylesheet">

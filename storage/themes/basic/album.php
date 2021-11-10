@@ -9,5 +9,5 @@
       <div class="card">
         <img class="card-img-top" width="100%" height="100%" src="{{thumbnail}}">
       </div>
-    </div>
-</div>'); ?>
+    </div>'); ?>
+</div>

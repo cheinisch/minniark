@@ -9,6 +9,8 @@
      */
     function createImage($source, $destination, $targetSize, $strict = false){
 
+        ini_set('memory_limit', '1024M');
+
         list($width, $height) = getimagesize($source);
 
         echo "breite ".$width;

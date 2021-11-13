@@ -1,5 +1,5 @@
 <div class="row">
-    <img src="<?php echo ip_get_image(); ?>">
+    <img src="<?php echo ip_get_image("original"); ?>">
 </div>
 <div class="row">
     <h3><?php echo ip_get_image_title(); ?></h3>

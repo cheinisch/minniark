@@ -5,7 +5,7 @@
         pcs_albums_item('
         <div class="col">
           <div class="card shadow-sm">
-            <img class="card-img-top" width="100%" height="225" src="{{thumbnail}}">
+            <img class="card-img-top" width="100%" height="225" src="{{image.thumbnail}}">
             
 
             <div class="card-body">

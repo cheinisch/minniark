@@ -244,11 +244,11 @@ function trunc($phrase, $max_words) {
     echo getcwd() . "\n";
 
     $files = glob("..\\storage\\images\\cache\\*"); // get all file names
-foreach($files as $file){ // iterate files
-  if(is_file($file)) {
-    unlink($file); // delete file
-  }
-}
+    foreach($files as $file){ // iterate files
+        if(is_file($file)) {
+            unlink($file); // delete file
+        }
+    }
 
     if ($handle = opendir("..\\storage\\images\\original\\")) {
 
@@ -410,9 +410,6 @@ function pcs_get_main_menu($list_item, $active_list_item)
 
 function pcs_albums_item($item)
 {
-
-    $text = 'testtext mit ein bisschen länge';
-
     $albumlist = get_albums();
 
     while($row = $albumlist->fetch_assoc())
@@ -421,7 +418,10 @@ function pcs_albums_item($item)
         $vars = array(
             '{{date}}'       => date('F j, Y', $row["album_date"]),
             '{{text}}'        => $row["album_title"],
-            '{{thumbnail}}' => ip_get_album_thumbnail($row["id"]),
+            '{{image.thumbnail}}' => ip_get_album_thumbnail($row["id"]),
+            '{{image.medium}}' => ip_get_album_medium($row["id"]),
+            '{{image.large}}' => ip_get_album_large($row["id"]),
+            '{{image.original}}' => ip_get_album_original($row["id"]),
             '{{album_url}}' => "index.php?content=album&id=".$row["id"]
           );
 
@@ -528,7 +528,67 @@ function ip_get_album_thumbnail($albumid)
         return "storage/images/error_images/fff.png";    
     }
 
-    return "storage/images/".$image["content-filename"];
+    return "storage/images/cache/thumb_".$image["content-filename"];
+}
+
+function ip_get_album_medium($albumid)
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    if(!isset($image["content-filename"]))
+    {
+        return "storage/images/error_images/fff.png";    
+    }
+
+    return "storage/images/cache/mediun_".$image["content-filename"];
+}
+
+function ip_get_album_large($albumid)
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    if(!isset($image["content-filename"]))
+    {
+        return "storage/images/error_images/fff.png";    
+    }
+
+    return "storage/images/cache/large_".$image["content-filename"];
+}
+
+function ip_get_album_original($albumid)
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    if(!isset($image["content-filename"]))
+    {
+        return "storage/images/error_images/fff.png";    
+    }
+
+    return "storage/images/original/".$image["content-filename"];
 }
 
 function ip_get_album_description()
@@ -575,7 +635,10 @@ function ip_get_album_images($layout)
             {
 
         $vars = array(
-            '{{thumbnail}}' => "storage/images/".$row["content-filename"],
+            '{{image.thumbnail}}' => "storage/images/cache/thumb_".$row["content-filename"],
+            '{{image.medium}}' => "storage/images/cache/medium_".$row["content-filename"],
+            '{{image.large}}' => "storage/images/cache/large_".$row["content-filename"],
+            '{{image.original}}' => "storage/images/original/".$row["content-filename"],
             '{{image-id}}' => "index.php?content=single-image&id=".$row["id"]
           );
 
@@ -584,7 +647,7 @@ function ip_get_album_images($layout)
 
 }
 
-function ip_get_image()
+function ip_get_image($size)
 {
     $id = $_GET['id'];
 
@@ -603,7 +666,21 @@ function ip_get_image()
         return "storage/images/error_images/fff.png";    
     }
 
-    return "storage/images/".$image["content-filename"];
+    if($size == "thumbnail")
+    {
+        return "storage/images/cache/thumb_".$image["content-filename"];
+    }elseif($size == "medium")
+    {
+        return "storage/images/cache/medium_".$image["content-filename"];
+    }elseif($size == "large")
+    {
+        return "storage/images/cache/large_".$image["content-filename"];
+    }elseif($size == "original")
+    {
+        return "storage/images/original/".$image["content-filename"];
+    }
+
+    return null;
 }
 
 function ip_get_image_title()

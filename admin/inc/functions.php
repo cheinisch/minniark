@@ -286,7 +286,7 @@ function trunc($phrase, $max_words) {
              '{{text}}'        => $row["album_title"],
              '{{image.thumbnail}}' => admin_ip_get_album_thumbnail($row["id"]),
              '{{image.medium}}' => admin_ip_get_album_medium($row["id"]),
-             '{{album_url}}' => "index.php?content=album&id=".$row["id"]
+             '{{album_url}}' => "admin.php?page=album-edit&id=".$row["id"]
            );
  
          echo strtr($item, $vars);

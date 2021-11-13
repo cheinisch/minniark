@@ -35,21 +35,11 @@
     <title>Dashboard Template · Bootstrap v5.1</title>
 
 <?php
-    if($pagetype =='essay-edit')
+    if($pagetype =='essay-edit' || $pagetype =='essay-new' || $pagetype =='album-edit' || $pagetype =='album-new')
   {
     ?>
-<!-- Main Quill library -->
-<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-<!-- Theme included stylesheets -->
-<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
-
-<!-- Core build with no theme, formatting, non-essential modules -->
-<link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
-<script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
-</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
   <?php
   }
   ?>   
@@ -109,7 +99,7 @@
   </button>
 </header>
 <?php
-if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail' || $pagetype == 'content' || $pagetype == 'album')
+if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail' || $pagetype == 'content' || $pagetype == 'album' || $pagetype == 'album-edit')
 {
   ?>
 <div class="container-fluid">
@@ -124,7 +114,7 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php if($pagetype =='album'){ echo "active"; }?>" href="admin.php?page=album">
+            <a class="nav-link <?php if($pagetype =='album' ||$pagetype == 'album-edit'){ echo "active"; }?>" href="admin.php?page=album">
               <span data-feather="file"></span>
               Albums
             </a>
@@ -186,7 +176,7 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
   }elseif($pagetype =='content')
   {
     include 'gui\content.php';
-  }elseif($pagetype =='album')
+  }elseif($pagetype =='album' || $pagetype =='album-edit' || $pagetype == 'album-update' || $pagetype =='album-create' || $pagetype == 'album-new')
   {
     include 'gui\album.php';
   }elseif($pagetype =='site-information')
@@ -206,22 +196,13 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
 </div>
     <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
     <?php
-    if($pagetype =='essay-edit')
+    if($pagetype =='essay-edit' || $pagetype =='essay-new' || $pagetype =='album-edit' || $pagetype =='album-new')
   {
     ?>
-<!-- Include the Quill library -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
-<!-- Initialize Quill editor -->
-<script>
-  var quill = new Quill('#editor', {
-    theme: 'snow'
-  });
-</script>
   <?php
   }
   ?> 
-
-      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js" ></script>
   </body>
 </html>

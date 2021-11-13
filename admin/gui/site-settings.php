@@ -10,6 +10,15 @@
     }
 
     header("Location: admin.php?page=site-settings");
+  }elseif(isset($_GET['cache']))
+  {
+    if($_GET['cache'] == "true")
+    {
+      recreate_cache();
+    }
+    
+
+    header("Location: admin.php?page=site-settings");
   }
 
 ?>
@@ -51,4 +60,5 @@
 </div>
 </div>
 </form>
+<button>Recreate Cache</button>
 </main>

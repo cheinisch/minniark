@@ -1,6 +1,7 @@
 <?php
 
 require 'db-connect.php';
+require 'image-cache.php';
 
 function get_essays(){
 
@@ -237,6 +238,39 @@ function trunc($phrase, $max_words) {
     return $result;
  }
 
+
+ function recreate_cache()
+ {
+    echo getcwd() . "\n";
+
+    $files = glob("..\\storage\\images\\cache\\*"); // get all file names
+foreach($files as $file){ // iterate files
+  if(is_file($file)) {
+    unlink($file); // delete file
+  }
+}
+
+    if ($handle = opendir("..\\storage\\images\\original\\")) {
+
+        while (false !== ($entry = readdir($handle))) {
+    
+            if ($entry != "." && $entry != "..") {
+    
+                echo "$entry\n";
+                createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\thumb_'.$entry, 200);
+
+                createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\medium_'.$entry, 600);
+
+                createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\large_'.$entry, 1024);
+            }
+        }
+    
+        closedir($handle);
+    }
+
+
+
+ }
 
  // Begin public functions
  // These Functions are in the API

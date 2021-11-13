@@ -99,7 +99,7 @@
   </button>
 </header>
 <?php
-if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail' || $pagetype == 'content' || $pagetype == 'album' || $pagetype == 'album-edit')
+if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail' || $pagetype == 'essay-new' || $pagetype == 'content' || $pagetype == 'album' || $pagetype == 'album-edit')
 {
   ?>
 <div class="container-fluid">
@@ -170,7 +170,7 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
   }elseif($pagetype =='essay-detail')
   {
     include 'gui\essay-detail.php';
-  }elseif($pagetype =='essay-edit')
+  }elseif($pagetype =='essay-edit'|| $pagetype =='essay-update'|| $pagetype =='essay-new' || $pagetype == 'essay-create')
   {
     include 'gui\essay-edit.php';
   }elseif($pagetype =='content')

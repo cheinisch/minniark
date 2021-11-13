@@ -6,6 +6,11 @@ if (isset($_GET['page']))
   {
       echo $_POST['title'];
       echo $_POST['content'];
+
+      update_album_descripton($_POST['title'], $_POST['content'], $_GET['id']);
+
+      header("Location: admin.php?page=album-edit&id=".$_GET['id']);
+
   }elseif($_GET['page'] == 'album-edit' || $_GET['page'] == 'album-new')
   {
 ?>
@@ -16,7 +21,7 @@ if (isset($_GET['page']))
     <h1 class="h2">Album</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
-        <form action="admin.php?page=album-update" method="post">
+        <form action="admin.php?page=album-update&id=<?php echo $_GET['id']; ?>" method="post">
         <button type="submit" class="btn btn-sm btn-outline-danger">Save</button>
       </div>
     </div>
@@ -29,7 +34,7 @@ if (isset($_GET['page']))
       </div>
       <label for="content">Content:</label> 
       <textarea name="content" id="editor">
-        <p><?php echo ip_get_album_description(); ?></p>
+        <?php echo ip_get_album_description(); ?>
       </textarea>
           </form>
       <script>

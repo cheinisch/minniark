@@ -223,6 +223,61 @@ function trunc($phrase, $max_words) {
 
  }
 
+ function update_album_descripton($title, $content, $id)
+ {
+
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `album` SET `album_title` = '$title', `album_text` = '$content' WHERE `album`.`id` = '$id';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+
+ }
+
+ function update_essay($title, $content, $id)
+ {
+
+    $date = date_create();
+    $newDate = date_timestamp_get($date);
+
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `essay` SET `essay_title` = '$title', `essay_text` = '$content',`latest_update` = '$newDate'  WHERE `essay`.`id` = '$id';";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+
+ }
+
+ function create_essay($title, $content)
+ {
+
+    echo $title;
+
+    $date = date_create();
+    $newDate = date_timestamp_get($date);
+
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "INSERT INTO `essay` (`id`, `essay_title`, `essay_text`, `latest_update`, `publish_date`) VALUES (NULL,'$title', '$content', '$newDate', '$newDate');";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+
+        $sql = "SELECT `id` FROM `essay` WHERE `publish_date` = '$newDate';";
+        
+        $result = $conn->query($sql) or die($conn->error);
+        $conn->close();
+
+        $essaydata = $result->fetch_assoc();
+
+        header("Location: admin.php?page=essay-edit&id=".$essaydata['id']);
+ }
+
  function get_album_images()
  {
         $id = $_GET['id'];

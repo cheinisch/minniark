@@ -433,7 +433,7 @@ function pcs_get_essays()
     ?>
     <article class="blog-post">
     <h2 class="blog-post-title"><a href="index.php?content=essay&id=<?php echo $row["id"]; ?>"><?php echo $row["essay_title"]; ?></a></h2>
-    <p class="blog-post-meta"><?php echo $row["publish_date"]; ?> by <?php echo ip_get_author(); ?></p>
+    <p class="blog-post-meta"><?php echo date('m.d.Y',$row["publish_date"]); ?> by <?php echo ip_get_author(); ?></p>
     <?php echo trunc($row["essay_text"],200); ?>
     </article>
         <?php
@@ -491,7 +491,7 @@ function pcs_get_essay_date()
 
     $title = $result->fetch_assoc();
 
-    return $title["publish_date"];
+    return date('m.d.Y',$title["publish_date"]);
 }
 
 function pcs_get_main_menu($list_item, $active_list_item)

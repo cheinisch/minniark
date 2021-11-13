@@ -272,6 +272,68 @@ function trunc($phrase, $max_words) {
 
  }
 
+
+ function pcs_admin_albums_item($item)
+ {
+ 
+     $albumlist = get_albums();
+ 
+     while($row = $albumlist->fetch_assoc())
+             {
+ 
+         $vars = array(
+             '{{date}}'       => date('F j, Y', $row["album_date"]),
+             '{{text}}'        => $row["album_title"],
+             '{{image.thumbnail}}' => admin_ip_get_album_thumbnail($row["id"]),
+             '{{image.medium}}' => admin_ip_get_album_medium($row["id"]),
+             '{{album_url}}' => "index.php?content=album&id=".$row["id"]
+           );
+ 
+         echo strtr($item, $vars);
+     }
+ }
+
+ function admin_ip_get_album_thumbnail($albumid)
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    if(!isset($image["content-filename"]))
+    {
+        return "../storage/images/error_images/fff.png";    
+    }
+
+    return "../storage/images/cache/thumb_".$image["content-filename"];
+}
+
+function admin_ip_get_album_medium($albumid)
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $image = $result->fetch_assoc();
+
+    if(!isset($image["content-filename"]))
+    {
+        return "../storage/images/error_images/fff.png";    
+    }
+
+    return "../storage/images/cache/mediun_".$image["content-filename"];
+}
+
+
  // Begin public functions
  // These Functions are in the API
 
@@ -410,6 +472,7 @@ function pcs_get_main_menu($list_item, $active_list_item)
 
 function pcs_albums_item($item)
 {
+
     $albumlist = get_albums();
 
     while($row = $albumlist->fetch_assoc())
@@ -664,8 +727,8 @@ function ip_get_image($size)
     if(!isset($image["content-filename"]))
     {
         return "storage/images/error_images/fff.png";    
+        
     }
-
     if($size == "thumbnail")
     {
         return "storage/images/cache/thumb_".$image["content-filename"];

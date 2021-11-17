@@ -7,7 +7,7 @@ function get_essays(){
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
-    $sql = "SELECT * FROM essay;";
+    $sql = "SELECT * FROM content Where `content_type` = 1;";
     $result = $conn->query($sql);
 
     $conn->close();
@@ -20,7 +20,7 @@ function get_albums(){
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
-    $sql = "SELECT * FROM album;";
+    $sql = "SELECT * FROM content Where `content_type` = 2;";
     $result = $conn->query($sql);
 
     $conn->close();
@@ -34,7 +34,7 @@ function get_essay($id){
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `essay` WHERE `id` = $id;";
+    $sql = "SELECT * FROM `content` WHERE `id` = $id;";
     $result = $conn->query($sql);
 
     $conn->close();
@@ -223,12 +223,12 @@ function trunc($phrase, $max_words) {
 
  }
 
- function update_album_descripton($title, $content, $id)
+ function update_album_descripton($title, $picture, $id)
  {
 
     $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
-        $sql = "UPDATE `album` SET `album_title` = '$title', `album_text` = '$content' WHERE `album`.`id` = '$id';";
+        $sql = "UPDATE `album` SET `picture_title` = '$title', `picture_text` = '$picture' WHERE `content`.`id` = '$id';";
         echo $sql;
         $conn->query($sql);
         $conn->close();
@@ -243,7 +243,7 @@ function trunc($phrase, $max_words) {
 
     $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
-        $sql = "UPDATE `essay` SET `essay_title` = '$title', `essay_text` = '$content',`latest_update` = '$newDate'  WHERE `essay`.`id` = '$id';";
+        $sql = "UPDATE `content` SET `content_title` = '$title', `content_text` = '$content',`latest_update` = '$newDate'  WHERE `content`.`id` = '$id';";
         //echo $sql;
         $conn->query($sql);
         $conn->close();
@@ -260,7 +260,7 @@ function trunc($phrase, $max_words) {
 
     $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
-        $sql = "INSERT INTO `essay` (`id`, `essay_title`, `essay_text`, `latest_update`, `publish_date`) VALUES (NULL,'$title', '$content', '$newDate', '$newDate');";
+        $sql = "INSERT INTO `content` (`id`, `content_title`, `content_text`, `latest_update`, `publish_date`, `content_type`) VALUES (NULL,'$title', '$content', '$newDate', '$newDate', '1');";
         //echo $sql;
         $conn->query($sql);
         $conn->close();
@@ -268,7 +268,7 @@ function trunc($phrase, $max_words) {
         $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
 
-        $sql = "SELECT `id` FROM `essay` WHERE `publish_date` = '$newDate';";
+        $sql = "SELECT `id` FROM `content` WHERE `publish_date` = '$newDate';";
         
         $result = $conn->query($sql) or die($conn->error);
         $conn->close();
@@ -278,6 +278,34 @@ function trunc($phrase, $max_words) {
         header("Location: admin.php?page=essay-edit&id=".$essaydata['id']);
  }
 
+ function create_album($title, $content)
+ {
+
+    echo $title;
+
+    $date = date_create();
+    $newDate = date_timestamp_get($date);
+
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "INSERT INTO `content` (`id`, `content_title`, `content_text`, `latest_update`, `publish_date`, `content_type`) VALUES (NULL,'$title', '$content', '$newDate', '$newDate', '2');";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+
+        $sql = "SELECT `id` FROM `content` WHERE `publish_date` = '$newDate';";
+        
+        $result = $conn->query($sql) or die($conn->error);
+        $conn->close();
+
+        $essaydata = $result->fetch_assoc();
+
+        header("Location: admin.php?page=album-edit&id=".$essaydata['id']);
+ }
+
  function get_album_images()
  {
         $id = $_GET['id'];
@@ -285,7 +313,7 @@ function trunc($phrase, $max_words) {
         $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `content-album-id` = $id;";
+    $sql = "SELECT * FROM `content` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -337,8 +365,8 @@ function trunc($phrase, $max_words) {
              {
  
          $vars = array(
-             '{{date}}'       => date('F j, Y', $row["album_date"]),
-             '{{text}}'        => $row["album_title"],
+             '{{date}}'       => date('F j, Y', $row["content_date"]),
+             '{{text}}'        => $row["content_title"],
              '{{image.thumbnail}}' => admin_ip_get_album_thumbnail($row["id"]),
              '{{image.medium}}' => admin_ip_get_album_medium($row["id"]),
              '{{album_url}}' => "admin.php?page=album-edit&id=".$row["id"]
@@ -432,9 +460,9 @@ function pcs_get_essays()
 
     ?>
     <article class="blog-post">
-    <h2 class="blog-post-title"><a href="index.php?content=essay&id=<?php echo $row["id"]; ?>"><?php echo $row["essay_title"]; ?></a></h2>
+    <h2 class="blog-post-title"><a href="index.php?content=essay&id=<?php echo $row["id"]; ?>"><?php echo $row["content_title"]; ?></a></h2>
     <p class="blog-post-meta"><?php echo date('m.d.Y',$row["publish_date"]); ?> by <?php echo ip_get_author(); ?></p>
-    <?php echo trunc($row["essay_text"],200); ?>
+    <?php echo trunc($row["content_text"],200); ?>
     </article>
         <?php
             }
@@ -448,14 +476,14 @@ function pcs_get_essay_title()
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `essay` where `id` = $id;";
+    $sql = "SELECT * FROM `content` where `id` = $id;";
     $result = $conn->query($sql);
 
     $conn->close();
 
     $title = $result->fetch_assoc();
 
-    return $title["essay_title"];
+    return $title["content_title"];
 }
 
 function pcs_get_essay_text()
@@ -466,14 +494,14 @@ function pcs_get_essay_text()
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `essay` where `id` = $id;";
+    $sql = "SELECT * FROM `content` where `id` = $id;";
     $result = $conn->query($sql);
 
     $conn->close();
 
     $title = $result->fetch_assoc();
 
-    return $title["essay_text"];
+    return $title["content_text"];
 }
 
 function pcs_get_essay_date()
@@ -484,7 +512,7 @@ function pcs_get_essay_date()
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `essay` where `id` = $id;";
+    $sql = "SELECT * FROM `content` where `id` = $id;";
     $result = $conn->query($sql);
 
     $conn->close();
@@ -534,8 +562,8 @@ function pcs_albums_item($item)
             {
 
         $vars = array(
-            '{{date}}'       => date('F j, Y', $row["album_date"]),
-            '{{text}}'        => $row["album_title"],
+            '{{date}}'       => date('F j, Y', $row["content_date"]),
+            '{{text}}'        => $row["content_title"],
             '{{image.thumbnail}}' => ip_get_album_thumbnail($row["id"]),
             '{{image.medium}}' => ip_get_album_medium($row["id"]),
             '{{image.large}}' => ip_get_album_large($row["id"]),
@@ -723,7 +751,7 @@ function ip_get_album_description()
 
     $album = $result->fetch_assoc();
 
-    return $album["album_text"];
+    return $album["content_text"];
 }
 
 function ip_get_album_title()
@@ -740,7 +768,7 @@ function ip_get_album_title()
 
     $album = $result->fetch_assoc();
 
-    return $album["album_title"];
+    return $album["content_title"];
 }
 
 function ip_get_album_images($layout)
@@ -772,7 +800,7 @@ function ip_get_image($size)
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `id` = $id;";
+    $sql = "SELECT * FROM `picture` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -808,7 +836,7 @@ function ip_get_image_title()
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `id` = $id;";
+    $sql = "SELECT * FROM `picture` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -825,7 +853,7 @@ function ip_get_image_text()
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `id` = $id;";
+    $sql = "SELECT * FROM `picture` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();

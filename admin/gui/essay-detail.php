@@ -13,7 +13,7 @@
               <li class="nav-item">
             <a class="nav-link" href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>">
               <span data-feather="file-text"></span>
-              <?php echo $row["essay_title"]; ?>
+              <?php echo $row["content_title"]; ?>
             </a>
           </li>
               <?php
@@ -39,8 +39,8 @@
         $essay = $row->fetch_assoc();
       ?>
 
-      <h3><?php echo $essay["essay_title"]; ?></h3>
-      <?php echo $essay["essay_text"]; ?>
+      <h3><?php echo $essay["content_title"]; ?></h3>
+      <?php echo $essay["content_text"]; ?>
       <div class="border-bottom mb-4"></div>
       <div class="row">
         <div class="col-lg-2">

@@ -30,7 +30,7 @@
               <li class="nav-item">
             <a class="nav-link" href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>">
               <span data-feather="file-text"></span>
-              <?php echo $row["essay_title"]; ?>
+              <?php echo $row["content_title"]; ?>
             </a>
           </li>
               <?php
@@ -92,7 +92,7 @@
               <li class="nav-item">
             <a class="nav-link" href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>">
               <span data-feather="file-text"></span>
-              <?php echo $row["essay_title"]; ?>
+              <?php echo $row["content_title"]; ?>
             </a>
           </li>
               <?php
@@ -122,11 +122,11 @@
       ?>
 
       <label for="title">Title:</label>
-        <input type="text" id="title" placeholder="Title" autocomplete="off" class="form-control" name="title" value="<?php echo $essay["essay_title"]; ?>"/>
+        <input type="text" id="title" placeholder="Title" autocomplete="off" class="form-control" name="title" value="<?php echo $essay["content_title"]; ?>"/>
       </div>
       <label for="content">Content:</label> 
       <textarea name="content" id="editor">
-      <?php echo $essay["essay_text"]; ?>
+      <?php echo $essay["content_text"]; ?>
       </textarea>
           </form>
       <script>

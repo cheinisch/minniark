@@ -13,7 +13,7 @@
               <li class="nav-item">
             <a class="nav-link" href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>">
               <span data-feather="file-text"></span>
-              <?php echo $row["essay_title"]; ?>
+              <?php echo $row["content_title"]; ?>
             </a>
           </li>
               <?php
@@ -41,10 +41,10 @@
             {
               ?>
               <div class="row">
-      <h3><a href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>"><?php echo $row["essay_title"]; ?></a></h3>
+      <h3><a href="admin.php?page=essay-detail&id=<?php echo $row["id"]; ?>"><?php echo $row["content_title"]; ?></a></h3>
       <p>
             <?php
-            $string		=	$row["essay_text"]; // Text
+            $string		=	$row["content_text"]; // Text
             $length		=	512; // Zeichenlänge
             
             $string		=	preg_replace( '/[^ ]*$/', '', substr( $string, 0, $length ) ) . ' ...';

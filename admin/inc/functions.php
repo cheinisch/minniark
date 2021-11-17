@@ -228,7 +228,7 @@ function trunc($phrase, $max_words) {
 
     $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
-        $sql = "UPDATE `album` SET `picture_title` = '$title', `picture_text` = '$picture' WHERE `content`.`id` = '$id';";
+        $sql = "UPDATE `content` SET `content_title` = '$title', `content_text` = '$picture' WHERE `content`.`id` = '$id';";
         echo $sql;
         $conn->query($sql);
         $conn->close();
@@ -562,7 +562,7 @@ function pcs_albums_item($item)
             {
 
         $vars = array(
-            '{{date}}'       => date('F j, Y', $row["content_date"]),
+            '{{date}}'       => date('F j, Y', $row["publish_date"]),
             '{{text}}'        => $row["content_title"],
             '{{image.thumbnail}}' => ip_get_album_thumbnail($row["id"]),
             '{{image.medium}}' => ip_get_album_medium($row["id"]),
@@ -662,7 +662,7 @@ function ip_get_album_thumbnail($albumid)
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -682,7 +682,7 @@ function ip_get_album_medium($albumid)
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -702,7 +702,7 @@ function ip_get_album_large($albumid)
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -722,7 +722,7 @@ function ip_get_album_original($albumid)
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -744,7 +744,7 @@ function ip_get_album_description()
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `album` where `id` = $albumid;";
+    $sql = "SELECT * FROM `content` where `id` = $albumid;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -761,7 +761,7 @@ function ip_get_album_title()
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `album` where `id` = $albumid;";
+    $sql = "SELECT * FROM `content` where `id` = $albumid;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -776,6 +776,14 @@ function ip_get_album_images($layout)
 
     
     $imagelist = get_album_images();
+    print_r($imagelist);
+
+    if(empty($imagelist))
+    {
+        echo "TEST";
+
+        
+    }
 
     while($row = $imagelist->fetch_assoc())
             {

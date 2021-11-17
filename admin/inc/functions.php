@@ -313,7 +313,7 @@ function trunc($phrase, $max_words) {
         $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `id` = $id;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -776,14 +776,8 @@ function ip_get_album_images($layout)
 
     
     $imagelist = get_album_images();
-    print_r($imagelist);
 
-    if(empty($imagelist))
-    {
-        echo "TEST";
-
-        
-    }
+    
 
     while($row = $imagelist->fetch_assoc())
             {

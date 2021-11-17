@@ -416,6 +416,27 @@ function admin_ip_get_album_medium($albumid)
     return "../storage/images/cache/mediun_".$image["content-filename"];
 }
 
+function create_image($filename)
+{
+    
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "INSERT INTO `picture` (`id`, `content-name`, `content-filename`) VALUES (NULL, '$filename', '$filename');";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+}
+
+function create_cachefiles($entry)
+{
+
+    createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\thumb_'.$entry, 200);
+
+                createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\medium_'.$entry, 600);
+
+                createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\large_'.$entry, 1024);
+
+}
 
  // Begin public functions
  // These Functions are in the API

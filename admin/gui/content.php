@@ -10,6 +10,8 @@ if(isset($_POST['submit'])){
  
   // Upload file
   move_uploaded_file($_FILES['file']['tmp_name'][$i],'../storage/images/original/'.$filename);
+  create_image($filename);
+  create_cachefiles($filename);
  
  }
 } 

@@ -11,7 +11,14 @@ if (isset($_GET['page']))
 
       header("Location: admin.php?page=album-edit&id=".$_GET['id']);
 
-  }elseif($_GET['page'] == 'album-edit' || $_GET['page'] == 'album-new')
+  }elseif($_GET['page'] == 'album-create')
+  {
+      echo $_POST['title'];
+      echo $_POST['content'];
+
+      create_album($_POST['title'], $_POST['content']);
+
+  }elseif($_GET['page'] == 'album-edit')
   {
 ?>
 </div>
@@ -35,6 +42,42 @@ if (isset($_GET['page']))
       <label for="content">Content:</label> 
       <textarea name="content" id="editor">
         <?php echo ip_get_album_description(); ?>
+      </textarea>
+          </form>
+      <script>
+        ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+        console.error( error );
+        } );
+      </script>
+<!-- anfang -->
+
+<?php
+  }elseif( $_GET['page'] == 'album-new')
+  {
+?>
+</div>
+</nav>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Album</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <form action="admin.php?page=album-create" method="post">
+        <button type="submit" class="btn btn-sm btn-outline-danger">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" placeholder="Title" autocomplete="off" class="form-control" name="title" value="Albumtitle"/>
+      </div>
+      <label for="content">Content:</label> 
+      <textarea name="content" id="editor">
+        Album Text
       </textarea>
           </form>
       <script>
@@ -79,7 +122,7 @@ if (isset($_GET['page']))
         <h1 class="h2">Album</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">New</button>
+            <a href="admin.php?page=album-new" class="btn btn-sm btn-outline-secondary">New</a>
           </div>
         </div>
       </div>

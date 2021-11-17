@@ -365,7 +365,7 @@ function trunc($phrase, $max_words) {
              {
  
          $vars = array(
-             '{{date}}'       => date('F j, Y', $row["content_date"]),
+             '{{date}}'       => date('F j, Y', $row["publish_date"]),
              '{{text}}'        => $row["content_title"],
              '{{image.thumbnail}}' => admin_ip_get_album_thumbnail($row["id"]),
              '{{image.medium}}' => admin_ip_get_album_medium($row["id"]),
@@ -381,7 +381,7 @@ function trunc($phrase, $max_words) {
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -401,7 +401,7 @@ function admin_ip_get_album_medium($albumid)
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `content` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();

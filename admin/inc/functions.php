@@ -278,6 +278,49 @@ function trunc($phrase, $max_words) {
         header("Location: admin.php?page=essay-edit&id=".$essaydata['id']);
  }
 
+ function update_page($title, $content, $id)
+ {
+
+    $date = date_create();
+    $newDate = date_timestamp_get($date);
+
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `content` SET `content_title` = '$title', `content_text` = '$content',`latest_update` = '$newDate'  WHERE `content`.`id` = '$id';";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+
+ }
+
+ function create_page($title, $content)
+ {
+
+    echo $title;
+
+    $date = date_create();
+    $newDate = date_timestamp_get($date);
+
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "INSERT INTO `content` (`id`, `content_title`, `content_text`, `latest_update`, `publish_date`, `content_type`) VALUES (NULL,'$title', '$content', '$newDate', '$newDate', '3');";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+
+        $sql = "SELECT `id` FROM `content` WHERE `publish_date` = '$newDate';";
+        
+        $result = $conn->query($sql) or die($conn->error);
+        $conn->close();
+
+        $pagedata = $result->fetch_assoc();
+
+        header("Location: admin.php?page=page-edit&id=".$pagedata['id']);
+ }
+
  function create_album($title, $content)
  {
 

@@ -286,6 +286,8 @@ function trunc($phrase, $max_words) {
     //echo $sql;
     $conn->query($sql);
     $conn->close();
+
+    header("Location: admin.php?page=essay");
  }
 
  function update_page($title, $content, $id)
@@ -506,9 +508,9 @@ function create_cachefiles($entry)
 
     createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\thumb_'.$entry, 200);
 
-                createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\medium_'.$entry, 600);
+    createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\medium_'.$entry, 600);
 
-                createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\large_'.$entry, 1024);
+    createimage('..\\storage\\images\\original\\'.$entry,'..\\storage\\images\\cache\\large_'.$entry, 1024);
 
 }
 

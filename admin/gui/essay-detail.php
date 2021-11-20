@@ -1,4 +1,16 @@
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+ <?php
+
+ if(isset($_GET['delete']))
+ {
+   if($_GET['delete'] == 'true')
+   {
+      delete_essay($_GET['id']);
+   }
+ }
+
+?>
+ 
+ <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Essays</span>
           <a class="link-secondary" href="#" aria-label="Add a new report">
             <span data-feather="plus-circle"></span>
@@ -28,7 +40,7 @@
         <h1 class="h2">Essays</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-danger">Delete</button>
+            <button button type="button" class="btn btn-sm btn-outline-danger" onclick="myFunction()">Delete</button>
             <a href="admin.php?page=essay-edit&id=<?php echo $_GET['id']; ?>" type="button" class="btn btn-sm btn-outline-primary">Edit</a>
           </div>
           </div>
@@ -74,3 +86,14 @@
 
       </div>
     </main>
+    <script>
+function myFunction() {
+  var txt;
+  var r = confirm("Are you sure to delete this essay?");
+  if (r == true) {
+    txt = "You pressed OK!";
+    window.open('admin.php?page=essay-detail&id=<?php echo $_GET['id']; ?>&delete=true');
+  } else {
+  }
+}
+</script>

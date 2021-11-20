@@ -278,6 +278,16 @@ function trunc($phrase, $max_words) {
         header("Location: admin.php?page=essay-edit&id=".$essaydata['id']);
  }
 
+ function delete_essay($id)
+ {
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+    $sql = "DELETE FROM `content` WHERE `id` = $id;";
+    //echo $sql;
+    $conn->query($sql);
+    $conn->close();
+ }
+
  function update_page($title, $content, $id)
  {
 
@@ -321,6 +331,16 @@ function trunc($phrase, $max_words) {
         header("Location: admin.php?page=page-edit&id=".$pagedata['id']);
  }
 
+ function delete_page($id)
+ {
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+    $sql = "DELETE FROM `content` WHERE `id` = $id;";
+    //echo $sql;
+    $conn->query($sql);
+    $conn->close();
+ }
+
  function create_album($title, $content)
  {
 
@@ -347,6 +367,17 @@ function trunc($phrase, $max_words) {
         $essaydata = $result->fetch_assoc();
 
         header("Location: admin.php?page=album-edit&id=".$essaydata['id']);
+ }
+
+ function delete_album($id)
+ {
+    
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+    $sql = "DELETE FROM `content` WHERE `id` = $id;";
+    //echo $sql;
+    $conn->query($sql);
+    $conn->close();
  }
 
  function get_album_images()

@@ -17,6 +17,10 @@
             <td>APP Version: </td>
             <td><i><?php echo $ini['app_version']; ?></i></td>
         </tr>
+        <tr>
+            <td>Update Info: </td>
+            <td><i><?php echo check_updates(); ?></i></td>
+        </tr>
       </table>
       <h3>Server Info</h3>
       <table>

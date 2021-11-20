@@ -512,6 +512,38 @@ function create_cachefiles($entry)
 
 }
 
+
+function check_updates()
+{
+
+    $appini = parse_ini_file('app.ini');
+
+    $localVersion = $appini['app_version'];
+    $remoteVersion = get_remote_version();
+
+    if(version_compare($localVersion, $remoteVersion , '<'))
+    {
+        $string = "Remote Version ist neuer";
+    }elseif(version_compare($localVersion, $remoteVersion , '>'))
+    {
+        $string = "Lokale Version ist neuer";
+    }else{
+        $string = "Die Version ist aktuell";
+    }
+
+    return $string;
+}
+
+function get_remote_version()
+{
+    $content = file_get_contents('http://image-portfolio.org/app.ini');
+    $ini = parse_ini_string($content);
+    
+    $temp = $ini['app_version'];
+
+    return $temp;
+}
+
  // Begin public functions
  // These Functions are in the API
 

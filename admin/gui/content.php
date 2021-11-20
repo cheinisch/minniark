@@ -40,7 +40,7 @@ while($row = $picturelist->fetch_assoc())
 ?>
 <div class="col-lg-2">
   <div class="card shadow-sm">
-    <img class="card-img-top" width="100%" style="max-height: 255px;" src="../storage/images/cache/thumb_<?php echo $row["content-filename"] ?>">
+    <a href="admin.php?page=content-edit&id=<?php echo $row["id"] ?>"><img class="card-img-top" width="100%" style="max-height: 255px;" src="../storage/images/cache/thumb_<?php echo $row["content-filename"] ?>"></a>
   </div>
 </div>
 <?php

@@ -32,4 +32,19 @@ if(isset($_POST['submit'])){
       </div>
     </div>
   </div>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<?php 
+$picturelist = get_pictures();
+while($row = $picturelist->fetch_assoc())
+{
+?>
+<div class="col-lg-2">
+  <div class="card shadow-sm">
+    <img class="card-img-top" width="100%" style="max-height: 255px;" src="../storage/images/cache/thumb_<?php echo $row["content-filename"] ?>">
+  </div>
+</div>
+<?php
+}
+?>
+  </div>
 </main>

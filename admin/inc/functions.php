@@ -546,6 +546,19 @@ function get_remote_version()
     return $temp;
 }
 
+function get_pictures()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `picture`;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    return $result;
+}
+
  // Begin public functions
  // These Functions are in the API
 

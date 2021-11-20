@@ -29,7 +29,8 @@ if (isset($_GET['page']))
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
         <form action="admin.php?page=album-update&id=<?php echo $_GET['id']; ?>" method="post">
-        <button type="submit" class="btn btn-sm btn-outline-danger">Save</button>
+        <button  class="btn btn-sm btn-outline-danger" onclick="myFunction()">Delete</button>
+        <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
       </div>
     </div>
   </div>

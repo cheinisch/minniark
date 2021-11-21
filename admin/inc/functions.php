@@ -559,8 +559,67 @@ function get_pictures()
     return $result;
 }
 
+function theme_page_exist()
+{
+    $filename = pcs_get_theme_path()."page.php";
+    if(file_exists($filename))
+    {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function get_pages()
+{
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `content_type` = 3;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    return $result;
+}
+
  // Begin public functions
  // These Functions are in the API
+
+
+function ip_get_page_title()
+{
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `id` = $id;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["content_title"];
+}
+
+function ip_get_page_text()
+{
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` where `id` = $id;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    $title = $result->fetch_assoc();
+
+    return $title["content_text"];
+}
 
 function pcs_get_theme_path()
 {
@@ -671,6 +730,19 @@ function pcs_get_main_menu($list_item, $active_list_item)
 
     $menu[] = array('type' => 'essays', 
     'title'   => "Essays");
+
+    if(theme_page_exist())
+    {
+        $menulist = get_pages();
+        while($row = $menulist->fetch_assoc())
+        {
+
+        $menu[] = array('type' => 'page&id='.$row['id'], 
+        'title'   => $row['content_title']);
+        }
+    }
+
+    
 
     for($i = 0;$i < count($menu);$i ++)
     {

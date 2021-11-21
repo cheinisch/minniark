@@ -28,6 +28,9 @@ if (isset($_GET['content']))
     elseif($_GET['content'] == 'single-image')
     {
         include $theme."single-image.php";
+    }elseif($_GET['content'] == 'page')
+    {
+        include $theme."page.php";
     }
 }else{
     include $theme."timeline.php";

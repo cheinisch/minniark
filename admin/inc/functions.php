@@ -538,7 +538,7 @@ function check_updates()
 
 function get_remote_version()
 {
-    $content = file_get_contents('http://image-portfolio.org/app.ini');
+    $content = file_get_contents('http://app.image-portfolio.org/app.ini');
     $ini = parse_ini_string($content);
     
     $temp = $ini['app_version'];

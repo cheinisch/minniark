@@ -35,7 +35,7 @@
     <title>Dashboard Template · Bootstrap v5.1</title>
 
 <?php
-    if($pagetype =='essay-edit' || $pagetype =='essay-new' || $pagetype =='album-edit' || $pagetype =='album-new')
+    if($pagetype =='page-edit' || $pagetype =='page-new' || $pagetype =='essay-edit' || $pagetype =='essay-new' || $pagetype =='album-edit' || $pagetype =='album-new')
   {
     ?>
 
@@ -74,7 +74,7 @@
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="admin.php"><?php echo $ini['app_name']; ?></a>
   <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <?php
-      if(str_contains($pagetype,'essay') || str_contains($pagetype,'content') || str_contains($pagetype,'album'))
+      if(str_contains($pagetype, 'page') || str_contains($pagetype,'essay') || str_contains($pagetype,'content') || str_contains($pagetype,'album'))
       {
     ?>
       <li><a href="admin.php?page=content" class="nav-link px-2 link-light">Content</a></li>
@@ -99,7 +99,7 @@
   </button>
 </header>
 <?php
-if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail' || $pagetype == 'essay-new' || $pagetype == 'content' || $pagetype == 'album' || $pagetype == 'album-edit')
+if(str_contains($pagetype, 'page') || str_contains($pagetype,'essay') || str_contains($pagetype,'content') || str_contains($pagetype,'album'))
 {
   ?>
 <div class="container-fluid">
@@ -123,6 +123,12 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
             <a class="nav-link <?php if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-detail'){ echo "active"; }?>" href="admin.php?page=essay">
               <span data-feather="essay"></span>
               Essays
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?php if($pagetype == 'page' || $pagetype == 'page-edit' || $pagetype == 'page-detail'){ echo "active"; }?>" href="admin.php?page=page">
+              <span data-feather="page"></span>
+              Pages
             </a>
           </li>
           <li class="nav-item">
@@ -173,6 +179,15 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
   }elseif($pagetype =='essay-edit'|| $pagetype =='essay-update'|| $pagetype =='essay-new' || $pagetype == 'essay-create')
   {
     include 'gui\essay-edit.php';
+  }elseif($pagetype =='page')
+  {
+    include 'gui\page.php';
+  }elseif($pagetype =='page-detail')
+  {
+    include 'gui\page-detail.php';
+  }elseif($pagetype =='page-edit'|| $pagetype =='page-update'|| $pagetype =='page-new' || $pagetype == 'page-create')
+  {
+    include 'gui\page-edit.php';
   }elseif($pagetype =='content')
   {
     include 'gui\content.php';
@@ -196,7 +211,8 @@ if($pagetype == 'essay' || $pagetype == 'essay-edit' || $pagetype == 'essay-deta
 </div>
     <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
     <?php
-    if($pagetype =='essay-edit' || $pagetype =='essay-new' || $pagetype =='album-edit' || $pagetype =='album-new')
+    
+    if($pagetype =='page-edit' || $pagetype =='page-new' || $pagetype =='essay-edit' || $pagetype =='essay-new' || $pagetype =='album-edit' || $pagetype =='album-new')
   {
     ?>
 

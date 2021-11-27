@@ -43,6 +43,21 @@ function get_essay($id){
 
 }
 
+function get_page($id){
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `content` WHERE `id` = $id;";
+    $result = $conn->query($sql);
+
+    $conn->close();
+
+    return $result;
+
+}
+
+
 function trunc($phrase, $max_words) {
     $phrase_array = explode(' ',$phrase);
     if(count($phrase_array) > $max_words && $max_words > 0)

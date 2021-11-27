@@ -413,6 +413,23 @@ function trunc($phrase, $max_words) {
  }
 
 
+ function get_image()
+ {
+
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `picture` where `id` = $id;";
+
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    return $result->fetch_assoc();
+
+ }
+
  function recreate_cache()
  {
     echo getcwd() . "\n";
@@ -446,6 +463,33 @@ function trunc($phrase, $max_words) {
 
  }
 
+function is_picture_in_album($picture, $album)
+{
+
+    $id = $_GET['id'];
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "SELECT * FROM `picture_album` WHERE `album` = $album AND `picture` = $picture;";
+
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+    $rows = $result->fetch_assoc();
+
+    if(is_countable($rows))
+    {
+        return true;
+    }else{
+        return false;
+    }
+
+    
+
+    #echo count($rows);
+
+}
 
  function pcs_admin_albums_item($item)
  {

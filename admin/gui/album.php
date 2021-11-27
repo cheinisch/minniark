@@ -30,7 +30,7 @@ if (isset($_GET['page']))
       <div class="btn-group me-2">
         <form action="admin.php?page=album-update&id=<?php echo $_GET['id']; ?>" method="post">
         <button  class="btn btn-sm btn-outline-danger" onclick="myFunction()">Delete</button>
-        <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
+        <button type="submit" class="btn btn-sm btn-outline-primary">Save</button>
       </div>
     </div>
   </div>

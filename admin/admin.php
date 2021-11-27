@@ -191,6 +191,9 @@ if(str_contains($pagetype, 'page') || str_contains($pagetype,'essay') || str_con
   }elseif($pagetype =='content')
   {
     include 'gui\content.php';
+  }elseif($pagetype =='content-edit')
+  {
+    include 'gui\content-edit.php';
   }elseif($pagetype =='album' || $pagetype =='album-edit' || $pagetype == 'album-update' || $pagetype =='album-create' || $pagetype == 'album-new')
   {
     include 'gui\album.php';

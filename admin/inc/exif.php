@@ -2,6 +2,8 @@
 /*
 Get All Exifdata from Picture
 */
+
+
 function cameraUsed($imagePath) {
 
     // Check if the variable is set and if the file itself exists before continuing

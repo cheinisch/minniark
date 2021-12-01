@@ -4,7 +4,7 @@ include "admin/inc/functions.php";
 
 $theme = pcs_get_theme_path();
 
-include $theme."header.php";
+
 
 if (isset($_GET['content']))
 {
@@ -35,6 +35,5 @@ if (isset($_GET['content']))
 }else{
     include $theme."timeline.php";
 }
-include $theme."footer.php";
 
 ?>

@@ -184,7 +184,7 @@ function trunc($phrase, $max_words) {
     return $sitedata; 
  }
 
- function set_sitedata($sitename, $sitetitle, $sitetagline, $sitecopyright, $sitekeywords, $current_user)
+ function set_sitedata($sitename, $sitetitle, $sitetagline, $sitecopyright, $sitekeywords, $current_user, $dateformat, $hoursformat)
  {
 
     if(!empty($sitename))
@@ -222,6 +222,26 @@ function trunc($phrase, $max_words) {
         $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
         $sql = "UPDATE `config` SET `site-copyright` = '$sitecopyright' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($dateformat))
+    {
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `site-date` = '$dateformat' WHERE `config`.`admin_user` = '$current_user';";
+        echo $sql;
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    if(!empty($hoursformat))
+    {
+        $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `config` SET `site-hours` = '$hoursformat' WHERE `config`.`admin_user` = '$current_user';";
         echo $sql;
         $conn->query($sql);
         $conn->close();
@@ -1145,21 +1165,24 @@ Public Exif functions
 
 function ip_get_exif_date()
 {
+    $sitedata = get_sitedata();
 
     $data = cameraUsed(ip_get_image("original"));
 
     $date = new DateTime($data["date"]);
-    echo $date->format('Y-m-d');
+    echo $date->format($sitedata["site-date"]);
 
 }
 
 function ip_get_exif_time()
 {
 
+    $sitedata = get_sitedata();
+
     $data = cameraUsed(ip_get_image("original"));
 
     $time = new DateTime($data["date"]);
-    echo $time->format('H:i');
+    echo $time->format($sitedata["site-hours"]);
 }
 
 function ip_get_exif_iso()

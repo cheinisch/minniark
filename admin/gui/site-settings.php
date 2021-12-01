@@ -6,7 +6,7 @@
   {
     if($_GET['change'] == "true")
     {
-      set_sitedata($_POST["sitename"],$_POST["sitetitle"],$_POST["sitetagline"],$_POST["sitecopyright"],$_POST["sitekeywords"], $sitedata["admin_user"]);
+      set_sitedata($_POST["sitename"],$_POST["sitetitle"],$_POST["sitetagline"],$_POST["sitecopyright"],$_POST["sitekeywords"], $sitedata["admin_user"], $_POST["dateformat"], $_POST["hoursformat"]);
     }
 
     header("Location: admin.php?page=site-settings");
@@ -56,6 +56,14 @@
               <div class="form-group">
                 <label for="InputKeywords">Keywords</label>
                 <input type="text" class="form-control" id="InputKeywords" placeholder="Keywords" name="sitekeywords" value="<?php echo $sitedata["site-keywords"]; ?>">
+              </div>
+              <div class="form-group">
+                <label for="InputKeywords">Date Format</label>
+                <input type="text" class="form-control" id="InputDate" placeholder="Date (Y-m-d)" name="dateformat" value="<?php echo $sitedata["site-date"]; ?>">
+              </div>
+              <div class="form-group">
+                <label for="InputKeywords">Hours Format</label>
+                <input type="text" class="form-control" id="InputHours" placeholder="Hours (H:i)" name="hoursformat" value="<?php echo $sitedata["site-hours"]; ?>">
               </div>
             </div>
           </div>

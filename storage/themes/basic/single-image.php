@@ -1,3 +1,6 @@
+<?php
+include $theme."header.php";
+?>
 <div class="row">
     <img src="<?php echo ip_get_image("original"); ?>">
 </div>
@@ -7,3 +10,7 @@
     <i>Camera <?php ip_get_exif_camera_make(); ?> Model <?php ip_get_exif_camera_model(); ?></i>
     <p><?php echo ip_get_image_text(); ?></p>
 </div>
+
+<?php
+    include $theme."footer.php";
+    ?>

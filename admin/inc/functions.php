@@ -2,6 +2,7 @@
 
 require 'db-connect.php';
 require 'image-cache.php';
+require 'exif.php';
 
 function get_essays(){
 
@@ -1136,6 +1137,40 @@ function ip_get_image_text()
     $image = $result->fetch_assoc();
 
     return $image["content-text"];
+}
+
+/*
+Public Exif functions
+*/
+
+function ip_get_exif_date()
+{
+
+    $data = cameraUsed(ip_get_image("original"));
+
+    echo $data["date"];
+
+}
+
+function ip_get_exif_iso()
+{
+    $data = cameraUsed(ip_get_image("original"));
+
+    echo $data["iso"];
+}
+
+function ip_get_exif_aperture()
+{
+    $data = cameraUsed(ip_get_image("original"));
+
+    echo $data["aperture"];
+}
+
+function ip_get_exif_exposure_time()
+{
+    $data = cameraUsed(ip_get_image("original"));
+
+    echo $data["exposure"];
 }
 
 ?>

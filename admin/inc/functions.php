@@ -1148,7 +1148,8 @@ function ip_get_exif_date()
 
     $data = cameraUsed(ip_get_image("original"));
 
-    echo $data["date"];
+    $date = new DateTime($data["date"]);
+    echo $date->format('Y-m-d');
 
 }
 
@@ -1157,8 +1158,8 @@ function ip_get_exif_time()
 
     $data = cameraUsed(ip_get_image("original"));
 
-    echo $data["date"];
-
+    $time = new DateTime($data["date"]);
+    echo $time->format('H:i');
 }
 
 function ip_get_exif_iso()

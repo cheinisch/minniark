@@ -663,6 +663,35 @@ function get_pages()
     return $result;
 }
 
+function set_imagedata($title, $content, $id)
+{
+    $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "UPDATE `picture` SET `content-name` = '$title', `content-text` = '$content' WHERE `picture`.`id` = '$id';";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+}
+
+function update_albumlist($data)
+{
+    $aDoor = $_POST['formDoor'];
+  if(empty($aDoor)) 
+  {
+    echo("You didn't select any buildings.");
+  } 
+  else
+  {
+    $N = count($aDoor);
+
+    echo("You selected $N door(s): ");
+    for($i=0; $i < $N; $i++)
+    {
+      echo($aDoor[$i] . " ");
+    }
+  }
+}
+
  // Begin public functions
  // These Functions are in the API
 

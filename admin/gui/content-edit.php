@@ -1,3 +1,17 @@
+<?php 
+
+  if(isset($_GET['change']))
+  {
+    if($_GET['change'] == "true")
+    {
+      set_imagedata($_POST['Title'], $_POST['Description'], $_GET['id']);
+    }
+
+    header("Location: admin.php?page=content-edit&id=".$_GET['id']."");
+  }
+
+  ?>
+
 </div>
     </nav>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -5,7 +19,7 @@
     <h1 class="h2">Picture</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
-      <form>
+      <form action="admin.php?page=content-edit&id=<?php echo $_GET['id']; ?>&change=true" method="post">
       <button type="submit" class="btn btn-sm btn-outline-danger">Save</button>
       </div>
     </div>
@@ -15,6 +29,7 @@
       <?php
 
         $image_data = get_image();
+        //print_r($image_data);
       ?>
         <img class="card-img-top" width="100%" src="../storage/images/cache/medium_<?php echo $image_data["content-filename"]; ?>">
     </div>
@@ -26,7 +41,7 @@
         </div>
         <div class="form-group">
           <label for="InputTitle">Description</label>
-          <textarea class="form-control" id="InputTitle" placeholder="Description" name="Description" value="<?php echo $image_data["content-text"]; ?>" rows="3"></textarea>
+          <textarea class="form-control" id="InputTitle" placeholder="Description" name="Description" value="<?php echo $image_data["content-text"]; ?>" rows="3"><?php echo $image_data["content-text"]; ?></textarea>
         </div>
         <?php
         $albumlist = get_albums();
@@ -42,7 +57,7 @@
 
           ?>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" <?php echo $checked; ?>>
+          <input class="form-check-input" type="checkbox" name="albumlist[]" value="<?php echo $row['id']; ?>" id="flexCheckDefault" <?php echo $checked; ?>>
           <label class="form-check-label" for="flexCheckDefault">
           <?php echo $row['content_title']; ?>
           </label>

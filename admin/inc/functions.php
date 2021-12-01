@@ -1152,6 +1152,15 @@ function ip_get_exif_date()
 
 }
 
+function ip_get_exif_time()
+{
+
+    $data = cameraUsed(ip_get_image("original"));
+
+    echo $data["date"];
+
+}
+
 function ip_get_exif_iso()
 {
     $data = cameraUsed(ip_get_image("original"));
@@ -1171,6 +1180,20 @@ function ip_get_exif_exposure_time()
     $data = cameraUsed(ip_get_image("original"));
 
     echo $data["exposure"];
+}
+
+function ip_get_exif_camera_make()
+{
+    $data = cameraUsed(ip_get_image("original"));
+
+    echo $data["make"];
+}
+
+function ip_get_exif_camera_model()
+{
+    $data = cameraUsed(ip_get_image("original"));
+
+    echo $data["model"];
 }
 
 ?>

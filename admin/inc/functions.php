@@ -673,21 +673,39 @@ function set_imagedata($title, $content, $id)
         $conn->close();
 }
 
-function update_albumlist($data)
+function update_albumlist($data, $picture_id)
 {
-    $aDoor = $_POST['formDoor'];
-  if(empty($aDoor)) 
+
+
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+
+    $sql = "DELETE FROM `picture_album` where `picture` = $picture_id;";
+    
+    $result = $conn->query($sql) or die($conn->error);
+    $conn->close();
+
+  if(empty($data)) 
   {
     echo("You didn't select any buildings.");
   } 
   else
   {
-    $N = count($aDoor);
+    $N = count($data);
 
     echo("You selected $N door(s): ");
     for($i=0; $i < $N; $i++)
     {
-      echo($aDoor[$i] . " ");
+      echo($data[$i] . " ");
+
+      $conn = OpenCon();
+        $conn->query("SET NAMES 'utf8'");
+        $sql = "INSERT INTO `picture_album` (`id`, `album`, `picture`) VALUES (NULL, '$data[$i]', '$picture_id');";
+        //echo $sql;
+        $conn->query($sql);
+        $conn->close();
+
+
     }
   }
 }

@@ -5,6 +5,7 @@
     if($_GET['change'] == "true")
     {
       set_imagedata($_POST['Title'], $_POST['Description'], $_GET['id']);
+      update_albumlist($_POST['albumlist'], $_GET['id']);
     }
 
     header("Location: admin.php?page=content-edit&id=".$_GET['id']."");

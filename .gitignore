@@ -3,4 +3,4 @@ storage/images/IMG_2969-HDR.jpg
 storage/images/IMG_2508-HDR-Pano.jpg
 *.jpg
 *.png
-storage/themes/basic
+storage/themes/*

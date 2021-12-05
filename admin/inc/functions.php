@@ -420,17 +420,33 @@ function trunc($phrase, $max_words) {
 
  function get_album_images()
  {
-        $id = $_GET['id'];
+    $id = $_GET['id'];
 
-        $conn = OpenCon();
+    // Get All picture Id's
+    $conn = OpenCon();
+    $conn->query("SET NAMES 'utf8'");
+    $sql = "SELECT * FROM `picture_album` where `album` = $id;";
+    $result1 = $conn->query($sql) or die($conn->error);
+    $conn->close();
+    $tempstring = Null;
+    while($row = $result1->fetch_assoc())
+    {
+        $tempstring .= $row["picture"].",";
+        echo "test";
+    }
+    //remove the last ,
+    $tempstring = substr($tempstring, 0, -1);
+
+    // Geht all Pictures with the ID's
+    $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `picture` where `content-album-id` = $id;";
+    $sql = "SELECT * FROM `picture` where `id` IN ($tempstring);";
     
-    $result = $conn->query($sql) or die($conn->error);
+    $result2 = $conn->query($sql) or die($conn->error);
     $conn->close();
 
-    return $result;
+    return $result2;
  }
 
 
@@ -1116,9 +1132,7 @@ function ip_get_album_images($layout)
 {
 
     
-    $imagelist = get_album_images();
-
-    
+    $imagelist = get_album_images();    
 
     while($row = $imagelist->fetch_assoc())
             {

@@ -8,7 +8,7 @@ include $theme."header.php";
     <?php echo ip_get_album_description(); ?>
 </div>
 <div class="row" data-masonry='{"percentPosition": true }'>
-    <?php echo ip_get_album_images('<div class="col-sm-6 col-lg-4 mb-4">
+    <?php ip_get_album_images('<div class="col-sm-6 col-lg-4 mb-4">
       <div class="card">
         <a href="{{image-id}}"><img class="card-img-top" width="100%" height="100%" src="{{image.medium}}"></a>
       </div>

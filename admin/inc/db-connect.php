@@ -1,11 +1,14 @@
 <?php
 
+$db_prefix = "asd";
+
 function OpenCon()
 {
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "picture_cms";
+
 
 // Create connection
 // Create connection

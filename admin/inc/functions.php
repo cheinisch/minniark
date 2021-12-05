@@ -1192,8 +1192,9 @@ function ip_get_image_title()
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
-
-    $sql = "SELECT * FROM `picture` where `id` = $id;";
+    $tablename = "picture";
+    echo $db_prefix;
+    $sql = "SELECT * FROM `$tablename` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();

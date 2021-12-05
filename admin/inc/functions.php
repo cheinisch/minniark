@@ -1226,59 +1226,108 @@ Public Exif functions
 
 function ip_get_exif_date()
 {
+
+    $image = ip_get_image("original");
+    $ext = pathinfo($image, PATHINFO_EXTENSION);
+    if($ext == "jpg")
+    {
     $sitedata = get_sitedata();
 
     $data = cameraUsed(ip_get_image("original"));
 
     $date = new DateTime($data["date"]);
     echo $date->format($sitedata["site-date"]);
-
+    }else{
+        echo "No Exifdata found";
+    }
 }
 
 function ip_get_exif_time()
 {
+    $image = ip_get_image("original");
+    $ext = pathinfo($image, PATHINFO_EXTENSION);
+    if($ext == "jpg")
+    {
+        $sitedata = get_sitedata();
 
-    $sitedata = get_sitedata();
+        $data = cameraUsed(ip_get_image("original"));
 
-    $data = cameraUsed(ip_get_image("original"));
-
-    $time = new DateTime($data["date"]);
-    echo $time->format($sitedata["site-hours"]);
+        $time = new DateTime($data["date"]);
+        echo $time->format($sitedata["site-hours"]);
+    }else{
+        echo "No Exifdata found";
+    }
 }
 
 function ip_get_exif_iso()
 {
+    $image = ip_get_image("original");
+    $ext = pathinfo($image, PATHINFO_EXTENSION);
+    if($ext == "jpg")
+    {
     $data = cameraUsed(ip_get_image("original"));
 
     echo $data["iso"];
+    }else{
+        echo "No Exifdata found";
+    }
 }
 
 function ip_get_exif_aperture()
 {
+    $image = ip_get_image("original");
+    $ext = pathinfo($image, PATHINFO_EXTENSION);
+    if($ext == "jpg")
+    {
     $data = cameraUsed(ip_get_image("original"));
 
     echo $data["aperture"];
+}else{
+    echo "No Exifdata found";
+}
 }
 
 function ip_get_exif_exposure_time()
 {
-    $data = cameraUsed(ip_get_image("original"));
+    $image = ip_get_image("original");
+    $ext = pathinfo($image, PATHINFO_EXTENSION);
+    if($ext == "jpg")
+    {
+    $data = cameraUsed($image);
+    
 
     echo $data["exposure"];
+    }else{
+        echo "No Exifdata found";
+    }
 }
 
 function ip_get_exif_camera_make()
 {
+    $image = ip_get_image("original");
+    $ext = pathinfo($image, PATHINFO_EXTENSION);
+    if($ext == "jpg")
+    {
     $data = cameraUsed(ip_get_image("original"));
 
     echo $data["make"];
+}else{
+    echo "No Exifdata found";
+}
 }
 
 function ip_get_exif_camera_model()
 {
+    $image = ip_get_image("original");
+    $ext = pathinfo($image, PATHINFO_EXTENSION);
+    if($ext == "jpg")
+    {
     $data = cameraUsed(ip_get_image("original"));
 
     echo $data["model"];
+}else{
+    echo "No Exifdata found";
+}
 }
 
 ?>

@@ -1,13 +1,14 @@
 <?php
 
-$db_prefix = "asd";
+require ('ip_config.php');
 
 function OpenCon()
 {
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "picture_cms";
+  
+$servername = DB_HOST;
+$username = DB_USER;
+$password = DB_PASSWORD;
+$dbname = DB_NAME;
 
 
 // Create connection

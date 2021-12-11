@@ -4,6 +4,9 @@ require 'db-connect.php';
 require 'image-cache.php';
 require 'exif.php';
 
+
+$table_picture = DB_PREFIX."picture";
+
 function get_essays(){
 
     $conn = OpenCon();
@@ -1188,13 +1191,14 @@ function ip_get_image($size)
 
 function ip_get_image_title()
 {
+    global $table_picture;
     $id = $_GET['id'];
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
-    $tablename = "picture";
-    echo $db_prefix;
-    $sql = "SELECT * FROM `$tablename` where `id` = $id;";
+    
+    
+    $sql = "SELECT * FROM `$table_picture` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();

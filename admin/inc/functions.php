@@ -423,8 +423,6 @@ function trunc($phrase, $max_words) {
 
  function get_album_images()
  {
-    global $table_picture;
-
     $id = $_GET['id'];
 
     // Get All picture Id's
@@ -446,7 +444,7 @@ function trunc($phrase, $max_words) {
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `id` IN ($tempstring);";
+    $sql = "SELECT * FROM `picture` where `id` IN ($tempstring);";
     
     $result2 = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -457,14 +455,13 @@ function trunc($phrase, $max_words) {
 
  function get_image()
  {
-     global $table_picture;
 
     $id = $_GET['id'];
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `id` = $id;";
+    $sql = "SELECT * FROM `picture` where `id` = $id;";
 
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -508,14 +505,13 @@ function trunc($phrase, $max_words) {
 
 function is_picture_in_album($picture, $album)
 {
-    global $table_picture;
 
     $id = $_GET['id'];
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `picture_album` WHERE `album` = $album AND `$table_picture` = $picture;";
+    $sql = "SELECT * FROM `picture_album` WHERE `album` = $album AND `picture` = $picture;";
 
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -557,12 +553,10 @@ function is_picture_in_album($picture, $album)
 
  function admin_ip_get_album_thumbnail($albumid)
 {
-    global $table_picture;
-
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -579,11 +573,10 @@ function is_picture_in_album($picture, $album)
 
 function admin_ip_get_album_medium($albumid)
 {
-    global $table_picture;
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -600,11 +593,10 @@ function admin_ip_get_album_medium($albumid)
 
 function create_image($filename)
 {
-    global $table_picture;
     
     $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
-        $sql = "INSERT INTO `$table_picture` (`id`, `content-name`, `content-filename`) VALUES (NULL, '$filename', '$filename');";
+        $sql = "INSERT INTO `picture` (`id`, `content-name`, `content-filename`) VALUES (NULL, '$filename', '$filename');";
         //echo $sql;
         $conn->query($sql);
         $conn->close();
@@ -655,12 +647,10 @@ function get_remote_version()
 
 function get_pictures()
 {
-    global $table_picture;
-
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture`;";
+    $sql = "SELECT * FROM `picture`;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -694,12 +684,9 @@ function get_pages()
 
 function set_imagedata($title, $content, $id)
 {
-
-    global $table_picture;
-
     $conn = OpenCon();
         $conn->query("SET NAMES 'utf8'");
-        $sql = "UPDATE `$table_picture` SET `content-name` = '$title', `content-text` = '$content' WHERE `$table_picture`.`id` = '$id';";
+        $sql = "UPDATE `picture` SET `content-name` = '$title', `content-text` = '$content' WHERE `picture`.`id` = '$id';";
         //echo $sql;
         $conn->query($sql);
         $conn->close();
@@ -707,12 +694,12 @@ function set_imagedata($title, $content, $id)
 
 function update_albumlist($data, $picture_id)
 {
-    global $table_picture;
+
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "DELETE FROM `picture_album` where `$table_picture` = $picture_id;";
+    $sql = "DELETE FROM `picture_album` where `picture` = $picture_id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -1032,11 +1019,10 @@ function ip_get_sitekeywords()
 
 function ip_get_album_thumbnail($albumid)
 {
-    global $table_picture;
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -1053,11 +1039,10 @@ function ip_get_album_thumbnail($albumid)
 
 function ip_get_album_medium($albumid)
 {
-    global $table_picture;
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -1074,11 +1059,10 @@ function ip_get_album_medium($albumid)
 
 function ip_get_album_large($albumid)
 {
-    global $table_picture;
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -1095,11 +1079,10 @@ function ip_get_album_large($albumid)
 
 function ip_get_album_original($albumid)
 {
-    global $table_picture;
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
+    $sql = "SELECT * FROM `picture` where `content-album-id` = $albumid and `content-album-id-title` = 1;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -1172,13 +1155,12 @@ function ip_get_album_images($layout)
 
 function ip_get_image($size)
 {
-    global $table_picture;
     $id = $_GET['id'];
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `id` = $id;";
+    $sql = "SELECT * FROM `picture` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
@@ -1228,13 +1210,12 @@ function ip_get_image_title()
 
 function ip_get_image_text()
 {
-    global $table_picture;
     $id = $_GET['id'];
 
     $conn = OpenCon();
     $conn->query("SET NAMES 'utf8'");
 
-    $sql = "SELECT * FROM `$table_picture` where `id` = $id;";
+    $sql = "SELECT * FROM `picture` where `id` = $id;";
     
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();

@@ -38,17 +38,18 @@ if(!@include_once('inc/functions.php')) {
     <div class="uk-container uk-flex uk-flex-center uk-flex-middle" style="height: 100vh;">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-3@m">
         <h3 class="uk-card-title uk-text-center">Login</h3>
-        <form class="uk-form-stacked">
+        <form class="uk-form-stacked" action="login.php?login=login" method="get">
+          <input type="hidden" id="login" name="login" value="login" />
           <div class="uk-margin">
-            <label class="uk-form-label" for="username">Username</label>
+            <label class="uk-form-label" for="username">Username / Mailadresse</label>
             <div class="uk-form-controls">
-              <input class="uk-input" id="username" type="text" placeholder="Your username">
+              <input class="uk-input" id="username" type="text" name="username" placeholder="Your username">
             </div>
           </div>
           <div class="uk-margin">
             <label class="uk-form-label" for="password">Password</label>
             <div class="uk-form-controls">
-              <input class="uk-input" id="password" type="password" placeholder="Your password">
+              <input class="uk-input" id="password" name="password" type="password" placeholder="Your password">
             </div>
           </div>
           <div class="uk-margin uk-text-center">
@@ -67,8 +68,13 @@ if(!@include_once('inc/functions.php')) {
 <?php
   }elseif($_GET['login'] == 'login')
   {
-    echo $_POST["user"];
+    echo $_GET["username"];
 
+    $user = $_GET["username"];
+    $password = $_GET["password"];
+
+    login($user, $password);
+/*
     if(login($_POST["user"], $_POST["password"]))
     {
       session_start();
@@ -83,7 +89,7 @@ if(!@include_once('inc/functions.php')) {
     session_start();
     session_destroy();
     header("Location: index.php");
-  }else{
+  }else{*/
 		/*session_start();
 		$_SESSION['user_id'] = "2";
 		header("Location: index.php");*/

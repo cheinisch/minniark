@@ -1,12 +1,12 @@
 <?php
 
-    require('bin/function.php');
+    require('bin/function/function.php');
 
-    if(!user_exist())
+    if(userfile_exist())
     {
-        require_once('bin/install/install.php');
+        // If USer Exist
     }else{
-        
+        require_once('bin/install/install.php');
     }
 
 ?>

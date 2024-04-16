@@ -1,39 +1,12 @@
 <?php
 
-include "admin/inc/functions.php";
+    require('bin/function.php');
 
-$theme = pcs_get_theme_path();
-
-
-
-if (isset($_GET['content']))
-{
-    if($_GET['content'] == 'essays')
+    if(!user_exist())
     {
-        //include $theme."essay.php";
-        pcs_get_essays();
-    }elseif($_GET['content'] == 'essay')
-    {
-        include $theme."essay.php";
-        //pcs_get_essays();
-    }elseif($_GET['content'] == 'albums')
-    {
-        include $theme."albums.php";
-        //pcs_get_albums
+        require_once('bin/install/install.php');
+    }else{
+        
     }
-    elseif($_GET['content'] == 'album')
-    {
-        include $theme."album.php";
-    }
-    elseif($_GET['content'] == 'single-image')
-    {
-        include $theme."single-image.php";
-    }elseif($_GET['content'] == 'page')
-    {
-        include $theme."page.php";
-    }
-}else{
-    include $theme."timeline.php";
-}
 
 ?>

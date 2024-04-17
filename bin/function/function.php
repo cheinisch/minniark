@@ -26,7 +26,7 @@ function userfile_exist()
     $jsondata = json_encode($data, JSON_PRETTY_PRINT);
 
     $json = '<?php
-defined('IMAGEPORTFOLIO') or die();    
+defined(\'IMAGEPORTFOLIO\') or die();    
 return \''.$jsondata.'\';
 ?>';
 
@@ -47,5 +47,29 @@ return \''.$jsondata.'\';
     exit;
 }
 
+
+/*
+ * Check User for Login
+ */
+
+ function getLogin($username, $password)
+ {
+    $jsonFile = '../conf/userdata.php';
+    if(file_exists($jsonFile))
+    {
+        $data = json_decode(file_get_contents($jsonFile), true);
+
+        echo $data;
+        // Durch die Benutzerdaten iterieren und nach Übereinstimmungen suchen
+        foreach ($data as $user) {
+            if ($user['username'] === $username && $user['password'] === password_hash($password, PASSWORD_DEFAULT)) {
+                return true; // Übereinstimmung gefunden
+            }
+        }
+
+        return false; // Keine Übereinstimmung gefunden
+    }
+    return false;
+ }
 
 ?>

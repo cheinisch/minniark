@@ -23,7 +23,13 @@ function userfile_exist()
 
  function downloadJSON($data, $filename) {
     // JSON-Daten in eine Zeichenkette konvertieren
-    $json = json_encode($data, JSON_PRETTY_PRINT);
+    $jsondata = json_encode($data, JSON_PRETTY_PRINT);
+
+    $json = '<?php
+defined('IMAGEPORTFOLIO') or die();    
+return \''.$jsondata.'\';
+?>';
+
 
     // HTTP-Header für den Download festlegen
     header('Content-Description: File Transfer');

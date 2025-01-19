@@ -1,5 +1,7 @@
 [
-{
-"themename": "basic"
-}
+    {
+        "themename": "basic",
+        "author": "Christian Heinisch",
+        "url": "heimfisch.de"
+    }
 ]

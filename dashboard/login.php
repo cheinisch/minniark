@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . '/../functions/functions.php';
 
 $error = null;
@@ -14,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
 
-        header("Location: /dashboard.php");
+        header("Location: dashboard.php");
         exit;
     } else {
         $error = "Ungültiger Benutzername oder Passwort!";
@@ -24,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Verarbeite Logout
 if (isset($_GET['logout'])) {
     session_destroy(); // Sitzung beenden
-    header("Location: /dashboard/login.php");
+    header("Location: index.php");
     exit;
 }
 ?>
@@ -45,7 +47,7 @@ if (isset($_GET['logout'])) {
                 <?= htmlspecialchars($error) ?>
             </div>
         <?php endif; ?>
-        <form action="/dashboard/login.php" method="POST">
+        <form action="login.php" method="POST">
             <div class="mb-4">
                 <label for="username" class="block text-gray-700">Benutzername</label>
                 <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring" required>

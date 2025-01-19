@@ -1,38 +1,30 @@
 <?php
-session_start(); // Sitzung starten
+session_start();
+require_once __DIR__ . '/../functions/functions.php';
 
-// Dummy-Benutzerdaten (in einer realen Anwendung wird dies durch eine Datenbank ersetzt)
-$users = [
-    'admin' => 'password123', // Benutzername => Passwort
-];
+$error = null;
 
-// Überprüfung, ob der Benutzer eingeloggt ist
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("Location: dashboard.php"); // Weiterleitung zum Dashboard
-    exit;
-}
-
-// Verarbeitung des Login-Formulars
+// Verarbeite Login-Formular
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-    if (array_key_exists($username, $users) && $users[$username] === $password) {
-        // Login erfolgreich
+    // Überprüfe Login-Daten
+    if (authenticateUser($username, $password)) {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
 
-        header("Location: dashboard.php"); // Weiterleitung zum Dashboard
+        header("Location: /dashboard.php");
         exit;
     } else {
         $error = "Ungültiger Benutzername oder Passwort!";
     }
 }
 
-// Verarbeitung des Logout-Vorgangs
+// Verarbeite Logout
 if (isset($_GET['logout'])) {
-    session_destroy(); // Sitzung zerstören
-    header("Location: login.php");
+    session_destroy(); // Sitzung beenden
+    header("Location: /dashboard/login.php");
     exit;
 }
 ?>
@@ -48,12 +40,12 @@ if (isset($_GET['logout'])) {
 <body class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="bg-white p-6 rounded shadow-lg w-96">
         <h1 class="text-2xl font-bold mb-4 text-center">Login</h1>
-        <?php if (isset($error)): ?>
+        <?php if ($error): ?>
             <div class="bg-red-100 text-red-700 p-2 mb-4 rounded">
                 <?= htmlspecialchars($error) ?>
             </div>
         <?php endif; ?>
-        <form action="login.php" method="POST">
+        <form action="/dashboard/login.php" method="POST">
             <div class="mb-4">
                 <label for="username" class="block text-gray-700">Benutzername</label>
                 <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring" required>
@@ -64,6 +56,9 @@ if (isset($_GET['logout'])) {
             </div>
             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
         </form>
+        <p class="mt-4 text-center text-sm text-gray-600">
+            Sie haben keine Zugangsdaten? Kontaktieren Sie den Administrator.
+        </p>
     </div>
 </body>
 </html>

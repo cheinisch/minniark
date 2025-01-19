@@ -1,5 +1,5 @@
 <?php
-// Sitzung nur starten, wenn keine aktiv ist
+// Sitzung starten, falls nicht aktiv
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -12,6 +12,20 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 $message = null;
+$currentUsername = $_SESSION['username'];
+$userData = null;
+
+// Benutzerinformationen aus der Datei laden
+$userFile = __DIR__ . '/../userdata/users.json';
+if (file_exists($userFile)) {
+    $users = json_decode(file_get_contents($userFile), true);
+    foreach ($users as $user) {
+        if ($user['username'] === $currentUsername) {
+            $userData = $user; // Benutzer gefunden
+            break;
+        }
+    }
+}
 
 // Verarbeiten des Formulars
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,10 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentPassword = trim($_POST['current_password'] ?? '');
 
     // Funktion zur Aktualisierung der Benutzerdaten aufrufen
-    $result = updateUserSettings($_SESSION['username'], $username, $email, $newPassword, $currentPassword);
+    $result = updateUserSettings($currentUsername, $username, $email, $newPassword, $currentPassword);
     if ($result === true) {
         $message = "Einstellungen erfolgreich aktualisiert.";
         $_SESSION['username'] = $username; // Sitzung aktualisieren
+        $currentUsername = $username;
     } else {
         $message = $result; // Fehlermeldung von der Funktion
     }
@@ -40,14 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     <?php endif; ?>
 
+    <div class="mb-6">
+        <p><strong>Accountname:</strong> <?= htmlspecialchars($userData['username'] ?? 'Unbekannt') ?></p>
+        <p><strong>E-Mail-Adresse:</strong> <?= htmlspecialchars($userData['email'] ?? 'Unbekannt') ?></p>
+    </div>
+
     <form action="/dashboard.php?usersettings" method="POST" class="space-y-4">
         <div>
             <label for="username" class="block text-sm font-medium">Benutzername</label>
-            <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded" value="<?= htmlspecialchars($_SESSION['username']) ?>" required>
+            <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded" value="<?= htmlspecialchars($userData['username'] ?? '') ?>" required>
         </div>
         <div>
             <label for="email" class="block text-sm font-medium">E-Mail-Adresse</label>
-            <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded" required>
+            <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded" value="<?= htmlspecialchars($userData['email'] ?? '') ?>" required>
         </div>
         <div>
             <label for="current_password" class="block text-sm font-medium">Aktuelles Passwort</label>

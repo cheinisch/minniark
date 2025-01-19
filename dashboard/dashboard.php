@@ -9,7 +9,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 // Prüfen, ob die Benutzer-Einstellungen angezeigt werden sollen
-$showSettings = isset($_GET['usersettings']);
+$showUserSettings = isset($_GET['usersettings']);
+$showPageSettings = isset($_GET['pagesettings']);
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +57,9 @@ $showSettings = isset($_GET['usersettings']);
             <a href="dashboard.php?usersettings" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Account Settings</a>
           </li>
           <li>
+            <a href="dashboard.php?pagesettings" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Page Settings</a>
+          </li>
+          <li>
             <a href="login.php?logout=true" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Logout</a>
           </li>
           <li>
@@ -74,9 +78,11 @@ $showSettings = isset($_GET['usersettings']);
 
     <!-- Main Content -->
     <div class="flex-1 p-6 ml-0 md:ml-64 transition-all">
-    <?php if ($showSettings): ?>
+    <?php if ($showUserSettings): ?>
                 <!-- Inhalt der Benutzereinstellungen -->
                 <?php include __DIR__ . '/usersettings.php'; ?>
+            <?php elseif ($showPageSettings): ?>
+              <?php include __DIR__ . '/pagesettings.php'; ?>
             <?php else: ?>
                 <!-- Standard Dashboard-Inhalt -->
                 <h2 class="text-2xl font-semibold mb-4">Willkommen im Dashboard</h2>

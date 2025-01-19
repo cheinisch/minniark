@@ -1,0 +1,7 @@
+[
+    {
+        "username": "admin",
+        "email": "admin@example.com",
+        "password": "$2y$10$a2aN1iYVKMPT/g5F9FzFAO/EHIYK7PpejFeMGXOz8PlpddX6VaqrK" // admin (gehasht mit password_hash)
+    }
+]

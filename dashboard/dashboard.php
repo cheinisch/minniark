@@ -1,3 +1,17 @@
+<?php
+session_start();
+require_once __DIR__ . '/../functions/functions.php';
+
+// Überprüfen, ob der Benutzer angemeldet ist
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
+// Prüfen, ob die Benutzer-Einstellungen angezeigt werden sollen
+$showSettings = isset($_GET['usersettings']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +53,7 @@
       <div class="px-4 py-2 border-t border-gray-300 dark:border-gray-700">
         <ul class="space-y-2">
           <li>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Settings</a>
+            <a href="dashboard.php?usersettings" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Account Settings</a>
           </li>
           <li>
             <a href="login.php?logout=true" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Logout</a>
@@ -60,8 +74,14 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 ml-0 md:ml-64 transition-all">
-      <h2 class="text-2xl font-semibold mb-4">Welcome to the Dashboard</h2>
-      <p>Content goes here...</p>
+    <?php if ($showSettings): ?>
+                <!-- Inhalt der Benutzereinstellungen -->
+                <?php include __DIR__ . '/usersettings.php'; ?>
+            <?php else: ?>
+                <!-- Standard Dashboard-Inhalt -->
+                <h2 class="text-2xl font-semibold mb-4">Willkommen im Dashboard</h2>
+                <p>Hier kannst du deine Daten verwalten.</p>
+            <?php endif; ?>
     </div>
   </div>
 

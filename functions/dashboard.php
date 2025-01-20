@@ -25,3 +25,33 @@ function authenticateUser($username, $password) {
 
     return false; // Kein passender Benutzer gefunden
 }
+
+
+function getUserData($username) {
+    $filePath = __DIR__ . '/../userdata/users.json';
+    if (!file_exists($filePath)) {
+        return null;
+    }
+
+    $users = json_decode(file_get_contents($filePath), true);
+    return $users[$username] ?? null;
+}
+
+
+function updateUserData($username, $data) {
+    $filePath = __DIR__ . '/../userdata/users.json';
+    if (!file_exists($filePath)) {
+        return false;
+    }
+
+    $users = json_decode(file_get_contents($filePath), true);
+    if (!isset($users[$username])) {
+        return false;
+    }
+
+    // Benutzer aktualisieren
+    $users[$username] = array_merge($users[$username], $data);
+
+    // Änderungen speichern
+    return file_put_contents($filePath, json_encode($users, JSON_PRETTY_PRINT));
+}

@@ -1,4 +1,7 @@
 <?php
+
+require_once './../functions/functions.php';
+
 // Systeminformationen dynamisch ermitteln
 $systemInfo = [
     "server_software" => $_SERVER['SERVER_SOFTWARE'] ?? 'Unbekannt',
@@ -28,9 +31,26 @@ if (extension_loaded('gd')) {
         "formats" => array_keys(array_filter($gdInfo, fn($key) => str_contains($key, 'Support')))
     ];
 }
+
+$version = getVersion();
+
 ?>
 
 <div class="table-container">
+    <h3>CMS Information</h3>
+    <table class="uk-table uk-table-divider uk-table-small">
+        <tbody>
+            <tr>
+                <td>CMS Version</td>
+                <td><?php echo $version; ?></td>
+                <td><span class="check-badge">check</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container">
+    <h3>System Information</h3>
     <table class="uk-table uk-table-divider uk-table-small">
         <tbody>
             <tr>

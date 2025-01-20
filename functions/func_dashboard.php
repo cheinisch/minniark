@@ -90,3 +90,21 @@ function updateUserData($username, $data) {
     return true;
 }
 
+
+function getVersion() {
+    $filePath = __DIR__ . '/../VERSION'; // Pfad zur VERSION-Datei im Root-Verzeichnis
+
+    if (!file_exists($filePath)) {
+        error_log("Versionsdatei nicht gefunden: " . $filePath);
+        return "Version nicht verfügbar"; // Rückgabe bei fehlender Datei
+    }
+
+    $version = trim(file_get_contents($filePath)); // Inhalt der Datei lesen und Leerzeichen entfernen
+
+    if (empty($version)) {
+        error_log("Versionsdatei ist leer: " . $filePath);
+        return "Version nicht verfügbar"; // Rückgabe bei leerer Datei
+    }
+
+    return $version; // Versionsnummer zurückgeben
+}

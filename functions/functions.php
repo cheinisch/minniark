@@ -23,3 +23,8 @@ function generateSlug($title) {
     $slug = trim($slug, '-');
     return $slug;
 }
+
+function func_test()
+{
+    echo "TEST";
+}

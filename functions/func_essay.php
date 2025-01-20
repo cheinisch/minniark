@@ -66,6 +66,65 @@ function readEssay($date, $title) {
 }
 
 /**
+ * Liest alle Essays aus dem Verzeichnis.
+ *
+ * @param string $essaysDir Pfad zum Essays-Verzeichnis.
+ * @return array Liste der Essays (Titel, Inhalt, Metadaten).
+ */
+function readAllEssays($essaysDir) {
+    $essays = [];
+
+    if (!is_dir($essaysDir)) {
+        error_log("Verzeichnis nicht gefunden: $essaysDir");
+        return $essays;
+    }
+
+    $folders = scandir($essaysDir);
+
+    foreach ($folders as $folder) {
+        if ($folder === '.' || $folder === '..') {
+            continue; // "." und ".." ignorieren
+        }
+
+        $essayPath = $essaysDir . DIRECTORY_SEPARATOR . $folder;
+        if (is_dir($essayPath)) {
+            $files = glob($essayPath . DIRECTORY_SEPARATOR . '*.json');
+            foreach ($files as $file) {
+                $essayData = readEssayFromFile($file);
+                if ($essayData !== false) {
+                    $essays[] = $essayData;
+                }
+            }
+        }
+    }
+
+    return $essays;
+}
+
+
+/**
+ * Liest ein einzelnes Essay aus einer Datei.
+ *
+ * @param string $filePath Pfad zur Essay-Datei.
+ * @return array|false Array mit Essay-Daten oder false bei Fehler.
+ */
+function readEssayFromFile($filePath) {
+    if (!file_exists($filePath)) {
+        error_log("Datei nicht gefunden: $filePath");
+        return false;
+    }
+
+    $essayData = json_decode(file_get_contents($filePath), true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log("Fehler beim Lesen der JSON-Daten: " . json_last_error_msg());
+        return false;
+    }
+
+    return $essayData;
+}
+
+/**
  * Aktualisiert ein Essay.
  *
  * @param string $date Datum des Essays (YYYY-MM-DD).

@@ -24,6 +24,7 @@ $files = [
     'essays' => [
         'all' => 'inc/essays_all.php',
         'create' => 'inc/essays_create.php',
+        'edit' => 'inc/essays_edit.php', // Bearbeitungsdatei hinzufügen
     ],
     'pages' => [
         'all' => 'inc/pages_all.php',
@@ -128,16 +129,21 @@ $subMenuItems = $files[$mainMenu] ?? [];
         </nav>
 
         <!-- Submenu Sidebar -->
-        <?php if (!empty($subMenuItems)): ?>
-            <nav class="submenu">
-                <h4><?= ucfirst($mainMenu) ?></h4>
-                <ul class="uk-nav uk-nav-default">
-                    <?php foreach ($subMenuItems as $key => $file): ?>
-                        <li class="<?= $subMenu === $key ? 'uk-active' : '' ?>"><a href="?main=<?= $mainMenu ?>&sub=<?= $key ?>"><?= ucfirst($key) ?></a></li>
+        <nav class="submenu">
+            <h4><?= ucfirst($mainMenu) ?></h4>
+            <ul class="uk-nav uk-nav-default">
+                <?php if (isset($files[$mainMenu])): ?>
+                    <?php foreach ($files[$mainMenu] as $sub => $file): ?>
+                        <!-- Verstecke "Edit" im Submenü -->
+                        <?php if ($sub !== 'edit'): ?>
+                            <li class="<?= $subMenu === $sub ? 'uk-active' : '' ?>">
+                                <a href="?main=<?= $mainMenu ?>&sub=<?= $sub ?>"><?= ucfirst($sub) ?></a>
+                            </li>
+                        <?php endif; ?>
                     <?php endforeach; ?>
-                </ul>
-            </nav>
-        <?php endif; ?>
+                <?php endif; ?>
+            </ul>
+        </nav>
 
         <!-- Main Content -->
         <div class="content">

@@ -92,6 +92,8 @@ function readAllEssays($essaysDir) {
             foreach ($files as $file) {
                 $essayData = readEssayFromFile($file);
                 if ($essayData !== false) {
+                    $essayData['folder'] = $folder; // Ordnername hinzufügen
+                    $essayData['filename'] = basename($file); // Dateiname hinzufügen
                     $essays[] = $essayData;
                 }
             }

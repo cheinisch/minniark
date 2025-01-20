@@ -1,6 +1,7 @@
-# Changes
+# Changelog
 
-## 2025-01-19
-Full rewrite of the cms
+## [Unreleased](https://github.com/cheinisch/Image-Portfolio)
 
-switching to flat file system
+## [0.0.1] (2025-01-19)
+
+Start full Rewrite

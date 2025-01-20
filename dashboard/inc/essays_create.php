@@ -1,4 +1,11 @@
 <?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    error_log("Formular gesendet!");
+    error_log("Titel: " . ($_POST['title'] ?? 'nicht gesetzt'));
+    error_log("Inhalt: " . ($_POST['content'] ?? 'nicht gesetzt'));
+}
+
 require_once __DIR__ . '/../../functions/functions.php'; // Funktionen einbinden
 
 // Initialisierung von Fehler- und Erfolgsnachrichten
@@ -60,25 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="uk-margin">
             <label class="uk-form-label" for="content">Inhalt</label>
             <div class="uk-form-controls">
-                <textarea id="content" name="content" required><?= htmlspecialchars($_POST['content'] ?? '') ?></textarea>
+                <textarea id="content" name="content" required></textarea>
             </div>
         </div>
 
         <button type="submit" class="uk-button uk-button-primary">Erstellen</button>
     </form>
 </div>
-<!-- SimpleMDE JS -->
-<script src="/lib/simplemde/simplemde.min.js"></script>
-<script>
-    // Initialisierung von SimpleMDE
-    var simplemde = new SimpleMDE({
-        element: document.getElementById("content"),
-        spellChecker: false,
-        placeholder: "Schreiben Sie hier Ihr Markdown...",
-        autosave: {
-            enabled: true,
-            uniqueId: "essay_create",
-            delay: 1000,
-        },
-    });
-</script>

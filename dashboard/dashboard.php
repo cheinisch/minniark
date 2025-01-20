@@ -61,6 +61,8 @@ $subMenuItems = $files[$mainMenu] ?? [];
     <title>Admin Dashboard</title>
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- SimpleMDE CSS -->
+    <link rel="stylesheet" href="../lib/simplemde/simplemde.min.css">
     <style>
         body, html {
             margin: 0;
@@ -100,6 +102,12 @@ $subMenuItems = $files[$mainMenu] ?? [];
             background-color: #f5f5f5;
             padding: 20px;
             overflow-y: auto;
+        }
+        #content {
+            opacity: 0; /* Unsichtbar, aber im DOM */
+            height: 1px;
+            position: absolute;
+            z-index: -1;
         }
     </style>
 </head>
@@ -154,8 +162,31 @@ $subMenuItems = $files[$mainMenu] ?? [];
         </div>
     </div>
 
+
+    <!-- SimpleMDE JS -->
+    <script src="../lib/simplemde/simplemde.min.js"></script>
+    <script>
+        // Initialisiere SimpleMDE
+        // Initialisiere SimpleMDE
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("content"),
+            spellChecker: false,
+            placeholder: "Schreiben Sie hier Ihr Markdown...",
+        });
+
+        document.querySelector("form").addEventListener("submit", function (e) {
+            var contentValue = simplemde.value();
+
+            if (!contentValue.trim()) {
+                e.preventDefault();
+                alert("Das Feld Inhalt darf nicht leer sein.");
+            }
+
+            document.getElementById("content").value = contentValue;
+        });
+    </script>
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>    
 </body>
 </html>

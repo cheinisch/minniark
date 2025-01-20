@@ -18,7 +18,7 @@ function authenticateUser($username, $password) {
     $users = json_decode(file_get_contents($userFile), true);
 
     foreach ($users as $user) {
-        if ($user['username'] === $username && password_verify($password, $user['password'])) {
+        if ($user['login_name'] === $username && password_verify($password, $user['password'])) {
             return true; // Login erfolgreich
         }
     }
@@ -30,28 +30,63 @@ function authenticateUser($username, $password) {
 function getUserData($username) {
     $filePath = __DIR__ . '/../userdata/users.json';
     if (!file_exists($filePath)) {
+        error_log("Datei nicht gefunden: " . $filePath);
         return null;
     }
 
     $users = json_decode(file_get_contents($filePath), true);
-    return $users[$username] ?? null;
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log("JSON-Fehler: " . json_last_error_msg());
+        return null;
+    }
+
+    // Durchsuche das Array nach dem Benutzer
+    foreach ($users as $user) {
+        if (isset($user['login_name']) && strtolower($user['login_name']) === strtolower($username)) {
+            return $user;
+        }
+    }
+
+    error_log("Benutzer '$username' nicht in der Datei gefunden.");
+    return null;
 }
 
 
 function updateUserData($username, $data) {
     $filePath = __DIR__ . '/../userdata/users.json';
     if (!file_exists($filePath)) {
+        error_log("Datei nicht gefunden: " . $filePath);
         return false;
     }
 
     $users = json_decode(file_get_contents($filePath), true);
-    if (!isset($users[$username])) {
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log("JSON-Fehler beim Lesen: " . json_last_error_msg());
         return false;
     }
 
     // Benutzer aktualisieren
-    $users[$username] = array_merge($users[$username], $data);
+    foreach ($users as &$user) {
+        if (isset($user['login_name']) && strtolower($user['login_name']) === strtolower($username)) {
+            $user = array_merge($user, $data);
+            break;
+        }
+    }
 
-    // Änderungen speichern
-    return file_put_contents($filePath, json_encode($users, JSON_PRETTY_PRINT));
+    // Datei speichern
+    $jsonData = json_encode($users, JSON_PRETTY_PRINT);
+    if ($jsonData === false) {
+        error_log("JSON-Fehler beim Kodieren: " . json_last_error_msg());
+        return false;
+    }
+
+    if (file_put_contents($filePath, $jsonData) === false) {
+        error_log("Fehler beim Schreiben der Datei: " . $filePath);
+        return false;
+    }
+
+    return true;
 }
+

@@ -136,7 +136,7 @@ $subMenuItems = $files[$mainMenu] ?? [];
             <!-- Header -->
             <header class="uk-background-muted uk-padding-small uk-box-shadow-small uk-flex uk-flex-between uk-flex-middle">
                 <h2 class="uk-margin-remove">Welcome, Admin</h2>
-                <a href="#" class="uk-button uk-button-default">Profile</a>
+                <a href="dashboard.php?main=settings&sub=account" class="uk-button uk-button-default">Profile</a>
             </header>
 
             <!-- Dynamic Content -->

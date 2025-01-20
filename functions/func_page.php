@@ -65,6 +65,55 @@ function readPage($date, $title) {
     return $data;
 }
 
+function readPageFromFile($filePath) {
+    if (!file_exists($filePath)) {
+        error_log("Datei nicht gefunden: $filePath");
+        return false;
+    }
+
+    $pageData = json_decode(file_get_contents($filePath), true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log("Fehler beim Lesen der JSON-Daten: " . json_last_error_msg());
+        return false;
+    }
+
+    return $pageData;
+}
+
+function readAllPages($pagesDir) {
+    $pages = [];
+
+    if (!is_dir($pagesDir)) {
+        error_log("Verzeichnis nicht gefunden: $pagesDir");
+        return $pages;
+    }
+
+    $folders = scandir($pagesDir);
+
+    foreach ($folders as $folder) {
+        if ($folder === '.' || $folder === '..') {
+            continue; // "." und ".." ignorieren
+        }
+
+        $pagePath = $pagesDir . DIRECTORY_SEPARATOR . $folder;
+        if (is_dir($pagePath)) {
+            $files = glob($pagePath . DIRECTORY_SEPARATOR . '*.json');
+            foreach ($files as $file) {
+                $pageData = readPageFromFile($file);
+                if ($pageData !== false) {
+                    $pageData['folder'] = $folder; // Ordnername hinzufügen
+                    $pageData['filename'] = basename($file); // Dateiname hinzufügen
+                    $pages[] = $pageData;
+                }
+            }
+        }
+    }
+
+    return $pages;
+}
+
+
 /**
  * Aktualisiert ein Page.
  *

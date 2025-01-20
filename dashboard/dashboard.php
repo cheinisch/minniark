@@ -29,6 +29,7 @@ $files = [
     'pages' => [
         'all' => 'inc/pages_all.php',
         'create' => 'inc/pages_create.php',
+        'edit' => 'inc/pages_edit.php', // Bearbeitungsdatei hinzufügen
     ],
     'settings' => [
         'account' => 'inc/settings_account.php',

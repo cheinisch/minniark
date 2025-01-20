@@ -107,7 +107,7 @@ $subMenuItems = $files[$mainMenu] ?? [];
     <div class="dashboard-layout">
         <!-- Main Sidebar -->
         <nav class="sidebar">
-            <h3>Koken Admin</h3>
+            <h3>Portfolio Admin</h3>
             <ul class="uk-nav uk-nav-default">
                 <li class="<?= $mainMenu === 'media' ? 'uk-active' : '' ?>"><a href="?main=media">Media Library</a></li>
                 <li class="<?= $mainMenu === 'albums' ? 'uk-active' : '' ?>"><a href="?main=albums">Albums</a></li>

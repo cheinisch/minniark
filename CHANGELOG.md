@@ -4,4 +4,6 @@
 
 ## [0.0.1] (2025-01-19)
 
-Start full Rewrite
+**New Features**
+
+- User can change passwort, login name and display name

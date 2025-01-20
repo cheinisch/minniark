@@ -1,118 +1,124 @@
 <?php
 session_start();
-require_once __DIR__ . '/../functions/functions.php';
 
-// Überprüfen, ob der Benutzer angemeldet ist
+// Dummy-Login-Check
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: login.php");
     exit;
 }
 
-// Prüfen, ob die Benutzer-Einstellungen angezeigt werden sollen
-$showUserSettings = isset($_GET['usersettings']);
-$showPageSettings = isset($_GET['pagesettings']);
+// Aktive Hauptnavigation und Untermenü bestimmen
+$mainMenu = $_GET['main'] ?? 'media';
+$subMenu = $_GET['sub'] ?? null;
+
+// Mögliche Dateien für Main Content
+$files = [
+    'media' => [
+        'all' => 'media_all.php',
+        'upload' => 'media_upload.php',
+    ],
+    'albums' => [
+        'all' => 'albums_all.php',
+        'create' => 'albums_create.php',
+    ],
+    'essays' => [
+        'all' => 'essays_all.php',
+        'create' => 'essays_create.php',
+    ],
+    'pages' => [
+        'all' => 'pages_all.php',
+        'create' => 'pages_create.php',
+    ],
+    'settings' => [
+        'account' => 'settings_account.php',
+        'general' => 'settings_general.php',
+        'system' => 'settings_system.php',
+    ],
+];
+
+// Standarddatei für den Fall, dass kein oder ein ungültiger Parameter übergeben wurde
+$defaultFile = 'default.php';
+
+// Eingebundene Datei bestimmen
+$includeFile = $defaultFile;
+if (isset($files[$mainMenu])) {
+    if ($subMenu && isset($files[$mainMenu][$subMenu])) {
+        $includeFile = $files[$mainMenu][$subMenu];
+    } elseif (!$subMenu && isset($files[$mainMenu]['all'])) {
+        $includeFile = $files[$mainMenu]['all'];
+    }
+}
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.19/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.19/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.19/dist/js/uikit-icons.min.js"></script>
+    <style>
+        .full-height {
+            height: 100vh;
+        }
+        .flex-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-  <div class="flex h-screen">
-    <!-- Mobile Menu Button -->
-    <button id="menuToggle" class="md:hidden p-4 text-gray-500 dark:text-gray-300">
-      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
+<body>
 
-    <!-- Sidebar -->
-    <div id="sidebar" class="fixed top-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg flex flex-col min-h-screen transform -translate-x-full md:translate-x-0 transition-transform">
-      <div class="flex items-center justify-center h-16 bg-gray-200 dark:bg-gray-700">
-        <h1 class="text-lg font-bold">Dashboard</h1>
-      </div>
-      <nav class="flex-1 px-4 py-2">
-        <ul class="space-y-2">
-          <li>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Media</a>
-          </li>
-          <li>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Albums</a>
-          </li>
-          <li>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Essays</a>
-          </li>
-          <li>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Pages</a>
-          </li>
-        </ul>
-      </nav>
-      <div class="px-4 py-2 border-t border-gray-300 dark:border-gray-700">
-        <ul class="space-y-2">
-          <li>
-            <a href="dashboard.php?usersettings" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Account Settings</a>
-          </li>
-          <li>
-            <a href="dashboard.php?pagesettings" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Page Settings</a>
-          </li>
-          <li>
-            <a href="login.php?logout=true" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Logout</a>
-          </li>
-          <li>
-            <button 
-              id="themeToggle" 
-              class="block w-full text-left px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-              Dark/Light
-            </button>
-          </li>
-        </ul>
-      </div>
+<div class="uk-grid-collapse" uk-grid>
+    <!-- Main Sidebar (erste Ebene) -->
+    <div class="uk-width-auto uk-background-muted uk-padding-small full-height flex-column">
+        <div>
+            <h3 class="uk-heading-line"><span>Navigation</span></h3>
+            <ul class="uk-nav uk-nav-default">
+                <li class="<?= $mainMenu === 'media' ? 'uk-active' : '' ?>"><a href="?main=media">Media</a></li>
+                <li class="<?= $mainMenu === 'albums' ? 'uk-active' : '' ?>"><a href="?main=albums">Albums</a></li>
+                <li class="<?= $mainMenu === 'essays' ? 'uk-active' : '' ?>"><a href="?main=essays">Essays</a></li>
+                <li class="<?= $mainMenu === 'pages' ? 'uk-active' : '' ?>"><a href="?main=pages">Pages</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul class="uk-nav uk-nav-default">
+                <li><a href="?main=settings"><span uk-icon="settings"></span> Settings</a></li>
+                <li><a href="login.php?logout=true"><span uk-icon="sign-out"></span> Logout</a></li>
+            </ul>
+        </div>
     </div>
 
-    <!-- Overlay for sidebar on small screens -->
-    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden md:hidden"></div>
+    <!-- Submenu Sidebar (zweite Ebene) -->
+    <div class="uk-width-auto uk-background-secondary uk-light uk-padding-small full-height">
+        <h3 class="uk-heading-line uk-text-light"><span>Untermenü</span></h3>
+        <ul class="uk-nav uk-nav-default">
+            <?php if (isset($files[$mainMenu])): ?>
+                <?php foreach ($files[$mainMenu] as $key => $file): ?>
+                    <li class="<?= $subMenu === $key ? 'uk-active' : '' ?>">
+                        <a href="?main=<?= $mainMenu ?>&sub=<?= $key ?>"><?= htmlspecialchars(ucfirst($key)) ?></a>
+                    </li>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <li><em>Keine Untermenüs verfügbar</em></li>
+            <?php endif; ?>
+        </ul>
+    </div>
 
     <!-- Main Content -->
-    <div class="flex-1 p-6 ml-0 md:ml-64 transition-all">
-    <?php if ($showUserSettings): ?>
-                <!-- Inhalt der Benutzereinstellungen -->
-                <?php include __DIR__ . '/usersettings.php'; ?>
-            <?php elseif ($showPageSettings): ?>
-              <?php include __DIR__ . '/pagesettings.php'; ?>
-            <?php else: ?>
-                <!-- Standard Dashboard-Inhalt -->
-                <h2 class="text-2xl font-semibold mb-4">Willkommen im Dashboard</h2>
-                <p>Hier kannst du deine Daten verwalten.</p>
-            <?php endif; ?>
+    <div class="uk-width-expand uk-padding full-height uk-overflow-auto">
+        <?php
+        // PHP-Datei dynamisch einbinden
+        if (file_exists(__DIR__ . '/inc/' . $includeFile)) {
+            include __DIR__ . '/inc/' . $includeFile;
+        } else {
+            echo '<h1>Datei nicht gefunden</h1>';
+        }
+        ?>
     </div>
-  </div>
+</div>
 
-  <script>
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-
-    // Toggle sidebar
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    });
-
-    // Close sidebar when clicking overlay
-    overlay.addEventListener('click', () => {
-      sidebar.classList.add('-translate-x-full');
-      overlay.classList.add('hidden');
-    });
-
-    // Toggle dark/light mode
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark');
-    });
-  </script>
 </body>
 </html>

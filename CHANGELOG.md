@@ -6,4 +6,4 @@
 
 **New Features**
 
-- User can change passwort, login name and display name
+- User can change password, login name and display name

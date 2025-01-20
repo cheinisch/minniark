@@ -1,11 +1,5 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    error_log("Formular gesendet!");
-    error_log("Titel: " . ($_POST['title'] ?? 'nicht gesetzt'));
-    error_log("Inhalt: " . ($_POST['content'] ?? 'nicht gesetzt'));
-}
-
 require_once __DIR__ . '/../../functions/functions.php'; // Funktionen einbinden
 
 // Initialisierung von Fehler- und Erfolgsnachrichten
@@ -27,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Essay erstellen, wenn keine Fehler vorliegen
     if (empty($errors)) {
-        $result = createEssay($title, $content);
+        $result = createPage($title, $content);
         if ($result === false) {
             $errors[] = "Es gab ein Problem beim Erstellen des Essays.";
         } else {
@@ -38,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="uk-container uk-margin-top">
-    <h2>Neues Essay erstellen</h2>
+    <h2>Neue Seite erstellen</h2>
 
     <?php if (!empty($errors)): ?>
         <div class="uk-alert-danger" uk-alert>

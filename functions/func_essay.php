@@ -35,7 +35,7 @@ function createEssay($title, $content) {
         return false;
     }
 
-    return "Essay erfolgreich erstellt: $filePath";
+    return "Essay erfolgreich erstellt";
 }
 
 /**
@@ -100,17 +100,4 @@ function updateEssay($date, $title, $newContent) {
     }
 
     return "Essay erfolgreich aktualisiert: $filePath";
-}
-
-/**
- * Generiert einen URL-freundlichen Slug aus einem Titel.
- *
- * @param string $title Titel des Essays.
- * @return string URL-freundlicher Slug.
- */
-function generateSlug($title) {
-    $slug = strtolower(trim($title));
-    $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
-    $slug = trim($slug, '-');
-    return $slug;
 }

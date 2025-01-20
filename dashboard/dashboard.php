@@ -32,7 +32,7 @@ $files = [
     'settings' => [
         'account' => 'inc/settings_account.php',
         'general' => 'inc/settings_general.php',
-        'system' => 'inc/settings_system.php',
+        'info' => 'inc/settings_system.php',
     ],
 ];
 

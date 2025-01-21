@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../functions/func_pages.php'; // Funktionen laden
+require_once __DIR__ . '/../../functions/functions.php'; // Funktionen laden
 
 // Verzeichnis für Pages
 $pagesDir = __DIR__ . '/../../content/pages/';

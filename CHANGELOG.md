@@ -1,7 +1,9 @@
 # Changelog
 
-## [0.0.1.1] (**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.0.1...v0.0.1.1-alpha)
+## [0.0.1.1]
 2025-01-20
+
+**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.0.1...v0.0.1.1-alpha
 
 ### New Features
 - Add Essays

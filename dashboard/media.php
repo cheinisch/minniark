@@ -73,8 +73,8 @@
           <div class="dropdown border-top">
             <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
               <li>
-                <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Customers" data-bs-toggle="tooltip" data-bs-placement="right">
-                  <svg class="bi pe-none" width="24" height="24" role="img" aria-label="Customers"><use xlink:href="#power"/></svg>
+                <a href="login.php?logoff" class="nav-link py-3 border-bottom rounded-0" title="Customers" data-bs-toggle="tooltip" data-bs-placement="right">
+                  <svg class="bi pe-none logoff" width="24" height="24" role="img" aria-label="Customers"><use xlink:href="#power"/></svg>
                 </a>
               </li>
             </ul>

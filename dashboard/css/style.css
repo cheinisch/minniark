@@ -12,3 +12,7 @@ main {
   display: flex;
   flex-grow: 1; /* Füllt den restlichen Platz vertikal */
 }
+
+.logoff{
+  color:red;
+}

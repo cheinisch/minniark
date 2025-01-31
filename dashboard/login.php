@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
 
-        header("Location: dashboard.php");
+        header("Location: media.php");
         exit;
     } else {
         $error = "Ungültiger Benutzername oder Passwort!";

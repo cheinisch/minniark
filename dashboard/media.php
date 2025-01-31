@@ -6,6 +6,34 @@
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+      .theme-toggle {
+        width: 75px;
+        height: 25px;
+        background: #ccc;
+        border-radius: 25px;
+        position: relative;
+        cursor: pointer;
+      }
+      .theme-toggle .toggle-thumb {
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: 2.5px;
+        left: 5px;
+        transition: all 0.3s ease;
+      }
+      .theme-toggle.auto .toggle-thumb {
+        left: 27px;
+        background: #888;
+      }
+      .theme-toggle.dark .toggle-thumb {
+        left: 50px;
+        background: #000;
+      }
+    </style>
   </head>
   <body>
     <!-- SVG Icons -->
@@ -42,7 +70,41 @@
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
           <span class="navbar-brand mb-0 h1">ImagePortfolio</span>
-        </div>
+          <li class="nav-item dropdown">
+              <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+                      id="bd-theme"
+                      type="button"
+                      aria-expanded="false"
+                      data-bs-toggle="dropdown"
+                      data-bs-display="static"
+                      aria-label="Toggle theme (auto)">
+                <svg class="bi my-1 theme-icon-active"><use href="#circle-half"></use></svg>
+                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                <li>
+                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                    <svg class="bi me-2 opacity-50"><use href="#sun-fill"></use></svg>
+                    Light
+                    <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                    <svg class="bi me-2 opacity-50"><use href="#moon-stars-fill"></use></svg>
+                    Dark
+                    <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+                    <svg class="bi me-2 opacity-50"><use href="#circle-half"></use></svg>
+                    Auto
+                    <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                  </button>
+                </li>
+              </ul>
+            </li>
       </nav>
       </header>
       <!-- Navbar End -->
@@ -121,7 +183,28 @@
         <!-- Main Content End  -->
       </main>
     <!-- Wrapper End -->
-    </div>
+        </div>
+
+    <script>
+      document.querySelectorAll("[data-bs-theme-value]").forEach(button => {
+        button.addEventListener("click", () => {
+          let theme = button.getAttribute("data-bs-theme-value");
+          document.documentElement.setAttribute("data-bs-theme", theme);
+          localStorage.setItem("theme", theme);
+        });
+      });
+
+      (function () {
+        let savedTheme = localStorage.getItem("theme") || "auto";
+        document.documentElement.setAttribute("data-bs-theme", savedTheme);
+      })();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   </body>

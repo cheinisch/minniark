@@ -74,7 +74,7 @@
         <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary sidebar" style="width: 4.5rem;">
           <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
             <li class="nav-item">
-              <a href="media.php" class="nav-link py-3 active border-bottom rounded-0"title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
+              <a href="media.php" class="nav-link py-3 active border-bottom rounded-0" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
                 <svg class="bi pe-none" width="24" height="24" role="img" aria-label="Home"><use xlink:href="#image"/></svg>
               </a>
             </li>

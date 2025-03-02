@@ -77,9 +77,9 @@
         <?php include('sidenav.php'); ?>
         <!-- Sidebars end -->
         <!-- Main Content -->
-         <div class="container">
+         <div class="container-fluid">
             <h1>Pictures</h1>
-          <div class="row row-cols-5 row-cols-md-5 g-4">
+          <div class="row row-cols-lg-10 row-cols-md-5 g-4">
         <?php
             for ($i = 1; $i <= 13; $i++) {
                 ?>

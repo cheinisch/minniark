@@ -1,6 +1,13 @@
 <?php
+  require_once __DIR__ . '/../functions/functions.php'; // Funktionen einbinden
+
+  // Verzeichnis für die Essays
+  $essaysDir = __DIR__ . '/../content/essays/';
+  $essays = readAllEssays($essaysDir);
+  
   $parent_menu_item = "essay";
   $menu_item = "all";
+  
 ?>
 <!doctype html>
 <html class="h-full bg-white">
@@ -90,23 +97,45 @@
           <div class="mx-auto px-6 lg:px-8">
               <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Essays</h2>
             <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-              <?php for ($i = 1; $i <= 10; $i++) { ?>
+            <?php if (!empty($essays)): ?>
+            <?php foreach ($essays as $essay): ?>
+                <?php
+                    $folder = $essay['folder']; // Dies muss aus der Funktion readAllEssays bereitgestellt werden
+                ?>
               <article class="flex max-w-xl flex-col items-start justify-between">
                 <div class="flex items-center gap-x-4 text-xs">
-                  <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+                  <time datetime="2020-03-16" class="text-gray-500"><?= htmlspecialchars($essay['created_at']) ?></time>
                   <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
                 </div>
                 <div class="group relative">
                   <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
                     <a href="#">
                       <span class="absolute inset-0"></span>
-                      Boost your conversion rate
+                      <?= htmlspecialchars($essay['title']) ?>
                     </a>
                   </h3>
-                  <p class="mt-5 line-clamp-3 text-sm/6 text-gray-600">Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.</p>
+                  <p class="mt-5 line-clamp-3 text-sm/6 text-gray-600"><?= htmlspecialchars(substr($essay['content'], 0, 200)) ?>...</p>
+                </div>
+                <div class="relative mt-2 flex items-center gap-x-4">
+                  <div class="text-sm/6">
+                    <p class="font-semibold text-gray-900">
+                      <a href="#">
+                        <span class="absolute inset-0"></span>
+                        Edit
+                      </a>
+                      // 
+                      <a href="#">
+                        <span class="absolute inset-0"></span>
+                        Delete
+                      </a>
+                    </p>
+                  </div>
                 </div>
               </article>
-              <?php } ?>
+              <?php endforeach; ?>
+        <?php else: ?>
+            <p>Keine Essays gefunden.</p>
+        <?php endif; ?>
               <!-- More posts... -->
             </div>
           </div>

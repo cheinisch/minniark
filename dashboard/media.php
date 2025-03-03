@@ -1,3 +1,7 @@
+<?php
+  $parent_menu_item = "media";
+  $menu_item = "all";
+?>
 <!doctype html>
 <html class="h-full bg-white">
   <head>

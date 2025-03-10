@@ -198,22 +198,48 @@ function renderImageGallery() {
         $description = !empty($metadata['description']) ? htmlspecialchars($metadata['description']) : "Keine Beschreibung verfügbar";
 
         // HTML für das Bild generieren
-        echo "<div class='relative group cursor-pointer' data-open-panel data-src='$image' data-title='$title'>
+        echo "<a href='media-detail.php?image=" . urlencode($fileName) . "' class='block'>
+        <div class='relative group cursor-pointer' data-open-panel data-src='$image' data-title='$title'>
             <img src='$image' class='w-full h-40 object-cover rounded-md shadow-md hover:shadow-lg transition duration-300'>
             <div class='absolute bottom-2 left-2 bg-white bg-opacity-75 px-3 py-1 rounded-md text-sm font-medium'>$title</div>
-        </div>";
+        </div>
+      </a>";
+
     }
 
     echo '</div>';
 }
 
-function getImage()
+function getImage($imagename)
 {
 
-    $image = [];
+    $imageDir = '../content/images/';
+    $images = getImagesFromDirectory($imageDir);
 
-    $image['title'] = "Title";
-    $image['path'] = "https://dummyimage.com/1920x1080/000f80/fff.jpg&text=Test";
+    foreach ($images as $image) {
+        $fileName = basename($image);
+        if($fileName == $imagename)
+        {
+            $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
+            if (file_exists($jsonFile)) {
+                $jsonData = file_get_contents($jsonFile);
+                $decodedData = json_decode($jsonData, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $metadata = $decodedData;
+                    $image = [];
+
+                    $image['title'] = $metadata['title'];
+                    $image['path'] =  '../content/images/' . $fileName;
+
+                    return $image;
+                } else {
+                    error_log("Fehler beim Parsen von JSON: " . json_last_error_msg());
+                }
+            }
+        }
+    }
+
+    $image = [];
 
     return $image;
 }

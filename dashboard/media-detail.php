@@ -2,10 +2,12 @@
 
   require_once './../functions/functions.php';
 
+  $image_url = $_GET['image'];
+
   $parent_menu_item = "media";
   $menu_item = "all";
     $image = [];
-  $image = getImage();
+  $image = getImage($image_url);
 ?>
 <!doctype html>
 <html class="h-full bg-white">

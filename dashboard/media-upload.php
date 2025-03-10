@@ -1,6 +1,9 @@
 <?php
+  error_reporting(E_ALL);
+  ini_set('display_errors', 1);
 
   require_once './../functions/functions.php';
+  
 
   
 
@@ -13,6 +16,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>File Upload \\ Image Portfolio</title>
   </head>
   <body class="h-full">
     <!--
@@ -160,7 +164,7 @@
             <ul role="list" class="-mx-2 space-y-1">
               <li>
                 <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
-                <a href="#" class="group flex gap-x-3 rounded-md bg-gray-800 p-2 text-sm/6 font-semibold text-white">
+                <a href="media.php" class="group flex gap-x-3 rounded-md bg-gray-800 p-2 text-sm/6 font-semibold text-white">
                   <svg class="size-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                   </svg>
@@ -270,43 +274,26 @@
         <h2 class="text-2xl font-semibold text-gray-900">Neues Medium hochladen</h2>
             
         <div class="max-w-lg mx-auto mt-6 p-6 bg-white rounded-lg shadow-md border border-gray-200">
-          <label for="file-upload" class="block text-sm font-medium text-gray-700">Datei auswählen</label>
+          <label for="file-upload" class="block text-sm font-medium text-gray-700">Upload File</label>
 
-          <div id="uploadBox" class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 cursor-pointer transition-colors duration-300">
+          <div id="uploadBox" class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 cursor-pointer">
               <div class="text-center">
                   <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V18a2 2 0 002 2h14a2 2 0 002-2v-1.5M7.5 11.5L12 7m0 0l4.5 4.5M12 7v10" />
                   </svg>
-                  <p class="mt-2 text-sm text-gray-600">
-                      <span>Klicken oder Datei hier ablegen</span>
-                  </p>
-                  <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF bis zu <?php echo getMaxFilesize(); ?> MB</p>
-                  <input id="fileInput" type="file" class="hidden" accept="image/png, image/jpeg, image/gif">
+                  <p class="mt-2 text-sm text-gray-600">Click or drop file here</p>
+                  <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
               </div>
           </div>
 
-          <!-- Fortschrittsanzeige -->
-          <div id="progressContainer" class="hidden mt-4">
-              <div class="h-2 bg-gray-200 rounded">
-                  <div id="progressBar" class="h-2 bg-indigo-600 rounded transition-all" style="width: 0%;"></div>
-              </div>
-              <p id="progressText" class="mt-2 text-xs text-gray-600">0%</p>
+          <input id="fileInput" type="file" class="hidden" multiple>
+
+          <div id="progressContainer" class="mt-4 w-full bg-gray-200 rounded-full h-2.5">
+              <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full text-xs text-center text-white"></div>
           </div>
 
-          <!-- Upload-Status -->
-          <p id="uploadStatus" class="mt-2 text-sm font-semibold"></p>
-      </div>
-
-
-                <div id="fileInfo" class="hidden mt-4">
-                    <p class="text-sm text-gray-700"><strong>Ausgewählte Datei:</strong> <span id="fileName"></span></p>
-                    <div class="flex gap-2 mt-4">
-                        <button onclick="uploadFile()" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700">Senden</button>
-                        <button onclick="resetUpload()" class="w-full bg-gray-400 text-white py-2 rounded-md hover:bg-gray-500">Abbrechen</button>
-                    </div>
-                    <p id="uploadStatus" class="mt-2 text-sm text-gray-700"></p>
-                </div>
-            </div>
+          <div id="messageBox" class="mt-2 text-sm"></div>
+        </div>
       </div>
     </main>
   </div>

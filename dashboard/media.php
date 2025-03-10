@@ -1,4 +1,7 @@
 <?php
+
+  require_once './../functions/functions.php';
+
   $parent_menu_item = "media";
   $menu_item = "all";
 ?>
@@ -262,7 +265,10 @@
     <main class="py-10">
       <div class="px-4 sm:px-6 lg:px-8">
         <!-- Your content -->
-         Media
+        <!-- Grid Layout -->
+        <?php
+        renderImageGallery(); // Galerie ausgeben
+        ?>
       </div>
     </main>
   </div>

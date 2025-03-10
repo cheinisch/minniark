@@ -118,3 +118,60 @@ function getMaxFilesize()
 
     return $upload_mb;
 }
+
+function getImagesFromDirectory($directory = "../content/images/") {
+    // Sicherstellen, dass das Verzeichnis existiert
+    if (!is_dir($directory)) {
+        return [];
+    }
+
+    // Alle Bilddateien aus dem Verzeichnis abrufen
+    $images = glob($directory . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+    $galleryItems = [];
+
+    foreach ($images as $image) {
+        $filename = basename($image);
+        $jsonFile = $directory . pathinfo($filename, PATHINFO_FILENAME) . ".json";
+
+        // Standardwerte für die Bildinfos
+        $title = "Kein Titel";
+        $description = "";
+        
+        // Falls JSON-Datei existiert, Metadaten auslesen
+        if (file_exists($jsonFile)) {
+            $jsonData = json_decode(file_get_contents($jsonFile), true);
+            if ($jsonData && isset($jsonData["title"]) && !empty($jsonData["title"])) {
+                $title = htmlspecialchars($jsonData["title"]);
+            }
+        }
+
+        // Bild in Array speichern
+        $galleryItems[] = [
+            "src" => $image,
+            "title" => $title
+        ];
+    }
+
+    return $galleryItems;
+}
+
+// Galerie mit Tailwind HTML ausgeben
+function renderImageGallery() {
+    $images = getImagesFromDirectory();
+
+    if (empty($images)) {
+        echo "<p class='text-center text-gray-500'>Keine Bilder gefunden.</p>";
+        return;
+    }
+
+    echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
+    foreach ($images as $image) {
+        echo '<div class="bg-white rounded-lg shadow-md overflow-hidden">';
+        echo '    <img src="' . $image["src"] . '" alt="Bild" class="w-full h-48 object-cover">';
+        echo '    <div class="p-4">';
+        echo '        <h3 class="text-lg font-semibold text-gray-800 truncate">' . $image["title"] . '</h3>';
+        echo '    </div>';
+        echo '</div>';
+    }
+    echo '</div>';
+}

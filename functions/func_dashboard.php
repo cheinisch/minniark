@@ -213,34 +213,22 @@ function renderImageGallery() {
 function getImage($imagename)
 {
 
-    $imageDir = '../content/images/';
-    $images = getImagesFromDirectory($imageDir);
-
-    foreach ($images as $image) {
-        $fileName = basename($image);
-        if($fileName == $imagename)
-        {
-            $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
-            if (file_exists($jsonFile)) {
-                $jsonData = file_get_contents($jsonFile);
-                $decodedData = json_decode($jsonData, true);
-                if (json_last_error() === JSON_ERROR_NONE) {
-                    $metadata = $decodedData;
-                    $image = [];
-
-                    $image['title'] = $metadata['title'];
-                    $image['path'] =  '../content/images/' . $fileName;
-
-                    return $image;
-                } else {
-                    error_log("Fehler beim Parsen von JSON: " . json_last_error_msg());
-                }
-            }
+    
+    
+    $fileName = $imagename;
+    $jsonFiles = glob("../content/images/*.json");
+    
+    $imageData = null;
+    
+    // Passende JSON-Datei anhand des Dateinamens suchen
+    foreach ($jsonFiles as $file) {
+        $jsonData = file_get_contents($file);
+        $image = json_decode($jsonData, true);
+        if ($image && $image['filename'] === $fileName) {
+            $imageData = $image;
+            return $imageData;
+            break;
         }
     }
-
-    $image = [];
-
-    return $image;
 }
 

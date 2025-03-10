@@ -4,10 +4,28 @@
 
   $image_url = $_GET['image'];
 
-  $parent_menu_item = "media";
-  $menu_item = "all";
-    $image = [];
-  $image = getImage($image_url);
+  $imageData = getImage($image_url);
+
+  // Daten extrahieren
+  $fileName = $imageData['filename'];
+  $imagePath = "../content/images/" . $fileName;
+  $title = $imageData['title'];
+  $description = $imageData['description'];
+  $uploadDate = $imageData['upload_date'];
+
+  // Exif-Daten
+  $camera = $imageData['exif']['Camera'] ?? 'Unbekannt';
+  $lens = $imageData['exif']['Lens'] ?? 'Unbekannt';
+  $aperture = $imageData['exif']['Aperture'] ?? 'Unbekannt';
+  $shutterSpeed = $imageData['exif']['Shutter Speed'] ?? 'Unbekannt';
+  $iso = $imageData['exif']['ISO'] ?? 'Unbekannt';
+  $dateTaken = $imageData['exif']['Date'] ?? 'Unbekannt';
+
+  // GPS-Daten für OpenStreetMap
+  $latitude = $imageData['exif']['GPS']['latitude'] ?? 0;
+  $longitude = $imageData['exif']['GPS']['longitude'] ?? 0;
+
+  $hasGPS = !is_null($latitude) && !is_null($longitude);
 ?>
 <!doctype html>
 <html class="h-full bg-white">
@@ -272,13 +290,13 @@
     <main class="py-5">
     <!-- Bild über die gesamte Breite ohne Beschnitt -->
     <div class="w-full px-0.5"> <!-- 2px Padding links/rechts -->
-        <img src="<?php echo $image['path']; ?>" alt="<?php echo $image['title']; ?>" class="w-full h-auto">
+        <img src="<?php echo $imagePath; ?>" alt="<?php echo $title ?>" class="w-full h-auto">
     </div>
         <div class="mt-6 px-10">
             <dl class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-                    <h3 class="text-base/7 font-semibold text-gray-900"><?php echo $image['title']; ?></h3>
-                        <dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
+                    <h3 class="text-base/7 font-semibold text-gray-900"><?php echo $title ?></h3>
+                        <dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2"><?php echo $description ?></dd>
                     </div>
             </dl>
             <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 w-full">
@@ -287,24 +305,24 @@
                 <h3 class="font-medium text-gray-900">Information</h3>
                 <dl class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
                 <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Uploaded by</dt>
-                    <dd class="text-gray-900">Marie Culver</dd>
-                </div>
-                <div class="flex justify-between py-3 text-sm font-medium">
                     <dt class="text-gray-500">Created</dt>
-                    <dd class="text-gray-900">June 8, 2020</dd>
+                    <dd class="text-gray-900"><?php echo $dateTaken; ?></dd>
                 </div>
                 <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Last modified</dt>
-                    <dd class="text-gray-900">June 8, 2020</dd>
+                    <dt class="text-gray-500">Camera</dt>
+                    <dd class="text-gray-900"><?php echo $camera; ?></dd>
                 </div>
                 <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Dimensions</dt>
-                    <dd class="text-gray-900">4032 x 3024</dd>
+                    <dt class="text-gray-500">Shutter speed</dt>
+                    <dd class="text-gray-900"><?php echo $shutterSpeed; ?></dd>
                 </div>
                 <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Resolution</dt>
-                    <dd class="text-gray-900">72 x 72</dd>
+                    <dt class="text-gray-500">Aperture</dt>
+                    <dd class="text-gray-900"><?php echo $aperture; ?></dd>
+                </div>
+                <div class="flex justify-between py-3 text-sm font-medium">
+                    <dt class="text-gray-500">ISO</dt>
+                    <dd class="text-gray-900"><?php echo $iso; ?></dd>
                 </div>
                 </dl>
               </div>
@@ -324,7 +342,7 @@
 <script src="js/tailwind.js"></script>
 <script>
         // Initialisiere die Karte
-        var map = L.map('map').setView([51.1657, 10.4515], 6); // Deutschland als Standardposition
+        var map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 6); 
 
         // Füge die OSM-Kachel-Layer hinzu
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -332,8 +350,8 @@
         }).addTo(map);
 
         // Optional: Setze einen Marker in der Mitte
-        L.marker([51.1657, 10.4515]).addTo(map)
-            .bindPopup("Deutschland Mitte")
+        L.marker([<?php echo $latitude; ?>, <?php echo $longitude; ?>]).addTo(map)
+            .bindPopup("<?php echo $title;?>")
             .openPopup();
     </script>
   </body>

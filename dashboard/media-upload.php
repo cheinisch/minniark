@@ -267,31 +267,38 @@
     <main class="py-10">
       <div class="px-4 sm:px-6 lg:px-8">
         <!-- Your content -->
-         <h2>Add new Media</h2>
-         <div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md border border-gray-200">
-          <label for="file-upload" class="block text-sm font-medium text-gray-700">Upload File</label>
-          
-          <div class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6">
-            <div class="text-center">
-              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V18a2 2 0 002 2h14a2 2 0 002-2v-1.5M7.5 11.5L12 7m0 0l4.5 4.5M12 7v10" />
-              </svg>
-              <p class="mt-2 text-sm text-gray-600">
-                <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none">
-                  <span>Click to upload</span>
-                  <input id="file-upload" name="file-upload" type="file" class="sr-only" />
-                </label>
-                or drag and drop
-              </p>
-              <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to <?php echo getMaxFilesize(); ?> MB</p>
-            </div>
-          </div>
-        </div>
+        <h2 class="text-2xl font-semibold text-gray-900">Neues Medium hochladen</h2>
+            
+            <div class="max-w-lg mx-auto mt-6 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                <label for="file-upload" class="block text-sm font-medium text-gray-700">Datei auswählen</label>
+                
+                <div id="uploadBox" class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 cursor-pointer">
+                    <div class="text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V18a2 2 0 002 2h14a2 2 0 002-2v-1.5M7.5 11.5L12 7m0 0l4.5 4.5M12 7v10" />
+                        </svg>
+                        <p class="mt-2 text-sm text-gray-600">
+                            <span>Klicken oder Datei hier ablegen</span>
+                        </p>
+                        <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF bis zu <?php echo getMaxFilesize(); ?> MB</p>
+                        <input id="fileInput" type="file" class="hidden">
+                    </div>
+                </div>
 
+                <div id="fileInfo" class="hidden mt-4">
+                    <p class="text-sm text-gray-700"><strong>Ausgewählte Datei:</strong> <span id="fileName"></span></p>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="uploadFile()" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700">Senden</button>
+                        <button onclick="resetUpload()" class="w-full bg-gray-400 text-white py-2 rounded-md hover:bg-gray-500">Abbrechen</button>
+                    </div>
+                    <p id="uploadStatus" class="mt-2 text-sm text-gray-700"></p>
+                </div>
+            </div>
       </div>
     </main>
   </div>
 </div>
+<script src="js/file_upload.js"></script>
 <script src="js/tailwind.js"></script>
   </body>
 </html>

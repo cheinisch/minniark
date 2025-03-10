@@ -120,44 +120,26 @@ function getMaxFilesize()
 }
 
 function getImagesFromDirectory($directory = "../content/images/") {
-    // Sicherstellen, dass das Verzeichnis existiert
     if (!is_dir($directory)) {
         return [];
     }
 
-    // Alle Bilddateien aus dem Verzeichnis abrufen
+    // Alle Bilddateien abrufen (Rückgabe als Array von Strings)
     $images = glob($directory . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
-    $galleryItems = [];
 
-    foreach ($images as $image) {
-        $filename = basename($image);
-        $jsonFile = $directory . pathinfo($filename, PATHINFO_FILENAME) . ".json";
-
-        // Standardwerte für die Bildinfos
-        $title = "Kein Titel";
-        $description = "";
-        
-        // Falls JSON-Datei existiert, Metadaten auslesen
-        if (file_exists($jsonFile)) {
-            $jsonData = json_decode(file_get_contents($jsonFile), true);
-            if ($jsonData && isset($jsonData["title"]) && !empty($jsonData["title"])) {
-                $title = htmlspecialchars($jsonData["title"]);
-            }
-        }
-
-        // Bild in Array speichern
-        $galleryItems[] = [
-            "src" => $image,
-            "title" => $title
-        ];
+    if (!is_array($images)) {
+        error_log("Fehler: getImagesFromDirectory() gibt kein Array zurück.");
+        return [];
     }
 
-    return $galleryItems;
+    return $images;
 }
 
-// Galerie mit Tailwind HTML ausgeben
-function renderImageGallery() {
+
+// Galerie mit Tailwind HTML ausgeben()
+/*function renderImageGallery() {
     $images = getImagesFromDirectory();
+    $imageDir = '../content/images/';
 
     if (empty($images)) {
         echo "<p class='text-center text-gray-500'>Keine Bilder gefunden.</p>";
@@ -166,12 +148,73 @@ function renderImageGallery() {
 
     echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
     foreach ($images as $image) {
-        echo '<div class="bg-white rounded-lg shadow-md overflow-hidden">';
-        echo '    <img src="' . $image["src"] . '" alt="Bild" class="w-full h-48 object-cover">';
-        echo '    <div class="p-4">';
-        echo '        <h3 class="text-lg font-semibold text-gray-800 truncate">' . $image["title"] . '</h3>';
-        echo '    </div>';
-        echo '</div>';
+        $fileName = basename($image);
+        $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
+        $metadata = file_exists($jsonFile) ? json_decode(file_get_contents($jsonFile), true) : [];
+        
+        $title = !empty($metadata['title']) ? $metadata['title'] : "Untitled";
+        echo "<div class='relative group cursor-pointer' onclick='openImageDetails(\"$fileName\", \"$title\")'>
+                <img src='$image' class='w-full h-40 object-cover rounded-md shadow-md hover:shadow-lg transition duration-300'>
+                <div class='absolute bottom-2 left-2 bg-white bg-opacity-75 px-3 py-1 rounded-md text-sm font-medium'>$title</div>
+              </div>";
     }
     echo '</div>';
+}*/
+
+/**
+ * Erstellt eine Bildergalerie mit Tailwind CSS.
+ * Diese Funktion lädt Bilder aus einem Verzeichnis, liest optionale Metadaten aus JSON-Dateien
+ * und zeigt die Bilder in einem Grid-Layout an.
+ */
+function renderImageGallery() {
+    $imageDir = '../content/images/';
+    $images = getImagesFromDirectory($imageDir);
+
+    // Falls keine Bilder gefunden wurden, eine Meldung ausgeben
+    if (empty($images)) {
+        echo "<p class='text-center text-gray-500'>Keine Bilder gefunden.</p>";
+        return;
+    }
+
+    echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
+
+    foreach ($images as $image) {
+        $fileName = basename($image);
+        $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
+        $metadata = [];
+
+        // JSON-Daten auslesen und validieren
+        if (file_exists($jsonFile)) {
+            $jsonData = file_get_contents($jsonFile);
+            $decodedData = json_decode($jsonData, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $metadata = $decodedData;
+            } else {
+                error_log("Fehler beim Parsen von JSON: " . json_last_error_msg());
+            }
+        }
+
+        $title = !empty($metadata['title']) ? htmlspecialchars($metadata['title']) : "Kein Titel";
+        $description = !empty($metadata['description']) ? htmlspecialchars($metadata['description']) : "Keine Beschreibung verfügbar";
+
+        // HTML für das Bild generieren
+        echo "<div class='relative group cursor-pointer' data-open-panel data-src='$image' data-title='$title'>
+            <img src='$image' class='w-full h-40 object-cover rounded-md shadow-md hover:shadow-lg transition duration-300'>
+            <div class='absolute bottom-2 left-2 bg-white bg-opacity-75 px-3 py-1 rounded-md text-sm font-medium'>$title</div>
+        </div>";
+    }
+
+    echo '</div>';
 }
+
+function getImage()
+{
+
+    $image = [];
+
+    $image['title'] = "Title";
+    $image['path'] = "https://dummyimage.com/1920x1080/000f80/fff.jpg&text=Test";
+
+    return $image;
+}
+

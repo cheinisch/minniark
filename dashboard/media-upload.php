@@ -1,4 +1,9 @@
 <?php
+
+  require_once './../functions/functions.php';
+
+  
+
   $parent_menu_item = "media";
   $menu_item = "all";
 ?>
@@ -278,7 +283,7 @@
                 </label>
                 or drag and drop
               </p>
-              <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+              <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to <?php echo getMaxFilesize(); ?> MB</p>
             </div>
           </div>
         </div>

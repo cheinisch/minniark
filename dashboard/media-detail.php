@@ -347,6 +347,21 @@
                     <dd class="text-gray-900"><?php echo $iso; ?></dd>
                 </div>
                 </dl>
+                  <!-- Buttons am unteren Rand fixieren -->
+                  <div class="mt-4 flex w-full">
+                  <!-- Edit Button -->
+                  <a href="edit.php?file=<?php echo urlencode($fileName); ?>" 
+                    class="w-1/2 text-center bg-blue-500 text-white px-4 py-2 rounded-bl-lg shadow hover:bg-blue-600 transition">
+                      Edit
+                  </a>
+
+                  <!-- Delete Button -->
+                  <a href="delete.php?file=<?php echo urlencode($fileName); ?>" 
+                    onclick="return confirm('Bist du sicher, dass du dieses Bild löschen möchtest?');"
+                    class="w-1/2 text-center bg-red-500 text-white px-4 py-2 rounded-br-lg shadow hover:bg-red-600 transition">
+                      Delete
+                  </a>
+              </div>
               </div>
               <!-- Right Container -->
               <div class="p-4 bg-white shadow-lg rounded-lg sm:col-span-1 md:col-span-2">

@@ -30,19 +30,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"])) {
 
             if ($exif) {
                 $exifData = [
-                    "Kamera" => $exif["Model"] ?? null,
-                    "Objektiv" => $exif["UndefinedTag:0xA432"] ?? null, // Manche Kameras speichern hier das Objektivmodell
-                    "Blende" => $exif["COMPUTED"]["ApertureFNumber"] ?? null,
-                    "Belichtungszeit" => $exif["ExposureTime"] ?? null,
-                    "ISO" => $exif["ISOSpeedRatings"] ?? null,
-                    "Datum" => $exif["DateTimeOriginal"] ?? null,
-                    "GPS" => extractGpsData($exif)
+                    'camera' => $exif['Model'] ?? '',
+                    'lens' => $exif['UndefinedTag:0xA434'] ?? '',
+                    'aperture' => isset($exif['COMPUTED']['ApertureFNumber']) ? $exif['COMPUTED']['ApertureFNumber'] : '',
+                    'shutter_speed' => isset($exif['ExposureTime']) ? $exif['ExposureTime'] . ' sec' : '',
+                    'iso' => $exif['ISOSpeedRatings'] ?? '',
+                    'date' => isset($exif['DateTimeOriginal']) ? date('Y-m-d H:i:s', strtotime($exif['DateTimeOriginal'])) : '',
+                    'gps' => $gpsData
                 ];
             }
         }
 
         // JSON-Daten vorbereiten
         $jsonData = [
+            "title" => $fileName,
+            "description" => '',
+            "tags" => [],
             "date_uploaded" => date("Y-m-d H:i:s"),
             "exif" => $exifData
         ];

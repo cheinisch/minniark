@@ -13,6 +13,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    <!-- Leaflet.js für OSM -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <body class="h-full">
     <!--
@@ -274,46 +278,41 @@
                     <h3 class="text-base/7 font-semibold text-gray-900"><?php echo $image['title']; ?></h3>
                         <dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
                     </div>
-                    <div className="w-full max-w-5xl mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-4">
-                        <!-- Left Container -->
-                        <div className="p-4 bg-gray-100 rounded-lg">
-                            <div>
-                                <h3 class="font-medium text-gray-900">Information</h3>
-                                <dl class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
-                                <div class="flex justify-between py-3 text-sm font-medium">
-                                    <dt class="text-gray-500">Uploaded by</dt>
-                                    <dd class="text-gray-900">Marie Culver</dd>
-                                </div>
-                                <div class="flex justify-between py-3 text-sm font-medium">
-                                    <dt class="text-gray-500">Created</dt>
-                                    <dd class="text-gray-900">June 8, 2020</dd>
-                                </div>
-                                <div class="flex justify-between py-3 text-sm font-medium">
-                                    <dt class="text-gray-500">Last modified</dt>
-                                    <dd class="text-gray-900">June 8, 2020</dd>
-                                </div>
-                                <div class="flex justify-between py-3 text-sm font-medium">
-                                    <dt class="text-gray-500">Dimensions</dt>
-                                    <dd class="text-gray-900">4032 x 3024</dd>
-                                </div>
-                                <div class="flex justify-between py-3 text-sm font-medium">
-                                    <dt class="text-gray-500">Resolution</dt>
-                                    <dd class="text-gray-900">72 x 72</dd>
-                                </div>
-                                </dl>
-                            </div>
-                        </div>
-                        <!-- Right Container -->
-                        <div className="p-4 bg-white shadow-lg rounded-lg md:col-span-2">
-                            <h2 className="text-xl font-bold mb-2">Karte</h2>
-                            <div className="h-40 bg-blue-200 flex items-center justify-center rounded-lg">
-                                <span className="text-gray-700">Hier kommt die Karte</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </dl>
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 w-full">
+              <!-- Linker Container (kleiner, 1/3 der Breite) -->
+              <div class="p-4 bg-gray-100 rounded-lg col-span-1">
+                <h3 class="font-medium text-gray-900">Information</h3>
+                <dl class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
+                <div class="flex justify-between py-3 text-sm font-medium">
+                    <dt class="text-gray-500">Uploaded by</dt>
+                    <dd class="text-gray-900">Marie Culver</dd>
+                </div>
+                <div class="flex justify-between py-3 text-sm font-medium">
+                    <dt class="text-gray-500">Created</dt>
+                    <dd class="text-gray-900">June 8, 2020</dd>
+                </div>
+                <div class="flex justify-between py-3 text-sm font-medium">
+                    <dt class="text-gray-500">Last modified</dt>
+                    <dd class="text-gray-900">June 8, 2020</dd>
+                </div>
+                <div class="flex justify-between py-3 text-sm font-medium">
+                    <dt class="text-gray-500">Dimensions</dt>
+                    <dd class="text-gray-900">4032 x 3024</dd>
+                </div>
+                <div class="flex justify-between py-3 text-sm font-medium">
+                    <dt class="text-gray-500">Resolution</dt>
+                    <dd class="text-gray-900">72 x 72</dd>
+                </div>
+                </dl>
+              </div>
+              <!-- Right Container -->
+              <div class="p-4 bg-white shadow-lg rounded-lg sm:col-span-1 md:col-span-2">
+                  <h2 class="text-xl font-bold mb-2">MAP</h2>
+                  <div id="map" class="h-96"></div>
+              </div>
+            </div>
+          </div>
         </div>
         
     </main>
@@ -321,5 +320,19 @@
   </div>
 </div>
 <script src="js/tailwind.js"></script>
+<script>
+        // Initialisiere die Karte
+        var map = L.map('map').setView([51.1657, 10.4515], 6); // Deutschland als Standardposition
+
+        // Füge die OSM-Kachel-Layer hinzu
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Optional: Setze einen Marker in der Mitte
+        L.marker([51.1657, 10.4515]).addTo(map)
+            .bindPopup("Deutschland Mitte")
+            .openPopup();
+    </script>
   </body>
 </html>

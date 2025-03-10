@@ -263,6 +263,26 @@
       <div class="px-4 sm:px-6 lg:px-8">
         <!-- Your content -->
          <h2>Add new Media</h2>
+         <div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md border border-gray-200">
+          <label for="file-upload" class="block text-sm font-medium text-gray-700">Upload File</label>
+          
+          <div class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6">
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V18a2 2 0 002 2h14a2 2 0 002-2v-1.5M7.5 11.5L12 7m0 0l4.5 4.5M12 7v10" />
+              </svg>
+              <p class="mt-2 text-sm text-gray-600">
+                <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none">
+                  <span>Click to upload</span>
+                  <input id="file-upload" name="file-upload" type="file" class="sr-only" />
+                </label>
+                or drag and drop
+              </p>
+              <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>

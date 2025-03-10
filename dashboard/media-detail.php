@@ -16,10 +16,32 @@
   // Exif-Daten
   $camera = $imageData['exif']['Camera'] ?? 'Unbekannt';
   $lens = $imageData['exif']['Lens'] ?? 'Unbekannt';
-  $aperture = $imageData['exif']['Aperture'] ?? 'Unbekannt';
-  $shutterSpeed = $imageData['exif']['Shutter Speed'] ?? 'Unbekannt';
+  $apertureRaw = $imageData['exif']['Aperture'] ?? 'Unbekannt';
+  $shutterSpeedRaw = $imageData['exif']['Shutter Speed'] ?? 'Unbekannt';
   $iso = $imageData['exif']['ISO'] ?? 'Unbekannt';
   $dateTaken = $imageData['exif']['Date'] ?? 'Unbekannt';
+
+  // **Aperture formatieren (f/28/10 → f/2.8)**
+  $aperture = "Unbekannt";
+  if (preg_match('/f\/(\d+)\/(\d+)/', $apertureRaw, $matches)) {
+      $apertureValue = round($matches[1] / $matches[2], 1); // 28/10 → 2.8
+      $aperture = "f/" . $apertureValue;
+  }
+
+  // **Shutter Speed formatieren (4/1 → 4s oder 1/250 → 1/250s)**
+  $shutterSpeed = "Unbekannt";
+  if (preg_match('/(\d+)\/(\d+)/', $shutterSpeedRaw, $matches)) {
+      $numerator = (int)$matches[1];  // Zähler
+      $denominator = (int)$matches[2]; // Nenner
+      
+      if ($numerator >= $denominator) {
+          // Belichtungszeit ≥ 1 Sekunde → "4s"
+          $shutterSpeed = ($numerator / $denominator) . "s";
+      } else {
+          // Belichtungszeit < 1 Sekunde → "1/250s"
+          $shutterSpeed = "1/" . round($denominator / $numerator) . "s";
+      }
+  }
 
   // GPS-Daten für OpenStreetMap
   $latitude = $imageData['exif']['GPS']['latitude'] ?? 0;

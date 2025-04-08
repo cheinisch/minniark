@@ -7,7 +7,7 @@ ImagePortfolio is a Flat File based Portfolio CMS
 
 ## Documentation
 
-Take a look at the [documentation](https://docs.image-portfolio.org) to get started with Automad.
+Take a look at the [documentation](https://docs.image-portfolio.org) to get started with Image-Portfolio.
 
 ---
 

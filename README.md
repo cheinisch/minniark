@@ -5,6 +5,10 @@
 
 ImagePortfolio is a Flat File based Portfolio CMS
 
+## Links
+
+- [Documentation](https://docs.image-portfolio.org)
+
 ## Documentation
 
 Take a look at the [documentation](https://docs.image-portfolio.org) to get started with Image-Portfolio.

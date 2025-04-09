@@ -10,7 +10,7 @@ function logMessage($message) {
 
 // Basisverzeichnisse
 $uploadDir = __DIR__ . '/../../content/images/';
-$cacheDir = __DIR__ . '/../../cache/';
+$cacheDir = __DIR__ . '/../../cache/images/';
 
 // Stelle sicher, dass die Verzeichnisse existieren
 foreach ([$uploadDir, $cacheDir] as $dir) {

@@ -1,0 +1,17 @@
+{
+    "name": "chris/image-portfolio",
+    "autoload": {
+        "psr-4": {
+            "Chris\\ImagePortfolio\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Christian Heinisch",
+            "email": "chris@christian-heinisch.de"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.20"
+    }
+}

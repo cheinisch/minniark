@@ -24,13 +24,17 @@ $routes = [
     'map' => 'map.twig',
 ];
 
+if ($uri === 'timeline') {
+    $data['timeline'] = getTimelineImagesFromJson('content/images/');
+}
+
 // Template auswählen
 $template = $routes[$uri] ?? null;
 
 if ($template && file_exists(__DIR__ . "/template/basic/$template")) {
-    echo $twig->render($template, [
+    echo $twig->render($template, array_merge([
         'title' => ucfirst($uri) ?: 'Home',
-    ]);
+    ], $data ?? []));
 } else {
     http_response_code(404);
     echo $twig->render('404.twig', ['title' => 'Seite nicht gefunden']);

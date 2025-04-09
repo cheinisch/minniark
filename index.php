@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . './vendor/autoload.php'; // Composer Autoload
+require_once __DIR__ . '/vendor/autoload.php'; // Composer Autoload
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
 // Twig initialisieren
-$loader = new FilesystemLoader(__DIR__ . './template/basic');
+$loader = new FilesystemLoader(__DIR__ . '/template/basic');
 $twig = new Environment($loader, [
-    'cache' => __DIR__ . './cache/pages',
+    'cache' => __DIR__ . '/cache/pages',
     'auto_reload' => true,
     'debug' => true,
 ]);
@@ -23,7 +23,7 @@ $routes = [
 
 $template = $routes[$uri] ?? null;
 
-if ($template && file_exists(__DIR__ . "./template/basic/$template")) {
+if ($template && file_exists(__DIR__ . "/template/basic/$template")) {
     echo $twig->render($template, ['title' => ucfirst($uri) ?: 'Home']);
 } else {
     http_response_code(404);

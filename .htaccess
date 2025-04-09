@@ -1,3 +1,10 @@
 RewriteEngine On
+
+# Dashboard-Pfad ausschließen
+RewriteCond %{REQUEST_URI} ^/dashboard/ [NC]
+RewriteRule ^ - [L]
+
+# Normales Rewrite nur für "nicht existierende" Dateien
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]

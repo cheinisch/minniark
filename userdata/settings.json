@@ -3,5 +3,6 @@
     "theme": "basic",
     "language": "en",
     "show_upload_dates": false,
-    "default_image_size": "m"
+    "default_image_size": "m",
+    "default_page":"home"
   }

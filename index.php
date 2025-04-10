@@ -55,5 +55,10 @@ if ($template && file_exists(__DIR__ . "/template/basic/$template")) {
     ], $data ?? []));
 } else {
     http_response_code(404);
-    echo $twig->render('404.twig', ['title' => 'Seite nicht gefunden']);
+    echo $twig->render('404.twig', array_merge([
+        'title' => ucfirst($uri) ?: 'Home',
+        'site_title' => $settings['site_title'] ?? 'Image Portfolio',
+        'theme' => $settings['theme'] ?? 'classic',
+        'themepath' => "/template/".($settings['theme'] ?? 'classic'),
+    ], $data ?? []));
 }

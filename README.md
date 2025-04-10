@@ -1,4 +1,4 @@
-# IMAGEPORTFOLIO
+# IMAGE-PORTFOLIO
 
 > [!WARNING]
 > This CMS is under development

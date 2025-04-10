@@ -9,6 +9,12 @@ ImagePortfolio is a Flat File based Portfolio CMS
 
 There is a demo installation under [demo](https://demo.image-portfolio.org)
 
+## Installation
+
+### Docker Container
+
+### Manual Installation
+
 ## Links
 
 - [Documentation](https://docs.image-portfolio.org)

@@ -29,7 +29,7 @@ This project uses the following technologies:
 
 - [Tailwind CSS](https://tailwindcss.com/) – for utility-first, modern CSS styling
 - [Twig](https://twig.symfony.com/) – a flexible and fast templating engine for PHP
-- [GLightBox](https://github.com/biati-digital/glightbox) - a smalltalk lightbox for the pictures
+- [GLightBox](https://github.com/biati-digital/glightbox) - a small lightbox for the pictures
 ---
 
 © 2021-2025 [Christian Heinisch](https://heimfisch.de)  

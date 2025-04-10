@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/functions/functions.php';
 
@@ -39,11 +44,14 @@ if (file_exists($settingsPath)) {
     $settings = json_decode($settingsJson, true);
 }
 
+//echo $settings['theme'];
+
 if ($template && file_exists(__DIR__ . "/template/basic/$template")) {
     echo $twig->render($template, array_merge([
         'title' => ucfirst($uri) ?: 'Home',
         'site_title' => $settings['site_title'] ?? 'Image Portfolio',
         'theme' => $settings['theme'] ?? 'classic',
+        'themepath' => "/template/".($settings['theme'] ?? 'classic'),
     ], $data ?? []));
 } else {
     http_response_code(404);

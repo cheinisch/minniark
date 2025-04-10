@@ -42,13 +42,3 @@ function getTimelineImagesFromJson(string $mediaPath = 'content/images/', string
 
     return $images;
 }
-
-
-
-
-// Übergabe an Twig:
-echo $twig->render($template, array_merge([
-    'title' => ucfirst($uri) ?: 'Home',
-    'site_title' => $settings['site_title'] ?? 'Image Portfolio',
-    'theme' => $settings['theme'] ?? 'classic',
-], $data ?? []));

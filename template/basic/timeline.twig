@@ -7,38 +7,38 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
 
-  <!-- ✅ Fixed NavBar -->
-  <nav class="bg-white shadow sticky top-0 z-50">
+  <!-- 🧭 Fixed Instagram-style Nav -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <span class="text-xl font-bold">📷 Image Portfolio</span>
-      <ul class="flex space-x-4">
-        <li><a href="/image_portfolio/home" class="text-gray-700 hover:text-blue-500">Home</a></li>
-        <li><a href="/image_portfolio/timeline" class="text-blue-600 font-semibold">Timeline</a></li>
-        <li><a href="/image_portfolio/map" class="text-gray-700 hover:text-blue-500">Map</a></li>
+      <span class="text-2xl font-bold text-pink-600 tracking-tight">{{ site_title }}</span>
+      <ul class="flex space-x-6 text-sm font-medium">
+        <li><a href="/image_portfolio/home" class="text-gray-600 hover:text-pink-600">Home</a></li>
+        <li><a href="/image_portfolio/timeline" class="text-pink-600">Timeline</a></li>
+        <li><a href="/image_portfolio/map" class="text-gray-600 hover:text-pink-600">Map</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- 📸 Timeline / Gallery -->
+  <!-- 🖼️ Instagram-style Feed -->
   <main class="max-w-6xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6 text-center">{{ title }}</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  {% for image in timeline %}
-  <div class="relative rounded overflow-hidden shadow bg-white">
-    <img src="{{ image.thumb.m }}" alt="{{ image.filename }}" class="w-full h-64 object-cover">
-    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-sm p-2">
-      {{ image.upload_date|date('d.m.Y H:i') }}
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+      {% for image in timeline %}
+      <div class="relative group aspect-square bg-gray-200 overflow-hidden">
+        <img 
+          src="{{ image.thumb.m }}" 
+          alt="{{ image.filename }}" 
+          class="w-full h-full object-cover transition duration-300 ease-in-out group-hover:scale-105"
+        >
+        <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+          {% if image.exif.Date %}
+            <p class="text-white text-xs">{{ image.exif.Date|date("d.m.Y H:i") }}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
     </div>
-    {% if image.title or image.description %}
-    <div class="p-3">
-      {% if image.title %}<h3 class="font-semibold text-lg">{{ image.title }}</h3>{% endif %}
-      {% if image.description %}<p class="text-sm text-gray-700">{{ image.description }}</p>{% endif %}
-    </div>
-    {% endif %}
-  </div>
-  {% endfor %}
-</div>
   </main>
 
 </body>

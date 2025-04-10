@@ -4,6 +4,11 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/dashboard/ [NC]
 RewriteRule ^ - [L]
 
+
+# Exclude /cache/images/
+RewriteCond %{REQUEST_URI} ^/cache/images/ [NC]
+RewriteRule ^ - [L]
+
 # Normales Rewrite nur für "nicht existierende" Dateien
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

@@ -31,9 +31,19 @@ if ($uri === 'timeline') {
 // Template auswählen
 $template = $routes[$uri] ?? null;
 
+$settingsPath = __DIR__ . '/userdata/settings.json';
+$settings = [];
+
+if (file_exists($settingsPath)) {
+    $settingsJson = file_get_contents($settingsPath);
+    $settings = json_decode($settingsJson, true);
+}
+
 if ($template && file_exists(__DIR__ . "/template/basic/$template")) {
     echo $twig->render($template, array_merge([
         'title' => ucfirst($uri) ?: 'Home',
+        'site_title' => $settings['site_title'] ?? 'Image Portfolio',
+        'theme' => $settings['theme'] ?? 'classic',
     ], $data ?? []));
 } else {
     http_response_code(404);

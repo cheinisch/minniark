@@ -33,4 +33,4 @@ This project uses the following technologies:
 ---
 
 © 2021-2025 [Christian Heinisch](https://heimfisch.de)  
-Released under the [MIT license]
+Released under the [MIT license](https://image-portfolio.org/licence)

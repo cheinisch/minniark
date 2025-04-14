@@ -74,7 +74,7 @@
         <a 
           href="{{ image.thumb.l }}"
           data-title="{{ image.title }}"
-          data-description="{{ image.exif.Date|date("d.m.Y H:i") }}<br /><p>{{ image.description }}</p>"
+          data-description="<p>{{ image.exif.Date|date("d.m.Y H:i") }}</p><p>{{ image.description }}</p>"
           data-desc-position="bottom"
           data-type="image"
           data-effect="fade"

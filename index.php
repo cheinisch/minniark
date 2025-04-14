@@ -28,12 +28,25 @@ $routes = [
     'home' => 'home.twig',
     'timeline' => 'timeline.twig',
     'map' => 'map.twig',
-    'blog' => 'blog.twig',  // Blog-Übersicht
+    'blog' => 'blog.twig',
 ];
 
-// Dynamische Blogpost-Route erkennen: /blog/<folder>
+// JSON-Settings einlesen
+$settingsPath = __DIR__ . '/userdata/settings.json';
+$settings = file_exists($settingsPath)
+    ? json_decode(file_get_contents($settingsPath), true)
+    : [];
+
+$data = [
+    'title' => ucfirst($uri) ?: 'Home',
+    'site_title' => $settings['site_title'] ?? 'Image Portfolio',
+    'theme' => $settings['theme'] ?? 'classic',
+    'themepath' => "/template/" . ($settings['theme'] ?? 'classic'),
+];
+
+// Dynamischer Blogpost: /blog/<slug>
 if (preg_match('#^blog/([\w\-]+_\w+)$#', $uri, $matches)) {
-    $folder = $matches[1]; // z. B. "2025-04-14_testeintrag"
+    $folder = $matches[1];
     $jsonPath = "content/essays/$folder/$folder.json";
 
     if (file_exists($jsonPath)) {
@@ -41,66 +54,32 @@ if (preg_match('#^blog/([\w\-]+_\w+)$#', $uri, $matches)) {
         if (json_last_error() === JSON_ERROR_NONE) {
             $post['date'] = substr($folder, 0, 10);
             $post['slug'] = substr($folder, 11);
-            echo $twig->render('post.twig', ['post' => $post]);
+            $data['post'] = $post;
+            echo $twig->render('post.twig', $data);
             exit;
         }
     }
 
     http_response_code(404);
-    echo "Beitrag nicht gefunden.";
+    echo $twig->render('404.twig', $data);
     exit;
 }
 
-// Standardrouten laden
+// Standardrouten behandeln
 if (array_key_exists($uri, $routes)) {
     switch ($uri) {
         case 'blog':
-            $posts = getBlogPosts();
-            echo $twig->render($routes[$uri], ['posts' => $posts]);
+            $data['posts'] = getBlogPosts();
             break;
-
         case 'timeline':
-            $images = getTimelineImagesFromJson();
-            echo $twig->render($routes[$uri], ['images' => $images]);
-            break;
-
-        default:
-            echo $twig->render($routes[$uri]);
+            $data['timeline'] = getTimelineImagesFromJson();
             break;
     }
+
+    echo $twig->render($routes[$uri], $data);
     exit;
 }
 
-if ($uri === 'timeline') {
-    $data['timeline'] = getTimelineImagesFromJson('content/images/');
-}
-
-// Template auswählen
-$template = $routes[$uri] ?? null;
-
-$settingsPath = __DIR__ . '/userdata/settings.json';
-$settings = [];
-
-if (file_exists($settingsPath)) {
-    $settingsJson = file_get_contents($settingsPath);
-    $settings = json_decode($settingsJson, true);
-}
-
-//echo $settings['theme'];
-
-if ($template && file_exists(__DIR__ . "/template/basic/$template")) {
-    echo $twig->render($template, array_merge([
-        'title' => ucfirst($uri) ?: 'Home',
-        'site_title' => $settings['site_title'] ?? 'Image Portfolio',
-        'theme' => $settings['theme'] ?? 'classic',
-        'themepath' => "/template/".($settings['theme'] ?? 'classic'),
-    ], $data ?? []));
-} else {
-    http_response_code(404);
-    echo $twig->render('404.twig', array_merge([
-        'title' => ucfirst($uri) ?: 'Home',
-        'site_title' => $settings['site_title'] ?? 'Image Portfolio',
-        'theme' => $settings['theme'] ?? 'classic',
-        'themepath' => "/template/".($settings['theme'] ?? 'classic'),
-    ], $data ?? []));
-}
+// Fallback 404
+http_response_code(404);
+echo $twig->render('404.twig', $data);

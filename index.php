@@ -45,24 +45,41 @@ $data = [
 ];
 
 // Dynamischer Blogpost: /blog/<slug>
-if (preg_match('#^blog/([\w\-]+_\w+)$#', $uri, $matches)) {
-    $folder = $matches[1];
-    $jsonPath = "content/essays/$folder/$folder.json";
+// Einzelner Blog-Post anhand des Slugs aus dem Verzeichnisnamen
+if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
+    $slug = $matches[1]; // z. B. "testeintrag"
+    $essaysPath = 'content/essays/';
+    $post = null;
 
-    if (file_exists($jsonPath)) {
-        $post = json_decode(file_get_contents($jsonPath), true);
-        if (json_last_error() === JSON_ERROR_NONE) {
-            $post['date'] = substr($folder, 0, 10);
-            $post['slug'] = substr($folder, 11);
-            $data['post'] = $post;
-            echo $twig->render('post.twig', $data);
-            exit;
+    foreach (glob($essaysPath . '*/') as $dir) {
+        $folder = basename($dir); // z. B. "2025-04-14_testeintrag"
+
+        if (str_ends_with($folder, "_$slug")) {
+            $jsonFiles = glob($dir . '*.json');
+            if (!empty($jsonFiles)) {
+                $json = json_decode(file_get_contents($jsonFiles[0]), true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    if (preg_match('/^(\d{4}-\d{2}-\d{2})_(.+)$/', $folder, $m)) {
+                        $json['date'] = $m[1];
+                        $json['slug'] = $m[2];
+                        $json['folder'] = $folder;
+                        $post = $json;
+                        break;
+                    }
+                }
+            }
         }
     }
 
-    http_response_code(404);
-    echo $twig->render('404.twig', $data);
-    exit;
+    if ($post) {
+        $data['post'] = $post;
+        echo $twig->render('post.twig', $data);
+        exit;
+    } else {
+        http_response_code(404);
+        echo $twig->render('404.twig', $data);
+        exit;
+    }
 }
 
 // Standardrouten behandeln

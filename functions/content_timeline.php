@@ -50,26 +50,30 @@ function getBlogPosts(string $essaysPath = 'content/essays/'): array {
     $posts = [];
 
     foreach (glob($essaysPath . '*/') as $dir) {
-        $folderName = basename($dir); // z. B. "2025-04-14_testeintrag"
-        $jsonFile = $dir . $folderName . '.json';
+        $folder = basename($dir); // z. B. "2025-04-14_testeintrag"
 
-        if (file_exists($jsonFile)) {
-            $json = json_decode(file_get_contents($jsonFile), true);
+        // Finde eine beliebige .json-Datei im Ordner (z. B. post.json)
+        $jsonFiles = glob($dir . '*.json');
+        if (empty($jsonFiles)) continue;
 
-            if (json_last_error() === JSON_ERROR_NONE) {
-                // Datum und Slug aus dem Ordnernamen extrahieren
-                if (preg_match('/^(\d{4}-\d{2}-\d{2})_(.+)$/', $folderName, $matches)) {
-                    $json['date'] = $matches[1];           // "2025-04-14"
-                    $json['slug'] = $matches[2];           // "testeintrag"
-                    $json['folder'] = $folderName;         // für Linkaufbau
-                    $posts[] = $json;
-                }
+        $jsonFile = $jsonFiles[0]; // erste Datei nehmen
+
+        $json = json_decode(file_get_contents($jsonFile), true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            // Datum und Slug aus dem Ordnernamen extrahieren
+            if (preg_match('/^(\d{4}-\d{2}-\d{2})_(.+)$/', $folder, $matches)) {
+                $json['date'] = $matches[1];
+                $json['slug'] = $matches[2];
+                $json['folder'] = $folder;
+
+                $posts[] = $json;
             }
         }
     }
 
-    // Nach Datum sortieren (neueste zuerst)
+    // Sortieren nach Datum
     usort($posts, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date']));
 
     return $posts;
 }
+

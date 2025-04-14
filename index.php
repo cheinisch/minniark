@@ -27,6 +27,8 @@ $routes = [
     'home' => 'home.twig',
     'timeline' => 'timeline.twig',
     'map' => 'map.twig',
+    'blog' => 'blog.twig',
+    'post' => 'post.twig',
 ];
 
 if ($uri === 'timeline') {

@@ -22,14 +22,54 @@ $twig = new Environment($loader, [
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $uri = str_replace('image_portfolio/', '', $uri); // falls über Unterordner aufgerufen
 
+// Definiere statische Routen
 $routes = [
     '' => 'home.twig',
     'home' => 'home.twig',
     'timeline' => 'timeline.twig',
     'map' => 'map.twig',
-    'blog' => 'blog.twig',
-    'post' => 'post.twig',
+    'blog' => 'blog.twig',  // Blog-Übersicht
 ];
+
+// Dynamische Blogpost-Route erkennen: /blog/<folder>
+if (preg_match('#^blog/([\w\-]+_\w+)$#', $uri, $matches)) {
+    $folder = $matches[1]; // z. B. "2025-04-14_testeintrag"
+    $jsonPath = "content/essays/$folder/$folder.json";
+
+    if (file_exists($jsonPath)) {
+        $post = json_decode(file_get_contents($jsonPath), true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $post['date'] = substr($folder, 0, 10);
+            $post['slug'] = substr($folder, 11);
+            echo $twig->render('post.twig', ['post' => $post]);
+            exit;
+        }
+    }
+
+    http_response_code(404);
+    echo "Beitrag nicht gefunden.";
+    exit;
+}
+
+// Standardrouten laden
+if (array_key_exists($uri, $routes)) {
+    switch ($uri) {
+        case 'blog':
+            $posts = getBlogPosts();
+            echo $twig->render($routes[$uri], ['posts' => $posts]);
+            break;
+
+        case 'timeline':
+            $images = getTimelineImagesFromJson();
+            echo $twig->render($routes[$uri], ['images' => $images]);
+            break;
+
+        default:
+            echo $twig->render($routes[$uri]);
+            break;
+    }
+    exit;
+}
 
 if ($uri === 'timeline') {
     $data['timeline'] = getTimelineImagesFromJson('content/images/');

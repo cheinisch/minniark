@@ -4,6 +4,13 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/dashboard/ [NC]
 RewriteRule ^ - [L]
 
+# Dashboard-Pfad ausschließen
+RewriteCond %{REQUEST_URI} ^/dashboard_old/ [NC]
+RewriteRule ^ - [L]
+
+# Dashboard-Pfad ausschließen
+RewriteCond %{REQUEST_URI} ^/dashboard_v2/ [NC]
+RewriteRule ^ - [L]
 
 # Exclude /cache/images/
 RewriteCond %{REQUEST_URI} ^/cache/images/ [NC]

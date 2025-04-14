@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ title }}</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
 </head>
 <body class="h-full">
 <div class="flex min-h-full flex-col">
@@ -68,16 +71,25 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
       {% for image in timeline %}
       <div class="relative group aspect-square bg-gray-200 overflow-hidden">
-        <img 
-          src="{{ image.thumb.m }}" 
-          alt="{{ image.filename }}" 
-          class="w-full h-full object-cover transition duration-300 ease-in-out group-hover:scale-105"
+        <a 
+          href="{{ image.thumb.l }}"
+          data-title="{{ image.title }}"
+          data-description="{{ image.exif.Date|date("d.m.Y H:i") }}<br /><p>{{ image.description }}</p>"
+          data-desc-position="bottom"
+          data-type="image"
+          data-effect="fade"
+          data-width="900px"
+          data-height="auto"
+          data-zoomable="true"
+          data-draggable="true"
+          class="glightbox"
         >
-        <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-          {% if image.exif.Date %}
-            <p class="text-white text-xs">{{ image.exif.Date|date("d.m.Y H:i") }}</p>
-          {% endif %}
-        </div>
+          <img 
+            src="{{ image.thumb.m }}" 
+            alt="{{ image.title }}" 
+            class="w-full h-full object-cover transition duration-300 ease-in-out group-hover:scale-105"
+          >
+        </a>
       </div>
       {% endfor %}
     </div>
@@ -85,5 +97,65 @@
 
 </div>
 <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
+ <script>
+            var lightbox = GLightbox();
+            lightbox.on('open', (target) => {
+                console.log('lightbox opened');
+            });
+            var lightboxDescription = GLightbox({
+                selector: '.glightbox2'
+            });
+            var lightboxVideo = GLightbox({
+                selector: '.glightbox3'
+            });
+            lightboxVideo.on('slide_changed', ({ prev, current }) => {
+                console.log('Prev slide', prev);
+                console.log('Current slide', current);
+
+                const { slideIndex, slideNode, slideConfig, player } = current;
+
+                if (player) {
+                    if (!player.ready) {
+                        // If player is not ready
+                        player.on('ready', (event) => {
+                            // Do something when video is ready
+                        });
+                    }
+
+                    player.on('play', (event) => {
+                        console.log('Started play');
+                    });
+
+                    player.on('volumechange', (event) => {
+                        console.log('Volume change');
+                    });
+
+                    player.on('ended', (event) => {
+                        console.log('Video ended');
+                    });
+                }
+            });
+
+            var lightboxInlineIframe = GLightbox({
+                selector: '.glightbox4'
+            });
+
+            /* var exampleApi = GLightbox({ selector: null });
+            exampleApi.insertSlide({
+                href: 'https://picsum.photos/1200/800',
+            });
+            exampleApi.insertSlide({
+                width: '500px',
+                content: '<p>Example</p>'
+            });
+            exampleApi.insertSlide({
+                href: 'https://www.youtube.com/watch?v=WzqrwPhXmew',
+            });
+            exampleApi.insertSlide({
+                width: '200vw',
+                content: document.getElementById('inline-example')
+            });
+            exampleApi.open(); */
+        </script>
 </body>
 </html>

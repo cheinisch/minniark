@@ -11,9 +11,6 @@ use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use Parsedown;
 
-$testParser = new Parsedown();
-echo $testParser->text("# Test\n\nDas ist **Markdown**.");
-exit;
 
 // Twig Setup
 $loader = new FilesystemLoader(__DIR__ . '/template/basic');

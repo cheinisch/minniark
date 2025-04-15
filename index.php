@@ -9,6 +9,11 @@ require_once __DIR__ . '/functions/functions.php';
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+use Parsedown;
+
+$testParser = new Parsedown();
+echo $testParser->text("# Test\n\nDas ist **Markdown**.");
+exit;
 
 // Twig Setup
 $loader = new FilesystemLoader(__DIR__ . '/template/basic');
@@ -72,6 +77,8 @@ if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
     }
 
     if ($post) {
+        $parsedown = new Parsedown();
+        $post['content_html'] = $parsedown->text($post['content'] ?? '');
         $data['post'] = $post;
         echo $twig->render('post.twig', $data);
         exit;

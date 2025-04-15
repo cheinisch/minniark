@@ -1,161 +1,146 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ title }}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <link rel="stylesheet" href="{{themepath}}/css/glightbox.min.css" />
-  <script type="text/javascript" src="{{themepath}}/js/glightbox.min.js"></script>
-</head>
-<body class="h-full">
-<div class="flex min-h-full flex-col">
-  <header class="mx-auto w-full max-w-7xl px-6 pt-6 lg:px-8">
-    <nav class="flex items-center justify-between" aria-label="Global">
-      <div class="flex lg:flex-1">
-        <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
-          <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
-          <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
-        </a>
-      </div>
-      <div class="flex lg:hidden">
-        <button id="menu-open" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-        <span class="sr-only">Open main menu</span>
-        <!-- Hamburger Icon -->
-        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-        </button>
-      </div>
-      <div class="hidden lg:flex lg:gap-x-12">
-        <a href="/blog" class="text-sm/6 font-semibold text-gray-900">Blog</a>
-        <a href="/timeline" class="text-sm/6 font-semibold text-gray-900">Timeline</a>
-        <a href="/map" class="text-sm/6 font-semibold text-gray-900">Map</a>
-        <a href="#" class="text-sm/6 font-semibold text-gray-900">Company</a>
-      </div>
-    </nav>
-    <!-- Mobile menu, show/hide based on menu open state. -->
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-10 hidden overflow-y-auto bg-white px-6 py-6 lg:hidden">
-    <div class="flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
-          <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
-          <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
-        </a>
-        <button id="menu-close" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
-        <span class="sr-only">Close menu</span>
-        <!-- Close Icon -->
-        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
-        </button>
-    </div>
-        <div class="mt-6 flow-root">
-          <div class="-my-6 divide-y divide-gray-500/10">
-            <div class="space-y-2 py-6">
-              <a href="/blog" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Blog</a>
-              <a href="/timeline" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Timeline</a>
-              <a href="/map" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Map</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Company</a>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{themepath}}/css/glightbox.min.css" />
+    <script type="text/javascript" src="{{themepath}}/js/glightbox.min.js"></script>
+  </head>
+  <body class="h-full">
+    <div class="flex min-h-full flex-col">
+      <header class="mx-auto w-full max-w-7xl px-6 pt-6 lg:px-8">
+        <nav class="flex items-center justify-between" aria-label="Global">
+          <div class="flex lg:flex-1">
+            <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
+              <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
+              <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
+            </a>
+          </div>
+          <div class="flex lg:hidden">
+            <button id="menu-open" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+              <span class="sr-only">Open main menu</span>
+              <!-- Hamburger Icon -->
+              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </button>
+          </div>
+          <div class="hidden lg:flex lg:gap-x-12">
+            <a href="/blog" class="text-sm/6 font-semibold text-gray-900">Blog</a>
+            <a href="/timeline" class="text-sm/6 font-semibold text-gray-900">Timeline</a>
+            <a href="/map" class="text-sm/6 font-semibold text-gray-900">Map</a>
+            <a href="#" class="text-sm/6 font-semibold text-gray-900">Company</a>
+          </div>
+        </nav>
+        <!-- Mobile menu, show/hide based on menu open state. -->
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 z-10 hidden overflow-y-auto bg-white px-6 py-6 lg:hidden">
+          <div class="flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
+              <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
+              <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
+            </a>
+            <button id="menu-close" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+              <span class="sr-only">Close menu</span>
+              <!-- Close Icon -->
+              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="mt-6 flow-root">
+            <div class="-my-6 divide-y divide-gray-500/10">
+              <div class="space-y-2 py-6">
+                <a href="/blog" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Blog</a>
+                <a href="/timeline" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Timeline</a>
+                <a href="/map" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Map</a>
+                <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Company</a>
+              </div>
+            </div>
+          </div>
+        </div>      
+      </header>
+
+      <main class="max-w-6xl mx-auto px-4 py-8">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="mx-auto max-w-2xl">
+            <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Timeline</h2>
+            <div class="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                {% for image in timeline %}
+                <div class="relative group aspect-square bg-gray-200 overflow-hidden">
+                  <a 
+                    href="{{ image.thumb.l }}"
+                    data-title="{{ image.title }}"
+                    data-description="<p>{{ image.exif.Date|date("d.m.Y H:i") }}</p><p>{{ image.description }}</p>"
+                    data-desc-position="bottom"
+                    data-type="image"
+                    data-effect="fade"
+                    data-width="900px"
+                    data-height="auto"
+                    data-zoomable="true"
+                    data-draggable="true"
+                    class="glightbox"
+                  >
+                    <img 
+                      src="{{ image.thumb.m }}" 
+                      alt="{{ image.title }}" 
+                      class="w-full h-full object-cover transition duration-300 ease-in-out group-hover:scale-105"
+                    >
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
-  </header>
+    <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
+    <script>
+      var lightbox = GLightbox();
+      lightbox.on('open', (target) => {
+        console.log('lightbox opened');
+      });
+      var lightboxDescription = GLightbox({
+        selector: '.glightbox2'
+      });
+      var lightboxVideo = GLightbox({
+        selector: '.glightbox3'
+      });
+      lightboxVideo.on('slide_changed', ({ prev, current }) => {
+        console.log('Prev slide', prev);
+        console.log('Current slide', current);
 
-    <main class="max-w-6xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6 text-center">{{ title }}</h1>
+        const { slideIndex, slideNode, slideConfig, player } = current;
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-      {% for image in timeline %}
-      <div class="relative group aspect-square bg-gray-200 overflow-hidden">
-        <a 
-          href="{{ image.thumb.l }}"
-          data-title="{{ image.title }}"
-          data-description="<p>{{ image.exif.Date|date("d.m.Y H:i") }}</p><p>{{ image.description }}</p>"
-          data-desc-position="bottom"
-          data-type="image"
-          data-effect="fade"
-          data-width="900px"
-          data-height="auto"
-          data-zoomable="true"
-          data-draggable="true"
-          class="glightbox"
-        >
-          <img 
-            src="{{ image.thumb.m }}" 
-            alt="{{ image.title }}" 
-            class="w-full h-full object-cover transition duration-300 ease-in-out group-hover:scale-105"
-          >
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-  </main>
-
-</div>
-<script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
- <script>
-            var lightbox = GLightbox();
-            lightbox.on('open', (target) => {
-                console.log('lightbox opened');
+        if (player) {
+          if (!player.ready) {
+            // If player is not ready
+            player.on('ready', (event) => {
+              // Do something when video is ready
             });
-            var lightboxDescription = GLightbox({
-                selector: '.glightbox2'
-            });
-            var lightboxVideo = GLightbox({
-                selector: '.glightbox3'
-            });
-            lightboxVideo.on('slide_changed', ({ prev, current }) => {
-                console.log('Prev slide', prev);
-                console.log('Current slide', current);
+          } 
 
-                const { slideIndex, slideNode, slideConfig, player } = current;
+          player.on('play', (event) => {
+            console.log('Started play');
+          });
 
-                if (player) {
-                    if (!player.ready) {
-                        // If player is not ready
-                        player.on('ready', (event) => {
-                            // Do something when video is ready
-                        });
-                    }
+          player.on('volumechange', (event) => {
+            console.log('Volume change');
+          });
 
-                    player.on('play', (event) => {
-                        console.log('Started play');
-                    });
+          player.on('ended', (event) => {
+            console.log('Video ended');
+          });
+        }
+      });
 
-                    player.on('volumechange', (event) => {
-                        console.log('Volume change');
-                    });
-
-                    player.on('ended', (event) => {
-                        console.log('Video ended');
-                    });
-                }
-            });
-
-            var lightboxInlineIframe = GLightbox({
-                selector: '.glightbox4'
-            });
-
-            /* var exampleApi = GLightbox({ selector: null });
-            exampleApi.insertSlide({
-                href: 'https://picsum.photos/1200/800',
-            });
-            exampleApi.insertSlide({
-                width: '500px',
-                content: '<p>Example</p>'
-            });
-            exampleApi.insertSlide({
-                href: 'https://www.youtube.com/watch?v=WzqrwPhXmew',
-            });
-            exampleApi.insertSlide({
-                width: '200vw',
-                content: document.getElementById('inline-example')
-            });
-            exampleApi.open(); */
-        </script>
-</body>
+      var lightboxInlineIframe = GLightbox({
+      selector: '.glightbox4'
+      });
+    </script>
+  </body>
 </html>

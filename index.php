@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/functions/functions.php';
+require_once __DIR__ . '/functions/frontend/content_allfunc.php';
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -94,6 +94,9 @@ if (array_key_exists($uri, $routes)) {
             break;
         case 'timeline':
             $data['timeline'] = getTimelineImagesFromJson();
+            break;
+        case 'map':
+            $data['points'] = getGpsPoints();
             break;
     }
 

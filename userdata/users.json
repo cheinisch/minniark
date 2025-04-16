@@ -3,7 +3,7 @@
         "name": "Admin User",
         "login_name": "admin",
         "email": "admin@example.com",
-        "login_type":"password",
+        "login_type":"otp",
         "password": "$2y$10$SRvgqfCPw15F24WuWqME0etx8OpaXso4nn8cH0ipMya4tbi2zYmMe"
     }
 ]

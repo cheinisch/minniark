@@ -5,17 +5,10 @@ session_start();
 $userdataPath = __DIR__ . '/../../userdata/users.json';
 $error = null;
 
-if (!file_exists($userdataPath)) {
-    die("Benutzerdaten nicht gefunden: $userdataPath");
-}else{
-    echo "Benutzerdaten sind vorhadne";
-}
 
 // Hilfsfunktion zum Benutzerabgleich
 function findUserByLogin($identifier, $users) {
 
-    error_log("Loginversuch mit: ". $identifier);
-    error_log("Vorhandene Nutzer: " . print_r($users, true));
 
     foreach ($users as $user) {
         if ($user['login_name'] === $identifier || $user['email'] === $identifier) {

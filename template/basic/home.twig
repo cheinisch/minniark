@@ -11,10 +11,23 @@
       <header class="mx-auto w-full max-w-7xl px-6 pt-6 lg:px-8">
             {% include "components/nav.twig" %}
       </header>
-      <main class="max-w-6xl mx-auto px-4 py-8">
- 
-      </main>
+      <main class="w-full  max-w-6xl mx-auto px-4 py-8">
+        <div class="bg-white">
+          <div class="relative bg-gray-900">
+            <!-- Decorative image and overlay -->
+            <div aria-hidden="true" class="absolute inset-0 overflow-hidden">
+              <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-01-hero-full-width.jpg" alt="" class="size-full object-cover">
+            </div>
+            <div aria-hidden="true" class="absolute inset-0 bg-gray-900 opacity-50"></div>
 
+            <div class="relative mx-auto flex max-w-3xl flex-col items-center px-6 py-32 text-center sm:py-64 lg:px-0">
+              <h1 class="text-4xl font-bold tracking-tight text-white lg:text-6xl">Welcome</h1>
+              <p class="mt-4 text-xl text-white">to my personal photo website.</p>
+              
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
     <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
   </body>

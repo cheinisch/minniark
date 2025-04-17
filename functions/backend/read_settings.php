@@ -8,3 +8,12 @@
 
         return $siteTitle;
     }
+
+    function get_language()
+    {
+        $settingsPath = __DIR__ . '/../../userdata/settings.json';
+        $settings = json_decode(file_get_contents($settingsPath), true);
+        $siteTitle = $settings['language'] ?? 'en';
+
+        return $siteTitle;
+    }

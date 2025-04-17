@@ -1,21 +1,22 @@
 <?php
 
-  require_once( __DIR__ . "/../../functions/function_backend.php");
+  require_once( __DIR__ . "/../functions/function_backend.php");
 
 ?>
 
-<html>
+<!DOCTYPE html>
+<html lang="<?php echo get_language(); ?>">
     <head>      
         <meta charset="UTF-8">        
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Media Overview</title>
+        <title>Images - <?php echo get_sitename(); ?></title>
 
         <!-- Tailwind CSS -->
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
-    <body>
+    <body class="min-h-screen flex flex-col">
         <header>
-            <nav class="bg-gray-800 shadow-sm">
+            <nav class="bg-stone-900 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
@@ -44,13 +45,30 @@
                       </div>
                       <div class="hidden md:ml-6 md:flex md:space-x-8">
                         <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                        <a href="../dashboard" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Dashboard</a>
-                        <a href="../media" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-sm font-medium text-sky-400">Images</a>
-                        <a href="../blog" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
-                        <a href="../pages" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
+                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Dashboard</a>
+                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Images</a>
+                        <a href="blog.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-sm font-medium text-sky-400">Blogposts</a>
+                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
                       </div>
                     </div>
                     <div class="flex items-center">
+                      <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px]">
+                         <!-- Label + Wert nebeneinander -->
+                        <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
+                          <span>Bildbreite:</span>
+                          <span id="range-value">300px</span>
+                        </div>
+
+                        <!-- Range-Slider -->
+                        <input
+                          class="w-full accent-sky-400"
+                          type="range"
+                          value="300"
+                          min="20"
+                          max="500"
+                          oninput="document.getElementById('range-value').innerText = this.value + 'px'"
+                        >
+                      </div>
                       <div class="shrink-0">
                         <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -92,7 +110,7 @@
                             <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                            <a href="../login/logout.php" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                            <a href="login/logout.php" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
                           </div>
                         </div>
                       </div>
@@ -104,12 +122,24 @@
                 <div class="md:hidden" id="mobile-menu">
                   <div class="space-y-1 pt-2 pb-3">
                     <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
-                    <a href="../dashboard" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Dashboard</a>
-                    <a href="../media" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5">Images</a>
-                    <a href="../blog" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Blogposts</a>
-                    <a href="../pages" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Pages</a>
+                    <a href="dashboard.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Dashboard</a>
+                    <a href="media.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Images</a>
+                    <a href="blog.php" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5">Blogposts</a>
+                    <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Pages</a>
                   </div>
-                  <div class="border-t border-gray-200 pt-4 pb-3">
+                  <div class="border-t border-gray-500 pt-4 pb-3">
+                    <div class="mt-3 space-y-1">
+                      <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Content</a>
+                      <div class="pl-5">
+                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Content</a>
+                      </div>
+                      <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Albums (1)</a>
+                      <div class="pl-5">
+                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Album 1</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="border-t border-gray-500 pt-4 pb-3">
                     <div class="flex items-center px-4 sm:px-6">
                       <div class="shrink-0">
                         <img class="size-10 rounded-full" src="<?php echo get_userimage(); ?>" alt="">
@@ -129,35 +159,34 @@
                     <div class="mt-3 space-y-1">
                       <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Your Profile</a>
                       <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</a>
-                      <a href="../login/logout.php" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Sign out</a>
+                      <a href="login/logout.php" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Sign out</a>
                     </div>
                   </div>
                 </div>
               </nav>
               
         </header>
-        <aside class="hidden md:block max-w-xs w-full ">
-            <nav class="flex flex-1 flex-col px-10" aria-label="Sidebar">
-                <ul role="list" class="-mx-2 space-y-1">
-                  <li>
-                    <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
-                    <a href="#" class="group flex gap-x-3 rounded-md bg-gray-50 p-2 pl-3 text-sm/6 font-semibold text-indigo-600">Content</a>
-                    <ul>
-                        <li>All Photos</li>
+        <div class="flex flex-1">
+          <aside class="hidden md:block max-w-xs w-full bg-stone-900 overflow-auto flex-1">
+              <nav class="flex flex-1 flex-col px-15 pt-5 text-gray-300 text-sm font-medium" aria-label="Sidebar">
+                  <ul role="list" class="-mx-2 space-y-1">
+                    <li>Content</li>
+                    <ul class="px-5">
+                      <li><a href="#" class="text-gray-400 hover:text-sky-400">All Photos</a></li>
                     </ul>
-                  </li>
-                  <li>
-                    <a href="#" class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600">Albums</a>
-                    <ul>
-                        <li>Album 1</li>
-                    </ul>
-                  </li>                  
-                </ul>
-              </nav>
-        </aside>
-        <main>
+                    <li>
+                      Albums
+                    </li>
+                    <ul class="px-5">
+                      <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
+                    </ul>                    
+                  </ul>
+                </nav>
+          </aside>
+          <main class="flex-1 bg-stone-800 p-6 overflow-auto">
 
-        </main>
+          </main>
+        </div>
         <script src="../js/tailwind.js"></script>
     </body>
 </html>

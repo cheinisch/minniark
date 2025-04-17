@@ -187,6 +187,6 @@
 
           </main>
         </div>
-        <script src="../js/tailwind.js"></script>
+        <script src="js/tailwind.js"></script>
     </body>
 </html>

@@ -1,101 +1,52 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="{{ settings.language }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ title }}</title>
+  <title>{{ post.title }} - {{ site_title }}</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
   <body class="h-full">
     <div class="flex min-h-full flex-col">
       <header class="mx-auto w-full max-w-7xl px-6 pt-6 lg:px-8">
-        <nav class="flex items-center justify-between" aria-label="Global">
-          <div class="flex lg:flex-1">
-            <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
-              <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
-              <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
-            </a>
-          </div>
-          <div class="flex lg:hidden">
-            <button id="menu-open" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-              <span class="sr-only">Open main menu</span>
-              <!-- Hamburger Icon -->
-              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-            </button>
-          </div>
-          <div class="hidden lg:flex lg:gap-x-12">
-            <a href="/blog" class="text-sm/6 font-semibold text-gray-900">Blog</a>
-            <a href="/timeline" class="text-sm/6 font-semibold text-gray-900">Timeline</a>
-            <a href="/map" class="text-sm/6 font-semibold text-gray-900">Map</a>
-            <a href="#" class="text-sm/6 font-semibold text-gray-900">Company</a>
-          </div>
-        </nav>
-        <!-- Mobile menu, show/hide based on menu open state. -->
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="fixed inset-0 z-10 hidden overflow-y-auto bg-white px-6 py-6 lg:hidden">
-          <div class="flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
-              <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
-              <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
-            </a>
-            <button id="menu-close" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
-              <span class="sr-only">Close menu</span>
-              <!-- Close Icon -->
-              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div class="mt-6 flow-root">
-            <div class="-my-6 divide-y divide-gray-500/10">
-              <div class="space-y-2 py-6">
-                <a href="/blog" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Blog</a>
-                <a href="/timeline" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Timeline</a>
-                <a href="/map" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Map</a>
-                <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">Company</a>
+            {% include "components/nav.twig" %}
+      </header>
+
+      <main class="max-w-6xl mx-auto px-4 py-8">
+        <div class="bg-white">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl">
+              <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">{{ post.title }}</h2>
+              <div class="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
+                <article class="flex max-w-xl flex-col items-start justify-between">
+                  <div class="flex items-center gap-x-4 text-xs">
+                    <time datetime="2020-03-16" class="text-gray-500">{{ post.date|date("d.m.Y") }}</time>
+                    <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
+                  </div>
+                  <div class="group relative">
+                    <!--<div class="mt-5 text-sm/6 text-gray-600">{{ post.content_html|raw }}</div>-->
+                    <div class="prose prose-lg max-w-none">{{ post.content_html|raw }}</div>
+                  </div>
+                  <div class="relative mt-8 flex items-center gap-x-4">
+                    <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-10 rounded-full bg-gray-50">
+                    <div class="text-sm/6">
+                      <p class="font-semibold text-gray-900">
+                        <a href="#">
+                          <span class="absolute inset-0"></span>
+                          Michael Foster
+                        </a>
+                      </p>
+                      <p class="text-gray-600">Co-Founder / CTO</p>
+                    </div>
+                  </div>
+                </article>
               </div>
             </div>
           </div>
-        </div>      
-      </header>
-
-    <main class="max-w-6xl mx-auto px-4 py-8">
-<div class="bg-white">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl">
-      <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">{{ post.title }}</h2>
-      <div class="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
-        <article class="flex max-w-xl flex-col items-start justify-between">
-          <div class="flex items-center gap-x-4 text-xs">
-            <time datetime="2020-03-16" class="text-gray-500">{{ post.date|date("d.m.Y") }}</time>
-            <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
-          </div>
-          <div class="group relative">
-            <div class="mt-5 text-sm/6 text-gray-600">{{ post.content_html|raw }}</div>
-          </div>
-          <div class="relative mt-8 flex items-center gap-x-4">
-            <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-10 rounded-full bg-gray-50">
-            <div class="text-sm/6">
-              <p class="font-semibold text-gray-900">
-                <a href="#">
-                  <span class="absolute inset-0"></span>
-                  Michael Foster
-                </a>
-              </p>
-              <p class="text-gray-600">Co-Founder / CTO</p>
-            </div>
-          </div>
-        </article>
-      </div>
+        </div>
+      </main>
     </div>
-  </div>
-</div>
-
-  </main>
-
-</div>
-<script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
-</body>
+    <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  </body>
 </html>

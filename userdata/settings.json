@@ -4,5 +4,12 @@
     "language": "en",
     "show_upload_dates": false,
     "default_image_size": "m",
-    "default_page":"home"
-  }
+    "default_page":"home",
+    "timeline": {
+      "enable": true,
+      "groupe_by_date":false
+    },
+    "map":{
+      "enable":true
+    }
+}

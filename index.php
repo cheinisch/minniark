@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/functions/frontend/content_allfunc.php';
+require_once __DIR__ . '/functions/function_frontend.php';
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -19,6 +19,8 @@ $twig = new Environment($loader, [
     'auto_reload' => true,
     'debug' => true,
 ]);
+
+$twig->addExtension(new \Twig\Extension\DebugExtension());
 
 // Routing per URL-Pfad
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -39,11 +41,14 @@ $settings = file_exists($settingsPath)
     ? json_decode(file_get_contents($settingsPath), true)
     : [];
 
+$theme = $settings['theme'] ?? 'basic';
+
 $data = [
     'title' => ucfirst($uri) ?: 'Home',
     'site_title' => $settings['site_title'] ?? 'Image Portfolio',
-    'theme' => $settings['theme'] ?? 'classic',
-    'themepath' => "/template/" . ($settings['theme'] ?? 'classic'),
+    'theme' => $theme,
+    'themepath' => "/template/{$theme}",
+    'settings' => $settings,
 ];
 
 // Dynamischer Blogpost: /blog/<slug>

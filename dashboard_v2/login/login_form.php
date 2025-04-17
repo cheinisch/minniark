@@ -8,58 +8,26 @@ $usersData = file_exists($usersPath) ? file_get_contents($usersPath) : '[]';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.17.10/dist/css/uikit.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.10/dist/js/uikit.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.10/dist/js/uikit-icons.min.js"></script>
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-    }
-    .login-wrapper {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-    .login-box {
-      width: 100%;
-      max-width: 400px;
-      padding: 20px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      background: #fff;
-    }
-    #login-step2 {
-      display: none;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div class="login-wrapper">
-  <h2 class="uk-heading-bullet">Dummyname</h2>
-  <div class="login-box">
-    <form class="uk-form-stacked" id="login-form" action="login/login.php" method="POST">
+<body class="bg-gray-50 flex justify-center items-center min-h-screen">
+  <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Dummyname</h2>
+    <form id="login-form" action="login/login.php" method="POST">
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="login-identifier">E-Mail oder Benutzername</label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="login-identifier" name="username" type="text" placeholder="name@example.com" required>
-        </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700" for="login-identifier">E-Mail oder Benutzername</label>
+        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="login-identifier" name="username" type="text" placeholder="name@example.com" required>
       </div>
 
-      <div class="uk-margin" id="login-step2">
-        <label class="uk-form-label" id="second-label" for="second-input"></label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="second-input" name="password" type="text" required>
-        </div>
+      <div class="mb-4 hidden" id="login-step2">
+        <label class="block text-sm font-medium text-gray-700" id="second-label" for="second-input"></label>
+        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="second-input" name="password" type="text" required>
       </div>
 
-      <button class="uk-button uk-button-primary uk-width-1-1" type="submit">Login</button>
+      <button class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Login</button>
     </form>
   </div>
-</div>
 
 <script>
   const identifierInput = document.getElementById('login-identifier');
@@ -84,14 +52,14 @@ $usersData = file_exists($usersPath) ? file_get_contents($usersPath) : '[]';
     if (type === 'otp') {
       secondLabel.textContent = 'Einmal-Code (OTP)';
       secondInput.type = 'text';
-      secondInput.placeholder = 'Gebe den Code ein (z.B. 123456)';
+      secondInput.placeholder = 'Gib den Code ein (z.B. 123456)';
     } else {
       secondLabel.textContent = 'Passwort';
       secondInput.type = 'password';
       secondInput.placeholder = 'Passwort';
     }
 
-    step2Container.style.display = 'block';
+    step2Container.classList.remove('hidden');
   });
 </script>
 </body>

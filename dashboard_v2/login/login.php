@@ -5,11 +5,8 @@ session_start();
 $userdataPath = __DIR__ . '/../../userdata/users.json';
 $error = null;
 
-
 // Hilfsfunktion zum Benutzerabgleich
 function findUserByLogin($identifier, $users) {
-
-
     foreach ($users as $user) {
         if ($user['login_name'] === $identifier || $user['email'] === $identifier) {
             return $user;
@@ -42,8 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = "Falsches Passwort.";
                 }
             } elseif ($user['login_type'] === 'otp') {
-                // Hier würdest du z. B. gegen einen Code in der Datenbank oder Session prüfen
-                if ($inputValue === '123456') { // Dummy-OTP
+                if ($inputValue === '123456') {
                     $_SESSION['loggedin'] = true;
                     $_SESSION['username'] = $user['login_name'];
                     header("Location: ../");
@@ -57,28 +53,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
-// Ausgabe bei Fehler oder initialem Aufruf
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Fehler</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.17.10/dist/css/uikit.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="uk-background-muted uk-flex uk-flex-middle uk-height-viewport">
-<div class="uk-container">
-    <div class="uk-card uk-card-default uk-card-body uk-width-medium uk-margin-auto uk-margin-top">
-        <h3 class="uk-card-title">Login fehlgeschlagen</h3>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Login fehlgeschlagen</h3>
+
         <?php if ($error): ?>
-            <div class="uk-alert-danger" uk-alert>
-                <p><?= htmlspecialchars($error) ?></p>
+            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+                <?= htmlspecialchars($error) ?>
             </div>
         <?php endif; ?>
-        <a href="../index.php" class="uk-button uk-button-default uk-width-1-1">Zurück zum Login</a>
+
+        <a href="../index.php" class="block w-full bg-indigo-600 text-white text-center font-semibold py-2 rounded hover:bg-indigo-700 transition">
+            Zurück zum Login
+        </a>
     </div>
-</div>
 </body>
 </html>

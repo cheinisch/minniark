@@ -1,4 +1,5 @@
 <?php
+   require_once( __DIR__ . "/../../functions/function_backend.php");
 $usersPath = __DIR__ . '/../../userdata/users.json';
 $usersData = file_exists($usersPath) ? file_get_contents($usersPath) : '[]';
 ?>
@@ -10,22 +11,22 @@ $usersData = file_exists($usersPath) ? file_get_contents($usersPath) : '[]';
   <title>Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 flex justify-center items-center min-h-screen">
-  <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Dummyname</h2>
+<body class="bg-stone-800 flex justify-center items-center min-h-screen">
+  <div class="w-full max-w-md bg-stone-900 shadow-lg rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-center text-gray-300 mb-4"><?php echo get_sitename(); ?></h2>
     <form id="login-form" action="login/login.php" method="POST">
 
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700" for="login-identifier">E-Mail oder Benutzername</label>
-        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="login-identifier" name="username" type="text" placeholder="name@example.com" required>
+        <label class="block text-sm font-medium text-gray-300" for="login-identifier">E-Mail oder Benutzername</label>
+        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-sky-400 focus:border-sky-400" id="login-identifier" name="username" type="text" placeholder="name@example.com" required>
       </div>
 
       <div class="mb-4 hidden" id="login-step2">
-        <label class="block text-sm font-medium text-gray-700" id="second-label" for="second-input"></label>
-        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="second-input" name="password" type="text" required>
+        <label class="block text-sm font-medium text-gray-300" id="second-label" for="second-input"></label>
+        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-sky-400 focus:border-sky-400" id="second-input" name="password" type="text" required>
       </div>
 
-      <button class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Login</button>
+      <button class="w-full bg-sky-400 text-white py-2 rounded-md hover:bg-sky-600 transition" type="submit">Login</button>
     </form>
   </div>
 

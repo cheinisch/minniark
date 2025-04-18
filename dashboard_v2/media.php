@@ -133,11 +133,12 @@
                     <div class="mt-3 space-y-1">
                       <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Content</a>
                       <div class="pl-5">
-                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Content</a>
+                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">All Photos (<?php count_images(); ?>)</a>
                       </div>
+                      <?php get_imageyearlist(true); ?>
                       <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Albums (1)</a>
                       <div class="pl-5">
-                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Album 1</a>
+                        <a href="#" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Album 1</a>
                       </div>
                     </div>
                   </div>
@@ -175,7 +176,7 @@
                     <li>Content</li>
                     <ul class="px-5">
                       <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
-                      <?php get_imageyearlist(); ?>
+                      <?php get_imageyearlist(false); ?>
                     </ul>
                     <li>
                       Albums

@@ -13,7 +13,7 @@
         echo $counter;
     }
 
-    function get_imageyearlist()
+    function get_imageyearlist($mobile)
     {
         $imageDir = '../content/images/';
         $yearCounts = [];
@@ -44,11 +44,20 @@
 
         // Ausgabe
         foreach ($yearCounts as $year => $count) {
-            echo "<li><a href=\"?year=$year\" class=\"text-gray-400 hover:text-sky-400\">$year ($count)</a></li>\n";
+            if($mobile)
+            {
+                echo "<div class=\"pl-5\">
+                    <a href=\"?year=$year\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$year ($count)</a>
+                </div>\n";
+            }else{
+                echo "<li><a href=\"?year=$year\" class=\"text-gray-400 hover:text-sky-400\">$year ($count)</a></li>\n";
+            }
         }
 
 
     }
+
+    
 
     function renderImageGallery($filterYear = null) {
         $imageDir = '../content/images/';

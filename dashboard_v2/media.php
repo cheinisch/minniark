@@ -1,7 +1,5 @@
 <?php
-
   require_once( __DIR__ . "/../functions/function_backend.php");
-
 ?>
 
 <!DOCTYPE html>
@@ -221,17 +219,7 @@
             <!-- Content Mainblock -->
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
               <?php
-                for($i = 0; $i < 30; $i++)
-                {
-                  ?>
-             <div class="w-full aspect-video overflow-hidden hover:border hover:border-sky-400 hover:rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none" style="--img-max-width: 250px; max-width: var(--img-max-width);">
-
-                <a href="#">
-                  <img src="https://picsum.photos/1280/720" class="w-full h-full object-cover" />
-                </a>
-              </div>
-              <?php
-              }
+                renderImageGallery(); // Galerie ausgeben              
               ?>
             </div>
           </main>

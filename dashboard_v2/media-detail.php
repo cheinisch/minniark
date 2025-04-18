@@ -1,8 +1,5 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
-
-  // Prüfen, ob ein bestimmtes Jahr übergeben wurde
-  $filterYear = isset($_GET['year']) ? $_GET['year'] : null;
 ?>
 
 <!DOCTYPE html>
@@ -173,8 +170,7 @@
                   <ul role="list" class="-mx-2 space-y-1">
                     <li>Content</li>
                     <ul class="px-5">
-                      <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
-                      <?php get_imageyearlist(); ?>
+                      <li><a href="#" class="text-gray-400 hover:text-sky-400">All Photos</a></li>
                     </ul>
                     <li>
                       Albums
@@ -223,7 +219,7 @@
             <!-- Content Mainblock -->
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
               <?php
-                renderImageGallery($filterYear); // Galerie ausgeben              
+                renderImageGallery(); // Galerie ausgeben              
               ?>
             </div>
           </main>

@@ -52,24 +52,7 @@
                       </div>
                     </div>
                     <div class="flex items-center">
-                      <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px]">
-                         <!-- Label + Wert nebeneinander -->
-                        <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
-                          <span>Bildbreite:</span>
-                          <span id="range-value">300px</span>
-                        </div>
-
-                        <!-- Range-Slider -->
-                        <input
-                          class="w-full accent-sky-400"
-                          type="range"
-                          value="300"
-                          min="20"
-                          max="500"
-                          oninput="document.getElementById('range-value').innerText = this.value + 'px'"
-                        >
-                      </div>
-                      <div class="shrink-0">
+                         <div class="shrink-0">
                         <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
@@ -184,25 +167,43 @@
                 </nav>
           </aside>
           <main class="flex-1 bg-stone-800 p-6 overflow-auto">
-            <div class="full-w border-b-2 border-sky-400">
-              <p>Hallo</p>
-              <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px]">
-                         <!-- Label + Wert nebeneinander -->
-                        <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
-                          <span>Bildbreite:</span>
-                          <span id="range-value">300px</span>
-                        </div>
+            <div class="flex items-center justify-between border-b-2 border-sky-400">
+              <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px] ml-auto">
+                  <!-- Label + Wert nebeneinander -->
+                <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
+                  <span>Bildbreite:</span>
+                  <span id="range-value">300px</span>
+                </div>
 
-                        <!-- Range-Slider -->
-                        <input
-                          class="w-full accent-sky-400"
-                          type="range"
-                          value="300"
-                          min="20"
-                          max="500"
-                          oninput="document.getElementById('range-value').innerText = this.value + 'px'"
-                        >
-                      </div>
+                <!-- Range-Slider -->
+                <input
+                  class="w-full accent-sky-400"
+                  type="range"
+                  value="300"
+                  min="20"
+                  max="500"
+                  oninput="document.getElementById('range-value').innerText = this.value + 'px'"
+                >
+              </div>
+              <div class="flex items-center gap-4 ml-auto">
+                <!-- Label links -->
+                <label for="location" class="text-sm font-medium text-gray-900">Location</label>
+
+                <!-- Dropdown rechts -->
+                <div class="relative">
+                  <select id="location" name="location" class="appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    <option>United States</option>
+                    <option selected>Canada</option>
+                    <option>Mexico</option>
+                  </select>
+
+                  <!-- Pfeil-Symbol -->
+                  <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-4 text-gray-500" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+
             </div>
           </main>
         </div>

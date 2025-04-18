@@ -1,5 +1,6 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
+  security_checklogin();
 ?>
 
 <!DOCTYPE html>
@@ -129,11 +130,12 @@
                     <div class="mt-3 space-y-1">
                       <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Content</a>
                       <div class="pl-5">
-                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Content</a>
+                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">All Photos (<?php count_images(); ?>)</a>
                       </div>
+                      <?php get_imageyearlist(true); ?>
                       <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Albums (1)</a>
                       <div class="pl-5">
-                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Album 1</a>
+                        <a href="#" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Album 1</a>
                       </div>
                     </div>
                   </div>
@@ -165,62 +167,76 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-xs w-full bg-stone-900 overflow-auto flex-1">
-              <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
-                  <ul role="list" class="-mx-2 space-y-1">
-                    <li>Content</li>
-                    <ul class="px-5">
-                      <li><a href="#" class="text-gray-400 hover:text-sky-400">All Photos</a></li>
-                    </ul>
-                    <li>
-                      Albums
-                    </li>
-                    <ul class="px-5">
-                      <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
-                    </ul>                    
-                  </ul>
-                </nav>
+          <aside class="hidden md:block max-w-[250px] w-full bg-stone-900 overflow-auto flex-1">
+            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
+              <ul role="list" class="-mx-2 space-y-1">
+                <li>Content</li>
+                <ul class="px-5">
+                  <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
+                  <?php get_imageyearlist(false); ?>
+                </ul>
+                <li>
+                  Albums
+                </li>
+                <ul class="px-5">
+                  <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
+                </ul>                    
+              </ul>
+            </nav>
           </aside>
           <main class="flex-1 bg-stone-800 overflow-auto">
-            <!-- Top Menu Main Block -->
-            <div class="flex items-center justify-between border-b-1 border-gray-600">
-              <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px] ml-auto">
-                  <!-- Label + Wert nebeneinander -->
-                <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
-                  <span>Bildbreite:</span>
-                  <span id="range-value">250px</span>
-                </div>
-
-                <!-- Range-Slider -->
-                <input
-                  class="w-full accent-sky-400"
-                  type="range"
-                  value="250"
-                  min="100"
-                  max="500"
-                  oninput="document.getElementById('range-value').innerText = this.value + 'px'"
-                >
+            <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
+              <!-- IMAGE -->
+              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4">
+                <img src="https://picsum.photos/1280/800">
+                <article class="text-wrap text-gray-200 pt-2">
+                  <h2 class="text-xl font-semibold">Title</h2>
+                  <div id="text_container">
+                    <p id="editable_text">
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor...
+                    </p>
+                  </div>
+                  <div id="button_group" class="space-x-2 mt-2">
+                    <button id="edit_text" class="bg-sky-400 hover:bg-sky-600 px-2 py-1 rounded-md text-white">Edit Text</button>
+                  </div>
+                </article>
               </div>
-              <div class="flex items-center gap-4 mr-4 md:mr-10 md:ml-2 ml-auto md:py-1 py-2">
-                <label for="location" class="text-sm font-medium text-gray-300">Sort by:</label>
-                <div class="relative">
-                  <select id="location" name="location" class="appearance-none rounded-md bg-sky-400 py-1.5 pr-8 pl-3 text-base text-white sm:text-sm">
-                    <option>Date ASC</option>
-                    <option selected>Date DSC</option>
-                    <option>Name ASC</option>
-                    <option>Name DSC</option>
-                  </select>
-                  <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-4 text-gray-500" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                  </svg>
+              <!-- META INFO -->
+              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 min-w-full pl-2">
+                <div class="bg-white shadow-md rounded-xl p-6 space-y-4 min-h-full">
+                  <h2 class="text-xl font-semibold">Kamera-Metadaten</h2>
+                  <ul class="divide-y divide-gray-200 text-sm text-gray-700">
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Kamera</span>
+                      <span>Canon EOS R6</span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Objektiv</span>
+                      <span>RF 24-70mm f/2.8L</span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Blende</span>
+                      <span>f/2.8</span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Belichtungszeit</span>
+                      <span>1/250 Sek.</span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">ISO</span>
+                      <span>100</span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Brennweite</span>
+                      <span>35mm</span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Aufnahmedatum</span>
+                      <span>2025-04-18</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
-            <!-- Content Mainblock -->
-            <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
-              <?php
-                renderImageGallery(); // Galerie ausgeben              
-              ?>
             </div>
           </main>
         </div>

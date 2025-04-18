@@ -172,20 +172,20 @@
         <div class="flex flex-1">
           <aside class="hidden md:block max-w-xs w-full bg-stone-900 overflow-auto flex-1">
               <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
-                  <ul role="list" class="-mx-2 space-y-1">
-                    <li>Content</li>
-                    <ul class="px-5">
-                      <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
-                      <?php get_imageyearlist(false); ?>
-                    </ul>
-                    <li>
-                      Albums
-                    </li>
-                    <ul class="px-5">
-                      <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
-                    </ul>                    
+                <ul role="list" class="-mx-2 space-y-1">
+                  <li>Content</li>
+                  <ul class="px-5">
+                    <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
+                    <?php get_imageyearlist(false); ?>
                   </ul>
-                </nav>
+                  <li>
+                    Albums
+                  </li>
+                  <ul class="px-5">
+                    <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
+                  </ul>                    
+                </ul>
+              </nav>
           </aside>
           <main class="flex-1 bg-stone-800 overflow-auto">
             <!-- Top Menu Main Block -->

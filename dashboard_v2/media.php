@@ -1,5 +1,6 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
+  security_checklogin();
 
   // Prüfen, ob ein bestimmtes Jahr übergeben wurde
   $filterYear = isset($_GET['year']) ? $_GET['year'] : null;

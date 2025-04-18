@@ -184,7 +184,26 @@
                 </nav>
           </aside>
           <main class="flex-1 bg-stone-800 p-6 overflow-auto">
+            <div class="full-w border-b-2 border-sky-400">
+              <p>Hallo</p>
+              <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px]">
+                         <!-- Label + Wert nebeneinander -->
+                        <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
+                          <span>Bildbreite:</span>
+                          <span id="range-value">300px</span>
+                        </div>
 
+                        <!-- Range-Slider -->
+                        <input
+                          class="w-full accent-sky-400"
+                          type="range"
+                          value="300"
+                          min="20"
+                          max="500"
+                          oninput="document.getElementById('range-value').innerText = this.value + 'px'"
+                        >
+                      </div>
+            </div>
           </main>
         </div>
         <script src="js/tailwind.js"></script>

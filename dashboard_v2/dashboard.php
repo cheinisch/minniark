@@ -55,9 +55,10 @@
                       <div class="shrink-0">
                         <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                            <path d="M12 3a1 1 0 0 1 1 1v10.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L11 14.586V4a1 1 0 0 1 1-1z" />
+                            <path d="M18 5a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-3a1 1 0 1 1 0-2h2V6h-2a1 1 0 1 1 0-2h3z" />
                           </svg>
-                          Upload new Image
+                          Update available
                         </button>
                       </div>
                       <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">

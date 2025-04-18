@@ -13,6 +13,23 @@
 
         <!-- Tailwind CSS -->
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <style>
+          :root {
+            --img-max-width: 250px;
+          }
+
+          @media (min-width: 768px) {
+            .dynamic-image-width {
+              max-width: var(--img-max-width);
+            }
+          }
+
+          @media (max-width: 767px) {
+            .dynamic-image-width {
+              max-width: 100% !important;
+            }
+          }
+        </style>
     </head>
     <body class="min-h-screen flex flex-col">
         <header>
@@ -166,47 +183,60 @@
                   </ul>
                 </nav>
           </aside>
-          <main class="flex-1 bg-stone-800 p-6 overflow-auto">
-            <div class="flex items-center justify-between border-b-2 border-sky-400">
+          <main class="flex-1 bg-stone-800 overflow-auto">
+            <!-- Top Menu Main Block -->
+            <div class="flex items-center justify-between border-b-1 border-gray-600">
               <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px] ml-auto">
                   <!-- Label + Wert nebeneinander -->
                 <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
                   <span>Bildbreite:</span>
-                  <span id="range-value">300px</span>
+                  <span id="range-value">250px</span>
                 </div>
 
                 <!-- Range-Slider -->
                 <input
                   class="w-full accent-sky-400"
                   type="range"
-                  value="300"
-                  min="20"
+                  value="250"
+                  min="100"
                   max="500"
                   oninput="document.getElementById('range-value').innerText = this.value + 'px'"
                 >
               </div>
-              <div class="flex items-center gap-4 ml-auto">
-                <!-- Label links -->
-                <label for="location" class="text-sm font-medium text-gray-900">Location</label>
-
-                <!-- Dropdown rechts -->
+              <div class="flex items-center gap-4 mr-4 md:mr-10 md:ml-2 ml-auto md:py-1 py-2">
+                <label for="location" class="text-sm font-medium text-gray-300">Sort by:</label>
                 <div class="relative">
-                  <select id="location" name="location" class="appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-                    <option>United States</option>
-                    <option selected>Canada</option>
-                    <option>Mexico</option>
+                  <select id="location" name="location" class="appearance-none rounded-md bg-sky-400 py-1.5 pr-8 pl-3 text-base text-white sm:text-sm">
+                    <option>Date ASC</option>
+                    <option selected>Date DSC</option>
+                    <option>Name ASC</option>
+                    <option>Name DSC</option>
                   </select>
-
-                  <!-- Pfeil-Symbol -->
                   <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-4 text-gray-500" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                   </svg>
                 </div>
               </div>
+            </div>
+            <!-- Content Mainblock -->
+            <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
+              <?php
+                for($i = 0; $i < 30; $i++)
+                {
+                  ?>
+             <div class="w-full aspect-video overflow-hidden hover:border hover:border-sky-400 hover:rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none" style="--img-max-width: 250px; max-width: var(--img-max-width);">
 
+                <a href="#">
+                  <img src="https://picsum.photos/1280/720" class="w-full h-full object-cover" />
+                </a>
+              </div>
+              <?php
+              }
+              ?>
             </div>
           </main>
         </div>
         <script src="js/tailwind.js"></script>
+        <script src="js/slider.js"></script>
     </body>
 </html>

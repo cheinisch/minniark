@@ -4,12 +4,21 @@
 header('Content-Type: application/json');
 
 $arr = array ( 
-      "imagedata"=>array( 
-          "imagepath"=>"https://picsum.photos/1920/1080", 
-          "datapath" => "",
-          "title" => "Dummytitle",
-          "description" => "Content"
-
+    "imagepath"=>"https://picsum.photos/1920/1080", 
+    "datapath" => "",
+    "title" => "Dummytitle",
+    "description" => "Content",
+    "exif"=>array(
+        "Camera" => "Canon 250D",
+        "Lens"=> "Unknown",
+        "Aperture"=> "Unknown",
+        "Shutter Speed"=> "60\/1",
+        "ISO"=> 3200,
+        "Date"=> "Unknown",
+        "GPS"=>array(
+            "latitude"=> 50.497521748333334,
+            "longitude"=> 9.933594423333334
+        )
       )
   ); 
   

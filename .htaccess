@@ -12,6 +12,10 @@ RewriteRule ^ - [L]
 RewriteCond %{REQUEST_URI} ^/dashboard/ [NC]
 RewriteRule ^ - [L]
 
+# API-Pfad ausschließen
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteRule ^ - [L]
+
 # Exclude /cache/images/
 RewriteCond %{REQUEST_URI} ^/cache/images/ [NC]
 RewriteRule ^ - [L]

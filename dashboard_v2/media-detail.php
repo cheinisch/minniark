@@ -188,12 +188,12 @@
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
               <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4">
-                <img src="https://picsum.photos/1280/800">
+                <img src="https://picsum.photos/1920/1080" class="w-full h-auto">
                 <article class="text-wrap text-gray-200 pt-2">
                   <h2 class="text-xl font-semibold">Title</h2>
                   <div id="text_container">
                     <p id="editable_text">
-                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor...
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                     </p>
                   </div>
                   <div id="button_group" class="space-x-2 mt-2">
@@ -202,7 +202,7 @@
                 </article>
               </div>
               <!-- META INFO -->
-              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 min-w-full pl-2">
+              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 min-w-full pl-0 md:pl-2">
                 <div class="bg-white shadow-md rounded-xl p-6 space-y-4 min-h-full">
                   <h2 class="text-xl font-semibold">Kamera-Metadaten</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">

@@ -187,7 +187,7 @@
           <main class="flex-1 bg-stone-800 overflow-auto">
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
-              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4">
+              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5">
                 <img src="https://picsum.photos/1920/1080" class="w-full h-auto">
                 <article class="text-wrap text-gray-200 pt-2">
                   <h2 class="text-xl font-semibold">Title</h2>
@@ -202,7 +202,7 @@
                 </article>
               </div>
               <!-- META INFO -->
-              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 min-w-full pl-0 md:pl-2">
+              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 min-w-full pl-0 md:pl-2">
                 <div class="bg-white shadow-md rounded-xl p-6 space-y-4 min-h-full">
                   <h2 class="text-xl font-semibold">Kamera-Metadaten</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">

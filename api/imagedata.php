@@ -1,5 +1,8 @@
 <?php
 
+require_once( __DIR__ . "/../functions/function_api.php");
+secure_API();
+
     // Content-Type setzen, damit der Client weiß, dass es sich um JSON handelt
 header('Content-Type: application/json');
 

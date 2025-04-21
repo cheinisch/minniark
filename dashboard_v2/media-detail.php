@@ -1,6 +1,53 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
   security_checklogin();
+
+  $image_url = $_GET['image'];
+
+  $imageData = getImage($image_url);
+
+    // Daten extrahieren
+    $fileName = $imageData['filename'];
+    $imagePath = "../content/images/" . $fileName;
+    $title = $imageData['title'];
+    $description = $imageData['description'];
+    $uploadDate = $imageData['upload_date'];
+  
+    // Exif-Daten
+    $camera = $imageData['exif']['Camera'] ?? 'Unknown';
+    $lens = $imageData['exif']['Lens'] ?? 'Unknown';
+    $apertureRaw = $imageData['exif']['Aperture'] ?? 'Unknown';
+    $shutterSpeedRaw = $imageData['exif']['Shutter Speed'] ?? 'Unknown';
+    $iso = $imageData['exif']['ISO'] ?? 'Unknown';
+    $dateTaken = $imageData['exif']['Date'] ?? 'Unknown';
+  
+    // **Aperture formatieren (f/28/10 → f/2.8)**
+    $aperture = "Unknown";
+    if (preg_match('/f\/(\d+)\/(\d+)/', $apertureRaw, $matches)) {
+        $apertureValue = round($matches[1] / $matches[2], 1); // 28/10 → 2.8
+        $aperture = "f/" . $apertureValue;
+    }
+  
+    // **Shutter Speed formatieren (4/1 → 4s oder 1/250 → 1/250s)**
+    $shutterSpeed = "Unknown";
+    if (preg_match('/(\d+)\/(\d+)/', $shutterSpeedRaw, $matches)) {
+        $numerator = (int)$matches[1];  // Zähler
+        $denominator = (int)$matches[2]; // Nenner
+        
+        if ($numerator >= $denominator) {
+            // Belichtungszeit ≥ 1 Sekunde → "4s"
+            $shutterSpeed = ($numerator / $denominator) . "s";
+        } else {
+            // Belichtungszeit < 1 Sekunde → "1/250s"
+            $shutterSpeed = "1/" . round($denominator / $numerator) . "s";
+        }
+    }
+  
+    // GPS-Daten für OpenStreetMap
+    $latitude = $imageData['exif']['GPS']['latitude'] ?? 0;
+    $longitude = $imageData['exif']['GPS']['longitude'] ?? 0;
+  
+    $hasGPS = !is_null($latitude) && !is_null($longitude);
 ?>
 
 <!DOCTYPE html>
@@ -198,7 +245,7 @@
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
               <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5">
-                <img src="https://picsum.photos/1920/1080" class="w-full h-auto">
+                <img src="<?php echo $imagePath; ?>" class="w-full h-auto border-2 border-gray-300">
                 <article class="text-wrap text-gray-200 pt-2">
                   <h2 class="text-xl font-semibold">Title</h2>
                   <div id="text_container">
@@ -256,7 +303,7 @@
                       <span>RF 24-70mm f/2.8L</span>
                     </li>
                     <li>
-                      <div id="map" class="w-full h-32"></div>
+                      <div id="map" class="w-full h-48 border-2 border-gray-300"></div>
                     </li>
                   </ul>
                 </div>
@@ -268,15 +315,15 @@
         <script src="js/slider.js"></script>
         <script src="js/image_rating.js"></script>
         <script>
-          const map = L.map('map').setView([51.505, -0.09], 13); // Beispielkoordinaten (London)
+          const map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 12); // Beispielkoordinaten (London)
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution:
               '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           }).addTo(map);
 
-          L.marker([51.505, -0.09]).addTo(map)
-            .bindPopup('Beispielstandort')
+          L.marker([<?php echo $latitude; ?>, <?php echo $longitude; ?>]).addTo(map)
+            //.bindPopup('Beispielstandort')
             .openPopup();
         </script>
     </body>

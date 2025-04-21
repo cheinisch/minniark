@@ -29,6 +29,16 @@
             }
           }
         </style>
+        <!-- Leaflet CSS -->
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+
+        <!-- Leaflet JS -->
+        <script
+          src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        ></script>
     </head>
     <body class="min-h-screen flex flex-col">
         <header>
@@ -235,6 +245,20 @@
                       <span>2025-04-18</span>
                     </li>
                   </ul>
+                  <h2 class="text-xl font-semibold">Bild Informationen</h2>
+                  <ul class="divide-y divide-gray-200 text-sm text-gray-700">
+                    <li class="flex justify-between items-center py-2">
+                      <span class="font-medium">Bewertung</span>
+                      <span id="rating-stars" class="flex space-x-1 text-yellow-400"></span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Tags</span>
+                      <span>RF 24-70mm f/2.8L</span>
+                    </li>
+                    <li>
+                      <div id="map" class="w-full h-32"></div>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -242,5 +266,18 @@
         </div>
         <script src="js/tailwind.js"></script>
         <script src="js/slider.js"></script>
+        <script src="js/image_rating.js"></script>
+        <script>
+          const map = L.map('map').setView([51.505, -0.09], 13); // Beispielkoordinaten (London)
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          }).addTo(map);
+
+          L.marker([51.505, -0.09]).addTo(map)
+            .bindPopup('Beispielstandort')
+            .openPopup();
+        </script>
     </body>
 </html>

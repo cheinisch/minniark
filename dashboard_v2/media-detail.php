@@ -249,14 +249,23 @@
               <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5">
                 <img src="<?php echo $imagePath; ?>" class="w-full h-auto border-2 border-gray-300">
                 <article class="text-wrap text-gray-200 pt-2">
-                  <h2 class="text-xl font-semibold">Title</h2>
+                  <h2 class="text-xl font-semibold">
+                    <span id="image-title"><?php echo htmlspecialchars($title); ?></span>
+                    <input type="text" id="edit-title" class="hidden w-full mt-2 p-1 border rounded text-sm" value="<?php echo htmlspecialchars($title); ?>">
+                  </h2>
+
                   <div id="text_container">
-                    <p id="editable_text">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                    </p>
+                    <p id="editable_text"><?php echo nl2br(htmlspecialchars($description)); ?></p>
+                    <textarea id="edit-description" class="hidden w-full mt-2 p-1 border rounded text-sm"><?php echo htmlspecialchars($description); ?></textarea>
                   </div>
+
                   <div id="button_group" class="space-x-2 mt-2">
-                    <button id="edit_text" class="bg-sky-400 hover:bg-sky-600 px-2 py-1 rounded-md text-white">Edit Text</button>
+                    <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                      Edit
+                    </button>
+                    <button type="button" id="cancel_edit" class="invisible relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                      Cancel
+                    </button>
                   </div>
                 </article>
               </div>
@@ -316,6 +325,7 @@
         <script src="js/tailwind.js"></script>
         <script src="js/slider.js"></script>
         <script src="js/image_rating.js"></script>
+        <script src="js/edit_text.js"></script>
         <script>
           const map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 12); // Beispielkoordinaten (London)
 

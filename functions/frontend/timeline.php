@@ -30,6 +30,7 @@ function getTimelineImagesFromJson(string $mediaPath = 'content/images/', string
                 ];
 
                 $json['url'] = $json['thumb'][$defaultSize] ?? $imgPath;
+                $json['description'] = nl2br(htmlspecialchars($json['description']));
                 $images[] = $json;
             }
         }

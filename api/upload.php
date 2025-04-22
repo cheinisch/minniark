@@ -3,14 +3,17 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Berlin');
 
+require_once( __DIR__ . "/../functions/function_api.php");
+    secure_API();
+
 // Debugging-Funktion für Logs
 function logMessage($message) {
     file_put_contents(__DIR__ . '/upload_log.txt', date("[Y-m-d H:i:s]") . " " . $message . PHP_EOL, FILE_APPEND);
 }
 
 // Basisverzeichnisse
-$uploadDir = __DIR__ . '/../../content/images/';
-$cacheDir = __DIR__ . '/../../cache/images/';
+$uploadDir = __DIR__ . '/../content/images/';
+$cacheDir = __DIR__ . '/../cache/images/';
 
 // Stelle sicher, dass die Verzeichnisse existieren
 foreach ([$uploadDir, $cacheDir] as $dir) {
@@ -28,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_FILES['file'])) {
 $file = $_FILES['file'];
 $fileName = basename($file['name']);  // Originaldateiname beibehalten
 $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-$allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+$allowedTypes = ['jpg', 'jpeg', 'png'];
 
 if (!in_array($fileExt, $allowedTypes)) {
-    die(json_encode(["error" => "Invalid file type! Allowed: JPG, PNG, GIF."]));
+    die(json_encode(["error" => "Invalid file type! Allowed: JPG, PNG."]));
 }
 
 // Definiere den Speicherpfad für das Originalbild
@@ -56,7 +59,7 @@ logMessage("File uploaded successfully: $targetFile");
 $guid = uniqid();
 
 // EXIF-Daten auslesen
-$exifData = getExifData($targetFile);
+$exifData = extractExifData($targetFile);
 
 // Erstelle Thumbnails mit der GUID im /cache/ Verzeichnis
 $sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920];
@@ -73,6 +76,7 @@ $jsonData = [
     "title" => "",
     "description" => "",
     "tags" => [],
+    "rating" => 0,
     "upload_date" => date("Y-m-d H:i:s"),
     "exif" => $exifData
 ];
@@ -109,7 +113,7 @@ function createThumbnail($source, $destination, $newWidth) {
     imagedestroy($thumb);
     imagedestroy($image);
 }
-
+/*
 // Lese EXIF-Daten aus
 function getExifData($filePath) {
     $exif = @exif_read_data($filePath);
@@ -153,5 +157,5 @@ function convertGPSToDecimal($coord, $ref) {
 function gps2Num($coordPart) {
     $parts = explode('/', $coordPart);
     return (count($parts) > 1) ? floatval($parts[0]) / floatval($parts[1]) : floatval($parts[0]);
-}
+}*/
 ?>

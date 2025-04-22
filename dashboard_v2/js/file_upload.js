@@ -69,7 +69,7 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
         formData.append("file", file);
 
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "inc/upload.php", true);
+        xhr.open("POST", `${window.location.origin}/api/upload.php`, true);
 
         // Track progress
         xhr.upload.onprogress = function (event) {

@@ -75,11 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
           btn.innerText = "Edit";
           editing = false;
         } else {
-          alert("❌ Fehler beim Speichern: " + (data.error || "Unbekannter Fehler"));
+          alert("Fehler beim Speichern: " + (data.error || "Unbekannter Fehler"));
         }
       })
       .catch(err => {
-        console.error("❌ Netzwerkfehler:", err);
+        console.error("Netzwerkfehler:", err);
         alert("Netzwerkfehler beim Speichern.");
       });
     }

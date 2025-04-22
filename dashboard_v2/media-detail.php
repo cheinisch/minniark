@@ -18,6 +18,7 @@
     // Exif-Daten
     $camera = $imageData['exif']['Camera'] ?? 'Unknown';
     $lens = $imageData['exif']['Lens'] ?? 'Unknown';
+    $focallength = $imageData['exif']['FlocalLength'] ?? 'Unknown';
     $apertureRaw = $imageData['exif']['Aperture'] ?? 'Unknown';
     $shutterSpeedRaw = $imageData['exif']['Shutter Speed'] ?? 'Unknown';
     $iso = $imageData['exif']['ISO'] ?? 'Unknown';
@@ -295,12 +296,12 @@
                       <span><?php echo $iso; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Brennweite</span>
-                      <span>35mm</span>
+                      <span class="font-medium">Focal length</span>
+                      <span><?php echo $focallength; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Aufnahmedatum</span>
-                      <span>2025-04-18</span>
+                      <span class="font-medium">Date</span>
+                      <span><?php echo $dateTaken; ?></span>
                     </li>
                   </ul>
                   <h2 class="text-xl font-semibold">Bild Informationen</h2>

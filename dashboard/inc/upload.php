@@ -120,6 +120,7 @@ function getExifData($filePath) {
         "Lens" => $exif['UndefinedTag:0xA434'] ?? "Unknown",
         "Aperture" => isset($exif['FNumber']) ? "f/" . $exif['FNumber'] : "Unknown",
         "Shutter Speed" => $exif['ExposureTime'] ?? "Unknown",
+        "Focal Length" => isset($exif['FocalLength']) ? formatFocalLength($exif['FocalLength']) : "Unknown",
         "ISO" => $exif['ISOSpeedRatings'] ?? "Unknown",
         "Date" => $exif['DateTimeOriginal'] ?? "Unknown",
         "GPS" => getGPSData($exif)

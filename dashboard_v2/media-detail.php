@@ -18,7 +18,7 @@
     // Exif-Daten
     $camera = $imageData['exif']['Camera'] ?? 'Unknown';
     $lens = $imageData['exif']['Lens'] ?? 'Unknown';
-    $focallength = $imageData['exif']['FlocalLength'] ?? 'Unknown';
+    $focallength = $imageData['exif']['FocalLength'] ?? 'Unknown';
     $apertureRaw = $imageData['exif']['Aperture'] ?? 'Unknown';
     $shutterSpeedRaw = $imageData['exif']['Shutter Speed'] ?? 'Unknown';
     $iso = $imageData['exif']['ISO'] ?? 'Unknown';

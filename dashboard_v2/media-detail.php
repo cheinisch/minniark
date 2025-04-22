@@ -283,8 +283,8 @@
                       <span><?php echo $lens; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Apertur</span>
-                      <span><?php echo $apertur; ?></span>
+                      <span class="font-medium">Aperture</span>
+                      <span><?php echo $aperture; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
                       <span class="font-medium">Shutter Speed</span>

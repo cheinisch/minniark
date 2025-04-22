@@ -272,27 +272,27 @@
               <!-- META INFO -->
               <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 min-w-full pl-0 md:pl-2">
                 <div class="bg-white shadow-md rounded-xl p-6 space-y-4 min-h-full">
-                  <h2 class="text-xl font-semibold">Kamera-Metadaten</h2>
+                  <h2 class="text-xl font-semibold">Metadata</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between py-2">
                       <span class="font-medium">Kamera</span>
-                      <span>Canon EOS R6</span>
+                      <span><?php echo $camera; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Objektiv</span>
-                      <span>RF 24-70mm f/2.8L</span>
+                      <span class="font-medium">Lens</span>
+                      <span><?php echo $lens; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Blende</span>
-                      <span>f/2.8</span>
+                      <span class="font-medium">Apertur</span>
+                      <span><?php echo $apertur; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Belichtungszeit</span>
-                      <span>1/250 Sek.</span>
+                      <span class="font-medium">Shutter Speed</span>
+                      <span><?php echo $shutterSpeed; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
                       <span class="font-medium">ISO</span>
-                      <span>100</span>
+                      <span><?php echo $iso; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
                       <span class="font-medium">Brennweite</span>

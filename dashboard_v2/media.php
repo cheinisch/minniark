@@ -38,35 +38,37 @@
 
       <!-- Upload Modal -->
       <div id="uploadModal" class="relative z-50 hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
-    <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
-      <div class="relative w-full max-w-xl mx-auto rounded-lg shadow-lg bg-white p-6">
-        <button id="closeUpload" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <h2 class="text-xl font-semibold mb-4 text-gray-800">Neues Medium hochladen</h2>
-        <div class="border border-gray-200 rounded-lg p-6">
-          <label for="file-upload" class="block text-sm font-medium text-gray-700">Upload File</label>
-          <div id="uploadBox" class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 cursor-pointer">
-            <div class="text-center">
-              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V18a2 2 0 002 2h14a2 2 0 002-2v-1.5M7.5 11.5L12 7m0 0l4.5 4.5M12 7v10" />
-              </svg>
-              <p class="mt-2 text-sm text-gray-600">Click or drop file here</p>
-              <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto rounded-lg shadow-lg bg-white p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-semibold text-gray-800">Neues Medium hochladen</h2>
+              <button id="closeUpload" class="text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div class="border border-gray-200 rounded-lg p-6">
+              <label for="file-upload" class="block text-sm font-medium text-gray-700">Upload File</label>
+              <div id="uploadBox" class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 cursor-pointer">
+                <div class="text-center">
+                  <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V18a2 2 0 002 2h14a2 2 0 002-2v-1.5M7.5 11.5L12 7m0 0l4.5 4.5M12 7v10" />
+                  </svg>
+                  <p class="mt-2 text-sm text-gray-600">Click or drop file here</p>
+                  <p class="mt-1 text-xs text-gray-500">PNG, JPG up to <?php echo get_uploadsize(); ?></p>
+                </div>
+              </div>
+              <input id="fileInput" type="file" class="hidden" multiple>
+              <div id="progressContainer" class="mt-4 w-full bg-gray-200 rounded-full h-2.5">
+                <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full text-xs text-center text-white"></div>
+              </div>
+              <div id="messageBox" class="mt-2 text-sm"></div>
             </div>
           </div>
-          <input id="fileInput" type="file" class="hidden" multiple>
-          <div id="progressContainer" class="mt-4 w-full bg-gray-200 rounded-full h-2.5">
-            <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full text-xs text-center text-white"></div>
-          </div>
-          <div id="messageBox" class="mt-2 text-sm"></div>
         </div>
       </div>
-    </div>
-  </div>
         <!-- Normal Layout -->
         <header>
             <nav class="bg-stone-900 shadow-sm">

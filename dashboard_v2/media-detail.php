@@ -18,7 +18,7 @@
     // Exif-Daten
     $camera = $imageData['exif']['Camera'] ?? 'Unknown';
     $lens = $imageData['exif']['Lens'] ?? 'Unknown';
-    $focallength = $imageData['exif']['FocalLength'] ?? 'Unknown';
+    $focallength = $imageData['exif']['Focal Length'] ?? 'Unknown';
     $apertureRaw = $imageData['exif']['Aperture'] ?? 'Unknown';
     $shutterSpeedRaw = $imageData['exif']['Shutter Speed'] ?? 'Unknown';
     $iso = $imageData['exif']['ISO'] ?? 'Unknown';
@@ -29,6 +29,8 @@
     if (preg_match('/f\/(\d+)\/(\d+)/', $apertureRaw, $matches)) {
         $apertureValue = round($matches[1] / $matches[2], 1); // 28/10 → 2.8
         $aperture = "f/" . $apertureValue;
+    }else{
+      $aperture = $apertureRaw;
     }
   
     // **Shutter Speed formatieren (4/1 → 4s oder 1/250 → 1/250s)**
@@ -188,14 +190,12 @@
                   </div>
                   <div class="border-t border-gray-500 pt-4 pb-3">
                     <div class="mt-3 space-y-1">
-                      <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Content</a>
+                      <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Modify Image</a>
                       <div class="pl-5">
-                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">All Photos (<?php count_images(); ?>)</a>
-                      </div>
-                      <?php get_imageyearlist(true); ?>
-                      <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Albums (1)</a>
-                      <div class="pl-5">
-                        <a href="#" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Album 1</a>
+                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Rotate left</a>
+                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Rotate right</a>
+                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Flip Horizontal</a>
+                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Flip Vertical</a>
                       </div>
                     </div>
                   </div>
@@ -230,25 +230,21 @@
           <aside class="hidden md:block max-w-[250px] w-full bg-stone-900 overflow-auto flex-1">
             <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
               <ul role="list" class="-mx-2 space-y-1">
-                <li>Content</li>
+                <li>Modify Image</li>
                 <ul class="px-5">
-                  <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
-                  <?php get_imageyearlist(false); ?>
-                </ul>
-                <li>
-                  Albums
-                </li>
-                <ul class="px-5">
-                  <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
-                </ul>                    
+                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Rotate left</a></li>
+                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Rotate right</a></li>
+                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Flip Horizontal</a></li>
+                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Flip Vertical</a></li>
+                </ul>                 
               </ul>
             </nav>
           </aside>
           <main class="flex-1 bg-stone-800 overflow-auto">
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
-              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5 mx-auto">
-                <img src="<?php echo $imagePath; ?>" class="w-full h-auto border-2 border-gray-300">
+              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5 4xl:max-w-7/8 mx-auto">
+                <img src="<?php echo $imagePath; ?>" class="w-full 2xl:max-w-7xl h-auto border-2 border-gray-300">
                 <article class="text-wrap text-gray-200 pt-2">
                   <h2 class="text-xl font-semibold">
                     <span id="image-title"><?php echo htmlspecialchars($title); ?></span>
@@ -271,7 +267,7 @@
                 </article>
               </div>
               <!-- META INFO -->
-              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 min-w-full pl-0 md:pl-2 ml-auto">
+              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 4xl:max-w-1/8 min-w-full pt-2 md:pt-0 pl-0 md:pl-2 ml-auto">
                 <div class="bg-white shadow-md rounded-xl p-6 space-y-4 min-h-full">
                   <h2 class="text-xl font-semibold">Metadata</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
@@ -312,12 +308,39 @@
                     </li>
                     <li class="flex justify-between py-2">
                       <span class="font-medium">Tags</span>
-                      <span>RF 24-70mm f/2.8L</span>
+                      <span>coming soon</span>
+                    </li>
+                  </ul>
+                  <h2 class="text-xl font-semibold">GPS Data</h2>
+                  <ul class="divide-y divide-gray-200 text-sm text-gray-700">
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Lat:</span>
+                      <span><?php echo $latitude; ?></span>
+                    </li>
+                    <li class="flex justify-between py-2">
+                      <span class="font-medium">Lon:</span>
+                      <span><?php echo $longitude; ?></span>
                     </li>
                     <li>
                       <div id="map" class="w-full h-48 border-2 border-gray-300"></div>
                     </li>
                   </ul>
+                  <div id="button_group_meta" class=" relative flex space-x-2 mt-2">
+                    <button type="button" id="edit_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                      Edit Metadata
+                    </button>
+                    <button type="button" id="update-exif" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                      Sync Metadata
+                    </button>
+                  </div>
+                  <div id="button_group_meta_manual" class="hidden relative flex space-x-2 mt-2">
+                    <button type="button" id="save_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                      Save
+                    </button>
+                    <button type="button" id="cancel_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-rose-600">
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -327,6 +350,8 @@
         <script src="js/slider.js"></script>
         <script src="js/image_rating.js"></script>
         <script src="js/edit_text.js"></script>
+        <script src="js/sync_exifdata.js?<?=time()?>"></script>
+        <script src="js/edit_exifdata.js"></script>
         <script>
           const map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 12); // Beispielkoordinaten (London)
 

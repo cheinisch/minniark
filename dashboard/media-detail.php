@@ -56,7 +56,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo $title;?> // ImagePortfolio</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <!-- Leaflet.js für OSM -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       titleInput.classList.remove("hidden");
       descInput.classList.remove("hidden");
       setTimeout(() => autoResize(descInput), 10);
-      cancelBtn.classList.remove("hidden");
+      cancelBtn.classList.remove("invisible");
 
       btn.innerText = "Save";
     } else {

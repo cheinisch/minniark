@@ -311,67 +311,67 @@
       </div>
     </div>
     <main class="py-5">
-    <!-- Bild über die gesamte Breite ohne Beschnitt -->
-    <div class="w-full px-0.5"> <!-- 2px Padding links/rechts -->
-        <img src="<?php echo $imagePath; ?>" alt="<?php echo $title ?>" class="w-full h-auto">
-    </div>
-        <div class="mt-6 px-10">
-            <dl class="grid grid-cols-1 sm:grid-cols-2">
-                <div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-                    <h3 class="text-base/7 font-semibold text-gray-900"><?php echo $title ?></h3>
-                        <dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2"><?php echo $description ?></dd>
-                    </div>
-            </dl>
-            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 w-full">
-              <!-- Linker Container (kleiner, 1/3 der Breite) -->
-              <div class="p-4 bg-gray-100 rounded-lg col-span-1">
-                <h3 class="font-medium text-gray-900">Information</h3>
-                <dl class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
-                <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Created</dt>
-                    <dd class="text-gray-900"><?php echo $dateTaken; ?></dd>
-                </div>
-                <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Camera</dt>
-                    <dd class="text-gray-900"><?php echo $camera; ?></dd>
-                </div>
-                <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Shutter speed</dt>
-                    <dd class="text-gray-900"><?php echo $shutterSpeed; ?></dd>
-                </div>
-                <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">Aperture</dt>
-                    <dd class="text-gray-900"><?php echo $aperture; ?></dd>
-                </div>
-                <div class="flex justify-between py-3 text-sm font-medium">
-                    <dt class="text-gray-500">ISO</dt>
-                    <dd class="text-gray-900"><?php echo $iso; ?></dd>
-                </div>
-                </dl>
-                  <!-- Buttons am unteren Rand fixieren -->
-                  <div class="mt-4 flex w-full">
-                  <!-- Edit Button -->
-                  <a href="edit.php?file=<?php echo urlencode($fileName); ?>" 
-                    class="w-1/2 text-center bg-blue-500 text-white px-4 py-2 rounded-bl-lg shadow hover:bg-blue-600 transition">
-                      Edit
-                  </a>
+      <!-- Bild über die gesamte Breite ohne Beschnitt -->
+      <div class="w-full px-0.5"> <!-- 2px Padding links/rechts -->
+          <img src="<?php echo $imagePath; ?>" alt="<?php echo $title ?>" class="w-full h-auto">
+      </div>
+      <div class="mt-6 px-10 ml-auto">
+        <dl class="grid grid-cols-1 sm:grid-cols-2">
+          <div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
+            <h3 class="text-base/7 font-semibold text-gray-900"><?php echo $title ?></h3>
+            <dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2"><?php echo $description ?></dd>
+          </div>
+        </dl>
+          <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 w-full">
+            <!-- Linker Container (kleiner, 1/3 der Breite) -->
+            <div class="p-4 bg-gray-100 rounded-lg col-span-1">
+              <h3 class="font-medium text-gray-900">Information</h3>
+              <dl class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
+              <div class="flex justify-between py-3 text-sm font-medium">
+                  <dt class="text-gray-500">Created</dt>
+                  <dd class="text-gray-900"><?php echo $dateTaken; ?></dd>
+              </div>
+              <div class="flex justify-between py-3 text-sm font-medium">
+                  <dt class="text-gray-500">Camera</dt>
+                  <dd class="text-gray-900"><?php echo $camera; ?></dd>
+              </div>
+              <div class="flex justify-between py-3 text-sm font-medium">
+                  <dt class="text-gray-500">Shutter speed</dt>
+                  <dd class="text-gray-900"><?php echo $shutterSpeed; ?></dd>
+              </div>
+              <div class="flex justify-between py-3 text-sm font-medium">
+                  <dt class="text-gray-500">Aperture</dt>
+                  <dd class="text-gray-900"><?php echo $aperture; ?></dd>
+              </div>
+              <div class="flex justify-between py-3 text-sm font-medium">
+                  <dt class="text-gray-500">ISO</dt>
+                  <dd class="text-gray-900"><?php echo $iso; ?></dd>
+              </div>
+              </dl>
+                <!-- Buttons am unteren Rand fixieren -->
+                <div class="mt-4 flex w-full">
+                <!-- Edit Button -->
+                <a href="edit.php?file=<?php echo urlencode($fileName); ?>" 
+                  class="w-1/2 text-center bg-blue-500 text-white px-4 py-2 rounded-bl-lg shadow hover:bg-blue-600 transition">
+                    Edit
+                </a>
 
-                  <!-- Delete Button -->
-                  <a href="delete.php?file=<?php echo urlencode($fileName); ?>" 
-                    onclick="return confirm('Bist du sicher, dass du dieses Bild löschen möchtest?');"
-                    class="w-1/2 text-center bg-red-500 text-white px-4 py-2 rounded-br-lg shadow hover:bg-red-600 transition">
-                      Delete
-                  </a>
-              </div>
-              </div>
-              <!-- Right Container -->
-              <div class="p-4 bg-white shadow-lg rounded-lg sm:col-span-1 md:col-span-2">
-                  <h2 class="text-xl font-bold mb-2">MAP</h2>
-                  <div id="map" class="h-96"></div>
-              </div>
+                <!-- Delete Button -->
+                <a href="delete.php?file=<?php echo urlencode($fileName); ?>" 
+                  onclick="return confirm('Bist du sicher, dass du dieses Bild löschen möchtest?');"
+                  class="w-1/2 text-center bg-red-500 text-white px-4 py-2 rounded-br-lg shadow hover:bg-red-600 transition">
+                    Delete
+                </a>
+            </div>
+            </div>
+            <!-- Right Container -->
+            <div class="p-4 bg-white shadow-lg rounded-lg sm:col-span-1 md:col-span-2">
+                <h2 class="text-xl font-bold mb-2">MAP</h2>
+                <div id="map" class="h-96"></div>
             </div>
           </div>
         </div>
+      </div>
         
     </main>
 

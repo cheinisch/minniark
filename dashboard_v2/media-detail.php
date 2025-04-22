@@ -247,7 +247,7 @@
           <main class="flex-1 bg-stone-800 overflow-auto">
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
-              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5">
+              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5 mx-auto">
                 <img src="<?php echo $imagePath; ?>" class="w-full h-auto border-2 border-gray-300">
                 <article class="text-wrap text-gray-200 pt-2">
                   <h2 class="text-xl font-semibold">
@@ -271,7 +271,7 @@
                 </article>
               </div>
               <!-- META INFO -->
-              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 min-w-full pl-0 md:pl-2">
+              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 min-w-full pl-0 md:pl-2 ml-auto">
                 <div class="bg-white shadow-md rounded-xl p-6 space-y-4 min-h-full">
                   <h2 class="text-xl font-semibold">Metadata</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
@@ -304,10 +304,10 @@
                       <span><?php echo $dateTaken; ?></span>
                     </li>
                   </ul>
-                  <h2 class="text-xl font-semibold">Bild Informationen</h2>
+                  <h2 class="text-xl font-semibold">Informationen</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between items-center py-2">
-                      <span class="font-medium">Bewertung</span>
+                      <span class="font-medium">Rating</span>
                       <span id="rating-stars" class="flex space-x-1 text-yellow-400" data-rating="<?php echo htmlspecialchars($rating); ?>" data-filename="<?php echo htmlspecialchars($fileName); ?>">></span>
                     </li>
                     <li class="flex justify-between py-2">

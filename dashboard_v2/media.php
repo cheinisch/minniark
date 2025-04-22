@@ -4,6 +4,7 @@
 
   // Prüfen, ob ein bestimmtes Jahr übergeben wurde
   $filterYear = isset($_GET['year']) ? $_GET['year'] : null;
+  $filterRating = isset($_GET['rating']) ? $_GET['rating'] : null;
 ?>
 
 <!DOCTYPE html>
@@ -176,7 +177,14 @@
                   <li>Content</li>
                   <ul class="px-5">
                     <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
+                  </ul>
+                  <li>Year</li>
+                  <ul class="px-5">
                     <?php get_imageyearlist(false); ?>
+                  </ul>
+                  <li>Ratings</li>
+                  <ul class="px-5">
+                    <?php get_ratinglist(false); ?>
                   </ul>
                   <li>
                     Albums
@@ -225,7 +233,7 @@
             <!-- Content Mainblock -->
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
               <?php
-                renderImageGallery($filterYear); // Galerie ausgeben              
+                renderImageGallery($filterYear, $filterRating); // Galerie ausgeben              
               ?>
             </div>
           </main>

@@ -13,6 +13,8 @@
     $description = $imageData['description'];
     $uploadDate = $imageData['upload_date'];
   
+    $rating = $imageData['rating'] ?? 0;
+
     // Exif-Daten
     $camera = $imageData['exif']['Camera'] ?? 'Unknown';
     $lens = $imageData['exif']['Lens'] ?? 'Unknown';
@@ -296,7 +298,7 @@
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between items-center py-2">
                       <span class="font-medium">Bewertung</span>
-                      <span id="rating-stars" class="flex space-x-1 text-yellow-400"></span>
+                      <span id="rating-stars" class="flex space-x-1 text-yellow-400" data-rating="<?php echo htmlspecialchars($rating); ?>" data-filename="<?php echo htmlspecialchars($fileName); ?>">></span>
                     </li>
                     <li class="flex justify-between py-2">
                       <span class="font-medium">Tags</span>

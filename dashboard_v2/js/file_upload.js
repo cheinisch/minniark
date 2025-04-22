@@ -38,7 +38,7 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
 
     // Handle click to open file dialog
     uploadBox.addEventListener("click", () => {
-        console.log("Klick Fileupload)")
+        console.log("Klick Fileupload");
         fileInput.click();
     });
 

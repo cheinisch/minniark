@@ -275,6 +275,6 @@
         </div>
         <script src="js/tailwind.js"></script>
         <script src="js/slider.js"></script>
-        <script src="js/import.js"></script>
+        <script src="js/file_upload.js"></script>
     </body>
 </html>

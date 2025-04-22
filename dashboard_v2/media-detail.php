@@ -347,7 +347,6 @@
           </main>
         </div>
         <script src="js/tailwind.js"></script>
-        <script src="js/slider.js"></script>
         <script src="js/image_rating.js"></script>
         <script src="js/edit_text.js"></script>
         <script src="js/sync_exifdata.js?<?=time()?>"></script>

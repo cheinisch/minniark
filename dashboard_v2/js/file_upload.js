@@ -51,7 +51,7 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
     function handleFiles(files) {
         for (let file of files) {
             if (!allowedTypes.includes(file.type)) {
-                showMessage("Invalid file type! Only JPG, PNG, GIF allowed.", "error");
+                showMessage("Invalid file type! Only JPG, PNG allowed.", "error");
                 continue;
             }
 

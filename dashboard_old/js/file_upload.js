@@ -1,13 +1,4 @@
-document.getElementById('uploadImageButton').addEventListener('click', () => {
-    document.getElementById('uploadModal').classList.remove('hidden');
-  });
-  document.getElementById('closeUpload').addEventListener('click', () => {
-    document.getElementById('uploadModal').classList.add('hidden');
-  });
-
-
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("Load Fileupload");
+document.addEventListener("DOMContentLoaded", function () {
     const uploadBox = document.getElementById("uploadBox");
     const fileInput = document.getElementById("fileInput");
     const progressContainer = document.getElementById("progressContainer");
@@ -15,13 +6,13 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
     const messageBox = document.getElementById("messageBox");
 
     // Allowed file types and max size (in MB)
-    const allowedTypes = ["image/jpeg", "image/png"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
     const maxSizeMB = 50;
 
     // Handle drag and drop
     uploadBox.addEventListener("dragover", (e) => {
         e.preventDefault();
-        uploadBox.classList.add("border-sky-500");
+        uploadBox.classList.add("border-indigo-500");
     });
 
     uploadBox.addEventListener("dragleave", () => {
@@ -38,7 +29,6 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
 
     // Handle click to open file dialog
     uploadBox.addEventListener("click", () => {
-        console.log("Klick Fileupload");
         fileInput.click();
     });
 
@@ -51,7 +41,7 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
     function handleFiles(files) {
         for (let file of files) {
             if (!allowedTypes.includes(file.type)) {
-                showMessage("Invalid file type! Only JPG, PNG allowed.", "error");
+                showMessage("Invalid file type! Only JPG, PNG, GIF allowed.", "error");
                 continue;
             }
 
@@ -69,7 +59,7 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
         formData.append("file", file);
 
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", `${window.location.origin}/api/upload.php`, true);
+        xhr.open("POST", "inc/upload.php", true);
 
         // Track progress
         xhr.upload.onprogress = function (event) {

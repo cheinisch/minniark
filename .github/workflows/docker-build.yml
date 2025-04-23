@@ -1,7 +1,10 @@
+name: Build & Push Docker image
+
 on:
   push:
-    tags:
-      - 'v*'  # z. B. v1.2.3
+    branches: [main]       # bei Änderungen im main-Branch
+    tags: ['v*']           # bei Tags wie v1.2.3
+  workflow_dispatch:       # manueller Start im UI möglich
 
 jobs:
   build-and-push:

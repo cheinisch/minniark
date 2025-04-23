@@ -1,4 +1,4 @@
 # nginx.Dockerfile
 FROM nginx:stable
 
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY docker/default.conf /etc/nginx/conf.d/default.conf

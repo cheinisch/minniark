@@ -15,10 +15,13 @@ There is a demo installation under [demo](https://demo.image-portfolio.org)
 
 ### Docker Container
 
+> [!WARNING]
+> The Docker Image is not stable at this moment 
+
+You can use the Docker Compose, which can be found in the Docker folder.
+
 ### Manual Installation
 
-> [!WARNING]
-> This installer is under development
 1. Download the latest Version and upload it into your Webserver.
 2. Follow the instructions from the installer.
 3. That's it.

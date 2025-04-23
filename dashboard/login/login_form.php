@@ -1,7 +1,21 @@
 <?php
-   require_once( __DIR__ . "/../../functions/function_backend.php");
-$usersPath = __DIR__ . '/../../userdata/users.json';
-$usersData = file_exists($usersPath) ? file_get_contents($usersPath) : '[]';
+require_once(__DIR__ . "/../../functions/function_backend.php");
+
+// Schutzkonstante setzen
+define('IMAGEPORTFOLIO', true);
+
+// Konfigurationsdatei einlesen
+$userConfigPath = __DIR__ . '/../../userdata/user_config.php';
+$userConfig = file_exists($userConfigPath) ? require $userConfigPath : [];
+
+// Login-Datenstruktur für JavaScript vorbereiten
+$usersData = [
+  [
+    'login_name' => $userConfig['USERNAME'] ?? '',
+    'email' => $userConfig['EMAIL'] ?? '',
+    'login_type' => $userConfig['AUTH_TYPE'] ?? 'password'
+  ]
+];
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -13,20 +27,27 @@ $usersData = file_exists($usersPath) ? file_get_contents($usersPath) : '[]';
 </head>
 <body class="bg-stone-800 flex justify-center items-center min-h-screen">
   <div class="w-full max-w-md bg-stone-900 shadow-lg rounded-lg p-6">
-    <h2 class="text-2xl font-bold text-center text-gray-300 mb-4"><?php echo get_sitename(); ?></h2>
+    <h2 class="text-2xl font-bold text-center text-gray-300 mb-4">
+      <?php echo htmlspecialchars(get_sitename()); ?>
+    </h2>
     <form id="login-form" action="login/login.php" method="POST">
-
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-300" for="login-identifier">E-Mail oder Benutzername</label>
-        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-sky-400 focus:border-sky-400" id="login-identifier" name="username" type="text" placeholder="name@example.com" required>
+        <label class="block text-sm font-medium text-gray-300" for="login-identifier">
+          E-Mail oder Benutzername
+        </label>
+        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-sky-400 focus:border-sky-400" 
+               id="login-identifier" name="username" type="text" placeholder="name@example.com" required>
       </div>
 
       <div class="mb-4 hidden" id="login-step2">
         <label class="block text-sm font-medium text-gray-300" id="second-label" for="second-input"></label>
-        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-sky-400 focus:border-sky-400" id="second-input" name="password" type="text" required>
+        <input class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-sky-400 focus:border-sky-400"
+               id="second-input" name="password" type="text" required>
       </div>
 
-      <button class="w-full bg-sky-400 text-white py-2 rounded-md hover:bg-sky-600 transition" type="submit">Login</button>
+      <button class="w-full bg-sky-400 text-white py-2 rounded-md hover:bg-sky-600 transition" type="submit">
+        Login
+      </button>
     </form>
   </div>
 
@@ -36,7 +57,8 @@ $usersData = file_exists($usersPath) ? file_get_contents($usersPath) : '[]';
   const secondLabel = document.getElementById('second-label');
   const secondInput = document.getElementById('second-input');
 
-  const users = <?php echo $usersData; ?>;
+  // Nutzerdaten aus PHP übernehmen
+  const users = <?php echo json_encode($usersData); ?>;
 
   function getLoginType(identifier) {
     return users.find(

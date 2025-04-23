@@ -1,52 +1,53 @@
 <?php
 session_start();
 
-// Pfad zur Benutzerdatei
-$userdataPath = __DIR__ . '/../../userdata/users.json';
-$error = null;
+// Schutzkonstante aktivieren
+define('IMAGEPORTFOLIO', true);
 
-// Hilfsfunktion zum Benutzerabgleich
-function findUserByLogin($identifier, $users) {
-    foreach ($users as $user) {
-        if ($user['login_name'] === $identifier || $user['email'] === $identifier) {
-            return $user;
-        }
-    }
-    return null;
-}
+$userConfigPath = __DIR__ . '/../../userdata/user_config.php';
+$error = null;
 
 // POST-Loginverarbeitung
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $identifier = trim($_POST['username'] ?? '');
     $inputValue = trim($_POST['password'] ?? '');
 
-    if (!file_exists($userdataPath)) {
+    if (!file_exists($userConfigPath)) {
         $error = "Benutzerdaten nicht gefunden.";
     } else {
-        $users = json_decode(file_get_contents($userdataPath), true);
-        $user = findUserByLogin($identifier, $users);
+        $user = require $userConfigPath;
 
-        if (!$user) {
+        // Benutzername oder E-Mail prüfen
+        $match = (
+            $identifier === ($user['USERNAME'] ?? '') ||
+            $identifier === ($user['EMAIL'] ?? '')
+        );
+
+        if (!$match) {
             $error = "Benutzer nicht gefunden.";
         } else {
-            if ($user['login_type'] === 'password') {
-                if (password_verify($inputValue, $user['password'])) {
+            $loginType = $user['AUTH_TYPE'] ?? 'password';
+
+            if ($loginType === 'password') {
+                if (password_verify($inputValue, $user['PASSWORD_HASH'])) {
                     $_SESSION['loggedin'] = true;
-                    $_SESSION['username'] = $user['login_name'];
+                    $_SESSION['username'] = $user['USERNAME'];
                     header("Location: ../");
                     exit;
                 } else {
                     $error = "Falsches Passwort.";
                 }
-            } elseif ($user['login_type'] === 'otp') {
-                if ($inputValue === '123456') {
+
+            } elseif ($loginType === 'otp') {
+                if ($inputValue === ($user['AUTH_TOKEN'] ?? '')) {
                     $_SESSION['loggedin'] = true;
-                    $_SESSION['username'] = $user['login_name'];
+                    $_SESSION['username'] = $user['USERNAME'];
                     header("Location: ../");
                     exit;
                 } else {
                     $error = "Ungültiger Einmalcode.";
                 }
+
             } else {
                 $error = "Unbekannter Login-Typ.";
             }

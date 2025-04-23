@@ -1,9 +1,0 @@
-[
-    {
-        "name": "Admin User",
-        "login_name": "admin",
-        "email": "admin@exampleasdasdasd.com",
-        "login_type":"otp",
-        "password": "$2y$10$SRvgqfCPw15F24WuWqME0etx8OpaXso4nn8cH0ipMya4tbi2zYmMe"
-    }
-]

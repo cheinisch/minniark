@@ -34,5 +34,29 @@ $configContent .= "];\n";
 // Datei schreiben
 file_put_contents($configPath, $configContent, LOCK_EX);
 
-// Rückmeldung (optional)
-echo "Benutzerkonfiguration gespeichert.";
+// Pfad zur settings.json
+$settingsPath = __DIR__ . '/../userdata/settings.json';
+
+// Einstellungsdaten als Array
+$settings = [
+    'site_title' => $sitename,
+    'theme' => 'basic',
+    'language' => 'en',
+    'show_upload_dates' => false,
+    'default_image_size' => 'm',
+    'default_page' => 'home',
+    'timeline' => [
+        'enable' => true,
+        'groupe_by_date' => false
+    ],
+    'map' => [
+        'enable' => true
+    ]
+];
+
+// In JSON umwandeln und speichern
+$settingsJson = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+file_put_contents($settingsPath, $settingsJson, LOCK_EX);
+
+header('Location: ../');
+

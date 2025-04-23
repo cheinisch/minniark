@@ -1,46 +1,33 @@
 <?php
 
-    function get_userimage()
-    {
+define('IMAGEPORTFOLIO', true);
+$userConfigPath = __DIR__ . '/../../userdata/user_config.php';
+$user = file_exists($userConfigPath) ? require $userConfigPath : [];
 
-        $usersPath = __DIR__ . '/../../userdata/users.json';
-        $users = json_decode(file_get_contents($usersPath), true);
+// Nutzerbild (Gravatar mit Fallback)
+function get_userimage()
+{
+    global $user;
+    $email = $user['EMAIL'] ?? '';
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'];
+    $fallbackUrl = "$protocol://$host/dashboard/img/avatar.png";
+    $size = 80;
 
-        // Nur einen User annehmen
-        $user = $users[0];
-        $email = $user['email'];
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = $_SERVER['REQUEST_URI']; // Oder verwende einen spezifischeren Pfad, falls nötig
-        $fallbackUrl = "$protocol://$host/dashboard_v2/img/avatar.png"; // Fallback-URL
-        $size = 80;
+    $gravatarUrl = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?s=$size&d=" . urlencode($fallbackUrl);
+    return $gravatarUrl;
+}
 
-        //$gravatarUrl = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?s=$size&d=" . urlencode($default);
-        $gravatarUrl = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?s=$size&d=" . urlencode($fallbackUrl);
-        return $gravatarUrl;
+// Benutzername (aus Konfig)
+function get_username()
+{
+    global $user;
+    return $user['USERNAME'] ?? 'Unbekannt';
+}
 
-    }
-
-    function get_username()
-    {
-        $usersPath = __DIR__ . '/../../userdata/users.json';
-        $users = json_decode(file_get_contents($usersPath), true);
-
-        // Nur einen User annehmen
-        $user = $users[0];
-        $name = $user['name'];
-
-        return $name;
-    }
-
-    function get_usermail()
-    {
-        $usersPath = __DIR__ . '/../../userdata/users.json';
-        $users = json_decode(file_get_contents($usersPath), true);
-
-        // Nur einen User annehmen
-        $user = $users[0];
-        $email = $user['email'];
-
-        return $email;
-    }
+// E-Mail-Adresse
+function get_usermail()
+{
+    global $user;
+    return $user['EMAIL'] ?? '';
+}

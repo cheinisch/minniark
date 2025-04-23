@@ -19,7 +19,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} .
+        docker build -f docker/Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} .
         docker tag ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
 
     - name: Push Docker image

@@ -15,6 +15,12 @@ There is a demo installation under [demo](https://demo.image-portfolio.org)
 
 ### Manual Installation
 
+> [!WARNING]
+> This installer is under development
+1. Download the latest Version and upload it into your Webserver.
+2. Follow the instructions from the installer.
+3. That's it.
+
 ## Links
 
 - [Documentation](https://docs.image-portfolio.org)

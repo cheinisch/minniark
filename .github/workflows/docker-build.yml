@@ -2,9 +2,9 @@ name: ImagePortfolio - Build & Push Docker image
 
 on:
   push:
-    branches: [main]       # bei Änderungen im main-Branch
-    tags: ['v*']           # bei Tags wie v1.2.3
-  workflow_dispatch:       # manueller Start im UI möglich
+    branches: [main]       # Änderungen im main-Branch
+    tags: ['v*']           # Versionstags wie v1.2.3
+  workflow_dispatch:       # manueller Start
 
 jobs:
   build-and-push:
@@ -16,23 +16,31 @@ jobs:
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Extract tag or branch
-      id: vars
+    - name: Set image tags (VERSION & always latest)
+      id: tags
       run: |
         if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
           VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "IMAGE_TAG=$VERSION" >> $GITHUB_ENV
+          echo "IS_LATEST=true" >> $GITHUB_ENV
+        elif [[ "${GITHUB_REF}" == refs/heads/main ]]; then
+          echo "IMAGE_TAG=latest" >> $GITHUB_ENV
+          echo "IS_LATEST=true" >> $GITHUB_ENV
         else
-          VERSION="${GITHUB_REF#refs/heads/}"
-          VERSION="${VERSION//\//-}"  # Ersetze / mit -
+          echo "IMAGE_TAG=dev" >> $GITHUB_ENV
+          echo "IS_LATEST=false" >> $GITHUB_ENV
         fi
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Build Docker image
       run: |
-        docker build -f docker/Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} .
-        docker tag ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
+        docker build -f docker/Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.IMAGE_TAG }} .
+        if [[ "${{ env.IS_LATEST }}" == "true" && "${{ env.IMAGE_TAG }}" != "latest" ]]; then
+          docker tag ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
+        fi
 
     - name: Push Docker image
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.IMAGE_TAG }}
+        if [[ "${{ env.IS_LATEST }}" == "true" ]]; then
+          docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
+        fi

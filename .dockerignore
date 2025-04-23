@@ -1,4 +1,5 @@
 .git
 .github
 node_modules
+dashboard_old
 *.log

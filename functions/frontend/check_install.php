@@ -9,6 +9,11 @@
         $accountFiles = glob($userconfig . '/*.php');
         $systemFiles = glob($systemsettings . '/*.json');
 
+        if(empty($accountFiles))
+        {
+            header('Location: ./../../dashboard/install.php');
+        }
+
         
 
     }

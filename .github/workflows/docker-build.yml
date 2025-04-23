@@ -1,4 +1,4 @@
-name: Build & Push Docker image
+name: ImagePortfolio - Build & Push Docker image
 
 on:
   push:

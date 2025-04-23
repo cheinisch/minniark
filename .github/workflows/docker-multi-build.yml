@@ -1,4 +1,4 @@
-name: Build & Push ImagePortfolio + NGINX
+name: Build Dockerimage
 
 on:
   push:

@@ -1,22 +1,28 @@
-name: Build & Push Docker image
-
 on:
   push:
-    branches: [ main ]
+    tags:
+      - 'v*'  # z. B. v1.2.3
 
 jobs:
   build-and-push:
-    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+    - name: Extract tag
+      id: vars
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
     - name: Build Docker image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest .
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} .
+        docker tag ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
 
     - name: Push Docker image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
+      run: |
+        docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest

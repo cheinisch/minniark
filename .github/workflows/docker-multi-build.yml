@@ -1,0 +1,47 @@
+name: Build & Push ImagePortfolio + NGINX
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Extract version
+      id: version
+      run: |
+        if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+          VERSION="${GITHUB_REF#refs/tags/v}"
+        else
+          VERSION="latest"
+        fi
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build & Push PHP-FPM Image
+      run: |
+        docker build -f docker/Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} .
+        docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }}
+        # Optional auch 'latest' Tag setzen (wenn nicht schon 'latest')
+        if [[ "${{ env.VERSION }}" != "latest" ]]; then
+          docker tag ${{ secrets.DOCKER_USERNAME }}/imageportfolio:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio:latest
+        fi
+
+    - name: Build & Push NGINX Image
+      run: |
+        docker build -f docker/nginx.Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/imageportfolio-nginx:${{ env.VERSION }} .
+        docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio-nginx:${{ env.VERSION }}
+        if [[ "${{ env.VERSION }}" != "latest" ]]; then
+          docker tag ${{ secrets.DOCKER_USERNAME }}/imageportfolio-nginx:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/imageportfolio-nginx:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/imageportfolio-nginx:latest
+        fi

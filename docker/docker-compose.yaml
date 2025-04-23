@@ -1,20 +1,21 @@
-services:
-  nginx:
-    image: nginx:stable
-    ports:
-      - "8080:80"
-    volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf
-      - ip_data:/var/www/html
-    depends_on:
-      - imageportfolio
+version: '0.0.2.4'
 
-  imageportfolio:
+services:
+  php:
     image: deinuser/imageportfolio:latest
     volumes:
-      - ip_data:/var/www/html
+      - ipdata:/var/www/html
     expose:
       - "9000"
 
+  nginx:
+    image: deinuser/imageportfolio-nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    volumes:
+      - ipdata:/var/www/html
+
 volumes:
-  ip_data:
+  ipdata:

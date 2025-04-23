@@ -1,9 +1,9 @@
 name: ImagePortfolio - Build & Push Docker image
 
 on:
-  push:
-    branches: [main]       # Änderungen im main-Branch
-    tags: ['v*']           # Versionstags wie v1.2.3
+  #push:
+    #branches: [main]       # Änderungen im main-Branch
+    #tags: ['v*']           # Versionstags wie v1.2.3
   workflow_dispatch:       # manueller Start
 
 jobs:

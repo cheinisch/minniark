@@ -2,14 +2,14 @@ version: '0.0.2.4'
 
 services:
   php:
-    image: deinuser/imageportfolio:latest
+    image: cheinisch/imageportfolio:latest
     volumes:
       - ipdata:/var/www/html
     expose:
       - "9000"
 
   nginx:
-    image: deinuser/imageportfolio-nginx:latest
+    image: cheinisch/imageportfolio-nginx:latest
     ports:
       - "8080:80"
     depends_on:

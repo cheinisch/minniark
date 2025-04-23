@@ -1,3 +1,5 @@
+[![.github/workflows/docker-build.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build.yml)
+
 # IMAGE-PORTFOLIO
 
 > [!WARNING]

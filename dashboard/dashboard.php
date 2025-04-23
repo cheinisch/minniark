@@ -159,7 +159,11 @@
                 </nav>
           </aside>
           <main class="flex-1 bg-stone-800 p-6 overflow-auto">
-
+            <div class="flex justify-end border-b border-gray-600 pb-4">
+              <button class="inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                Clear Cache
+              </button>
+            </div>
           </main>
         </div>
         <script src="js/tailwind.js"></script>

@@ -199,7 +199,7 @@
                     <div class="sm:col-span-3">
                       <label for="first-name" class="block text-sm/6 font-medium text-white">Display name</label>
                       <div class="mt-2">
-                        <input type="text" name="display-name" id="display-name" autocomplete="given-name" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                        <input type="text" name="display-name" id="display-name" value="<?php echo get_displayname(); ?>" autocomplete="given-name" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
                       </div>
                     </div>
                     <div class="col-span-3">

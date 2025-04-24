@@ -16,13 +16,13 @@
     </head>
     <body class="min-h-screen flex flex-col">
         <header>
-            <nav class="bg-gray-950 shadow-sm">
+            <nav class="bg-neutral-100 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
                       <div class="mr-2 -ml-2 flex items-center md:hidden">
                         <!-- Mobile menu button -->
-                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
+                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
                           <span class="absolute -inset-0.5"></span>
                           <span class="sr-only">Open main menu</span>
                           <!--
@@ -46,9 +46,9 @@
                       <div class="hidden md:ml-6 md:flex md:space-x-8">
                         <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
                         <a href="dashboard.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-sm font-medium text-sky-400">Dashboard</a>
-                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Images</a>
-                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
-                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
+                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Images</a>
+                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
+                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
                       </div>
                     </div>
                     <div class="flex items-center">
@@ -107,9 +107,9 @@
                   <div class="space-y-1 pt-2 pb-3">
                     <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
                     <a href="dashboard.php" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5">Dashboard</a>
-                    <a href="media.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Images</a>
-                    <a href="blog.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Blogposts</a>
-                    <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Pages</a>
+                    <a href="media.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Images</a>
+                    <a href="blog.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Blogposts</a>
+                    <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Pages</a>
                   </div>
                   <div class="border-t border-gray-500 pt-4 pb-3">
                     <div class="mt-3 space-y-1">
@@ -130,7 +130,7 @@
                         <img class="size-10 rounded-full" src="<?php echo get_userimage(); ?>" alt="">
                       </div>
                       <div class="ml-3">
-                        <div class="text-base font-medium text-gray-300"><?php echo get_username(); ?></div>
+                        <div class="text-base font-medium text-gray-600 dark:text-gray-300"><?php echo get_username(); ?></div>
                         <div class="text-sm font-medium text-gray-500"><?php echo get_usermail(); ?></div>
                       </div>
                       <button type="button" class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
@@ -152,8 +152,8 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-xs w-full bg-gray-950 overflow-auto flex-1">
-            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
+          <aside class="hidden md:block max-w-[250px] w-full bg-neutral-100 dark:bg-gray-950 overflow-auto flex-1">
+            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 dark:text-gray-600 text-sm font-medium" aria-label="Sidebar">
               <ul role="list" class="-mx-2 space-y-1">
                 <li>Overview</li>
                 <ul class="px-5">
@@ -161,14 +161,14 @@
                 </ul>
                 <li>Settings</li>
                 <ul class="px-5">
-                  <li><a href="dashboard-user.php" class="text-gray-400 hover:text-sky-400">User Settings</a></li>
-                  <li><a href="dashboard-system.php" class="text-gray-400 hover:text-sky-400">System Settings</a></li>
+                  <li><a href="dashboard-user.php" class="text-gray-600 dark:text-gray-400 hover:text-sky-400">User Settings</a></li>
+                  <li><a href="dashboard-system.php" class="text-gray-600 dark:text-gray-400 hover:text-sky-400">System Settings</a></li>
                 </ul>          
               </ul>
             </nav>
           </aside>
-          <main class="flex-1 bg-stone-800 overflow-auto">
-            <div class="flex justify-end border-b border-gray-600 pb-2">
+          <main class="flex-1 bg-white dark:bg-stone-800 overflow-auto">
+            <div class="flex justify-end border-b border-neutral-300 dark:border-gray-600 pb-2">
               <button class="inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 mr-2 mt-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                 Clear Cache
               </button>

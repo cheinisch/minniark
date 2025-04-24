@@ -31,3 +31,9 @@ function get_usermail()
     global $user;
     return $user['EMAIL'] ?? '';
 }
+
+function get_displayname()
+{
+    global $user;
+    return $user['DISPLAY_NAME'] ?? '';
+}

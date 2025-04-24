@@ -140,24 +140,20 @@
         </header>
         <div class="flex flex-1">
           <aside class="hidden md:block max-w-xs w-full bg-stone-900 overflow-auto flex-1">
-              <nav class="flex flex-1 flex-col px-10" aria-label="Sidebar">
+                <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
                   <ul role="list" class="-mx-2 space-y-1">
-                    <li>
-                      <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
-                      <a href="#" class="group flex gap-x-3 rounded-md bg-gray-50 p-2 pl-3 text-sm/6 font-semibold text-indigo-600">Content</a>
-                      <ul>
-                          <li>All Photos</li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href="#" class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600">Albums</a>
-                      <ul>
-                          <li>Album 1</li>
-                      </ul>
-                    </li>                  
+                    <li>Overview</li>
+                    <ul class="px-5">
+                      <li><a href="dashboard.php" class="text-sky-400">Dashboard</a></li>
+                    </ul>
+                    <li>Settings</li>
+                    <ul class="px-5">
+                      <li><a href="dashboard-user.php" class="text-gray-400 hover:text-sky-400">User Settings</a></li>
+                      <li><a href="dashboard-system.php" class="text-gray-400 hover:text-sky-400">System Settings</a></li>
+                    </ul>          
                   </ul>
                 </nav>
-          </aside>
+            </aside>
           <main class="flex-1 bg-stone-800 p-6 overflow-auto">
 
           </main>

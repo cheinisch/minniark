@@ -16,7 +16,7 @@
     </head>
     <body class="min-h-screen flex flex-col">
         <header>
-            <nav class="bg-gray-950 shadow-sm">
+            <nav class="bg-stone-900 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
@@ -139,118 +139,27 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[250px] w-full bg-gray-950 overflow-auto flex-1">
-                <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
-                  <ul role="list" class="-mx-2 space-y-1">
-                    <li>Overview</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard.php" class="text-gray-400 hover:text-sky-400">Dashboard</a></li>
-                    </ul>
-                    <li>Settings</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard-user.php" class="text-sky-400">User Settings</a></li>
-                      <li><a href="dashboard-system.php" class="text-gray-400 hover:text-sky-400">System Settings</a></li>
-                    </ul>          
-                  </ul>
-                </nav>
-            </aside>
-          <main class="flex-1 bg-neutral-900 p-6 overflow-auto">
-
-      <!-- Settings forms -->
-      <div class="divide-y divide-white/5">
-        <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-          <div>
-            <h2 class="text-base/7 font-semibold text-white">Personal Information</h2>
-            <p class="mt-1 text-sm/6 text-gray-400">Use a permanent address where you can receive mail.</p>
-          </div>
-
-          <form class="md:col-span-2">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-              <div class="col-span-full flex items-center gap-x-8">
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-24 flex-none rounded-lg bg-gray-800 object-cover">
-                <div>
-                  <button type="button" class="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Change avatar</button>
-                  <p class="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
-                </div>
-              </div>
-
-              <div class="sm:col-span-3">
-                <label for="first-name" class="block text-sm/6 font-medium text-white">First name</label>
-                <div class="mt-2">
-                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                </div>
-              </div>
-
-              <div class="sm:col-span-3">
-                <label for="last-name" class="block text-sm/6 font-medium text-white">Last name</label>
-                <div class="mt-2">
-                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                </div>
-              </div>
-
-              <div class="col-span-full">
-                <label for="email" class="block text-sm/6 font-medium text-white">Email address</label>
-                <div class="mt-2">
-                  <input id="email" name="email" type="email" autocomplete="email" value="<?php echo get_usermail(); ?>" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                </div>
-              </div>
-
-              <div class="col-span-full">
-                <label for="username" class="block text-sm/6 font-medium text-white">Username</label>
-                <div class="mt-2">
-                  <div class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
-                    <input type="text" name="username" id="username" value="<?php echo get_username(); ?>" class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6" placeholder="janesmith">
-                  </div>
-                </div>
-              </div>
+          <aside class="hidden md:block max-w-xs w-full bg-stone-900 overflow-auto flex-1">
+            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
+              <ul role="list" class="-mx-2 space-y-1">
+                <li>Overview</li>
+                <ul class="px-5">
+                  <li><a href="dashboard.php" class="text-gray-400 hover:text-sky-400">Dashboard</a></li>
+                </ul>
+                <li>Settings</li>
+                <ul class="px-5">
+                  <li><a href="dashboard-user.php" class="text-gray-400 hover:text-sky-400">User Settings</a></li>
+                  <li><a href="dashboard-system.php" class="text-sky-400">System Settings</a></li>
+                </ul>          
+              </ul>
+            </nav>
+          </aside>
+          <main class="flex-1 bg-stone-800 overflow-auto">
+            <div class="flex justify-end border-b border-gray-600 pb-2">
+              <button class="inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 mr-2 mt-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                Clear Cache
+              </button>
             </div>
-
-            <div class="mt-8 flex">
-              <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save</button>
-            </div>
-          </form>
-        </div>
-
-        <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-          <div>
-            <h2 class="text-base/7 font-semibold text-white">Change password</h2>
-            <p class="mt-1 text-sm/6 text-gray-400">Update your password associated with your account.</p>
-          </div>
-
-          <form class="md:col-span-2">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-              <div class="col-span-full">
-                <label for="current-password" class="block text-sm/6 font-medium text-white">Current password</label>
-                <div class="mt-2">
-                  <input id="current-password" name="current_password" type="password" autocomplete="current-password" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                </div>
-              </div>
-
-              <div class="col-span-full">
-                <label for="new-password" class="block text-sm/6 font-medium text-white">New password</label>
-                <div class="mt-2">
-                  <input id="new-password" name="new_password" type="password" autocomplete="new-password" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                </div>
-              </div>
-
-              <div class="col-span-full">
-                <label for="confirm-password" class="block text-sm/6 font-medium text-white">Confirm password</label>
-                <div class="mt-2">
-                  <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-8 flex">
-              <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
-
           </main>
         </div>
         <script src="js/tailwind.js"></script>

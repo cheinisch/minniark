@@ -16,7 +16,7 @@
     </head>
     <body class="min-h-screen flex flex-col">
         <header>
-            <nav class="bg-stone-900 shadow-sm">
+            <nav class="bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
@@ -139,24 +139,24 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-xs w-full bg-stone-900 overflow-auto flex-1">
-                <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
-                  <ul role="list" class="-mx-2 space-y-1">
-                    <li>Overview</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard.php" class="text-sky-400">Dashboard</a></li>
-                    </ul>
-                    <li>Settings</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard-user.php" class="text-gray-400 hover:text-sky-400">User Settings</a></li>
-                      <li><a href="dashboard-system.php" class="text-gray-400 hover:text-sky-400">System Settings</a></li>
-                    </ul>          
-                  </ul>
-                </nav>
-            </aside>
-          <main class="flex-1 bg-stone-800 p-6 overflow-auto">
-            <div class="flex justify-end border-b border-gray-600 pb-4">
-              <button class="inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+          <aside class="hidden md:block max-w-xs w-full bg-gray-950 overflow-auto flex-1">
+            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
+              <ul role="list" class="-mx-2 space-y-1">
+                <li>Overview</li>
+                <ul class="px-5">
+                  <li><a href="dashboard.php" class="text-sky-400">Dashboard</a></li>
+                </ul>
+                <li>Settings</li>
+                <ul class="px-5">
+                  <li><a href="dashboard-user.php" class="text-gray-400 hover:text-sky-400">User Settings</a></li>
+                  <li><a href="dashboard-system.php" class="text-gray-400 hover:text-sky-400">System Settings</a></li>
+                </ul>          
+              </ul>
+            </nav>
+          </aside>
+          <main class="flex-1 bg-stone-800 overflow-auto">
+            <div class="flex justify-end border-b border-gray-600 pb-2">
+              <button class="inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 mr-2 mt-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                 Clear Cache
               </button>
             </div>

@@ -71,7 +71,7 @@
       </div>
         <!-- Normal Layout -->
         <header>
-            <nav class="bg-stone-900 shadow-sm">
+            <nav class="bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
@@ -206,7 +206,7 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-xs w-full bg-stone-900 overflow-auto flex-1">
+          <aside class="hidden md:block max-w-[250px] w-full bg-gray-950 overflow-auto flex-1">
               <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
                 <ul role="list" class="-mx-2 space-y-1">
                   <li>Content</li>
@@ -230,7 +230,7 @@
                 </ul>
               </nav>
           </aside>
-          <main class="flex-1 bg-stone-800 overflow-auto">
+          <main class="flex-1 bg-neutral-900 overflow-auto">
             <!-- Top Menu Main Block -->
             <div class="flex items-center justify-between border-b-1 border-gray-600">
               <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px] ml-auto">

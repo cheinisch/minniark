@@ -128,7 +128,7 @@
       </div>
         <!-- Normal Layout -->      
         <header>
-            <nav class="bg-stone-900 shadow-sm">
+            <nav class="bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
@@ -261,7 +261,7 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[250px] w-full bg-stone-900 overflow-auto flex-1">
+          <aside class="hidden md:block max-w-[250px] w-full bg-gray-950 overflow-auto flex-1">
             <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
               <ul role="list" class="-mx-2 space-y-1">
                 <li>Modify Image</li>
@@ -274,7 +274,7 @@
               </ul>
             </nav>
           </aside>
-          <main class="flex-1 bg-stone-800 overflow-auto">
+          <main class="flex-1 bg-neutral-900 overflow-auto">
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
               <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5 4xl:max-w-7/8 mx-auto">

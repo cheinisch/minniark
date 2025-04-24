@@ -1,0 +1,19 @@
+services:
+  php:
+    image: cheinisch/imageportfolio:latest
+    volumes:
+      - ipdata:/var/www/html
+    expose:
+      - "9000"
+
+  nginx:
+    image: cheinisch/imageportfolio-nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    volumes:
+      - ipdata:/var/www/html
+
+volumes:
+  ipdata:

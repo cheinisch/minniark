@@ -1,21 +1,22 @@
 # Basis: PHP-FPM
 FROM php:8.0-fpm
 
-# Setze das Arbeitsverzeichnis
 WORKDIR /var/www/html
 
-# Kopiere den Code ins Image
+# Projekt ins Image kopieren
 COPY . .
 
-# Erstelle das Flag-File im existierenden /docker Verzeichnis
+# Sicherstellen, dass /docker existiert
+RUN mkdir -p /docker
+
+# Jetzt das Flag-File erzeugen
 RUN echo "Image built at $(date)" > /docker/is_docker.txt
 
 # Rechte setzen (optional, je nach CMS/Projekt)
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# Standard-Port für PHP-FPM
+# Exponiere Port für PHP-FPM
 EXPOSE 9000
 
-# Starte PHP-FPM beim Container-Start
 CMD ["php-fpm"]

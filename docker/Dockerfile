@@ -8,10 +8,10 @@ COPY . .
 
 # Sicherstellen, dass /docker existiert
 RUN ls
-RUN mkdir -p /docker
+#RUN mkdir -p /docker
 
 # Jetzt das Flag-File erzeugen
-RUN echo "Image built at $(date)" > /docker/is_docker.txt
+RUN echo "Image built at $(date)" > ./docker/is_docker.txt
 
 # Rechte setzen (optional, je nach CMS/Projekt)
 RUN chown -R www-data:www-data /var/www/html \

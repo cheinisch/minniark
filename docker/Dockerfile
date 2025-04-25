@@ -8,7 +8,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Erstelle das Flag-File im existierenden /docker Verzeichnis
-RUN echo "Image built at $(date)" > /docker/flag.txt
+RUN echo "Image built at $(date)" > /docker/is_docker.txt
 
 # Rechte setzen (optional, je nach CMS/Projekt)
 RUN chown -R www-data:www-data /var/www/html \

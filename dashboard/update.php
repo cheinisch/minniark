@@ -17,12 +17,10 @@ try {
         // Kopiere diese Datei nach /temp
         copy(__FILE__, $tempUpdateScript);
 
-        // Ausgabe für JS: Weiterleitung an neues Skript
         echo json_encode(['success' => true, 'redirect' => '/temp/update.php']);
         exit;
     }
 
-    // Weiter mit Update, da wir in /temp sind
     $versionFile = $tempDir . '/version.json';
 
     if (!file_exists($versionFile)) {
@@ -38,7 +36,6 @@ try {
     $downloadUrl = $versionData['new_version_url'];
     $zipFile = $tempDir . '/update.zip';
 
-    // Backup wichtiger Verzeichnisse
     $backupDirs = ['content', 'userdata', 'cache'];
     foreach ($backupDirs as $dir) {
         if (is_dir(dirname($baseDir) . "/$dir")) {
@@ -46,17 +43,14 @@ try {
         }
     }
 
-    // Alle Dateien und Ordner außer /temp löschen
     foreach (glob(dirname($baseDir) . '/*') as $file) {
         if (basename($file) !== 'temp') {
             deleteFileOrDir($file);
         }
     }
 
-    // ZIP herunterladen
     file_put_contents($zipFile, file_get_contents($downloadUrl));
 
-    // Entpacken
     $zip = new ZipArchive;
     if ($zip->open($zipFile) === TRUE) {
         $zip->extractTo(dirname($baseDir));
@@ -65,14 +59,29 @@ try {
         throw new Exception('Fehler beim Entpacken der ZIP-Datei.');
     }
 
-    // Backup-Verzeichnisse wiederherstellen
+    // Nach Entpacken: Ordner finden und Inhalte verschieben
+    $extractedFolder = null;
+    foreach (glob(dirname($baseDir) . '/*') as $folder) {
+        if (is_dir($folder) && preg_match('/Image-Portfolio-/', basename($folder))) {
+            $extractedFolder = $folder;
+            break;
+        }
+    }
+
+    if ($extractedFolder) {
+        foreach (glob($extractedFolder . '/*') as $item) {
+            $dest = dirname($baseDir) . '/' . basename($item);
+            rename($item, $dest);
+        }
+        rmdir($extractedFolder);
+    }
+
     foreach ($backupDirs as $dir) {
         if (is_dir($tempDir . "/$dir")) {
             recurse_copy($tempDir . "/$dir", dirname($baseDir) . "/$dir");
         }
     }
 
-    // Temp-Verzeichnis leeren
     deleteFileOrDir($tempDir);
     mkdir($tempDir, 0755, true);
 
@@ -81,7 +90,6 @@ try {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 
-// Hilfsfunktionen
 function recurse_copy($src, $dst) {
     $dir = opendir($src);
     @mkdir($dst, 0755, true);

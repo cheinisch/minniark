@@ -2,7 +2,7 @@ services:
   php:
     image: cheinisch/imageportfolio:latest
     volumes:
-      - ipdata:/var/www/html
+      - userdata_volume:/var/www/html/userdata
     expose:
       - "9000"
 
@@ -13,7 +13,7 @@ services:
     depends_on:
       - php
     volumes:
-      - ipdata:/var/www/html
+      - userdata_volume:/var/www/html/userdata
 
 volumes:
-  ipdata:
+  userdata_volume:

@@ -7,6 +7,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Sicherstellen, dass /docker existiert
+RUN ls
 RUN mkdir -p /docker
 
 # Jetzt das Flag-File erzeugen

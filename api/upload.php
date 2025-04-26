@@ -113,49 +113,4 @@ function createThumbnail($source, $destination, $newWidth) {
     imagedestroy($thumb);
     imagedestroy($image);
 }
-/*
-// Lese EXIF-Daten aus
-function getExifData($filePath) {
-    $exif = @exif_read_data($filePath);
-    if (!$exif) return [];
-
-    return [
-        "Camera" => isset($exif['Make'], $exif['Model']) ? "{$exif['Make']} {$exif['Model']}" : "Unknown",
-        "Lens" => $exif['UndefinedTag:0xA434'] ?? "Unknown",
-        "Aperture" => isset($exif['FNumber']) ? "f/" . $exif['FNumber'] : "Unknown",
-        "Shutter Speed" => $exif['ExposureTime'] ?? "Unknown",
-        "Focal Length" => isset($exif['FocalLength']) ? formatFocalLength($exif['FocalLength']) : "Unknown",
-        "ISO" => $exif['ISOSpeedRatings'] ?? "Unknown",
-        "Date" => $exif['DateTimeOriginal'] ?? "Unknown",
-        "GPS" => getGPSData($exif)
-    ];
-}
-
-// Lese GPS-Daten aus EXIF
-function getGPSData($exif) {
-    if (!isset($exif['GPSLatitude'], $exif['GPSLongitude'], $exif['GPSLatitudeRef'], $exif['GPSLongitudeRef'])) {
-        return "Not available";
-    }
-
-    $lat = convertGPSToDecimal($exif['GPSLatitude'], $exif['GPSLatitudeRef']);
-    $lon = convertGPSToDecimal($exif['GPSLongitude'], $exif['GPSLongitudeRef']);
-    
-    return ["latitude" => $lat, "longitude" => $lon];
-}
-
-// Umwandlung von GPS-Koordinaten ins Dezimalformat
-function convertGPSToDecimal($coord, $ref) {
-    $degrees = count($coord) > 0 ? gps2Num($coord[0]) : 0;
-    $minutes = count($coord) > 1 ? gps2Num($coord[1]) : 0;
-    $seconds = count($coord) > 2 ? gps2Num($coord[2]) : 0;
-
-    $decimal = $degrees + ($minutes / 60) + ($seconds / 3600);
-    return ($ref === 'S' || $ref === 'W') ? -$decimal : $decimal;
-}
-
-// Hilfsfunktion zur Umwandlung von GPS-Koordinaten
-function gps2Num($coordPart) {
-    $parts = explode('/', $coordPart);
-    return (count($parts) > 1) ? floatval($parts[0]) / floatval($parts[1]) : floatval($parts[0]);
-}*/
 ?>

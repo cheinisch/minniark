@@ -1,6 +1,11 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
     function extractExifData($filePath) {
+        error_log("Start Exif function");
+        error_log("File Path: ".$filePath);
         $exif = @exif_read_data($filePath, 0, true);
         if (!$exif || !is_array($exif)) return [];
 

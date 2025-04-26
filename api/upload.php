@@ -67,8 +67,12 @@ error_log("GUID: ".$guid);
 
 // Erstelle Thumbnails mit der GUID im /cache/ Verzeichnis
 $sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920];
+error_log("After Sizes Array");
 foreach ($sizes as $sizeKey => $sizeValue) {
+    error_log("Thumb Foreach");
+    
     $thumbnailPath = $cacheDir . $guid . "_$sizeKey." . $fileExt;
+    error_log("Filepath: ".$thumbnailPath);
     createThumbnail($targetFile, $thumbnailPath, $sizeValue);
     logMessage("Thumbnail created: $thumbnailPath");
 }

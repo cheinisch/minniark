@@ -4,7 +4,8 @@ services:
     expose:
       - "9000"
     volumes:
-      - userdata_volume:/var/www/html/userdata   # Nur /userdata gemountet
+      - appdata:/var/www/html
+      - userdata_volume:/var/www/html/userdata
 
   nginx:
     image: cheinisch/imageportfolio:latest
@@ -13,7 +14,9 @@ services:
     depends_on:
       - php
     volumes:
-      - userdata_volume:/var/www/html/userdata   # Auch nginx braucht /userdata
+      - appdata:/var/www/html
+      - userdata_volume:/var/www/html/userdata
 
 volumes:
+  appdata:
   userdata_volume:

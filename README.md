@@ -1,4 +1,4 @@
-[![.github/workflows/docker-multi-build.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-multi-build.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-multi-build.yml)
+[![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml)
 
 # IMAGE-PORTFOLIO
 

@@ -56,7 +56,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo $title;?> // ImagePortfolio</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
     <!-- Leaflet.js für OSM -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -315,7 +315,7 @@
       <div class="w-full px-0.5"> <!-- 2px Padding links/rechts -->
           <img src="<?php echo $imagePath; ?>" alt="<?php echo $title ?>" class="w-full h-auto">
       </div>
-      <div class="mt-6 px-10 ml-auto">
+      <div class="mt-6 px-10">
         <dl class="grid grid-cols-1 sm:grid-cols-2">
           <div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
             <h3 class="text-base/7 font-semibold text-gray-900"><?php echo $title ?></h3>

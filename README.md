@@ -15,10 +15,16 @@ There is a demo installation under [demo](https://demo.image-portfolio.org)
 
 ### Docker Container
 
-> [!WARNING]
-> The Docker Image is not stable at this moment 
+You can also install Image-Portfolio via Docker. The easiest way to do this is with the following commands:
+```
+mkdir image-portfolio
+cd image-portfolio
+curl -o docker-compose.yml https://raw.githubusercontent.com/cheinisch/Image-Portfolio/refs/heads/main/docker/docker-compose.yml
+docker-compose up -d
+```
+You can find more details about the Docker installation at [https://docs.image-portfolio.org](https://docs.image-portfolio.org).
 
-You can use the Docker Compose, which can be found in the Docker folder.
+If you want to customize the docker-compose yourself, you can find it in the repo under /docker.
 
 ### Manual Installation
 

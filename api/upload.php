@@ -83,10 +83,18 @@ $jsonData = [
     "exif" => $exifData
 ];
 $jsonFile = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
-file_put_contents($jsonFile, json_encode($jsonData, JSON_PRETTY_PRINT));
-logMessage("JSON metadata saved: $jsonFile");
 
-echo json_encode(["success" => "File uploaded successfully!", "filename" => $fileName]);
+// Versuche die JSON-Datei zu schreiben
+if (file_put_contents($jsonFile, json_encode($jsonData, JSON_PRETTY_PRINT)) === false) {
+    $errorMessage = "Failed to save JSON metadata: $jsonFile";
+    logMessage($errorMessage);                // in upload_log.txt schreiben
+    error_log($errorMessage);                  // zusätzlich ins PHP-Error-Log schreiben
+    die(json_encode(["error" => "Failed to save JSON metadata."]));
+} else {
+    logMessage("JSON metadata saved: $jsonFile");
+    echo json_encode(["success" => "File uploaded successfully!", "filename" => $fileName]);
+}
+
 
 
 // --------- FUNKTIONEN ---------

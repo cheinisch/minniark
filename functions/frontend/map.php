@@ -1,6 +1,6 @@
 <?php
 
-function getGpsPoints(string $mediaPath = 'content/images/'): array {
+function getGpsPoints(string $mediaPath = 'userdata/content/images/'): array {
     $points = [];
 
     $files = glob($mediaPath . '*.json');

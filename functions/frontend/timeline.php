@@ -1,6 +1,6 @@
 <?php
 
-function getTimelineImagesFromJson(string $mediaPath = 'content/images/', string $defaultSize = 'm'): array {
+function getTimelineImagesFromJson(string $mediaPath = 'userdata/content/images/', string $defaultSize = 'm'): array {
 
     $images = [];
 
@@ -47,7 +47,7 @@ function getTimelineImagesFromJson(string $mediaPath = 'content/images/', string
 }
 
 
-function getBlogPosts(string $essaysPath = 'content/essays/'): array {
+function getBlogPosts(string $essaysPath = 'userdata/content/essays/'): array {
     $posts = [];
 
     foreach (glob($essaysPath . '*/') as $dir) {

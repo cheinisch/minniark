@@ -1,10 +1,9 @@
 <?php
-ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Berlin');
 
-header('Content-Type: application/json; charset=utf-8');
+
 
 // Debugging-Funktion für Logs
 function logMessage($message) {
@@ -100,6 +99,8 @@ if (file_put_contents($jsonFile, json_encode($jsonData, JSON_PRETTY_PRINT)) === 
     logMessage("JSON metadata saved: $jsonFile");
     error_log("JSON erfolgreich geschrieben");
     error_log(json_encode(["success" => "File uploaded successfully!", "filename" => $fileName]));
+    
+    header('Content-Type: application/json; charset=utf-8');
     echo json_encode(["success" => "File uploaded successfully!", "filename" => $fileName]);
 }
 

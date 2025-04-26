@@ -61,6 +61,8 @@ $guid = uniqid();
 // EXIF-Daten auslesen
 $exifData = extractExifData($targetFile);
 
+error_log("Exif Data: ".$exifData);
+
 // Erstelle Thumbnails mit der GUID im /cache/ Verzeichnis
 $sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920];
 foreach ($sizes as $sizeKey => $sizeValue) {
@@ -91,6 +93,7 @@ echo json_encode(["success" => "File uploaded successfully!", "filename" => $fil
 
 // Erstelle ein Thumbnail in der gewünschten Größe
 function createThumbnail($source, $destination, $newWidth) {
+    error_log("Start Thumbnail");
     list($width, $height, $type) = getimagesize($source);
     $newHeight = intval(($height / $width) * $newWidth);
 

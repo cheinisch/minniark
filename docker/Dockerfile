@@ -1,15 +1,11 @@
-FROM php:8.3-fpm
+# docker/nginx.Dockerfile
+
+FROM nginx:stable
 
 WORKDIR /var/www/html
 
+# App-Dateien ins Image kopieren
 COPY . .
 
-RUN mkdir -p /var/www/html/userdata
-
-# Composer installieren und ausführen (falls benötigt)
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --no-dev --optimize-autoloader
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
+# nginx Config überschreiben
+COPY docker/default.conf /etc/nginx/conf.d/default.conf

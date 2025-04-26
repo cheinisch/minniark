@@ -1,0 +1,43 @@
+name: Build and Push PHP-FPM Image
+
+on:
+  push:
+    tags:
+      - 'v*'        # läuft bei Versions-Tags wie v1.0.0
+  workflow_dispatch:  # manueller Start möglich
+
+jobs:
+  build-and-push-php:
+    name: Build & Push PHP-FPM Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Extract version
+      id: version
+      run: |
+        if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+          VERSION="${GITHUB_REF#refs/tags/v}"
+        else
+          VERSION="latest"
+        fi
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build PHP-FPM Image
+      run: |
+        docker build -f docker/php.Dockerfile -t cheinisch/imageportfolio-php:${{ env.VERSION }} .
+        if [[ "${{ env.VERSION }}" != "latest" ]]; then
+          docker tag cheinisch/imageportfolio-php:${{ env.VERSION }} cheinisch/imageportfolio-php:latest
+        fi
+
+    - name: Push PHP-FPM Image
+      run: |
+        docker push cheinisch/imageportfolio-php:${{ env.VERSION }}
+        if [[ "${{ env.VERSION }}" != "latest" ]]; then
+          docker push cheinisch/imageportfolio-php:latest
+        fi

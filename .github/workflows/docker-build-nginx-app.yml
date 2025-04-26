@@ -1,0 +1,43 @@
+name: Build and Push NGINX Image
+
+on:
+  push:
+    tags:
+      - 'v*'        # läuft bei Versions-Tags wie v1.0.0
+  workflow_dispatch:  # manueller Start möglich
+
+jobs:
+  build-and-push-nginx:
+    name: Build & Push NGINX Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Extract version
+      id: version
+      run: |
+        if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+          VERSION="${GITHUB_REF#refs/tags/v}"
+        else
+          VERSION="latest"
+        fi
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build NGINX Image
+      run: |
+        docker build -f docker/nginx.Dockerfile -t cheinisch/imageportfolio:${{ env.VERSION }} .
+        if [[ "${{ env.VERSION }}" != "latest" ]]; then
+          docker tag cheinisch/imageportfolio:${{ env.VERSION }} cheinisch/imageportfolio:latest
+        fi
+
+    - name: Push NGINX Image
+      run: |
+        docker push cheinisch/imageportfolio:${{ env.VERSION }}
+        if [[ "${{ env.VERSION }}" != "latest" ]]; then
+          docker push cheinisch/imageportfolio:latest
+        fi

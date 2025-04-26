@@ -7,12 +7,13 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/functions/function_frontend.php';
 
-is_installed();
+
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use Parsedown;
 
+is_installed();
 
 // Twig Setup
 $loader = new FilesystemLoader(__DIR__ . '/template/basic');

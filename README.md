@@ -2,7 +2,7 @@
 
 # IMAGE-PORTFOLIO
 
-> [!WARNING]
+> [!INFORMATION]
 > This CMS is under development
 
 ImagePortfolio is a Flat File based Portfolio CMS

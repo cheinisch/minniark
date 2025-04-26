@@ -1,4 +1,3 @@
-
 services:
   php:
     image: cheinisch/imageportfolio:latest
@@ -14,7 +13,7 @@ services:
     depends_on:
       - php
     volumes:
-      - .:/var/www/html             # <<< Ganzes Projektverzeichnis mounten!
+      - .:/var/www/html   # <<< GANZ WICHTIG
       - userdata_volume:/var/www/html/userdata
 
 volumes:

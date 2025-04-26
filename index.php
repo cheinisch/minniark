@@ -39,7 +39,7 @@ $routes = [
 ];
 
 // JSON-Settings einlesen
-$settingsPath = __DIR__ . '/userdata/settings.json';
+$settingsPath = __DIR__ . '/userdata/config/settings.json';
 $settings = file_exists($settingsPath)
     ? json_decode(file_get_contents($settingsPath), true)
     : [];

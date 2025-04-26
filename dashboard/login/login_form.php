@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../../functions/function_backend.php");
 define('IMAGEPORTFOLIO', true);
 
 // Konfigurationsdatei einlesen
-$userConfigPath = __DIR__ . '/../../userdata/user_config.php';
+$userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
 $userConfig = file_exists($userConfigPath) ? require $userConfigPath : [];
 
 // Login-Datenstruktur für JavaScript vorbereiten

@@ -2,7 +2,7 @@
   require_once __DIR__ . '/../functions/functions.php'; // Funktionen einbinden
 
   // Verzeichnis für die Essays
-  $essaysDir = __DIR__ . '/../content/essays/';
+  $essaysDir = __DIR__ . '/../userdata/content/essays/';
   $essays = readAllEssays($essaysDir);
   
   $parent_menu_item = "essay";

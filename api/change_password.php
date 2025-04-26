@@ -3,7 +3,7 @@
 session_start();
 define('IMAGEPORTFOLIO', true);
 
-$userConfigPath = __DIR__ . '/../userdata/user_config.php';
+$userConfigPath = __DIR__ . '/../userdata/config/user_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentPassword = trim($_POST['current_password'] ?? '');

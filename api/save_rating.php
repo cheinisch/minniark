@@ -24,7 +24,7 @@ $filename = basename($data['filename']); // z. B. img_01.jpg
 $rating = (int) $data['rating'];
 
 // JSON-Dateiname erzeugen
-$jsonFile = __DIR__ . '/../content/images/' . preg_replace('/\.[^.]+$/', '.json', $filename);
+$jsonFile = __DIR__ . '/../userdata/content/images/' . preg_replace('/\.[^.]+$/', '.json', $filename);
 
 if (!file_exists($jsonFile)) {
     http_response_code(404);

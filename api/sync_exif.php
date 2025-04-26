@@ -14,8 +14,8 @@ secure_API();
 $data = json_decode(file_get_contents("php://input"), true);
 $filename = $data['filename'] ?? '';
 
-$imagePath = "../content/images/" . $filename;
-$jsonPath = "../content/images/" . pathinfo($filename, PATHINFO_FILENAME) . ".json";
+$imagePath = "../userdata/content/images/" . $filename;
+$jsonPath = "../userdata/content/images/" . pathinfo($filename, PATHINFO_FILENAME) . ".json";
 
 // 🔎 Datei vorhanden?
 if (!$filename || !file_exists($imagePath)) {

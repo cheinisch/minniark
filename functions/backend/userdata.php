@@ -1,7 +1,7 @@
 <?php
 
 define('IMAGEPORTFOLIO', true);
-$userConfigPath = __DIR__ . '/../../userdata/user_config.php';
+$userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
 $user = file_exists($userConfigPath) ? require $userConfigPath : [];
 
 // Nutzerbild (Gravatar mit Fallback)

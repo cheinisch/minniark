@@ -5,7 +5,7 @@ define('IMAGEPORTFOLIO', true);
 
 header('Content-Type: application/json');
 
-$userConfigPath = __DIR__ . '/../userdata/user_config.php';
+$userConfigPath = __DIR__ . '/../userdata/config/user_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

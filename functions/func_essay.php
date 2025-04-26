@@ -8,7 +8,7 @@
  * @return bool|string Erfolgsnachricht oder false bei Fehler.
  */
 function createEssay($title, $content) {
-    $baseDir = __DIR__ . '/../content/essays/';
+    $baseDir = __DIR__ . '/../userdata/content/essays/';
     $date = date('Y-m-d');
     $slug = generateSlug($title);
     $essayDir = $baseDir . "{$date}_{$slug}/";
@@ -46,7 +46,7 @@ function createEssay($title, $content) {
  * @return array|false Essay-Daten oder false bei Fehler.
  */
 function readEssay($date, $title) {
-    $baseDir = __DIR__ . '/../content/essays/';
+    $baseDir = __DIR__ . '/../userdata/content/essays/';
     $slug = generateSlug($title);
     $filePath = $baseDir . "{$date}_{$slug}/{$slug}.json";
 
@@ -135,7 +135,7 @@ function readEssayFromFile($filePath) {
  * @return bool|string Erfolgsnachricht oder false bei Fehler.
  */
 function updateEssay($date, $title, $newContent) {
-    $baseDir = __DIR__ . '/../content/essays/';
+    $baseDir = __DIR__ . '/../userdata/content/essays/';
     $slug = generateSlug($title);
     $filePath = $baseDir . "{$date}_{$slug}/{$slug}.json";
 

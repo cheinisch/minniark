@@ -8,7 +8,7 @@
  * @return bool|string Erfolgsnachricht oder false bei Fehler.
  */
 function createPage($title, $content) {
-    $baseDir = __DIR__ . '/../content/pages/';
+    $baseDir = __DIR__ . '/../userdata/content/pages/';
     $date = date('Y-m-d');
     $slug = generateSlug($title);
     $PageDir = $baseDir . "{$slug}/";
@@ -46,7 +46,7 @@ function createPage($title, $content) {
  * @return array|false Page-Daten oder false bei Fehler.
  */
 function readPage($date, $title) {
-    $baseDir = __DIR__ . '/../content/pages/';
+    $baseDir = __DIR__ . '/../userdata/content/pages/';
     $slug = generateSlug($title);
     $filePath = $baseDir . "{$slug}/{$slug}.json";
 
@@ -123,7 +123,7 @@ function readAllPages($pagesDir) {
  * @return bool|string Erfolgsnachricht oder false bei Fehler.
  */
 function updatePage($date, $title, $newContent) {
-    $baseDir = __DIR__ . '/../content/pages/';
+    $baseDir = __DIR__ . '/../userdata/content/pages/';
     $slug = generateSlug($title);
     $filePath = $baseDir . "{$slug}/{$slug}.json";
 

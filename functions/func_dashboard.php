@@ -8,7 +8,7 @@
  * @return bool Gibt true zurück, wenn die Authentifizierung erfolgreich war, ansonsten false.
  */
 function authenticateUser($username, $password) {
-    $userFile = __DIR__ . '/../userdata/users.json';
+    $userFile = __DIR__ . '/../userdata/config/users.json';
     
     // Benutzerdatei einlesen
     if (!file_exists($userFile)) {
@@ -28,7 +28,7 @@ function authenticateUser($username, $password) {
 
 
 function getUserData($username) {
-    $filePath = __DIR__ . '/../userdata/users.json';
+    $filePath = __DIR__ . '/../userdata/config/users.json';
     if (!file_exists($filePath)) {
         error_log("Datei nicht gefunden: " . $filePath);
         return null;
@@ -54,7 +54,7 @@ function getUserData($username) {
 
 
 function updateUserData($username, $data) {
-    $filePath = __DIR__ . '/../userdata/users.json';
+    $filePath = __DIR__ . '/../userdata/config/users.json';
     if (!file_exists($filePath)) {
         error_log("Datei nicht gefunden: " . $filePath);
         return false;
@@ -119,7 +119,7 @@ function getMaxFilesize()
     return $upload_mb;
 }
 
-function getImagesFromDirectory($directory = "../content/images/") {
+function getImagesFromDirectory($directory = "../userdata/content/images/") {
     if (!is_dir($directory)) {
         return [];
     }
@@ -139,7 +139,7 @@ function getImagesFromDirectory($directory = "../content/images/") {
 // Galerie mit Tailwind HTML ausgeben()
 /*function renderImageGallery() {
     $images = getImagesFromDirectory();
-    $imageDir = '../content/images/';
+    $imageDir = '../userdata/content/images/';
 
     if (empty($images)) {
         echo "<p class='text-center text-gray-500'>Keine Bilder gefunden.</p>";
@@ -167,7 +167,7 @@ function getImagesFromDirectory($directory = "../content/images/") {
  * und zeigt die Bilder in einem Grid-Layout an.
  */
 function renderImageGallery() {
-    $imageDir = '../content/images/';
+    $imageDir = '../userdata/content/images/';
     $images = getImagesFromDirectory($imageDir);
 
     // Falls keine Bilder gefunden wurden, eine Meldung ausgeben
@@ -216,7 +216,7 @@ function getImage($imagename)
     
     
     $fileName = $imagename;
-    $jsonFiles = glob("../content/images/*.json");
+    $jsonFiles = glob("../userdata/content/images/*.json");
     
     $imageData = null;
     

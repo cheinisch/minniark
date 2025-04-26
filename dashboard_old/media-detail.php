@@ -8,7 +8,7 @@
 
   // Daten extrahieren
   $fileName = $imageData['filename'];
-  $imagePath = "../content/images/" . $fileName;
+  $imagePath = "../userdata/content/images/" . $fileName;
   $title = $imageData['title'];
   $description = $imageData['description'];
   $uploadDate = $imageData['upload_date'];

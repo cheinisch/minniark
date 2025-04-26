@@ -3,7 +3,7 @@
 
     function count_images()
     {
-        $imageDir = '../content/images/';
+        $imageDir = '../userdata/content/images/';
         $counter = 0;
         foreach (scandir($imageDir) as $file) {
             if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
@@ -15,7 +15,7 @@
 
     function get_imageyearlist($mobile)
     {
-        $imageDir = '../content/images/';
+        $imageDir = '../userdata/content/images/';
         $yearCounts = [];
 
         // Alle Dateien im Verzeichnis durchgehen
@@ -59,7 +59,7 @@
 
     function get_ratinglist($mobile)
 {
-    $imageDir = '../content/images/';
+    $imageDir = '../userdata/content/images/';
     $ratingCounts = [];
 
     foreach (scandir($imageDir) as $file) {
@@ -111,7 +111,7 @@
     
 
     function renderImageGallery($filterYear = null, $filterRating = null) {
-        $imageDir = '../content/images/';
+        $imageDir = '../userdata/content/images/';
         $images = getImagesFromDirectory($imageDir);
     
         foreach ($images as $image) {
@@ -160,7 +160,7 @@
     }
     
 
-    function getImagesFromDirectory($directory = "../content/images/") {
+    function getImagesFromDirectory($directory = "../userdata/content/images/") {
         if (!is_dir($directory)) {
             return [];
         }

@@ -12,7 +12,7 @@ function logMessage($message) {
 }
 
 // Basisverzeichnisse
-$uploadDir = __DIR__ . '/../content/images/';
+$uploadDir = __DIR__ . '/../userdata/content/images/';
 $cacheDir = __DIR__ . '/../cache/images/';
 
 // Stelle sicher, dass die Verzeichnisse existieren

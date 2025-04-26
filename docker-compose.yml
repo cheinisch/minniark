@@ -2,7 +2,7 @@ services:
   php:
     image: cheinisch/imageportfolio:latest
     volumes:
-      - userdata_volume:/var/www/html/userdata
+      - userdata_volume:/var/www/html/userdata/config
     expose:
       - "9000"
 
@@ -14,7 +14,7 @@ services:
       - php
     volumes:
       - .:/var/www/html   # <<< GANZ WICHTIG
-      - userdata_volume:/var/www/html/userdata
+      - userdata_volume:/var/www/html/userdata/config
 
 volumes:
   userdata_volume:

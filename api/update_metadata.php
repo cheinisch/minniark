@@ -18,7 +18,7 @@ if (!is_array($data)) {
 
 // Dateiname validieren und Pfad sichern
 $filename = basename($data['filename'] ?? '');
-$imagePath = realpath("../content/images/$filename");
+$imagePath = realpath("../userdata/content/images/$filename");
 
 if (!$filename || !$imagePath || !file_exists($imagePath)) {
     echo json_encode(["success" => false, "error" => "Bilddatei nicht gefunden."]);
@@ -26,7 +26,7 @@ if (!$filename || !$imagePath || !file_exists($imagePath)) {
 }
 
 // JSON-Datei laden
-$jsonPath = realpath("../content/images/") . "/" . pathinfo($filename, PATHINFO_FILENAME) . ".json";
+$jsonPath = realpath("../userdata/content/images/") . "/" . pathinfo($filename, PATHINFO_FILENAME) . ".json";
 if (!file_exists($jsonPath)) {
     echo json_encode(["success" => false, "error" => "JSON-Datei nicht gefunden."]);
     exit;

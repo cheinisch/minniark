@@ -4,7 +4,7 @@ session_start();
 // Schutzkonstante aktivieren
 define('IMAGEPORTFOLIO', true);
 
-$userConfigPath = __DIR__ . '/../../userdata/user_config.php';
+$userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
 $error = null;
 
 // POST-Loginverarbeitung

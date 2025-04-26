@@ -18,7 +18,7 @@ $authToken = bin2hex(random_bytes(32));
 // print_r($_POST);
 
 // Pfad zur PHP-Konfigurationsdatei
-$configPath = __DIR__ . '/../userdata/user_config.php';
+$configPath = __DIR__ . '/../userdata/config/user_config.php';
 
 // Inhalt der Datei erstellen
 $configContent = "<?php\n";
@@ -35,7 +35,7 @@ $configContent .= "];\n";
 file_put_contents($configPath, $configContent, LOCK_EX);
 
 // Pfad zur settings.json
-$settingsPath = __DIR__ . '/../userdata/settings.json';
+$settingsPath = __DIR__ . '/../userdata/config/settings.json';
 
 // Einstellungsdaten als Array
 $settings = [

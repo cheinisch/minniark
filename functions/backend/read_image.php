@@ -6,7 +6,7 @@ function getImage($imagename)
     
     
     $fileName = $imagename;
-    $jsonFiles = glob("../content/images/*.json");
+    $jsonFiles = glob("../userdata/content/images/*.json");
     
     $imageData = null;
     

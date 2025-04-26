@@ -2,8 +2,8 @@
 
     function is_installed()
     {
-        $userconfig = __DIR__ . '/../../userdata/user_config.php';
-        $systemsettings = __DIR__ . '/../../userdata/system';
+        $userconfig = __DIR__ . '/../../userdata/config/user_config.php';
+        $systemsettings = __DIR__ . '/../../userdata/config/system';
 
 
         $accountfile = file_exists($userconfig);

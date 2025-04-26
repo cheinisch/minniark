@@ -85,6 +85,7 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
             if (xhr.status === 200) {
                 try {
                     const response = JSON.parse(xhr.responseText);
+                    console.log(response);
                     if (response.success) {
                         showMessage("Upload successful!", "success");
                     } else {

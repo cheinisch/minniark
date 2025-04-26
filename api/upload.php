@@ -1,10 +1,10 @@
 <?php
+ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Berlin');
 
-require_once( __DIR__ . "/../functions/function_api.php");
-    secure_API();
+header('Content-Type: application/json; charset=utf-8');
 
 // Debugging-Funktion für Logs
 function logMessage($message) {
@@ -98,6 +98,8 @@ if (file_put_contents($jsonFile, json_encode($jsonData, JSON_PRETTY_PRINT)) === 
     die(json_encode(["error" => "Failed to save JSON metadata."]));
 } else {
     logMessage("JSON metadata saved: $jsonFile");
+    error_log("JSON erfolgreich geschrieben");
+    error_log(json_encode(["success" => "File uploaded successfully!", "filename" => $fileName]));
     echo json_encode(["success" => "File uploaded successfully!", "filename" => $fileName]);
 }
 

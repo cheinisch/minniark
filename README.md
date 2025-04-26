@@ -22,6 +22,9 @@ cd image-portfolio
 curl -o docker-compose.yml https://raw.githubusercontent.com/cheinisch/Image-Portfolio/refs/heads/main/docker/docker-compose.yml
 docker-compose up -d
 ```
+
+Once the container has been deployed, it can be accessed at `http://localhost:8080`. The port can be changed in docker-compose.yml.
+
 You can find more details about the Docker installation at [https://docs.image-portfolio.org](https://docs.image-portfolio.org).
 
 If you want to customize the docker-compose yourself, you can find it in the repo under /docker.

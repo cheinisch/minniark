@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/../../functions/function_backend.php");
 
 // Schutzkonstante setzen
-define('IMAGEPORTFOLIO', true);
+// define('IMAGEPORTFOLIO', true);
 
 // Konfigurationsdatei einlesen
 $userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';

@@ -116,6 +116,13 @@ function createThumbnail($source, $destination, $newWidth) {
     }
 
     list($width, $height, $type) = $imageInfo;
+
+    
+    if (empty($width) || empty($height)) {
+        error_log("Invalid image dimensions: width=$width, height=$height for source: $source");
+        return false;
+    }
+
     $newHeight = intval(($height / $width) * $newWidth);
 
     switch ($type) {

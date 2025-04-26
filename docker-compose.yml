@@ -1,20 +1,20 @@
 services:
   php:
     image: cheinisch/imageportfolio:latest
-    volumes:
-      - userdata_volume:/var/www/html/userdata/config
     expose:
       - "9000"
 
   nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx.Dockerfile
     image: cheinisch/imageportfolio-nginx:latest
     ports:
       - "8080:80"
     depends_on:
       - php
     volumes:
-      - .:/var/www/html   # <<< GANZ WICHTIG
-      - userdata_volume:/var/www/html/userdata/config
+      - userdata_volume:/var/www/html/userdata   # <<< Nur /userdata als externes Volume
 
 volumes:
   userdata_volume:

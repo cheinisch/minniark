@@ -61,7 +61,9 @@ $guid = uniqid();
 // EXIF-Daten auslesen
 $exifData = extractExifData($targetFile);
 
-error_log("Exif Data: ". var_dumb($exifData));
+error_log("Exif Data: ". $exifData['Camera']);
+
+error_log("GUID: ".$guid);
 
 // Erstelle Thumbnails mit der GUID im /cache/ Verzeichnis
 $sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920];

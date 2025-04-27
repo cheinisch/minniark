@@ -1,11 +1,10 @@
 services:
   imageportfolio:
-    build:
-      context: .
-      dockerfile: docker/apache.Dockerfile
+    image: cheinisch/image-portfolio:latest  # Nutze das fertige Image!
     ports:
       - "8080:80"
     volumes:
+      - appdata:/var/www/html
       - userdata_volume:/var/www/html/userdata
     environment:
       - TZ=Europe/Berlin
@@ -13,4 +12,5 @@ services:
       - PHP_POST_MAX_SIZE=100M
 
 volumes:
+  appdata:
   userdata_volume:

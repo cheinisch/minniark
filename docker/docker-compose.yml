@@ -1,22 +1,14 @@
 services:
-  php:
-    image: cheinisch/imageportfolio-php:latest
-    expose:
-      - "9000"
-    volumes:
-      - appdata:/var/www/html
-      - userdata_volume:/var/www/html/userdata
-
-  nginx:
-    image: cheinisch/imageportfolio:latest
+  imageportfolio:
+    build:
+      context: .
+      dockerfile: docker/apache.Dockerfile
     ports:
       - "8080:80"
-    depends_on:
-      - php
     volumes:
-      - appdata:/var/www/html
       - userdata_volume:/var/www/html/userdata
+    environment:
+      - TZ=Europe/Berlin
 
 volumes:
-  appdata:
   userdata_volume:

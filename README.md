@@ -1,4 +1,4 @@
-[![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml)
+[![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml)
 
 # IMAGE-PORTFOLIO
 

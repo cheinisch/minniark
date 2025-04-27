@@ -9,6 +9,8 @@ services:
       - userdata_volume:/var/www/html/userdata
     environment:
       - TZ=Europe/Berlin
+      - PHP_UPLOAD_MAX_FILESIZE=100M
+      - PHP_POST_MAX_SIZE=100M
 
 volumes:
   userdata_volume:

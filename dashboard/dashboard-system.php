@@ -192,33 +192,11 @@
                       <strong class="font-bold">Fehler!</strong>
                       <span class="block sm:inline">Etwas ist schiefgelaufen.</span>
                     </div>
-                    <div class="col-span-full flex items-center gap-x-8">
-                      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-24 flex-none rounded-lg bg-gray-800 object-cover">
-                      <div>
-                        <button type="button" class=" bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Change avatar</button>
-                        <p class="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
-                      </div>
-                    </div>
 
-                    <div class="sm:col-span-3">
-                      <label for="first-name" class="block text-sm/6 font-medium text-white">Display name</label>
+                    <div class="sm:col-span-full">
+                      <label for="site-name" class="block text-sm/6 font-medium text-white">Site name</label>
                       <div class="mt-2">
-                        <input type="text" name="display-name" id="display-name" value="<?php echo get_displayname(); ?>" autocomplete="given-name" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                    <div class="col-span-3">
-                      <label for="username" class="block text-sm/6 font-medium text-white">Username</label>
-                      <div class="mt-2">
-                        <div class="flex items-center  bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-500">
-                          <input type="text" name="username" id="username" value="<?php echo get_username(); ?>" class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6" placeholder="janesmith">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-span-full">
-                      <label for="email" class="block text-sm/6 font-medium text-white">Email address</label>
-                      <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email" value="<?php echo get_usermail(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                        <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
                       </div>
                     </div>
                   </div>

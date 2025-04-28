@@ -8,16 +8,18 @@ WORKDIR /var/www/html
 
 # PHP Extensions installieren (für Uploads, Thumbnails, EXIF, JSON)
 RUN apt-get update && apt-get install -y \
-    libjpeg-dev \
     libpng-dev \
+    libjpeg-dev \
     libfreetype6-dev \
     libwebp-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
     unzip \
     git \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install gd exif fileinfo pdo_mysql mbstring bcmath
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Apache-Configs anpassen (Rewrite Engine an für saubere URLs, falls du willst)
 RUN a2enmod rewrite headers

@@ -5,7 +5,7 @@
 > [!IMPORTANT]
 > This CMS is under development
 
-ImagePortfolio is a Flat File based Portfolio CMS
+Image-Portfolio is a lightweight, flat-file-based portfolio template for showcasing images and projects — no database required, easy to customize, fully responsive.
 
 ## Demo
 

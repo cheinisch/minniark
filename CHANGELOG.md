@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.3.3]
+2025-04-29
+
+**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.3.2...v0.0.0.3.3
+
+### New Features
+- Add functions to Dashboard => System Settings
+
 ## [0.0.3.2]
 2025-04-29
 

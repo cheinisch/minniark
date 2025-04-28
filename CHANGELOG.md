@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.0.3.2]
+2025-04-29
+
+**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.3.1...v0.0.0.3.2
+
+### New Features
+- Move Templatefolder to /userdata/template
+
+### Bugfixes
+- add missing links Dashboard sidebar
+
 ## [0.0.3.1]
 2025-04-28
 

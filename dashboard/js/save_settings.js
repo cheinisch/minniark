@@ -82,3 +82,87 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const timelineForm = document.getElementById('change-timeline-form');
+    const successNotification = document.getElementById('notification-timeline-success');
+    const errorNotification = document.getElementById('notification-timeline-error');
+
+    timelineForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        // Status der beiden Switch-Buttons holen
+        const timelineEnable = document.getElementById('timline_enable').getAttribute('aria-checked') === 'true';
+        const timelineGroup = document.getElementById('timline_group').getAttribute('aria-checked') === 'true';
+
+        const data = {
+            timeline_enable: timelineEnable,
+            timeline_group_by_date: timelineGroup
+        };
+
+        try {
+            const response = await fetch('../api/change_sitesettings.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                successNotification.classList.remove('hidden');
+                errorNotification.classList.add('hidden');
+            } else {
+                errorNotification.classList.remove('hidden');
+                successNotification.classList.add('hidden');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            errorNotification.classList.remove('hidden');
+            successNotification.classList.add('hidden');
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const mapForm = document.getElementById('change-map-form');
+    const successNotification = document.getElementById('notification-map-success');
+    const errorNotification = document.getElementById('notification-map-error');
+
+    mapForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const mapEnable = document.getElementById('map_enable').getAttribute('aria-checked') === 'true';
+
+        const data = {
+            map_enable: mapEnable
+        };
+
+        try {
+            const response = await fetch('../api/change_sitesettings.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                successNotification.classList.remove('hidden');
+                errorNotification.classList.add('hidden');
+            } else {
+                errorNotification.classList.remove('hidden');
+                successNotification.classList.add('hidden');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            errorNotification.classList.remove('hidden');
+            successNotification.classList.add('hidden');
+        }
+    });
+});

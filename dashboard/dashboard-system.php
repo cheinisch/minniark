@@ -330,183 +330,92 @@
               </div>
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-white">Timeline Settings</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Select some Settings for the Images</p>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Timeline Settings</h2>
+                  <p class="mt-1 text-sm/6 text-gray-400">Select some Settings for the Timeline</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-password-form">
+                <form class="md:col-span-2" id="change-timeline-form">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Dein Passwort wurde erfolgreich geändert.</span>
+                    <div id="notification-timeline-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Success!</strong>
+                      <span class="block sm:inline">Settings are saved.</span>
                     </div>
 
                     <!-- Fehlermeldung (rot) -->
-                    <div id="notification-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Das aktuelle Passwort ist falsch.</span>
+                    <div id="notification-timeline-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Error!</strong>
+                      <span class="block sm:inline">Settings not changed.</span>
                     </div>
                     <div class="col-span-full">
-                      <label for="current-password" class="block text-sm/6 font-medium text-white">Current password</label>
-                      <div class="mt-2">
-                        <input id="current-password" name="current_password" type="password" autocomplete="current-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div> 
-
-                    <div class="col-span-full">
-                      <label for="new-password" class="block text-sm/6 font-medium text-white">New password</label>
-                      <div class="mt-2">
-                        <input id="new-password" name="new_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">Enable Timeline</span>
+                          <span class="text-sm text-gray-500" id="availability-description">Enable the timeline in the main navigation</span>
+                        </span>
+                        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                        <button type="button" id="timline_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
+                          <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
                       </div>
                     </div>
-
                     <div class="col-span-full">
-                      <label for="confirm-password" class="block text-sm/6 font-medium text-white">Confirm password</label>
-                      <div class="mt-2">
-                        <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">Group by month </span>
+                          <span class="text-sm text-gray-500" id="availability-description">Group the images by month</span>
+                        </span>
+                        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                        <button type="button" id="timline_group" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
+                          <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
                       </div>
                     </div>
                   </div>
 
                   <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btn_timeline" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
                   </div>
                 </form>
               </div>
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-white">Map Settings</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Select some Settings for the Images</p>
+                  <p class="mt-1 text-sm/6 text-gray-400">Select some Settings for the Mapview</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-password-form">
+                <form class="md:col-span-2" id="change-map-form">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Dein Passwort wurde erfolgreich geändert.</span>
+                    <div id="notification-map-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Success!</strong>
+                      <span class="block sm:inline">Settings are saved.</span>
                     </div>
 
                     <!-- Fehlermeldung (rot) -->
-                    <div id="notification-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Das aktuelle Passwort ist falsch.</span>
+                    <div id="notification-map-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Error!</strong>
+                      <span class="block sm:inline">Settings not changed.</span>
                     </div>
-                    <div class="col-span-full flex items-center gap-x-3">
-                      <input id="enable_map" name="enable_map" type="checkbox" class="h-4 w-4 border-gray-300 text-sky-600 focus:ring-sky-500">
-                      <label for="enable_map" class="block text-sm text-white">Enable Map view</label>
-                    </div>
-
                     <div class="col-span-full">
-                      <label for="new-password" class="block text-sm/6 font-medium text-white">Select Map Service</label>
-                      <div class="mt-2">
-                        <input id="new-password" name="new_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                      <div>
-                      <div>
-  <label id="listbox-label" class="block text-sm/6 font-medium text-gray-900">Assigned to</label>
-  <div class="relative mt-2">
-    <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
-      <span class="col-start-1 row-start-1 truncate pr-6">Tom Cook</span>
-      <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-        <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-      </svg>
-    </button>
-
-    <!--
-      Select popover, show/hide based on select state.
-
-      Entering: ""
-        From: ""
-        To: ""
-      Leaving: "transition ease-in duration-100"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-    <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
-      <!--
-        Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
-
-        Highlighted: "bg-indigo-600 text-white outline-hidden", Not Highlighted: "text-gray-900"
-      -->
-      <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-option-0" role="option">
-        <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-        <span class="block truncate font-normal">Open Streetmaps</span>
-
-        <!--
-          Checkmark, only display for selected option.
-
-          Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-        -->
-        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-          <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-          </svg>
-        </span>
-      </li>
-      <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-option-0" role="option">
-        <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-        <span class="block truncate font-normal">Google Maps</span>
-
-        <!--
-          Checkmark, only display for selected option.
-
-          Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-        -->
-        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-          <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-          </svg>
-        </span>
-      </li>
-      <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-option-0" role="option">
-        <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-        <span class="block truncate font-normal">Here Maps</span>
-
-        <!--
-          Checkmark, only display for selected option.
-
-          Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-        -->
-        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-          <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-          </svg>
-        </span>
-      </li>
-      <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-option-0" role="option">
-        <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-        <span class="block truncate font-normal">Bing Maps</span>
-
-        <!--
-          Checkmark, only display for selected option.
-
-          Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-        -->
-        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-          <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-          </svg>
-        </span>
-      </li>
-
-      <!-- More items... -->
-    </ul>
-  </div>
-</div>
-                    </div>
-
-                    <div class="col-span-full">
-                      <label for="api_key" class="block text-sm/6 font-medium text-white">Enter API KEY</label>
-                      <div class="mt-2">
-                        <input id="api_key" name="api_key" type="text"class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">Enable Map</span>
+                          <span class="text-sm text-gray-500" id="availability-description">Enables the map in the main navigation</span>
+                        </span>
+                        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                        <button type="button" id="map_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
+                          <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
                       </div>
                     </div>
                   </div>
 
                   <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btn_map" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
                   </div>
                 </form>
               </div>

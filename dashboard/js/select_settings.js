@@ -188,3 +188,38 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const switchButtons = [
+      'timline_enable',
+      'timline_group',
+      'map_enable'
+  ];
+
+  switchButtons.forEach(id => {
+      const button = document.getElementById(id);
+      if (!button) return;
+
+      button.addEventListener('click', function () {
+          const isEnabled = button.getAttribute('aria-checked') === 'true';
+          button.setAttribute('aria-checked', String(!isEnabled));
+
+          const ball = button.querySelector('span');
+
+          if (!isEnabled) {
+              // Einschalten
+              button.classList.remove('bg-gray-200');
+              button.classList.add('bg-sky-600');
+              ball.classList.remove('translate-x-0');
+              ball.classList.add('translate-x-5');
+          } else {
+              // Ausschalten
+              button.classList.remove('bg-sky-600');
+              button.classList.add('bg-gray-200');
+              ball.classList.remove('translate-x-5');
+              ball.classList.add('translate-x-0');
+          }
+      });
+  });
+});
+

@@ -1,6 +1,7 @@
 <?php
 
   require_once( __DIR__ . "/../functions/function_backend.php");
+  define('DASHBOARD', "USER");
 
 ?>
 
@@ -119,10 +120,7 @@
                       </div>
                       <span class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</span>
                       <div class="pl-5">
-                        <a href="dashboard-user.php" class="block px-4 text-base font-medium text-sky-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">User Settings</a>
-                        <a href="dashboard-system.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">System Settings</a>
-                        <a href="dashboard-theme.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Theme Settings</a>
-                        <a href="dashboard-export_import.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Export / Import</a>
+                        <?php include('inc/dashboard-mainnav.php'); ?>
                       </div>
                     </div>
                   </div>
@@ -155,21 +153,7 @@
         </header>
         <div class="flex flex-1">
           <aside class="hidden md:block max-w-[250px] w-full bg-gray-950 overflow-auto flex-1">
-                <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
-                  <ul role="list" class="-mx-2 space-y-1">
-                    <li>Overview</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard.php" class="text-gray-400 hover:text-sky-400">Dashboard</a></li>
-                    </ul>
-                    <li>Settings</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard-user.php" class="text-sky-400">User Settings</a></li>
-                      <li><a href="dashboard-system.php" class="text-gray-400 hover:text-sky-400">System Settings</a></li>
-                      <li><a href="dashboard-theme.php" class="text-gray-400 hover:text-sky-400">Theme Settings</a></li>
-                      <li><a href="dashboard-export_import.php" class="text-gray-400 hover:text-sky-400">Export / Import</a></li>
-                    </ul>          
-                  </ul>
-                </nav>
+              <?php include('inc/dashboard-sidenav.php'); ?>
             </aside>
           <main class="flex-1 bg-neutral-900 p-6 overflow-auto">
             <!-- Settings forms -->

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.3.1]
+2025-04-28
+
+**Full Changelog**: 
+
+### New Features
+- Add Docker Container with Apache
+- Add Installer to First run
+
+### Bugfixes
+- Count correct, if now images available
+
 ## [0.0.1.1]
 2025-01-20
 

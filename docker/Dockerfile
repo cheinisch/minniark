@@ -7,6 +7,12 @@ FROM php:8.2-apache
 WORKDIR /var/www/html
 
 # PHP Extensions installieren (für Uploads, Thumbnails, EXIF, JSON)
+RUN apt update
+RUN apt install -y curl
+RUN apt install -y zip
+RUN apt install -y unzip
+RUN apt install -y git
+
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \

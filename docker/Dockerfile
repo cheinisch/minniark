@@ -39,6 +39,9 @@ EXPOSE 80
 # App-Dateien ins Image kopieren
 COPY . .
 
+# PHP Settings
+COPY docker/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # Rechte setzen (optional je nach Projektstruktur)
 RUN chown -R www-data:www-data /var/www/html
 

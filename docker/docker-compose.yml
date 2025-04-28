@@ -1,6 +1,6 @@
 services:
   imageportfolio:
-    image: cheinisch/image-portfolio:latest  # Nutze das fertige Image!
+    image: cheinisch/imageportfolio:latest
     ports:
       - "8080:80"
     volumes:

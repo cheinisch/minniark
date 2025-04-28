@@ -121,6 +121,8 @@
                       <div class="pl-5">
                         <a href="dashboard-user.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">User Settings</a>
                         <a href="dashboard-system.php" class="block px-4 text-base font-medium text-sky-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">System Settings</a>
+                        <a href="dashboard-theme.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Theme Settings</a>
+                        <a href="dashboard-export_import.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Export / Import</a>
                       </div>
                     </div>
                   </div>
@@ -163,6 +165,8 @@
                 <ul class="px-5">
                   <li><a href="dashboard-user.php" class="text-gray-400 hover:text-sky-400">User Settings</a></li>
                   <li><a href="dashboard-system.php" class="text-sky-400">System Settings</a></li>
+                  <li><a href="dashboard-theme.php" class="text-gray-400 hover:text-sky-400">Theme Settings</a></li>
+                  <li><a href="dashboard-export_import.php" class="text-gray-400 hover:text-sky-400">Export / Import</a></li>
                 </ul>          
               </ul>
             </nav>
@@ -172,7 +176,7 @@
             <div class="divide-y divide-white/5">
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-white">Personal Information</h2>
+                  <h2 class="text-base/7 font-semibold text-white">Site Information</h2>
                   <p class="mt-1 text-sm/6 text-gray-400">Use a permanent address where you can receive mail.</p>
                 </div>
 

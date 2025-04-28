@@ -4,10 +4,14 @@
     function count_images()
     {
         $imageDir = '../userdata/content/images/';
+
         $counter = 0;
-        foreach (scandir($imageDir) as $file) {
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
-                $counter = $counter+1;
+        
+        if (is_dir($imageDir)) {
+            foreach (scandir($imageDir) as $file) {
+                if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
+                    $counter++;
+                }
             }
         }
         echo $counter;
@@ -19,96 +23,96 @@
         $yearCounts = [];
 
         // Alle Dateien im Verzeichnis durchgehen
-        foreach (scandir($imageDir) as $file) {
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
-                $filePath = $imageDir . $file;
-                $jsonContent = file_get_contents($filePath);
-                $data = json_decode($jsonContent, true);
+        if (is_dir($imageDir)) {
+            foreach (scandir($imageDir) as $file) {
+                if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
+                    $filePath = $imageDir . $file;
+                    $jsonContent = file_get_contents($filePath);
+                    $data = json_decode($jsonContent, true);
 
-                if (isset($data['exif']['Date'])) {
-                    $date = $data['exif']['Date'];
-                    $year = substr($date, 0, 4); // z.B. "2021:09:25 ..." → "2021"
+                    if (isset($data['exif']['Date'])) {
+                        $date = $data['exif']['Date'];
+                        $year = substr($date, 0, 4); // z.B. "2021:09:25 ..." → "2021"
 
-                    if (!empty($year)) {
-                        if (!isset($yearCounts[$year])) {
-                            $yearCounts[$year] = 0;
+                        if (!empty($year)) {
+                            if (!isset($yearCounts[$year])) {
+                                $yearCounts[$year] = 0;
+                            }
+                            $yearCounts[$year]++;
                         }
-                        $yearCounts[$year]++;
                     }
                 }
             }
-        }
 
-        // Nach Jahr sortieren
-        ksort($yearCounts);
+            // Nach Jahr sortieren
+            ksort($yearCounts);
 
-        // Ausgabe
-        foreach ($yearCounts as $year => $count) {
-            if($mobile)
-            {
-                echo "<div class=\"pl-5\">
-                    <a href=\"media.php?year=$year\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$year ($count)</a>
-                </div>\n";
-            }else{
-                echo "<li><a href=\"media.php?year=$year\" class=\"text-gray-400 hover:text-sky-400\">$year ($count)</a></li>\n";
+            // Ausgabe
+            foreach ($yearCounts as $year => $count) {
+                if($mobile)
+                {
+                    echo "<div class=\"pl-5\">
+                        <a href=\"media.php?year=$year\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$year ($count)</a>
+                    </div>\n";
+                }else{
+                    echo "<li><a href=\"media.php?year=$year\" class=\"text-gray-400 hover:text-sky-400\">$year ($count)</a></li>\n";
+                }
             }
-        }
-
+        }    
 
     }
 
     function get_ratinglist($mobile)
-{
-    $imageDir = '../userdata/content/images/';
-    $ratingCounts = [];
+    {
+        $imageDir = '../userdata/content/images/';
+        $ratingCounts = [];
+        
+        if (is_dir($imageDir)) {
+            foreach (scandir($imageDir) as $file) {
+                if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
+                    $filePath = $imageDir . $file;
+                    $data = json_decode(file_get_contents($filePath), true);
+                    $rating = isset($data['rating']) ? (int)$data['rating'] : 0;
+                    $ratingCounts[$rating] = ($ratingCounts[$rating] ?? 0) + 1;
+                }
+            }
 
-    foreach (scandir($imageDir) as $file) {
-        if (pathinfo($file, PATHINFO_EXTENSION) === 'json') {
-            $filePath = $imageDir . $file;
-            $data = json_decode(file_get_contents($filePath), true);
-            $rating = isset($data['rating']) ? (int)$data['rating'] : 0;
-            $ratingCounts[$rating] = ($ratingCounts[$rating] ?? 0) + 1;
+            // Sicherstellen, dass 0–5 enthalten sind
+            for ($i = 0; $i <= 5; $i++) {
+                $ratingCounts[$i] = $ratingCounts[$i] ?? 0;
+            }
+
+            krsort($ratingCounts);
+
+            foreach ($ratingCounts as $rating => $count) {
+                $stars = '';
+                for ($i = 1; $i <= 5; $i++) {
+                    $colorClass = $i <= $rating ? 'text-sky-400' : 'text-gray-300';
+                    $stars .= '<svg class="w-4 h-4 inline-block ' . $colorClass . '" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.137 3.5h3.684
+                                c.969 0 1.371 1.24.588 1.81l-2.984 2.17 1.138 3.5
+                                c.3.921-.755 1.688-1.538 1.117L10 13.348l-2.976 2.176
+                                c-.783.571-1.838-.196-1.538-1.117l1.138-3.5-2.984-2.17
+                                c-.783-.57-.38-1.81.588-1.81h3.684l1.137-3.5z"/>
+                            </svg>';
+                }
+
+                if ($mobile) {
+                    echo "<div class=\"pl-5\">
+                            <a href=\"media.php?rating=$rating\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">
+                                $stars ($count)
+                            </a>
+                        </div>\n";
+                } else {
+                    echo "<li>
+                            <a href=\"media.php?rating=$rating\" class=\"text-gray-400 hover:text-sky-400\">
+                                $stars ($count)
+                            </a>
+                        </li>\n";
+                }
+            }
         }
-    }
-
-    // Sicherstellen, dass 0–5 enthalten sind
-    for ($i = 0; $i <= 5; $i++) {
-        $ratingCounts[$i] = $ratingCounts[$i] ?? 0;
-    }
-
-    krsort($ratingCounts);
-
-    foreach ($ratingCounts as $rating => $count) {
-        $stars = '';
-        for ($i = 1; $i <= 5; $i++) {
-            $colorClass = $i <= $rating ? 'text-sky-400' : 'text-gray-300';
-            $stars .= '<svg class="w-4 h-4 inline-block ' . $colorClass . '" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.137 3.5h3.684
-                          c.969 0 1.371 1.24.588 1.81l-2.984 2.17 1.138 3.5
-                          c.3.921-.755 1.688-1.538 1.117L10 13.348l-2.976 2.176
-                          c-.783.571-1.838-.196-1.538-1.117l1.138-3.5-2.984-2.17
-                          c-.783-.57-.38-1.81.588-1.81h3.684l1.137-3.5z"/>
-                      </svg>';
-        }
-
-        if ($mobile) {
-            echo "<div class=\"pl-5\">
-                    <a href=\"media.php?rating=$rating\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">
-                        $stars ($count)
-                    </a>
-                  </div>\n";
-        } else {
-            echo "<li>
-                    <a href=\"media.php?rating=$rating\" class=\"text-gray-400 hover:text-sky-400\">
-                        $stars ($count)
-                    </a>
-                  </li>\n";
-        }
-    }
-}
-
-
-    
+    }    
 
     function renderImageGallery($filterYear = null, $filterRating = null) {
         $imageDir = '../userdata/content/images/';

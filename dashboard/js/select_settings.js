@@ -40,3 +40,151 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const languageButton = document.querySelector('[aria-haspopup="listbox-language"]');
+    const languageList = languageButton?.nextElementSibling;
+    const languageText = languageButton?.querySelector('span.truncate');
+    const hiddenLanguageInput = document.getElementById('selected-language');
+
+    if (languageButton && languageList) {
+        languageList.style.display = 'none';
+
+        languageButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            const isOpen = languageList.style.display === 'block';
+            languageList.style.display = isOpen ? 'none' : 'block';
+            languageButton.setAttribute('aria-expanded', String(!isOpen));
+        });
+
+        const options = languageList.querySelectorAll('li');
+        options.forEach(option => {
+            option.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const clickedTextSpan = this.querySelector('span.truncate');
+                const clickedCheckmarkSpan = this.querySelector('span.absolute');
+
+                if (clickedTextSpan && clickedCheckmarkSpan) {
+                    // Button-Text ändern
+                    languageText.innerText = clickedTextSpan.innerText.trim();
+
+                    // Verstecktes Input-Feld aktualisieren!
+                    hiddenLanguageInput.value = clickedTextSpan.innerText.trim();
+
+                    // Alle Häkchen verstecken
+                    languageList.querySelectorAll('li span.absolute').forEach(checkmark => {
+                        checkmark.classList.add('hidden');
+                    });
+
+                    // Nur aktuelles Häkchen anzeigen
+                    clickedCheckmarkSpan.classList.remove('hidden');
+
+                    // Menü schließen
+                    languageList.style.display = 'none';
+                    languageButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!languageButton.contains(e.target) && !languageList.contains(e.target)) {
+                languageList.style.display = 'none';
+                languageButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const imageButton = document.querySelector('[aria-haspopup="listbox-image"]');
+  const imageList = imageButton?.nextElementSibling;
+  const imageText = imageButton?.querySelector('span.truncate');
+  const hiddenImageInput = document.getElementById('image_size');
+
+  if (imageButton && imageList) {
+      // 1. Liste beim Laden verstecken
+      imageList.style.display = 'none';
+
+      // 2. Klick auf Button: öffnen/schließen
+      imageButton.addEventListener('click', function (e) {
+          e.preventDefault();
+          const isOpen = imageList.style.display === 'block';
+          imageList.style.display = isOpen ? 'none' : 'block';
+          imageButton.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      // 3. Auswahl der Größe
+      const options = imageList.querySelectorAll('li');
+      options.forEach(option => {
+          option.addEventListener('click', function (e) {
+              e.preventDefault();
+
+              const clickedTextSpan = this.querySelector('span.truncate');
+              const clickedCheckmarkSpan = this.querySelector('span.absolute');
+
+              if (clickedTextSpan && clickedCheckmarkSpan) {
+                  // Button-Text aktualisieren
+                  imageText.innerText = clickedTextSpan.innerText.trim();
+
+                  // Verstecktes Input-Field aktualisieren
+                  hiddenImageInput.value = clickedTextSpan.innerText.trim();
+
+                  // Alle Häkchen verstecken
+                  imageList.querySelectorAll('li span.absolute').forEach(checkmark => {
+                      checkmark.classList.add('hidden');
+                  });
+
+                  // Nur aktuelles Häkchen zeigen
+                  clickedCheckmarkSpan.classList.remove('hidden');
+
+                  // Liste schließen
+                  imageList.style.display = 'none';
+                  imageButton.setAttribute('aria-expanded', 'false');
+              }
+          });
+      });
+
+      // 4. Klick außerhalb schließt Dropdown
+      document.addEventListener('click', function (e) {
+          if (!imageButton.contains(e.target) && !imageList.contains(e.target)) {
+              imageList.style.display = 'none';
+              imageButton.setAttribute('aria-expanded', 'false');
+          }
+      });
+  }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const recreateCacheButton = document.getElementById('recreate-cache-button'); // Du musst dem Button eine ID geben!
+  const successNotification = document.getElementById('notification-success');
+  const errorNotification = document.getElementById('notification-error');
+
+  if (recreateCacheButton) {
+      recreateCacheButton.addEventListener('click', async function (e) {
+          e.preventDefault();
+
+          try {
+              const response = await fetch('../api/recreate_cache.php', {
+                  method: 'POST'
+              });
+
+              const result = await response.json();
+
+              if (result.success) {
+                  successNotification.classList.remove('hidden');
+                  errorNotification.classList.add('hidden');
+              } else {
+                  errorNotification.classList.remove('hidden');
+                  successNotification.classList.add('hidden');
+              }
+          } catch (error) {
+              console.error('Error:', error);
+              errorNotification.classList.remove('hidden');
+              successNotification.classList.add('hidden');
+          }
+      });
+  }
+});

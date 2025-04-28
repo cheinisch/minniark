@@ -9,6 +9,15 @@
         return $siteTitle;
     }
 
+    function get_sitedescription()
+    {
+        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
+        $settings = json_decode(file_get_contents($settingsPath), true);
+        $siteDescription = $settings['site_description'] ?? '';
+
+        return $siteDescription;
+    }
+
     function get_language()
     {
         $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
@@ -16,4 +25,13 @@
         $siteTitle = $settings['language'] ?? 'en';
 
         return $siteTitle;
+    }
+
+    function get_imagesize()
+    {
+        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
+        $settings = json_decode(file_get_contents($settingsPath), true);
+        $imageSize = $settings['default_image_size'] ?? 'M';
+
+        return $imageSize;
     }

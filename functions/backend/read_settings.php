@@ -35,3 +35,45 @@
 
         return $imageSize;
     }
+
+    function is_map_enabled()
+    {
+        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
+        $settings = json_decode(file_get_contents($settingsPath), true);
+        $switch = $settings['map']['enable'] ?? false;
+        if($switch)
+        {
+            $value = "true";
+        }else{
+            $value = "false";
+        }
+        return $value;
+    }
+
+    function is_timeline_enabled()
+    {
+        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
+        $settings = json_decode(file_get_contents($settingsPath), true);
+        $switch = $settings['timeline']['enable'] ?? false;
+        if($switch)
+        {
+            $value = "true";
+        }else{
+            $value = "false";
+        }
+        return $value;
+    }
+
+    function is_timeline_grouped()
+    {
+        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
+        $settings = json_decode(file_get_contents($settingsPath), true);
+        $switch = $settings['timeline']['groupe_by_date'] ?? false;
+        if($switch)
+        {
+            $value = "true";
+        }else{
+            $value = "false";
+        }
+        return $value;
+    }

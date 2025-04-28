@@ -354,7 +354,7 @@
                           <span class="text-sm text-gray-500" id="availability-description">Enable the timeline in the main navigation</span>
                         </span>
                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                        <button type="button" id="timline_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
+                        <button type="button" id="timline_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo is_timeline_enabled(); ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
                           <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -367,7 +367,7 @@
                           <span class="text-sm text-gray-500" id="availability-description">Group the images by month</span>
                         </span>
                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                        <button type="button" id="timline_group" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
+                        <button type="button" id="timline_group" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo is_timeline_grouped(); ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
                           <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -406,7 +406,7 @@
                           <span class="text-sm text-gray-500" id="availability-description">Enables the map in the main navigation</span>
                         </span>
                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                        <button type="button" id="map_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
+                        <button type="button" id="map_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo is_map_enabled(); ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
                           <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>

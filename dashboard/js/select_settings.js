@@ -238,4 +238,61 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const themeButton = document.querySelector('[aria-haspopup="listbox-theme"]');
+    const themeList = themeButton?.nextElementSibling;
+    const themeText = themeButton?.querySelector('span.truncate');
+    const hiddenThemeInput = document.getElementById('theme');
 
+    if (themeButton && themeList) {
+        // 1. Liste beim Laden verstecken
+        themeList.style.display = 'none';
+
+        // 2. Klick auf Button: öffnen/schließen
+        themeButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            const isOpen = themeList.style.display === 'block';
+            themeList.style.display = isOpen ? 'none' : 'block';
+            themeButton.setAttribute('aria-expanded', String(!isOpen));
+        });
+
+        // 3. Auswahl des Themes
+        const options = themeList.querySelectorAll('li');
+        options.forEach(option => {
+            option.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const clickedTextSpan = this.querySelector('span.truncate');
+                const clickedCheckmarkSpan = this.querySelector('span.absolute');
+
+                if (clickedTextSpan && clickedCheckmarkSpan) {
+                    // Button-Text aktualisieren
+                    themeText.innerText = clickedTextSpan.innerText.trim();
+
+                    // Verstecktes Input-Field aktualisieren
+                    hiddenThemeInput.value = clickedTextSpan.innerText.trim();
+
+                    // Alle Häkchen verstecken
+                    themeList.querySelectorAll('li span.absolute').forEach(checkmark => {
+                        checkmark.classList.add('hidden');
+                    });
+
+                    // Nur aktuelles Häkchen zeigen
+                    clickedCheckmarkSpan.classList.remove('hidden');
+
+                    // Liste schließen
+                    themeList.style.display = 'none';
+                    themeButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // 4. Klick außerhalb schließt Dropdown
+        document.addEventListener('click', function (e) {
+            if (!themeButton.contains(e.target) && !themeList.contains(e.target)) {
+                themeList.style.display = 'none';
+                themeButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+});

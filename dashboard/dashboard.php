@@ -1,6 +1,8 @@
 <?php
 
   require_once( __DIR__ . "/../functions/function_backend.php");
+  $settingspage = "dashboard";
+  security_checklogin();
 
 ?>
 
@@ -153,19 +155,7 @@
         </header>
         <div class="flex flex-1">
           <aside class="hidden md:block max-w-[250px] w-full bg-neutral-100 dark:bg-gray-950 overflow-auto flex-1">
-            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 dark:text-gray-600 text-sm font-medium" aria-label="Sidebar">
-              <ul role="list" class="-mx-2 space-y-1">
-                <li>Overview</li>
-                <ul class="px-5">
-                  <li><a href="dashboard.php" class="text-sky-400">Dashboard</a></li>
-                </ul>
-                <li>Settings</li>
-                <ul class="px-5">
-                  <li><a href="dashboard-user.php" class="text-gray-600 dark:text-gray-400 hover:text-sky-400">User Settings</a></li>
-                  <li><a href="dashboard-system.php" class="text-gray-600 dark:text-gray-400 hover:text-sky-400">System Settings</a></li>
-                </ul>          
-              </ul>
-            </nav>
+            <?php include('inc/dashboard-sidenav.php'); ?>
           </aside>
           <main class="flex-1 bg-white dark:bg-stone-800 overflow-auto">
             <div class="flex justify-end border-b border-neutral-300 dark:border-gray-600 pb-2">

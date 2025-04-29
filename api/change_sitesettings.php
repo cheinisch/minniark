@@ -44,6 +44,10 @@ if (isset($input['timeline_group_by_date'])) {
 if (isset($input['map_enable'])) {
     $settings['map']['enable'] = $input['map_enable'];
 }
+if (isset($input['theme'])) {
+    $settings['theme'] = $input['theme'];
+}
+
 
 // Datei speichern
 if (file_put_contents($settingsFile, json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {

@@ -166,3 +166,46 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const themeForm = document.getElementById('change-theme');
+    const successNotification = document.getElementById('notification-theme-success');
+    const errorNotification = document.getElementById('notification-theme-error');
+    const hiddenThemeInput = document.getElementById('theme');
+
+    if (themeForm) {
+        themeForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const selectedTheme = hiddenThemeInput.value.trim();
+
+            const data = {
+                theme: selectedTheme
+            };
+
+            try {
+                const response = await fetch('../api/change_sitesettings.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    successNotification.classList.remove('hidden');
+                    errorNotification.classList.add('hidden');
+                } else {
+                    errorNotification.classList.remove('hidden');
+                    successNotification.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorNotification.classList.remove('hidden');
+                successNotification.classList.add('hidden');
+            }
+        });
+    }
+});

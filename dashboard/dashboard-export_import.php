@@ -1,6 +1,8 @@
 <?php
 
   require_once( __DIR__ . "/../functions/function_backend.php");
+  $settingspage = "export";
+  security_checklogin();
 
 ?>
 
@@ -15,14 +17,29 @@
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body class="min-h-screen flex flex-col">
+      <div id="backup-modal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
+        <div class="relative bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+          
+          <!-- Schließen-X -->
+          <button onclick="closeBackupModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl font-bold leading-none">
+            &times;
+          </button>
+
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Backup erstellt</h2>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Dein Backup wurde erfolgreich erstellt. Du kannst es hier herunterladen:</p>
+          
+          <a id="backup-download-link" href="#" class="text-sky-600 hover:underline break-all" download></a>
+        </div>
+      </div>
+
         <header>
-            <nav class="bg-gray-950 shadow-sm">
+            <nav class="bg-neutral-100 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
                       <div class="mr-2 -ml-2 flex items-center md:hidden">
                         <!-- Mobile menu button -->
-                        <button type="button" class="relative inline-flex items-center justify-center  p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
+                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
                           <span class="absolute -inset-0.5"></span>
                           <span class="sr-only">Open main menu</span>
                           <!--
@@ -44,11 +61,11 @@
                         </button>
                       </div>
                       <div class="hidden md:ml-6 md:flex md:space-x-8">
-                        <!-- Current: "border-sky-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+                        <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
                         <a href="dashboard.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-sm font-medium text-sky-400">Dashboard</a>
-                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Images</a>
-                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
-                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
+                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Images</a>
+                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
+                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
                       </div>
                     </div>
                     <div class="flex items-center">
@@ -154,33 +171,19 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[250px] w-full bg-gray-950 overflow-auto flex-1">
-                <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-sm font-medium" aria-label="Sidebar">
-                  <ul role="list" class="-mx-2 space-y-1">
-                    <li>Overview</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard.php" class="text-gray-400 hover:text-sky-400">Dashboard</a></li>
-                    </ul>
-                    <li>Settings</li>
-                    <ul class="px-5">
-                      <li><a href="dashboard-user.php" class="text-gray-400 hover:text-sky-400">User Settings</a></li>
-                      <li><a href="dashboard-system.php" class="text-gray-400 hover:text-sky-400">System Settings</a></li>
-                      <li><a href="dashboard-theme.php" class="text-gray-400 hover:text-sky-400">Theme Settings</a></li>
-                      <li><a href="dashboard-export_import.php" class="text-sky-400">Export / Import</a></li>
-                    </ul>          
-                  </ul>
-                </nav>
-            </aside>
-          <main class="flex-1 bg-neutral-900 p-6 overflow-auto">
+          <aside class="hidden md:block max-w-[250px] w-full bg-neutral-100 dark:bg-gray-950 overflow-auto flex-1">
+              <?php include('inc/dashboard-sidenav.php'); ?>
+          </aside>
+          <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
             <!-- Settings forms -->
-            <div class="divide-y divide-white/5">
+            <div class="divide-y divide-gray-400 dark:divide-white/5">
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-white">Personal Information</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Use a permanent address where you can receive mail.</p>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Export Data</h2>
+                  <p class="mt-1 text-sm/6 text-gray-400">Export your data as a zip file</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-data-form">
+                <div class="md:col-span-2" id="exportform">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Notifications für Benutzerdaten -->
                     <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
@@ -192,47 +195,26 @@
                       <strong class="font-bold">Fehler!</strong>
                       <span class="block sm:inline">Etwas ist schiefgelaufen.</span>
                     </div>
-                    <div class="col-span-full flex items-center gap-x-8">
-                      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-24 flex-none rounded-lg bg-gray-800 object-cover">
-                      <div>
-                        <button type="button" class=" bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Change avatar</button>
-                        <p class="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
-                      </div>
-                    </div>
 
-                    <div class="sm:col-span-3">
-                      <label for="first-name" class="block text-sm/6 font-medium text-white">Display name</label>
-                      <div class="mt-2">
-                        <input type="text" name="display-name" id="display-name" value="<?php echo get_displayname(); ?>" autocomplete="given-name" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                    <div class="col-span-4">
+                      <label for="display-prefix" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Prefix</label>
+                      <div class="mt-2 flex gap-2">
+                        <input type="text" name="display-prefix" id="display-prefix" value="<?php echo read_prefix(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                        <button id="backup-pre-btn" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save Prefix</button>
                       </div>
                     </div>
-                    <div class="col-span-3">
-                      <label for="username" class="block text-sm/6 font-medium text-white">Username</label>
-                      <div class="mt-2">
-                        <div class="flex items-center  bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-500">
-                          <input type="text" name="username" id="username" value="<?php echo get_username(); ?>" class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6" placeholder="janesmith">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-span-full">
-                      <label for="email" class="block text-sm/6 font-medium text-white">Email address</label>
-                      <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email" value="<?php echo get_usermail(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                  </div>
+                  </div>                 
 
                   <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button id="backup-btn" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Generate Backup</button>
                   </div>
-                </form>
+                </div>
               </div>
 
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-white">Change password</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Update your password associated with your account.</p>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Import data</h2>
+                  <p class="mt-1 text-sm/6 text-gray-400">Import your backup.</p>
                 </div>
 
                 <form class="md:col-span-2" id="change-password-form">
@@ -275,10 +257,67 @@
                   </div>
                 </form>
               </div>
+
+              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+                <div>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Backup Files</h2>
+                  <p class="mt-1 text-sm/6 text-gray-400">Download your backupfiles.</p>
+                </div>
+
+                <div class="md:col-span-2" id="change-password-form">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+                    <!-- Erfolgsmeldung (grün) -->
+                    <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Erfolg!</strong>
+                      <span class="block sm:inline">Dein Passwort wurde erfolgreich geändert.</span>
+                    </div>
+
+                    <!-- Fehlermeldung (rot) -->
+                    <div id="notification-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Fehler!</strong>
+                      <span class="block sm:inline">Das aktuelle Passwort ist falsch.</span>
+                    </div>
+                    <table class="col-span-full">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>File</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                          $backupfiles = read_backupfiles(); // richtig: direkt zuweisen, nicht mit []
+
+                          foreach ($backupfiles as $file) {
+                              echo '
+                              <tr class="border-b border-gray-200 dark:border-gray-700">
+                                  <td>' . date('Y-m-d H:i', $file['timestamp']) . '</td>
+                                  <td>' . htmlspecialchars($file['name']) . '</td>
+                                  <td>
+                                      <form method="post" action="delete_backup.php" onsubmit="return confirm(\'Datei wirklich löschen?\');">
+                                          <input type="hidden" name="filename" value="' . htmlspecialchars($file['name']) . '">
+                                          <button type="submit" class="text-red-600 hover:text-red-800">Löschen</button>
+                                      </form>
+                                  </td>
+                              </tr>';
+                          }
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </main>
         </div>
+        <script>
+        function closeBackupModal() {
+          document.getElementById('backup-modal').classList.add('hidden');
+        }
+        </script>
         <script src="js/tailwind.js"></script>
-        <script src="js/change_password.js"></script>
+        <script src="js/backup.js"></script>
     </body>
 </html>

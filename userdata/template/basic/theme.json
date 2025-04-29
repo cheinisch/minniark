@@ -1,6 +1,7 @@
 [
     {
-        "themename": "basic",
+        "name": "basic",
+        "version":"0.1",
         "author": "Christian Heinisch",
         "url": "heimfisch.de"
     }

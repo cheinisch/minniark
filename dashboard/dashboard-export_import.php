@@ -217,45 +217,39 @@
                   <p class="mt-1 text-sm/6 text-gray-400">Import your backup.</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-password-form">
+                <form class="md:col-span-2" id="upload-backup-form">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                    
+                    <!-- Erfolgsmeldung -->
+                    <div id="notification-success-upload" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
                       <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Dein Passwort wurde erfolgreich geändert.</span>
+                      <span class="block sm:inline">Backup wurde erfolgreich hochgeladen.</span>
                     </div>
 
-                    <!-- Fehlermeldung (rot) -->
-                    <div id="notification-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                    <!-- Fehlermeldung -->
+                    <div id="notification-error-upload" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
                       <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Das aktuelle Passwort ist falsch.</span>
-                    </div>
-                    <div class="col-span-full">
-                      <label for="current-password" class="block text-sm/6 font-medium text-white">Current password</label>
-                      <div class="mt-2">
-                        <input id="current-password" name="current_password" type="password" autocomplete="current-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div> 
-
-                    <div class="col-span-full">
-                      <label for="new-password" class="block text-sm/6 font-medium text-white">New password</label>
-                      <div class="mt-2">
-                        <input id="new-password" name="new_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
+                      <span class="block sm:inline">Beim Upload ist ein Fehler aufgetreten.</span>
                     </div>
 
+                    <!-- Datei auswählen -->
                     <div class="col-span-full">
-                      <label for="confirm-password" class="block text-sm/6 font-medium text-white">Confirm password</label>
+                      <label for="backup-file" class="block text-sm/6 font-medium text-white">Backup-Datei (ZIP)</label>
                       <div class="mt-2">
-                        <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                        <input id="backup-file" name="backup_file" type="file" accept=".zip" required
+                          class="block w-full text-white file:bg-sky-500 file:text-white file:border-none file:px-4 file:py-2 file:rounded file:cursor-pointer bg-white/5 px-3 py-1.5 text-base outline-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:outline-sky-500 sm:text-sm/6">
                       </div>
                     </div>
                   </div>
 
                   <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit"
+                      class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">
+                      Upload Backup
+                    </button>
                   </div>
                 </form>
+
               </div>
 
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
@@ -277,12 +271,13 @@
                       <strong class="font-bold">Fehler!</strong>
                       <span class="block sm:inline">Das aktuelle Passwort ist falsch.</span>
                     </div>
-                    <table class="col-span-full">
+                    <table class="col-span-full text-center text-gray-700 dark:text-gray-400">
                       <thead>
                         <tr>
                           <th>Date</th>
                           <th>File</th>
-                          <th>Delete</th>
+                          <th>Filesize</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -292,12 +287,13 @@
                           foreach ($backupfiles as $file) {
                               echo '
                               <tr class="border-b border-gray-200 dark:border-gray-700">
-                                  <td>' . date('Y-m-d H:i', $file['timestamp']) . '</td>
-                                  <td>' . htmlspecialchars($file['name']) . '</td>
-                                  <td>
+                                  <td class="py-2">' . date('Y-m-d H:i', $file['timestamp']) . '</td>
+                                  <td class="py-2"><a href="../backup/' . htmlspecialchars($file['name']) . '" class="hover:text-sky-600">' . htmlspecialchars($file['name']) . '</a></td>
+                                  <td></td>
+                                  <td class="py-2">
                                       <form method="post" action="delete_backup.php" onsubmit="return confirm(\'Datei wirklich löschen?\');">
                                           <input type="hidden" name="filename" value="' . htmlspecialchars($file['name']) . '">
-                                          <button type="submit" class="text-red-600 hover:text-red-800">Löschen</button>
+                                          <button type="submit" class="text-red-600 hover:text-red-800">Delete</button>
                                       </form>
                                   </td>
                               </tr>';

@@ -2,15 +2,22 @@
 require_once( __DIR__ . "/../functions/function_api.php");
 require_once( __DIR__ . "/../functions/function_backend.php");
 secure_API();
-$prefix = read_prefix(); // z. B. 'projectname'
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+error_log("Generate Backup started");
+$prefix = read_prefix(); // z. B. 'projectname'
+error_log("Backup Prefix: ".$prefix);
 $timestamp = date('Y-m-d_H-i');
 $filename = "{$prefix}_{$timestamp}.zip";
 $backupDir = __DIR__ . '/../backup';
 $backupPath = "$backupDir/$filename";
 
+error_log("Filepath: ".$backupPath);
+
 // Sicherstellen, dass das Verzeichnis existiert
 if (!is_dir($backupDir)) {
+    error_log("Create Backup Folder");
     mkdir($backupDir, 0775, true);
 }
 

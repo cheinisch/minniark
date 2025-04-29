@@ -1,5 +1,3 @@
-[![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml)
-
 # IMAGE-PORTFOLIO
 
 > [!IMPORTANT]
@@ -42,6 +40,15 @@ If you want to customize the docker-compose yourself, you can find it in the rep
 ## Documentation
 
 Take a look at the [documentation](https://docs.image-portfolio.org) to get started with Image-Portfolio.
+
+## Build Status
+
+### Docker Images
+
+| Image | Status |
+|---|---|
+| Apache + PHP | [![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml) |
+| Nginx + PHP | [![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml)[![.github/workflows/docker-build-php.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-php.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-php.yml) |
 
 ## Technologies Used
 

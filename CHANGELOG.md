@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.3.4]
+2025-04-30
+
+**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.3.3...v0.0.0.3.4
+
+### New Features
+- Add functions to Dashboard => Backund and Restore
+
 ## [0.0.3.3]
 2025-04-29
 

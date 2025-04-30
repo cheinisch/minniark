@@ -276,6 +276,7 @@
                           <th>File</th>
                           <th>Filesize</th>
                           <th></th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -289,10 +290,22 @@
                                   <td class="py-2"><a href="../backup/' . htmlspecialchars($file['name']) . '" class="hover:text-sky-600">' . htmlspecialchars($file['name']) . '</a></td>
                                   <td></td>
                                   <td class="py-2">
-                                      <form method="post" action="delete_backup.php" onsubmit="return confirm(\'Datei wirklich löschen?\');">
-                                          <input type="hidden" name="filename" value="' . htmlspecialchars($file['name']) . '">
-                                          <button type="submit" class="text-red-600 hover:text-red-800">Delete</button>
-                                      </form>
+                                    <button
+                                      class="text-sky-600 hover:text-sky-800 restore-backup-btn"
+                                      data-filename="'.htmlspecialchars($file['name']).'"
+                                      onclick="return confirm(\'Dieses Backup wirklich wiederherstellen?\');"
+                                    >
+                                      Restore
+                                    </button>
+                                  </td>
+                                  <td class="py-2">
+                                    <button
+                                      class="text-red-600 hover:text-red-800 delete-backup-btn"
+                                      data-filename="'.htmlspecialchars($file['name']).'"
+                                      onclick="return confirm(\'Datei wirklich löschen?\');"
+                                    >
+                                      Delete
+                                    </button>
                                   </td>
                               </tr>';
                           }
@@ -313,5 +326,8 @@
         </script>
         <script src="js/tailwind.js"></script>
         <script src="js/backup.js"></script>
+        <script src="js/backup_upload.js"></script>
+        <script src="js/backup_delete.js"></script>
+        <script src="js/backup_restore.js"></script>
     </body>
 </html>

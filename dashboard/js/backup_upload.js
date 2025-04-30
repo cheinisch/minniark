@@ -12,7 +12,7 @@ document.getElementById('upload-backup-form').addEventListener('submit', functio
     const formData = new FormData();
     formData.append('backup_file', file);
   
-    fetch('upload_backup.php', {
+    fetch('../api/upload_backup.php', {
       method: 'POST',
       body: formData
     })

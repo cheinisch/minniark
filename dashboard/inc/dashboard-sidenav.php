@@ -1,4 +1,4 @@
-                <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 text-sm font-medium" aria-label="Sidebar">
+                <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 text-base font-medium" aria-label="Sidebar">
                   <ul role="list" class="-mx-2 space-y-1">
                     <li>Overview</li>
                     <ul class="px-5">

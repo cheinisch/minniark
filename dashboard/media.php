@@ -221,8 +221,12 @@
                   <ul class="px-5">
                     <?php get_ratinglist(false); ?>
                   </ul>
-                  <li>
-                    Albums
+                  <li class="flex items-center gap-1">
+                    Albums (add new)
+                    <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>-->
                   </li>
                   <ul class="px-5">
                     <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>

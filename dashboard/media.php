@@ -79,7 +79,7 @@
               <div class="sm:col-span-3">
                 <label for="album-title" class="block text-2xl text-gray-900">Album Name</label>
                 <div class="mt-2">
-                <input type="text" name="album-title" id="album-title" value="empty" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                <input type="text" name="album-title" id="album-title" value="" placeholder="Enter album name" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
                 </div>
               </div>
               

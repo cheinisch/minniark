@@ -35,7 +35,91 @@
         </style>
     </head>
     <body class="min-h-screen flex flex-col">
+      <!-- Add Album Modal -->
+      <div id="add-album" class="relative z-10" role="dialog" aria-modal="true">
+        <!--
+          Background backdrop, show/hide based on modal state.
 
+          Entering: "ease-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in duration-200"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+        <div class="fixed inset-0 hidden bg-gray-500/75 transition-opacity md:block" aria-hidden="true"></div>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+            <!--
+              Modal panel, show/hide based on modal state.
+
+              Entering: "ease-out duration-300"
+                From: "opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                To: "opacity-100 translate-y-0 md:scale-100"
+              Leaving: "ease-in duration-200"
+                From: "opacity-100 translate-y-0 md:scale-100"
+                To: "opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+            -->
+            <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-lg">
+              <div class="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                <button type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8">
+                  <span class="sr-only">Close</span>
+                  <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+                </button>
+
+                <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
+                  <div class="col-span-12">
+                    <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">Create new Album</h2>
+
+                    <section aria-labelledby="information-heading" class="mt-3">
+                      <h3 id="information-heading" class="sr-only">Album information</h3>
+              <div class="sm:col-span-3">
+                <label for="album-title" class="block text-2xl text-gray-900">Album Name</label>
+                <div class="mt-2">
+                <input type="text" name="album-title" id="album-title" value="empty" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                </div>
+              </div>
+              
+
+                      <!-- Select Parent Folder -->
+                      <div class="mt-3">
+                        <h4 class="text-xl text-gray-900 sm:pr-12">Select parent album</h4>
+                      </div>
+
+                      <div class="mt-6">
+                        <h4 class="sr-only">Description</h4>
+
+                        <p class="text-sm text-gray-700">The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.</p>
+                      </div>
+                    </section>
+
+                    <section aria-labelledby="options-heading" class="mt-6">
+                      <h3 id="options-heading" class="sr-only">Product options</h3>
+
+                      <form>
+
+                        <div class="mt-6 flex gap-4">
+                  <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+                  Save
+                  </button>
+
+                  <button type="button" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+                  Cancel
+                  </button>
+                </div>
+
+                      </form>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Upload Modal -->
       <div id="uploadModal" class="relative z-50 hidden" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>

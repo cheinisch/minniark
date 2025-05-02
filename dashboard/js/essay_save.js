@@ -9,6 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
   
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
+
+      if (window.easyMDE) {
+        document.getElementById("content").value = window.easyMDE.value();
+      } else {
+        console.warn("EasyMDE nicht gefunden – Inhalte werden möglicherweise nicht gespeichert.");
+      }
+
       console.log("Formular wurde über JS abgefangen.");
   
       const title = document.getElementById("title").value;

@@ -301,17 +301,14 @@
         </form>
       </main>
     </div>
-    <script src="js/tailwind.js"></script>
-    <script src="js/essay_save.js"></script>
+    
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        new EasyMDE({
+        window.easyMDE = new EasyMDE({
           element: document.getElementById("content"),
           spellChecker: false,
-          autosave: {
-            enabled: false
-          },
-          placeholder: "Please enter you content",
+          autosave: { enabled: false },
+          placeholder: "Please enter your content",
           toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview", "guide"]
         });
       });
@@ -434,5 +431,7 @@
         });
       });
       </script>
+      <script src="js/tailwind.js"></script>
+      <script src="js/essay_save.js"></script>
   </body>
 </html>

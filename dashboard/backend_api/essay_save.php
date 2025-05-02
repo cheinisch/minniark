@@ -15,6 +15,8 @@ if (!$input || !isset($input['title'], $input['foldername'])) {
     echo json_encode(['success' => false, 'message' => 'Fehlende Pflichtfelder.']);
     exit;
 }
+error_log("Titel: " . $input['title']);
+error_log("Input: " . $input['content']);
 
 $baseDir = realpath(__DIR__ . '/../../userdata/content/essays');
 $originalFolder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $input['foldername']);

@@ -385,9 +385,8 @@
 
       function selectCover(path) {
         document.getElementById('cover').value = path;
-        document.getElementById('coverPreview').src = new URL(path, window.location.origin).toString();
+        document.getElementById('coverPreview').src = path;
         closeCoverModal();
-        console.log("Upload Result:", result);
       }
 
       // Hochlade-Logik

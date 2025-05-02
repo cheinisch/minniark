@@ -65,7 +65,7 @@
                         </div>
                       </div>
                       <div class="mt-3">
-                        <h4 class="text-xl text-gray-900 sm:pr-12">Select parent album</h4>
+                        <h4 class="text-xl text-gray-900 sm:pr-12">Set Album description</h4>
                       </div>
                       <div class="mt-6 flex gap-4">
                         <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">

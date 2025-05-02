@@ -214,7 +214,7 @@
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Import data</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Import your backup.</p>
+                  <p class="mt-1 text-sm/6 text-gray-400">Import your backup. Please note, if your backup is larger than <?php echo get_uploadsize(); ?>, upload it using your FTP access.</p>
                 </div>
 
                 <form class="md:col-span-2" id="upload-backup-form">

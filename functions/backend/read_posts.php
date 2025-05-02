@@ -269,4 +269,37 @@ error_reporting(E_ALL);
     }
 
 
+    function read_post($foldername) {
+        $baseDir = realpath(__DIR__ . '/../../userdata/content/essays');
+    
+        // Sicherheitscheck auf erlaubte Zeichen im Ordnernamen
+        $folder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $foldername);
+        $postDir = $baseDir . DIRECTORY_SEPARATOR . $folder;
+        $jsonPath = $postDir . DIRECTORY_SEPARATOR . 'data.json';
+    
+        if (!is_dir($postDir) || !file_exists($jsonPath)) {
+            return null;
+        }
+    
+        $json = file_get_contents($jsonPath);
+        $data = json_decode($json, true);
+
+        
+    
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return null;
+        }
+
+        $data['source_path'] = basename(dirname($jsonPath));
+        if($data['is_published'])
+        {
+            $data['is_published'] = "true";
+        }else{
+            $data['is_published'] = "false";
+        }
+        
+    
+        return $data;
+    }
+
 

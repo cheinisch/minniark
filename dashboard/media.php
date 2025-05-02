@@ -87,6 +87,20 @@
                       <!-- Select Parent Folder -->
                       <div class="mt-3">
                         <h4 class="text-xl text-gray-900 sm:pr-12">Select parent album</h4>
+                        <!-- Aktueller Pfad-Label -->
+                        <div class="text-sm text-gray-600 mb-1">
+                          Aktueller Pfad: <span id="current-path">/home/user/documents</span>
+                        </div>
+
+                        <!-- Button mit Ordnersymbol -->
+                        <button class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                          <!-- Heroicon: Ordner -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+                          </svg>
+                          Ordner auswählen
+                        </button>
                       </div>
 
                       <div class="mt-6">

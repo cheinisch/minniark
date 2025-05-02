@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 
 $input = json_decode(file_get_contents('php://input'), true);
 
-if (!$input || !isset($input['title'], $input['content'], $input['foldername'])) {
+if (!$input || !isset($input['title'], $input['foldername'])) {
     echo json_encode(['success' => false, 'message' => 'Fehlende Pflichtfelder.']);
     exit;
 }

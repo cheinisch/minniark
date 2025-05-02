@@ -209,7 +209,7 @@
           </nav>
       </aside>
       <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">          
-        <form>
+        <form id="essayForm">
           <div class="space-y-12">
             <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
               <div>
@@ -366,7 +366,7 @@
         });
       });
     </script>
-    <script>
+    <!--<script>
       function switchCoverTab(tab) {
         document.getElementById('cover-upload').classList.toggle('hidden', tab !== 'upload');
         document.getElementById('cover-choose').classList.toggle('hidden', tab !== 'choose');
@@ -409,7 +409,7 @@
           alert("Fehler beim Hochladen: " + result.message);
         }
       });
-    </script>
+    </script>-->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const toggleBtn = document.getElementById("is_published");

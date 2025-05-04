@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3.5]
+2025-05
+
+> Namechange from Image-Portfolio to LensFlow
+
+### New Features
+
 ## [0.0.3.4]
 2025-04-30
 

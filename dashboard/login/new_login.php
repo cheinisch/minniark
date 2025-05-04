@@ -1,44 +1,70 @@
-<html>
+<?php
+
+    require_once( __DIR__ . "/../../functions/function_backend.php");
+
+    $username = $_POST['username'] ?? null;
+    $step_2 = false;
+    $user_exist = false;
+    $user_wrong = false;
+
+    if($username != null){
+        $user_exist = check_username($username);
+        if($user_exist)
+        {
+            $step_2 = true;
+        }else{
+            $user_wrong = true;
+        }
+    }
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="<?php echo get_language(); ?>">
     <head>
         <meta charset="UTF-8">        
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard - <?php echo get_sitename(); ?></title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body>
-        <div class="w-full h-full bg-neutral-200 dark:bg-gray-950 flex flex-col">
-            <div id="username" class="bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
+        <div class="w-full h-screen bg-neutral-200 dark:bg-gray-950 flex flex-col">
+            <div id="username" class="<?php if($step_2){ echo "hidden"; } ?> bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
                 <div class="py-5 px-5">
-                    <div>
-                        <h2 class="text-3xl text-sky-600">Sitename</h2>
-                    </div>
-                    <div class="text-2xl py-5">
-                        <div class="pb-6">
-                            Login
-                        </div>
+                    <form method="post" action="new_login.php">
                         <div>
-                            <input type="text" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Username">
-                            <span id="wrong-user" class="invisible text-sm text-red-500">Username is wrong</span>
+                            <h2 class="text-3xl text-sky-600"><?php echo get_sitename(); ?></h2>
                         </div>
-                    </div>
-                    <div class="py-5">
-                        <div>
-                            <button class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2">Login</button>
+                        <div class="text-2xl py-5">
+                            <div class="pb-6">
+                                Login
+                            </div>
+                            <div>
+                                <input type="text" id="username" name="username" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Username">
+                                <span id="wrong-user" class="<?php if(!$user_wrong){ echo "invisible"; }?> text-sm text-red-500">Username is wrong</span>
+                            </div>
                         </div>
-                    </div>
+                        <div class="py-5">
+                            <div>
+                                <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2">Login</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <!-- Password -->
-            <div id="password" class="hidden bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
+            <div id="password" class="<?php if(!$step_2){ echo "hidden"; }?>  bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
                 <div class="py-5 px-5">
                     <div>
-                        <h2 class="text-xl text-sky-600 pb-3 mb-2">Login at Sitename</h2>
+                        <h2 class="text-xl text-sky-600 pb-3 mb-2">Login at <?php echo get_sitename(); ?></h2>
                     </div>
                     <div class="pb-5">
                         <nav class="flex" aria-label="Breadcrumb">
                             <ol role="list" class="flex items-center space-x-4">
                                 <li>
                                 <div>
-                                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                                    <a href="login.php" class="text-gray-400 hover:text-gray-500">
                                     <svg class="size-5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                                         <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
                                     </svg>
@@ -51,7 +77,7 @@
                                     <svg class="size-5 shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                                     <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                                     </svg>
-                                    <a href="login.php" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Username</a>
+                                    <span class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"><?php echo $username; ?></span>
                                 </div>
                                 </li>
                             </ol>

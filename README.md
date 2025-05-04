@@ -3,7 +3,7 @@
 > [!IMPORTANT]
 > This CMS is under development
 
-Image-Portfolio is a lightweight, flat-file-based portfolio template for showcasing images and projects — no database required, easy to customize, fully responsive.
+LensFlow is a lightweight, flat-file-based portfolio template for showcasing images and projects — no database required, easy to customize, fully responsive.
 
 ## Demo
 
@@ -13,7 +13,7 @@ There is a demo installation under [demo](https://demo.image-portfolio.org)
 
 ### Docker Container
 
-You can also install Image-Portfolio via Docker. The easiest way to do this is with the following commands:
+You can also install LensFlow via Docker. The easiest way to do this is with the following commands:
 ```
 mkdir image-portfolio
 cd image-portfolio
@@ -49,7 +49,7 @@ Take a look at the [documentation](https://docs.image-portfolio.org) to get star
 |---|---|
 | Apache + PHP | [![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-apache.yml) |
 | Nginx | [![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-nginx-app.yml) |
-| PHP for Nginx | [![.github/workflows/docker-build-php.yml](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-php.yml/badge.svg?branch=main)](https://github.com/cheinisch/Image-Portfolio/actions/workflows/docker-build-php.yml) |
+| PHP for Nginx | [![.github/workflows/docker-build-php.yml](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-php.yml/badge.svg?branch=main)](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-php.yml) |
 
 ## Technologies Used
 

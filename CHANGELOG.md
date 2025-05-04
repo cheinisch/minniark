@@ -1,6 +1,6 @@
 # Changelog
 
-> [!IMPORTANT]
+> [!INFORMATION]
 > You finde a complete Changelog here .changelog/Changelog.md
 
 ## [0.0.3.5]

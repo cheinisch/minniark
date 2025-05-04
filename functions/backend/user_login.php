@@ -6,5 +6,13 @@ $user = file_exists($userConfigPath) ? require $userConfigPath : [];
 
     function check_username($username)
     {
-        return true;
+        global $user;
+        $value = false;
+
+        if($user['USERNAME'] == $username)
+        {
+            $value = true;
+        }
+    
+        return $value;
     }

@@ -6,6 +6,7 @@
     $step_2 = false;
     $user_exist = false;
     $user_wrong = false;
+    $login_type = "";
 
     if($username != null){
         $user_exist = check_username($username);
@@ -16,6 +17,11 @@
             $user_wrong = true;
         }
     }
+
+   if($step_2)
+   {
+        $login_type = get_logintype();
+   }
 
 ?>
 
@@ -32,7 +38,7 @@
         <div class="w-full h-screen bg-neutral-200 dark:bg-gray-950 flex flex-col">
             <div id="username" class="<?php if($step_2){ echo "hidden"; } ?> bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
                 <div class="py-5 px-5">
-                    <form method="post" action="new_login.php">
+                    <form id="user-form" method="post" action="new_login.php">
                         <div>
                             <h2 class="text-3xl text-sky-600"><?php echo get_sitename(); ?></h2>
                         </div>
@@ -56,48 +62,50 @@
             <!-- Password -->
             <div id="password" class="<?php if(!$step_2){ echo "hidden"; }?>  bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
                 <div class="py-5 px-5">
-                    <div>
-                        <h2 class="text-xl text-sky-600 pb-3 mb-2">Login at <?php echo get_sitename(); ?></h2>
-                    </div>
-                    <div class="pb-5">
-                        <nav class="flex" aria-label="Breadcrumb">
-                            <ol role="list" class="flex items-center space-x-4">
-                                <li>
-                                <div>
-                                    <a href="login.php" class="text-gray-400 hover:text-gray-500">
-                                    <svg class="size-5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                        <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="sr-only">Home</span>
-                                    </a>
-                                </div>
-                                </li>
-                                <li>
-                                <div class="flex items-center">
-                                    <svg class="size-5 shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"><?php echo $username; ?></span>
-                                </div>
-                                </li>
-                            </ol>
-                        </nav>                          
-                    </div>
-                    <div class="text-2xl py-5">
-                        <div class="pb-6">
-                            <span id="passwordtype">Password - OTP</span>
-                        </div>
+                    <form id="pass-form" method="post" action="new_login.php">
                         <div>
-                            <input type="hidden" value="">
-                            <input type="password" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Password">
-                            <span id="wrong-pass" class="text-sm text-red-500">Password is wrong</span>
+                            <h2 class="text-xl text-sky-600 pb-3 mb-2">Login at <?php echo get_sitename(); ?></h2>
                         </div>
-                    </div>
-                    <div class="py-5">
-                        <div>
-                            <button class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2">Login</button>
+                        <div class="pb-5">
+                            <nav class="flex" aria-label="Breadcrumb">
+                                <ol role="list" class="flex items-center space-x-4">
+                                    <li>
+                                    <div>
+                                        <a href="login.php" class="text-gray-400 hover:text-gray-500">
+                                        <svg class="size-5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                            <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="sr-only">Home</span>
+                                        </a>
+                                    </div>
+                                    </li>
+                                    <li>
+                                    <div class="flex items-center">
+                                        <svg class="size-5 shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                        <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"><?php echo $username; ?></span>
+                                    </div>
+                                    </li>
+                                </ol>
+                            </nav>                          
                         </div>
-                    </div>
+                        <div class="text-2xl py-5">
+                            <div class="pb-6">
+                                <span id="passwordtype"><?php if($login_type == "password"){ echo "Password"; }else{ echo "Enter OTP"; } ?></span>
+                            </div>
+                            <div>
+                                <input type="hidden" value="<?php echo $username; ?>">
+                                <input type="password" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Password">
+                                <span id="wrong-pass" class="text-sm text-red-500">Password is wrong</span>
+                            </div>
+                        </div>
+                        <div class="py-5">
+                            <div>
+                                <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2">Login</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

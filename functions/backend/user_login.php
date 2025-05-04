@@ -16,3 +16,20 @@ $user = file_exists($userConfigPath) ? require $userConfigPath : [];
     
         return $value;
     }
+
+
+    function get_logintype()
+    {
+        global $user;
+        $returnValue = "password";
+
+        $returnValue = $user['AUTH_TYPE'];
+
+        return $returnValue;
+
+    }
+
+    function send_otp_mail()
+    {
+        
+    }

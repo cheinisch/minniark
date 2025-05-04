@@ -28,6 +28,11 @@
         $login_type = get_logintype();
    }
 
+   if($username != null && $password != null)
+   {
+        $check_pass = check_password();
+   }
+
 ?>
 
 

@@ -29,14 +29,14 @@ jobs:
 
     - name: Build Docker Image (Apache + PHP)
       run: |
-        docker build -f docker/Dockerfile -t cheinisch/imageportfolio:${{ env.VERSION }} .
+        docker build -f docker/Dockerfile -t cheinisch/lensflow:${{ env.VERSION }} .
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker tag cheinisch/imageportfolio:${{ env.VERSION }} cheinisch/imageportfolio:latest
+          docker tag cheinisch/lensflow:${{ env.VERSION }} cheinisch/lensflow:latest
         fi
 
     - name: Push Docker Image
       run: |
-        docker push cheinisch/imageportfolio:${{ env.VERSION }}
+        docker push cheinisch/lensflow:${{ env.VERSION }}
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker push cheinisch/imageportfolio:latest
+          docker push cheinisch/lensflow:latest
         fi

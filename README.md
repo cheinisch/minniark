@@ -1,4 +1,4 @@
-# IMAGE-PORTFOLIO
+# LensFlow
 
 > [!IMPORTANT]
 > This CMS is under development

@@ -31,5 +31,18 @@ $user = file_exists($userConfigPath) ? require $userConfigPath : [];
 
     function send_otp_mail()
     {
-        
+        return null;
+    }
+
+    function check_password($password)
+    {
+        global $user;
+        $value = false;
+
+        if(password_verify($password, $user['PASSWORD_HASH']))
+        {
+            $value = true;
+        }
+    
+        return $value;
     }

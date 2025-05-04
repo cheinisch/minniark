@@ -30,7 +30,16 @@
 
    if($username != null && $password != null)
    {
-        $check_pass = check_password();
+        if(check_password($password))
+        {
+            session_start();
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $user['USERNAME'];
+            header("Location: dashboard.php");
+            exit;
+        }else{
+            $pass_wrong = true;
+        }
    }
 
 ?>

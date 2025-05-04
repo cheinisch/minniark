@@ -1,11 +1,16 @@
 <?php
 
-    require_once( __DIR__ . "/../../functions/function_backend.php");
+    require_once( __DIR__ . "/../functions/function_backend.php");
 
+    // Input POSTS
     $username = $_POST['username'] ?? null;
+    $password = $_POST['password'] ?? null;
+
+    // Some Vars
     $step_2 = false;
     $user_exist = false;
     $user_wrong = false;
+    $pass_wrong = false;
     $login_type = "";
 
     if($username != null){
@@ -38,7 +43,7 @@
         <div class="w-full h-screen bg-neutral-200 dark:bg-gray-950 flex flex-col">
             <div id="username" class="<?php if($step_2){ echo "hidden"; } ?> bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
                 <div class="py-5 px-5">
-                    <form id="user-form" method="post" action="new_login.php">
+                    <form id="user-form" method="post" action="login.php">
                         <div>
                             <h2 class="text-3xl text-sky-600"><?php echo get_sitename(); ?></h2>
                         </div>
@@ -62,7 +67,7 @@
             <!-- Password -->
             <div id="password" class="<?php if(!$step_2){ echo "hidden"; }?>  bg-white rounded-none md:rounded md:max-w-md max-w-full m-auto md:min-w-md min-w-full">
                 <div class="py-5 px-5">
-                    <form id="pass-form" method="post" action="new_login.php">
+                    <form id="pass-form" method="post" action="login.php">
                         <div>
                             <h2 class="text-xl text-sky-600 pb-3 mb-2">Login at <?php echo get_sitename(); ?></h2>
                         </div>
@@ -95,9 +100,9 @@
                                 <span id="passwordtype"><?php if($login_type == "password"){ echo "Password"; }else{ echo "Enter OTP"; } ?></span>
                             </div>
                             <div>
-                                <input type="hidden" value="<?php echo $username; ?>">
-                                <input type="password" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Password">
-                                <span id="wrong-pass" class="text-sm text-red-500">Password is wrong</span>
+                                <input type="hidden" id="username" name="username" value="<?php echo $username; ?>">
+                                <input type="password" name="password" id="password" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Password">
+                                <span id="wrong-pass" class="<?php if(!$pass_wrong){ echo "invisible"; }?> text-sm text-red-500">Password is wrong</span>
                             </div>
                         </div>
                         <div class="py-5">

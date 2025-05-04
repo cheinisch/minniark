@@ -6,5 +6,5 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: dashboard.php");
 } else {
     // Benutzer ist nicht eingeloggt, Login-Seite anzeigen
-    include 'login/login_form.php';
+    include 'login.php';
 }

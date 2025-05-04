@@ -10,29 +10,29 @@
 <!DOCTYPE html>
 <html lang="<?php echo get_language(); ?>">
     <head>      
-        <meta charset="UTF-8">        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Images - <?php echo get_sitename(); ?></title>
+      <meta charset="UTF-8">        
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Images - <?php echo get_sitename(); ?></title>
 
-        <!-- Tailwind CSS -->
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <style>
-          :root {
-            --img-max-width: 250px;
-          }
+      <!-- Tailwind CSS -->
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      <style>
+        :root {
+          --img-max-width: 250px;
+        }
 
-          @media (min-width: 768px) {
-            .dynamic-image-width {
-              max-width: var(--img-max-width);
-            }
+        @media (min-width: 768px) {
+          .dynamic-image-width {
+            max-width: var(--img-max-width);
           }
+        }
 
-          @media (max-width: 767px) {
-            .dynamic-image-width {
-              max-width: 100% !important;
-            }
+        @media (max-width: 767px) {
+          .dynamic-image-width {
+            max-width: 100% !important;
           }
-        </style>
+        }
+      </style>
     </head>
     <body class="min-h-screen flex flex-col">
       <!-- Add Album Modal -->
@@ -166,7 +166,7 @@
       </div>
         <!-- Normal Layout -->
         <header>
-            <nav class="bg-gray-950 shadow-sm">
+            <nav class="bg-neutral-100 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">

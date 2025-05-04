@@ -1,4 +1,4 @@
-# Comlete Changelog
+# Complete Changelog
 
 ## [0.0.3.3]
 2025-04-29

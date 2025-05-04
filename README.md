@@ -15,9 +15,9 @@ There is a demo installation under [demo](https://demo.image-portfolio.org)
 
 You can also install LensFlow via Docker. The easiest way to do this is with the following commands:
 ```
-mkdir image-portfolio
-cd image-portfolio
-curl -o docker-compose.yml https://raw.githubusercontent.com/cheinisch/Image-Portfolio/refs/heads/main/docker/docker-compose.yml
+mkdir lensflow
+cd lensflow
+curl -o docker-compose.yml https://raw.githubusercontent.com/cheinisch/LensFlow/refs/heads/main/docker/docker-compose.yml
 docker-compose up -d
 ```
 

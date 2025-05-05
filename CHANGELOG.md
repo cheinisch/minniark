@@ -4,7 +4,7 @@
 > You find a complete Changelog here .changelog/Changelog.md
 
 ## [0.0.3.5]
-2025-05
+2025-05-05
 
 **Full Changelog**: https://github.com/cheinisch/Framora/compare/v0.0.3.4...v0.0.3.5
 

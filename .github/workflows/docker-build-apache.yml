@@ -29,14 +29,14 @@ jobs:
 
     - name: Build Docker Image (Apache + PHP)
       run: |
-        docker build -f docker/Dockerfile -t cheinisch/lensflow:${{ env.VERSION }} .
+        docker build -f docker/Dockerfile -t cheinisch/framora:${{ env.VERSION }} .
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker tag cheinisch/lensflow:${{ env.VERSION }} cheinisch/lensflow:latest
+          docker tag cheinisch/framora:${{ env.VERSION }} cheinisch/framora:latest
         fi
 
     - name: Push Docker Image
       run: |
-        docker push cheinisch/lensflow:${{ env.VERSION }}
+        docker push cheinisch/framora:${{ env.VERSION }}
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker push cheinisch/lensflow:latest
+          docker push cheinisch/framora:latest
         fi

@@ -30,14 +30,14 @@ jobs:
 
     - name: Build NGINX Image
       run: |
-        docker build -f docker/nginx.Dockerfile -t cheinisch/lensflow-nginx:${{ env.VERSION }} .
+        docker build -f docker/nginx.Dockerfile -t cheinisch/framora-nginx:${{ env.VERSION }} .
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker tag cheinisch/lensflow-nginx:${{ env.VERSION }} cheinisch/lensflow-nginx:latest
+          docker tag cheinisch/framora-nginx:${{ env.VERSION }} cheinisch/framora-nginx:latest
         fi
 
     - name: Push NGINX Image
       run: |
-        docker push cheinisch/lensflow-nginx:${{ env.VERSION }}
+        docker push cheinisch/framora-nginx:${{ env.VERSION }}
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker push cheinisch/lensflow-nginx:latest
+          docker push cheinisch/framora-nginx:latest
         fi

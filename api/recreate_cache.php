@@ -12,6 +12,16 @@ $sizes = [
     'XL' => 1920
 ];
 
+
+if (!is_dir($cacheDir)) {
+    if (!mkdir($cacheDir, 0755, true)) {
+        // Fehler beim Erstellen
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'Cache-Verzeichnis konnte nicht erstellt werden.']);
+        exit;
+    }
+}
+
 // Cache-Verzeichnis prüfen
 if (!is_dir($cacheDir)) {
     error_log('Cache directory missing: ' . $cacheDir);

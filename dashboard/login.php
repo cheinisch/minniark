@@ -25,7 +25,7 @@
 
    if($step_2)
    {
-        $login_type = get_logintype();
+        $login_type = get_logintype($password);
    }
 
    if($username != null && $password != null)

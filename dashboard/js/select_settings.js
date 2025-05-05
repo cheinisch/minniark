@@ -296,3 +296,56 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const button = document.querySelector('[aria-haspopup="listbox-logintype"]');
+    const dropdown = button.nextElementSibling;
+    const options = dropdown.querySelectorAll('[role="option"]');
+    const spanText = button.querySelector('span.truncate');
+    const hiddenInput = document.getElementById('login_type');
+  
+    // Funktion zum Anwenden der Auswahl
+    function selectOptionByText(text) {
+      options.forEach(option => {
+        const label = option.querySelector('span.truncate');
+        const checkIcon = option.querySelector('span.absolute');
+  
+        if (label.textContent.trim().toLowerCase() === text.toLowerCase()) {
+          label.classList.add('font-semibold');
+          label.classList.remove('font-normal');
+          checkIcon.classList.remove('hidden');
+          spanText.textContent = label.textContent;
+          if (hiddenInput) hiddenInput.value = label.textContent.toLowerCase();
+        } else {
+          label.classList.remove('font-semibold');
+          label.classList.add('font-normal');
+          checkIcon.classList.add('hidden');
+        }
+      });
+    }
+  
+    // Initialisierung beim Laden
+    const initialValue = spanText.textContent.trim().toLowerCase();
+    selectOptionByText(initialValue);
+  
+    // Dropdown öffnen/schließen
+    button.addEventListener('click', () => {
+      dropdown.classList.toggle('hidden');
+    });
+  
+    // Klick auf Option
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        const label = option.querySelector('span.truncate').textContent.trim();
+        selectOptionByText(label);
+        dropdown.classList.add('hidden');
+      });
+    });
+  
+    // Klick außerhalb: Dropdown schließen
+    document.addEventListener('click', (e) => {
+      if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+  });

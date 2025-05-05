@@ -7,7 +7,7 @@
 2025-05
 
 > [!NOTE]
-> Namechange from Image-Portfolio to LensFlow
+> Namechange from Image-Portfolio to Framora
 
 ### New Features
 

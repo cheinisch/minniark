@@ -194,7 +194,7 @@
                     <div class="col-span-3">
                       <label for="username" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Username</label>
                       <div class="mt-2">
-                        <div class="flex items-center  bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-500">
+                        <div class="flex items-center">
                           <input type="text" name="username" id="username" value="<?php echo get_username(); ?>" class="block min-w-0 grow bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
                         </div>
                       </div>
@@ -210,6 +210,67 @@
 
                   <div class="mt-8 flex">
                     <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                  </div>
+                </form>
+              </div>
+              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+                <div>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Login Type</h2>
+                  <p class="mt-1 text-sm/6 text-gray-400">Select between password and One Time Code via Mail</p>
+                </div>
+
+                <form class="md:col-span-2" id="change-login-type-form">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+                    <!-- Erfolgsmeldung (grün) -->
+                    <div id="notification-logintype-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Success!</strong>
+                      <span class="block sm:inline">Login has been changed</span>
+                    </div>
+
+                    <!-- Fehlermeldung (rot) -->
+                    <div id="notification-logintype-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Error!</strong>
+                      <span class="block sm:inline">Login has not been changed!</span>
+                    </div>
+                    <!-- Select Image Size -->
+                    <div class="sm:col-span-full">
+                      <label id="listbox-logintype-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Login Type</label>
+                      <div class="relative mt-2">
+                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-logintype" aria-expanded="true" aria-labelledby="listbox-image-label">
+                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_logintype_select(); ?></span>
+                          <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="hidden absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-logintype-label" aria-activedescendant="listbox-option-1">
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
+                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                            <span class="block truncate font-normal">password</span>
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
+                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                              </svg>
+                            </span>
+                          </li>
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
+                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                            <span class="block truncate font-normal">mail</span>
+                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
+                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                              </svg>
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <input type="hidden" name="login_type" id="login_type" value="<?php echo get_logintype_select(); ?>">
+                    <!-- Select ende -->
+
+                  </div>
+
+                  <div class="mt-8 flex">
+                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>                    
                   </div>
                 </form>
               </div>
@@ -265,5 +326,6 @@
         </div>
         <script src="js/tailwind.js"></script>
         <script src="js/change_password.js"></script>
+        <script src="js/select_settings.js"></script>
     </body>
 </html>

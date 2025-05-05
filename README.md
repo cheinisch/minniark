@@ -1,9 +1,9 @@
-# LensFlow
+# Framora
 
 > [!IMPORTANT]
 > This CMS is under development
 
-LensFlow is a lightweight, flat-file-based portfolio template for showcasing images and projects — no database required, easy to customize, fully responsive.
+Framora is a lightweight, flat-file-based portfolio template for showcasing images and projects — no database required, easy to customize, fully responsive.
 
 ## Demo
 
@@ -13,11 +13,11 @@ There is a demo installation under [demo](https://demo.image-portfolio.org)
 
 ### Docker Container
 
-You can also install LensFlow via Docker. The easiest way to do this is with the following commands:
+You can also install Framora via Docker. The easiest way to do this is with the following commands:
 ```
-mkdir lensflow
-cd lensflow
-curl -o docker-compose.yml https://raw.githubusercontent.com/cheinisch/LensFlow/refs/heads/main/docker/docker-compose.yml
+mkdir Framora
+cd Framora
+curl -o docker-compose.yml https://raw.githubusercontent.com/cheinisch/Framora/refs/heads/main/docker/docker-compose.yml
 docker-compose up -d
 ```
 
@@ -47,9 +47,9 @@ Take a look at the [documentation](https://docs.image-portfolio.org) to get star
 
 | Image | Status |
 |---|---|
-| Apache + PHP | [![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-apache.yml) |
-| Nginx | [![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-nginx-app.yml) |
-| PHP for Nginx | [![.github/workflows/docker-build-php.yml](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-php.yml/badge.svg?branch=main)](https://github.com/cheinisch/LensFlow/actions/workflows/docker-build-php.yml) |
+| Apache + PHP | [![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/Framora/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/Framora/actions/workflows/docker-build-apache.yml) |
+| Nginx | [![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/Framora/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/Framora/actions/workflows/docker-build-nginx-app.yml) |
+| PHP for Nginx | [![.github/workflows/docker-build-php.yml](https://github.com/cheinisch/Framora/actions/workflows/docker-build-php.yml/badge.svg?branch=main)](https://github.com/cheinisch/Framora/actions/workflows/docker-build-php.yml) |
 
 ## Technologies Used
 

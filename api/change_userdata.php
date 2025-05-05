@@ -21,28 +21,21 @@ if (!file_exists($userConfigPath)) {
 
 $user = require $userConfigPath;
 
-// Eingaben sichern
-$username     = trim($_POST['username'] ?? '');
-$email        = trim($_POST['email'] ?? '');
-$display_name = trim($_POST['display-name'] ?? '');
+// Eingabe sichern
+$auth_type = trim($_POST['auth_type'] ?? '');
 
-// Validierung (einfach gehalten)
-if (!$username || !$email) {
+if (!$auth_type) {
     http_response_code(400);
-    echo json_encode(['status' => 'error', 'message' => 'Benutzername und E-Mail sind erforderlich.']);
+    echo json_encode(['status' => 'error', 'message' => 'AUTH_TYPE ist erforderlich.']);
     exit;
 }
 
-// Daten aktualisieren
-$user['USERNAME'] = $username;
-$user['EMAIL']    = $email;
-if ($display_name) {
-    $user['DISPLAY_NAME'] = $display_name;
-}
+// AUTH_TYPE setzen
+$user['AUTH_TYPE'] = $auth_type;
 
 // Datei neu schreiben
-$configContent = "<?php\ndefine('IMAGEPORTFOLIO', true);\nreturn " . var_export($user, true) . ";\n";
+$configContent = "<?php\n//define('IMAGEPORTFOLIO', true);\nreturn " . var_export($user, true) . ";\n";
 file_put_contents($userConfigPath, $configContent, LOCK_EX);
 
 // Erfolg melden
-echo json_encode(['status' => 'success', 'message' => 'Benutzerdaten gespeichert.']);
+echo json_encode(['status' => 'success', 'message' => 'AUTH_TYPE wurde gespeichert.']);

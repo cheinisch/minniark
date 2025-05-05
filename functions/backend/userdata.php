@@ -36,3 +36,9 @@ function get_displayname()
     global $user;
     return $user['DISPLAY_NAME'] ?? '';
 }
+
+function get_logintype_select()
+{
+    global $user;
+    return $user['AUTH_TYPE'] ?? '';
+}

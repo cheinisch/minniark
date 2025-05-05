@@ -156,7 +156,7 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[250px] w-full bg-neutral-100 dark:bg-gray-950 overflow-auto flex-1">
+          <aside class="hidden md:block max-w-[280px] w-full bg-neutral-100 dark:bg-gray-950 overflow-auto flex-1">
               <?php include('inc/dashboard-sidenav.php'); ?>
           </aside>
           <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">

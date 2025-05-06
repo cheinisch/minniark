@@ -62,7 +62,7 @@ try {
     // Nach Entpacken: Ordner finden und Inhalte verschieben
     $extractedFolder = null;
     foreach (glob(dirname($baseDir) . '/*') as $folder) {
-        if (is_dir($folder) && preg_match('/Framora-/', basename($folder))) {
+        if (is_dir($folder) && preg_match('/lensfolio-/', basename($folder))) {
             $extractedFolder = $folder;
             break;
         }

@@ -3,10 +3,10 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
-## [0.0.3.5]
-2025-05-05
+## [0.0.3.7]
+2025-05-06
 
-**Full Changelog**: https://github.com/cheinisch/lensfolio/compare/v0.0.3.4...v0.0.3.5
+**Full Changelog**: https://github.com/cheinisch/lensfolio/compare/v0.0.3.4...v0.0.3.7
 
 > [!NOTE]
 > Namechange from Image-Portfolio to Lensfolio

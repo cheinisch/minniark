@@ -15,4 +15,8 @@
             delete_image($filename);
             header("Location: ../media.php");
             break;
+        case "essay":
+            delete_post($filename);
+            header("Location: ../blog.php");
+            break;
     }

@@ -36,6 +36,20 @@
       <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
   </head>
   <body class="min-h-screen flex flex-col">
+    <!-- delete Modal -->
+    <div id="deleteModal" class="hidden relative z-50 " role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
+            <p class="mt-4 text-gray-600">Do you really want to delete this post?</p>
+            <div class="flex justify-end mt-6 space-x-3">
+              <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
+              <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <!-- Modal -->
     <div id="coverModal" class="hidden relative z-10" role="dialog" aria-modal="true">
       <div class="fixed inset-0 bg-gray-500/75 transition-opacity md:block" aria-hidden="true"></div>
@@ -120,6 +134,14 @@
               </div>
             </div>
             <div class="flex items-center">
+              <div class="shrink-0 pr-5">
+                  <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                    <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                      <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                    </svg>
+                    Delete Blogpost
+                  </button>
+                </div>
               <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
                 <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
                   <span class="absolute -inset-1.5"></span>
@@ -433,5 +455,23 @@
       </script>
       <script src="js/tailwind.js"></script>
       <script src="js/essay_save.js"></script>
+      <script>
+          // Delete-Button Klick öffnet Modal
+          document.getElementById('delete-button').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.remove('hidden');
+          });
+
+          // Cancel-Button Klick schließt Modal
+          document.getElementById('cancelDelete').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.add('hidden');
+          });
+
+          // Confirm-Button Klick ruft direkt dein PHP-Skript auf
+          document.getElementById('confirmDelete').addEventListener('click', function() {
+            const filename = "<?php echo $essay['source_path']; ?>";
+            window.location.href = `/dashboard/backend_api/delete.php?type=essay&filename=${encodeURIComponent(filename)}`;
+          });
+
+        </script>
   </body>
 </html>

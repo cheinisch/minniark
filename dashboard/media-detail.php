@@ -423,21 +423,21 @@
             .openPopup();
         </script>
         <script>
-// Delete-Button Klick öffnet Modal
-document.getElementById('delete-button').addEventListener('click', function() {
-  document.getElementById('deleteModal').classList.remove('hidden');
-});
+          // Delete-Button Klick öffnet Modal
+          document.getElementById('delete-button').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.remove('hidden');
+          });
 
-// Cancel-Button Klick schließt Modal
-document.getElementById('cancelDelete').addEventListener('click', function() {
-  document.getElementById('deleteModal').classList.add('hidden');
-});
+          // Cancel-Button Klick schließt Modal
+          document.getElementById('cancelDelete').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.add('hidden');
+          });
 
-// Confirm-Button Klick ruft direkt dein PHP-Skript auf
-document.getElementById('confirmDelete').addEventListener('click', function() {
-  const filename = "<?php echo htmlspecialchars($fileName); ?>";
-  window.location.href = `/dashboard/backend_api/delete.php?type=img&filename=${encodeURIComponent(filename)}`;
-});
+          // Confirm-Button Klick ruft direkt dein PHP-Skript auf
+          document.getElementById('confirmDelete').addEventListener('click', function() {
+            const filename = "<?php echo htmlspecialchars($fileName); ?>";
+            window.location.href = `/dashboard/backend_api/delete.php?type=img&filename=${encodeURIComponent(filename)}`;
+          });
 
         </script>
 

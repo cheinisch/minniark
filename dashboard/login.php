@@ -2,6 +2,17 @@
 
     require_once( __DIR__ . "/../functions/function_backend.php");
 
+    // Input Logout GET
+    $logout = $_GET['logout'] ?? null;
+    if($logout != null && $logout == "true")
+    {
+        session_start();
+        session_destroy(); // Sitzung beenden
+        header("Location: index.php");
+        exit;
+    }
+
+
     // Input POSTS
     $username = $_POST['username'] ?? null;
     $password = $_POST['password'] ?? null;

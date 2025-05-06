@@ -30,14 +30,14 @@ jobs:
 
     - name: Build PHP-FPM Image
       run: |
-        docker build -f docker/php.Dockerfile -t cheinisch/framora-php:${{ env.VERSION }} .
+        docker build -f docker/php.Dockerfile -t cheinisch/lensfolio-php:${{ env.VERSION }} .
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker tag cheinisch/framora-php:${{ env.VERSION }} cheinisch/framora-php:latest
+          docker tag cheinisch/lensfolio-php:${{ env.VERSION }} cheinisch/lensfolio-php:latest
         fi
 
     - name: Push PHP-FPM Image
       run: |
-        docker push cheinisch/framora-php:${{ env.VERSION }}
+        docker push cheinisch/lensfolio-php:${{ env.VERSION }}
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker push cheinisch/framora-php:latest
+          docker push cheinisch/lensfolio-php:latest
         fi

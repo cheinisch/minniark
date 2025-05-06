@@ -6,10 +6,10 @@
 ## [0.0.3.5]
 2025-05-05
 
-**Full Changelog**: https://github.com/cheinisch/Framora/compare/v0.0.3.4...v0.0.3.5
+**Full Changelog**: https://github.com/cheinisch/lensfolio/compare/v0.0.3.4...v0.0.3.5
 
 > [!NOTE]
-> Namechange from Image-Portfolio to Framora
+> Namechange from Image-Portfolio to Lensfolio
 
 ### New Features
 - Add Logintype "One TIme Password via Mail"

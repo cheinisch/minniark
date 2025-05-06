@@ -156,9 +156,8 @@
               
         </header>
         <div class="flex flex-1">
-        <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[280px] w-full bg-gray-950 overflow-auto flex-1">
-              <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-base font-medium" aria-label="Sidebar">
+          <aside class="hidden md:block max-w-[280px] w-full bg-neutral-200 dark:bg-gray-950 overflow-auto flex-1">
+            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 text-base font-medium" aria-label="Sidebar">
                 <ul role="list" class="-mx-2 space-y-1">
                   <li>Content</li>
                   <ul class="px-5">

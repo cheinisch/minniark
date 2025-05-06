@@ -20,7 +20,7 @@
     </head>
     <body class="min-h-screen flex flex-col">
         <header>
-        <nav class="bg-neutral-100 dark:bg-gray-950 shadow-sm">
+        <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">

@@ -93,11 +93,25 @@
         ></script>
     </head>
     <body class="min-h-screen flex flex-col">
+      <!-- delete Modal -->
+      <div id="deleteModal" class="hidden relative z-50 " role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
+            <p class="mt-4 text-gray-600">Do you really want to delete this image?</p>
+            <div class="flex justify-end mt-6 space-x-3">
+              <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
+              <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Upload Modal -->
       <div id="uploadModal" class="relative z-50 hidden" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
         <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
-          <div class="relative w-full max-w-xl mx-auto rounded-lg shadow-lg bg-white p-6">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-xl font-semibold text-gray-800">Neues Medium hochladen</h2>
               <button id="closeUpload" class="text-gray-500 hover:text-gray-700">
@@ -128,7 +142,7 @@
       </div>
         <!-- Normal Layout -->      
         <header>
-            <nav class="bg-gray-950 shadow-sm">
+          <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
                   <div class="flex h-16 justify-between">
                     <div class="flex">
@@ -157,21 +171,30 @@
                       </div>
                       <div class="hidden md:ml-6 md:flex md:space-x-8">
                         <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Dashboard</a>
+                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Dashboard</a>
                         <a href="media.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-base font-medium text-sky-400">Images</a>
-                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
-                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
+                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
+                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
                       </div>
                     </div>
                     <div class="flex items-center">
-                         <div class="shrink-0">
-                        <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                      <div class="shrink-0 pr-5">
+                        <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                          <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                          </svg>
+                          Delete Image
+                        </button>
+                      </div>
+                      <div class="shrink-0">
+                        <button type="button" class="relative inline-flex items-center gap-x-1.5 bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
                           Upload new Image
                         </button>
                       </div>
+                      
                       <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
                         <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
                           <span class="absolute -inset-1.5"></span>
@@ -261,8 +284,8 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[280px] w-full bg-gray-950 overflow-auto flex-1">
-            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-300 text-base font-medium" aria-label="Sidebar">
+          <aside class="hidden md:block max-w-[280px] w-full bg-neutral-200 dark:bg-gray-950 overflow-auto flex-1 text-lg">
+            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 text-base font-medium" aria-label="Sidebar">
               <ul role="list" class="-mx-2 space-y-1">
                 <li>Modify Image</li>
                 <ul class="px-5">
@@ -274,7 +297,7 @@
               </ul>
             </nav>
           </aside>
-          <main class="flex-1 bg-neutral-900 overflow-auto">
+          <main class="flex-1 bg-white dark:bg-neutral-900 overflow-auto">
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
               <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5 4xl:max-w-7/8 mx-auto">
@@ -386,6 +409,7 @@
         <script src="js/sync_exifdata.js?<?=time()?>"></script>
         <script src="js/edit_exifdata.js"></script>
         <script src="js/file_upload.js"></script>
+        <!--<script src="js/image_delete.js"></script>-->
         <script>
           const map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 12); // Beispielkoordinaten (London)
 
@@ -398,5 +422,24 @@
             //.bindPopup('Beispielstandort')
             .openPopup();
         </script>
+        <script>
+// Delete-Button Klick öffnet Modal
+document.getElementById('delete-button').addEventListener('click', function() {
+  document.getElementById('deleteModal').classList.remove('hidden');
+});
+
+// Cancel-Button Klick schließt Modal
+document.getElementById('cancelDelete').addEventListener('click', function() {
+  document.getElementById('deleteModal').classList.add('hidden');
+});
+
+// Confirm-Button Klick ruft direkt dein PHP-Skript auf
+document.getElementById('confirmDelete').addEventListener('click', function() {
+  const filename = "<?php echo htmlspecialchars($fileName); ?>";
+  window.location.href = `/dashboard/backend_api/delete.php?type=img&filename=${encodeURIComponent(filename)}`;
+});
+
+        </script>
+
     </body>
 </html>

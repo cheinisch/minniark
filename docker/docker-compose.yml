@@ -1,6 +1,6 @@
 services:
   imageportfolio:
-    image: cheinisch/imageportfolio:latest
+    image: cheinisch/framora:latest
     ports:
       - "8080:80"
     volumes:

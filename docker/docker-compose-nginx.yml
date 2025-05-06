@@ -1,6 +1,6 @@
 services:
   php:
-    image: cheinisch/imageportfolio-php:latest
+    image: cheinisch/framora-php:latest
     expose:
       - "9000"
     volumes:
@@ -8,7 +8,7 @@ services:
       - userdata_volume:/var/www/html/userdata
 
   nginx:
-    image: cheinisch/imageportfolio:latest
+    image: cheinisch/framora-nginx:latest
     ports:
       - "8080:80"
     depends_on:

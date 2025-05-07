@@ -5,6 +5,10 @@
   // Prüfen, ob ein bestimmtes Jahr übergeben wurde
   $filterYear = isset($_GET['year']) ? $_GET['year'] : null;
   $filterRating = isset($_GET['rating']) ? $_GET['rating'] : null;
+
+  $albumTitle = isset($_GET['album']) ? $_GET['album'] : null;
+
+  $albumdata = getAlbumData($albumTitle);
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +20,7 @@
 
       <!-- Tailwind CSS -->
       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      <link rel="stylesheet" href="../lib/simplemde/simplemde.min.css">
       <style>
         :root {
           --img-max-width: 250px;
@@ -323,6 +328,17 @@
                       <line x1="5" y1="12" x2="19" y2="12" />
                     </svg>-->
                   </li>
+                  <ul class="px-5">
+                    <?php 
+
+                      $albums = getAlbumList();
+
+                      foreach($albums as $album)
+                      {
+                        echo '<li id="'.$album['Name'].'"><a href="album-detail.php?album='.$album['Name'].'" class="text-gray-400 hover:text-sky-400">'.$album['Name'].'</a></li>';
+                      }                    
+                    ?>
+                  </ul>
                   <li class="flex items-center gap-1">
                     Collections (<a href="#" id="add-collection">add new</a>)
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -373,10 +389,34 @@
             </div>
             <div class="flex">
               <!-- Album Information -->
-              <div class="w-5xl min-w-2xl px-3 mt-5 mb-5">
+              <div class="w-5xl min-w-xl px-3 mt-5 mb-5">
                 <div>
                   <div class="">
                     <img src="img/placeholder.png">
+                  </div>
+                  <div id="text-show" class="">
+                    <div class="pt-10">
+                      <h2 id="headline" class="text-lg"><?php echo $albumdata['Name']; ?></h2>
+                    </div>
+                    <div class="">
+                      <p id="description"><?php echo $albumdata['Description']; ?></p>
+                    </div>
+                  </div>
+                  <div id="text-edit" class="">
+                    <div class="pt-10">
+                      <input type="text" id="album-title" name="album-title" value="<?php echo $albumdata['Name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400">
+                    </div>
+                    <div class="pt-2">
+                      <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $albumdata['Description']; ?></textarea>
+                    </div>
+                  </div>
+                  <div id="button_group" class="space-x-2 mt-2">
+                    <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                      Edit
+                    </button>
+                    <button type="button" id="cancel_edit" class="invisible relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                      Cancel
+                    </button>
                   </div>
                 </div>
               </div>
@@ -391,7 +431,10 @@
         </div>
         <script src="js/tailwind.js"></script>
         <script src="js/slider.js"></script>
-        <script src="js/file_upload.js"></script>
         <script src="js/album_collection.js"></script>
+        <script src="../lib/simplemde/simplemde.min.js"></script>
+        <script>
+          var simplemde = new SimpleMDE({ element: document.getElementById("album-description"), toolbar: ["bold", "italic", "heading", "|", "quote"] });
+        </script>
     </body>
 </html>

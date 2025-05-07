@@ -26,3 +26,26 @@
     
         return $albums;
     }
+
+    function getAlbumData($albumName) {
+        $albumFile = __DIR__ . '/../../userdata/content/albums/' . preg_replace('/[^a-z0-9]/i', '_', strtolower($albumName)) . '.php';
+    
+        if (!file_exists($albumFile)) {
+            error_log("Album not found");
+            return null; // oder throw new Exception("Album not found");
+        }
+    
+        // Variablen isoliert einlesen
+        $albumData = [];
+        include $albumFile;
+    
+        // Rückgabe aller enthaltenen Variablen
+        $albumData['Name'] = $Name ?? null;
+        $albumData['Description'] = $Description ?? null;
+        $albumData['Password'] = $Password ?? null;
+        $albumData['Images'] = $Images ?? [];
+        $albumData['HeadImage'] = $HeadImage ?? null;
+    
+        return $albumData;
+    }
+    

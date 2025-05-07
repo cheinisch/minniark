@@ -66,9 +66,16 @@
                       </div>
                       <div class="mt-3">
                         <h4 class="text-xl text-gray-900 sm:pr-12">Set Album description</h4>
+                        <textarea name="album-description" id="album-description" class="w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500"></textarea>
+                      </div>
+                      <div class="sm:col-span-3">
+                        <label for="album-password" class="block text-2xl text-gray-900">Album Password (optional)</label>
+                        <div class="mt-2">
+                        <input type="text" name="album-password" id="album-password" value="" placeholder="optional password" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                        </div>
                       </div>
                       <div class="mt-6 flex gap-4">
-                        <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+                        <button type="button" id="saveAlbum" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
                         Save
                         </button>
                         <button type="button" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
@@ -323,6 +330,17 @@
                       <line x1="5" y1="12" x2="19" y2="12" />
                     </svg>-->
                   </li>
+                  <ul class="px-5">
+                    <?php 
+
+                      $albums = getAlbumList();
+
+                      foreach($albums as $album)
+                      {
+                        echo '<li id="'.$album['Name'].'"><a href="album-detail.php?album='.$album['Name'].'" class="text-gray-400 hover:text-sky-400">'.$album['Name'].'</a></li>';
+                      }                    
+                    ?>
+                  </ul> 
                   <li class="flex items-center gap-1">
                     Collections (<a href="#" id="add-collection">add new</a>)
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -383,5 +401,7 @@
         <script src="js/slider.js"></script>
         <script src="js/file_upload.js"></script>
         <script src="js/album_collection.js"></script>
+        <script src="js/album_create.js"></script>
+        <script src="js/album_dragdrop.js"></script>
     </body>
 </html>

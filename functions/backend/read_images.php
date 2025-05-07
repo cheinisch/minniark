@@ -156,8 +156,8 @@
     
             // HTML für das Bild generieren
             echo "<div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 250px; max-width: var(--img-max-width);\">
-                    <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
-                        <img src='$image' class=\"w-full h-full object-cover\" alt=\"$title\" title=\"$description\" />
+                    <a href=\"media-detail.php?image=" . urlencode($fileName) . "\" >
+                        <img src='$image' class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
                     </a>
                 </div>";
         }

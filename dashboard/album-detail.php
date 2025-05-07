@@ -203,11 +203,11 @@
                     </div>
                     <div class="flex items-center">
                          <div class="shrink-0">
-                        <button type="button" id="uploadImageButton" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                        <button type="button" id="uploadImageButton" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
-                          Upload new Image
+                          Add Image to Album
                         </button>
                       </div>
                       <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
@@ -371,11 +371,21 @@
                 </div>
               </div>
             </div>
-            <!-- Content Mainblock -->
-            <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
-              <?php
-                renderImageGallery($filterYear, $filterRating); // Galerie ausgeben              
-              ?>
+            <div class="flex">
+              <!-- Album Information -->
+              <div class="w-5xl min-w-2xl px-3 mt-5 mb-5">
+                <div>
+                  <div class="">
+                    <img src="img/placeholder.png">
+                  </div>
+                </div>
+              </div>
+              <!-- Content Bilderblock -->
+              <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
+                <?php
+                  renderImageGallery($filterYear, $filterRating); // Galerie ausgeben              
+                ?>
+              </div>
             </div>
           </main>
         </div>

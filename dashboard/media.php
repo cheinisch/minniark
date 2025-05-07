@@ -402,6 +402,5 @@
         <script src="js/file_upload.js"></script>
         <script src="js/album_collection.js"></script>
         <script src="js/album_create.js"></script>
-        <script src="js/album_dragdrop.js"></script>
     </body>
 </html>

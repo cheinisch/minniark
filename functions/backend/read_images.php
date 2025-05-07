@@ -155,11 +155,22 @@
             $description = !empty($metadata['description']) ? htmlspecialchars($metadata['description']) : "Keine Beschreibung verfügbar";
     
             // HTML für das Bild generieren
-            echo "<div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 250px; max-width: var(--img-max-width);\">
+            echo "
+            <div>
+            <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 250px; max-width: var(--img-max-width);\">
                     <a href=\"media-detail.php?image=" . urlencode($fileName) . "\" >
                         <img src='$image' class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
                     </a>
-                </div>";
+                </div>
+                <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-600\">
+                    <span class=\"text-sm dark:text-gray-600\">$title</span>
+                    <button class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\">
+                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
+                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
+                        </svg>
+                    </button>
+                </div>
+            </div>";
         }
     }
     

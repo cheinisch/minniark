@@ -394,7 +394,7 @@
                   <div class="">
                     <img src="img/placeholder.png">
                   </div>
-                  <div id="text-show" class="">
+                  <div id="text-show-frame" class="">
                     <div class="pt-10">
                       <h2 id="headline" class="text-lg"><?php echo $albumdata['Name']; ?></h2>
                     </div>
@@ -402,7 +402,7 @@
                       <p id="description"><?php echo $albumdata['Description']; ?></p>
                     </div>
                   </div>
-                  <div id="text-edit" class="">
+                  <div id="text-edit-frame" class="">
                     <div class="pt-10">
                       <input type="text" id="album-title" name="album-title" value="<?php echo $albumdata['Name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400">
                     </div>
@@ -414,7 +414,10 @@
                     <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
                       Edit
                     </button>
-                    <button type="button" id="cancel_edit" class="invisible relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                    <button type="button" id="save_edit" class="hidden relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                      Save
+                    </button>
+                    <button type="button" id="cancel_edit" class="hidden relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
                       Cancel
                     </button>
                   </div>
@@ -432,6 +435,7 @@
         <script src="js/tailwind.js"></script>
         <script src="js/slider.js"></script>
         <script src="js/album_collection.js"></script>
+        <script src="js/album_edit.js"></script>
         <script src="../lib/simplemde/simplemde.min.js"></script>
         <script>
           var simplemde = new SimpleMDE({ element: document.getElementById("album-description"), toolbar: ["bold", "italic", "heading", "|", "quote"] });

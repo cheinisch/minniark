@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    let simplemde = null;
+
     const normalBtnGroup = document.getElementById("normal-group");
     const editBtnGroup = document.getElementById("edit-group");
 
@@ -19,6 +21,13 @@ document.addEventListener("DOMContentLoaded", () => {
         editBtnGroup.classList.remove("hidden");
         viewFrame.classList.add("hidden");
         editFrame.classList.remove("hidden");
+        // Initialisiere den Editor nur bei Bedarf
+        if (!simplemde) {
+            simplemde = new SimpleMDE({
+                element: document.getElementById("album-description"),
+                toolbar: ["bold", "italic", "heading", "|", "quote"]
+            });
+        }
     });
 
     cancelBtn.addEventListener("click", () => {
@@ -27,6 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
         editBtnGroup.classList.add("hidden");
         viewFrame.classList.remove("hidden");
         editFrame.classList.add("hidden");
+
+        // Editor entfernen & zerstören
+        if (simplemde) {
+            simplemde.toTextArea(); // zurückverwandeln in normales <textarea>
+            simplemde = null;       // Referenz löschen
+        }
+    });
+
+    saveBtn.addEventListener("click", () => {
+        saveBtn.innerHTML = 'saving...';
     });
     
 

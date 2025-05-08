@@ -1,5 +1,6 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
+  require_once __DIR__ . '/../vendor/autoload.php'; // Pfad zu Parsedown
   security_checklogin();
 
   // Prüfen, ob ein bestimmtes Jahr übergeben wurde
@@ -9,6 +10,10 @@
   $albumTitle = isset($_GET['album']) ? $_GET['album'] : null;
 
   $albumdata = getAlbumData($albumTitle);
+
+  $Parsedown = new Parsedown();
+  $descriptionHtml = $Parsedown->text($albumdata['Description']);
+
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +26,7 @@
       <!-- Tailwind CSS -->
       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
       <link rel="stylesheet" href="../lib/simplemde/simplemde.min.css">
+      <link rel="stylesheet" href="css/additional.css">
       <style>
         :root {
           --img-max-width: 250px;
@@ -399,7 +405,7 @@
                       <h2 id="headline" class="text-lg"><?php echo $albumdata['Name']; ?></h2>
                     </div>
                     <div class="">
-                      <p id="description"><?php echo $albumdata['Description']; ?></p>
+                      <p id="description"><?php echo $descriptionHtml; ?></p>
                     </div>
                   </div>
                   <form action="backend_api/album_update.php" method="post">
@@ -439,13 +445,12 @@
             </div>
           </main>
         </div>
+
+        <script src="../lib/simplemde/simplemde.min.js"></script>
         <script src="js/tailwind.js"></script>
         <script src="js/slider.js"></script>
         <script src="js/album_collection.js"></script>
         <script src="js/album_edit.js"></script>
-        <script src="../lib/simplemde/simplemde.min.js"></script>
-        <script>
-          var simplemde = new SimpleMDE({ element: document.getElementById("album-description"), toolbar: ["bold", "italic", "heading", "|", "quote"] });
-        </script>
+        
     </body>
 </html>

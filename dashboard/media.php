@@ -457,5 +457,6 @@
         <script src="js/file_upload.js"></script>
         <script src="js/album_collection.js"></script>
         <script src="js/album_create.js"></script>
+        <script src="js/image_dropdown.js"></script>
     </body>
 </html>

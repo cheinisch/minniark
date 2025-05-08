@@ -317,15 +317,7 @@
                 <ul role="list" class="-mx-2 space-y-1">
                   <li>Content</li>
                   <ul class="px-5">
-                    <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
-                  </ul>
-                  <li>Year</li>
-                  <ul class="px-5">
-                    <?php get_imageyearlist(false); ?>
-                  </ul>
-                  <li>Ratings</li>
-                  <ul class="px-5">
-                    <?php get_ratinglist(false); ?>
+                    <li><a href="media.php" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
                   </ul>
                   <li class="flex items-center gap-1">
                     Albums (<a href="#" id="add-album">add new</a>)
@@ -395,17 +387,17 @@
             </div>
             <div class="flex">
               <!-- Album Information -->
-              <div class="min-w-xl px-3 mt-5 mb-5">
+              <div class="min-w-xl px-5 mt-5 mb-5">
                 <div>
                   <div class="">
                     <img src="img/placeholder.png">
                   </div>
                   <div id="text-show-frame" class="">
-                    <div class="pt-10">
-                      <h2 id="headline" class="text-lg"><?php echo $albumdata['Name']; ?></h2>
+                    <div class="pt-5">
+                      <h2 id="headline" class="text-3xl pb-5 dark:text-gray-400"><?php echo $albumdata['Name']; ?></h2>
                     </div>
-                    <div class="">
-                      <p id="description"><?php echo $descriptionHtml; ?></p>
+                    <div class="dark:text-gray-400">
+                      <?php echo $descriptionHtml; ?>
                     </div>
                   </div>
                   <form action="backend_api/album_update.php" method="post">
@@ -414,18 +406,18 @@
                         <input type="text" id="album-title-edit" name="album-title-edit" value="<?php echo $albumdata['Name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400">
                         <input type="hidden" id="album-current-title" name="album-current-title" value="<?php echo $albumdata['Name']; ?>">
                       </div>
-                      <div class="pt-2">
+                      <div class="pt-2 bg-white">
                         <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $albumdata['Description']; ?></textarea>
                       </div>
                     </div>
                     <div id="button_group" class="space-x-2 mt-2">
                       <div id="normal-group">
-                      <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5  bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                      <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
                         Edit
                       </button>
                       </div>
                       <div id="edit-group" class="hidden">
-                      <button type="submit" id="save_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                      <button type="submit" id="save_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
                         Save
                       </button>
                       <button type="button" id="cancel_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
@@ -453,6 +445,6 @@
         <script src="js/slider.js"></script>
         <script src="js/album_collection.js"></script>
         <script src="js/album_edit.js"></script>
-        
+        <script src="js/image_dropdown.js"></script>
     </body>
 </html>

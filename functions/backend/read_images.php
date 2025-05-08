@@ -164,11 +164,17 @@
                 </div>
                 <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-600\">
                     <span class=\"text-sm dark:text-gray-600\">$title</span>
-                    <button class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\">
-                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
-                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
-                        </svg>
-                    </button>
+                    <div class=\"relative inline-block\">
+                        <button id=\"$fileName\" class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\" data-filename=\"$fileName\">
+                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
+                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
+                            </svg>
+                        </button>                    
+                        <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
+                            <a href=\"#\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Add to Album</a>
+                            <a href=\"#\" class=\"block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">Delete</a>
+                        </div>
+                    </div>
                 </div>
             </div>";
         }
@@ -230,11 +236,17 @@
                 </div>
                 <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-600\">
                     <span class=\"text-sm dark:text-gray-600\">$title</span>
-                    <button class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\">
-                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
-                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
-                        </svg>
-                    </button>
+                    <div class=\"relative inline-block\">
+                        <button id=\"$fileName\" class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\" data-filename=\"$fileName\">
+                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
+                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
+                            </svg>
+                        </button>
+                        <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
+                            <a href=\"#\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Set as Hero Image</a>
+                            <a href=\"#\" class=\"block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">remove from album</a>
+                        </div>
+                    </div>
                 </div>
             </div>";
         }

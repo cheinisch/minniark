@@ -402,25 +402,32 @@
                       <p id="description"><?php echo $albumdata['Description']; ?></p>
                     </div>
                   </div>
-                  <div id="text-edit-frame" class="">
-                    <div class="pt-10">
-                      <input type="text" id="album-title" name="album-title" value="<?php echo $albumdata['Name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400">
+                  <form action="backend_api/album_update.php" method="post">
+                    <div id="text-edit-frame" class="hidden">                    
+                      <div class="pt-10">
+                        <input type="text" id="album-title-edit" name="album-title-edit" value="<?php echo $albumdata['Name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400">
+                        <input type="hidden" id="album-current-title" name="album-current-title" value="<?php echo $albumdata['Name']; ?>">
+                      </div>
+                      <div class="pt-2">
+                        <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $albumdata['Description']; ?></textarea>
+                      </div>
                     </div>
-                    <div class="pt-2">
-                      <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $albumdata['Description']; ?></textarea>
+                    <div id="button_group" class="space-x-2 mt-2">
+                      <div id="normal-group">
+                      <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5  bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                        Edit
+                      </button>
+                      </div>
+                      <div id="edit-group" class="hidden">
+                      <button type="submit" id="save_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                        Save
+                      </button>
+                      <button type="button" id="cancel_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                        Cancel
+                      </button>
+                      </div>
                     </div>
-                  </div>
-                  <div id="button_group" class="space-x-2 mt-2">
-                    <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      Edit
-                    </button>
-                    <button type="button" id="save_edit" class="hidden relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
-                      Save
-                    </button>
-                    <button type="button" id="cancel_edit" class="hidden relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
-                      Cancel
-                    </button>
-                  </div>
+                  </form>
                 </div>
               </div>
               <!-- Content Bilderblock -->

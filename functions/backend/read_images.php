@@ -175,6 +175,73 @@
     }
     
 
+    function renderImageGalleryAlbum($album) {
+        $albumFile = __DIR__ . "/../../userdata/content/albums/" . preg_replace('/[^a-z0-9]/i', '_', strtolower($album)) . ".php";
+    
+        if (!file_exists($albumFile)) {
+            echo "<p class='text-red-500'>Album nicht gefunden.</p>";
+            return;
+        }
+    
+        include $albumFile;
+        $imageDir = '../../userdata/content/images/';
+        $imageData = [];
+    
+        foreach ($Images as $fileName) {
+            $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
+            $metadata = [];
+    
+            if (file_exists($jsonFile)) {
+                $jsonData = file_get_contents($jsonFile);
+                $decodedData = json_decode($jsonData, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $metadata = $decodedData;
+                }
+            }
+    
+            $date = $metadata['exif']['Date'] ?? '0000-00-00 00:00:00';
+    
+            $imageData[] = [
+                'file' => $fileName,
+                'date' => $date,
+                'title' => $metadata['title'] ?? '',
+                'description' => $metadata['description'] ?? ''
+            ];
+        }
+    
+        // Nach Datum absteigend sortieren
+        usort($imageData, function($a, $b) {
+            return strtotime($b['date']) <=> strtotime($a['date']);
+        });
+    
+        // Bilder anzeigen
+        foreach ($imageData as $img) {
+            $title = htmlspecialchars($img['title'] ?: 'Kein Titel');
+            $description = htmlspecialchars($img['description'] ?: 'Keine Beschreibung verfügbar');
+            $fileName = $img['file'];
+            $imagePath = $imageDir . $fileName;
+    
+            echo "
+            <div>
+                <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 250px;\">
+                    <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
+                        <img src=\"$imagePath\" class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
+                    </a>
+                </div>
+                <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-600\">
+                    <span class=\"text-sm dark:text-gray-600\">$title</span>
+                    <button class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\">
+                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
+                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
+                        </svg>
+                    </button>
+                </div>
+            </div>";
+        }
+    }
+    
+
+
     function getImagesFromDirectory($directory = "../userdata/content/images/") {
         if (!is_dir($directory)) {
             return [];

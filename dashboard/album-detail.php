@@ -395,7 +395,7 @@
             </div>
             <div class="flex">
               <!-- Album Information -->
-              <div class="w-5xl min-w-xl px-3 mt-5 mb-5">
+              <div class="min-w-xl px-3 mt-5 mb-5">
                 <div>
                   <div class="">
                     <img src="img/placeholder.png">
@@ -439,7 +439,9 @@
               <!-- Content Bilderblock -->
               <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
                 <?php
-                  renderImageGallery($filterYear, $filterRating); // Galerie ausgeben              
+
+                  $albumFile = strtolower($albumTitle);
+                  renderImageGalleryAlbum($albumFile); // Galerie ausgeben              
                 ?>
               </div>
             </div>

@@ -14,6 +14,17 @@
   $Parsedown = new Parsedown();
   $descriptionHtml = $Parsedown->text($albumdata['Description']);
 
+  $cacheImage = get_cacheimage($albumdata['HeadImage'],"l");
+
+  $headimage = null;
+
+  if($albumdata['HeadImage'] != null || $albumdata['HeadImage'] != '')
+  {
+    $headimage = "../cache/images/".$cacheImage;
+  }else{
+    $headimage = "img/placeholder.png";
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -421,46 +432,12 @@
               </nav>
           </aside>
           <main class="flex-1 bg-white dark:bg-neutral-900 overflow-auto">
-            <!-- Top Menu Main Block -->
-            <div class="flex items-center justify-between border-b-1 border-gray-600">
-              <div class="hidden md:block rounded-lg px-10 p-2 shadow-sm max-w-[300px] ml-auto">
-                  <!-- Label + Wert nebeneinander -->
-                <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
-                  <span>Bildbreite:</span>
-                  <span id="range-value">250px</span>
-                </div>
-
-                <!-- Range-Slider -->
-                <input
-                  class="w-full accent-sky-400"
-                  type="range"
-                  value="250"
-                  min="100"
-                  max="500"
-                  oninput="document.getElementById('range-value').innerText = this.value + 'px'"
-                >
-              </div>
-              <div class="flex items-center gap-4 mr-4 md:mr-10 md:ml-2 ml-auto md:py-1 py-2">
-                <label for="location" class="text-sm font-medium text-gray-300">Sort by:</label>
-                <div class="relative">
-                  <select id="location" name="location" class="appearance-none rounded-md bg-sky-400 py-1.5 pr-8 pl-3 text-base text-white sm:text-sm">
-                    <option>Date ASC</option>
-                    <option selected>Date DSC</option>
-                    <option>Name ASC</option>
-                    <option>Name DSC</option>
-                  </select>
-                  <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-4 text-gray-500" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-            </div>
             <div class="flex">
               <!-- Album Information -->
               <div class="min-w-xl px-5 mt-5 mb-5">
                 <div>
-                  <div class="">
-                    <img src="img/placeholder.png">
+                  <div class="max-w-xl">
+                    <img src="<?php echo $headimage; ?>">
                   </div>
                   <div id="text-show-frame" class="">
                     <div class="pt-5">

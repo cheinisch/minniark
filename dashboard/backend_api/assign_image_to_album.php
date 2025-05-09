@@ -9,6 +9,7 @@ error_log(print_r($_POST));
 
 
 require_once __DIR__ . '/../../functions/function_backend.php';
+security_checklogin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $albumName = $_POST['album'] ?? '';
@@ -55,8 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     file_put_contents($albumFile, $albumContent);
 
-    // Redirect oder Erfolgsmeldung
-    sleep(5);
+
     header("Location: ../media.php");
     exit;
 } else {

@@ -232,6 +232,9 @@
             $fileName = $img['file'];
             $imagePath = "../../userdata/content/images/" . $fileName;
 
+            $smallimg = get_cacheimage($fileName,"m");
+            $imagePath = "../cache/images/".$smallimg;
+
             echo "
             <div class=\"\">
                 <div class=\"w-full md:w-3xs aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 duration-300 ease-in-out\">

@@ -190,19 +190,23 @@
         }
     
         include $albumFile;
-        $imageDir = '../../userdata/content/images/';
+        $imageDir = __DIR__ .'/../../userdata/content/images/';
         $imageData = [];
     
         foreach ($Images as $fileName) {
             $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
             $metadata = [];
-    
             if (file_exists($jsonFile)) {
                 $jsonData = file_get_contents($jsonFile);
                 $decodedData = json_decode($jsonData, true);
                 if (json_last_error() === JSON_ERROR_NONE) {
                     $metadata = $decodedData;
+                } else {
+                    error_log("Fehler beim Parsen von JSON: " . json_last_error_msg());
+                    continue;
                 }
+            } else {
+                continue; // JSON fehlt → Bild überspringen
             }
     
             $date = $metadata['exif']['Date'] ?? '0000-00-00 00:00:00';
@@ -219,17 +223,18 @@
         usort($imageData, function($a, $b) {
             return strtotime($b['date']) <=> strtotime($a['date']);
         });
-    
+
+
         // Bilder anzeigen
         foreach ($imageData as $img) {
             $title = htmlspecialchars($img['title'] ?: 'Kein Titel');
             $description = htmlspecialchars($img['description'] ?: 'Keine Beschreibung verfügbar');
             $fileName = $img['file'];
-            $imagePath = $imageDir . $fileName;
-    
+            $imagePath = "../../userdata/content/images/" . $fileName;
+
             echo "
             <div class=\"\">
-                <div class=\"max-w-xs aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 duration-300 ease-in-out max-w-full\">
+                <div class=\"w-full md:w-3xs aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 duration-300 ease-in-out\">
                     <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
                         <img src=\"$imagePath\" class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
                     </a>

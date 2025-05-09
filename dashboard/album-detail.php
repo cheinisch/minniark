@@ -127,97 +127,16 @@
           </div>
         </div>
       </div>
-      <!-- Add Album Modal -->
-      <div id="addAlbumModal" class="hidden relative z-10" role="dialog" aria-modal="true">
-        
-        <div class="fixed inset-0 hidden bg-gray-500/75 transition-opacity md:block" aria-hidden="true"></div>
-
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
-
-            <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-lg">
-              <div class="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-                <button type="button" id="closeAlbumModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8">
-                  <span class="sr-only">Close</span>
-                  <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
-                </button>
-
-                <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-                  <div class="col-span-12">
-                    <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">Create new Album</h2>
-
-                    <section aria-labelledby="information-heading" class="mt-3">
-                      <h3 id="information-heading" class="sr-only">Album information</h3>
-                      <div class="sm:col-span-3">
-                        <label for="album-title" class="block text-2xl text-gray-900">Album Name</label>
-                        <div class="mt-2">
-                        <input type="text" name="album-title" id="album-title" value="" placeholder="Enter album name" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
-                        </div>
-                      </div>
-                      <div class="mt-3">
-                        <h4 class="text-xl text-gray-900 sm:pr-12">Set Album description</h4>
-                      </div>
-                      <div class="mt-6 flex gap-4">
-                        <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Save
-                        </button>
-                        <button type="button" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Cancel
-                        </button>
-                      </div>
-                    </section>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Add Collection Modal -->
-      <div id="addCollectionModal" class="hidden relative z-10" role="dialog" aria-modal="true">
-        
-        <div class="fixed inset-0 hidden bg-gray-500/75 transition-opacity md:block" aria-hidden="true"></div>
-
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
-
-            <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-lg">
-              <div class="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-                <button type="button" id="closeCollectionModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8">
-                  <span class="sr-only">Close</span>
-                  <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
-                </button>
-
-                <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-                  <div class="col-span-12">
-                    <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">Create new Collection</h2>
-
-                    <section aria-labelledby="information-heading" class="mt-3">
-                      <h3 id="information-heading" class="sr-only">Collection information</h3>
-                      <div class="sm:col-span-3">
-                        <label for="album-title" class="block text-2xl text-gray-900">Collection Name</label>
-                        <div class="mt-2">
-                        <input type="text" name="album-title" id="album-title" value="" placeholder="Enter album name" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
-                        </div>
-                      </div>
-                      <div class="mt-3">
-                        <h4 class="text-xl text-gray-900 sm:pr-12">Set Collection description</h4>
-                      </div>
-                      <div class="mt-6 flex gap-4">
-                        <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Save
-                        </button>
-                        <button type="button" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Cancel
-                        </button>
-                      </div>
-                    </section>
-                  </div>
-                </div>
+      <!-- Confirm Modal -->
+      <div id="confirmModalAlbum" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+          <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+            <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+              <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
+              <p class="mt-4 text-gray-600">Do you really want to delete this album?</p>
+              <div class="flex justify-end mt-6 space-x-3">
+                <button id="confirmAlbumNo" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
+                <button id="confirmAlbumYes" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
               </div>
             </div>
           </div>
@@ -368,7 +287,7 @@
                     <li><a href="media.php" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
                   </ul>
                   <li class="flex items-center gap-1">
-                    Albums (<a href="#" id="add-album">add new</a>)
+                    Albums 
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <line x1="12" y1="5" x2="12" y2="19" />
                       <line x1="5" y1="12" x2="19" y2="12" />
@@ -386,7 +305,7 @@
                     ?>
                   </ul>
                   <li class="flex items-center gap-1">
-                    Collections (<a href="#" id="add-collection">add new</a>)
+                    Collections
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <line x1="12" y1="5" x2="12" y2="19" />
                       <line x1="5" y1="12" x2="19" y2="12" />
@@ -429,7 +348,7 @@
                         <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
                           Edit
                         </button>
-                        <a href="backend_api/delete.php?type=album&filename=<?php echo $albumdata['Name']; ?>" id="delete_album" class="relative inline-flex items-center gap-x-1.5  px-3 py-2 text-sm text-red-500 shadow-xs hover:bg-red-600 hover:text-white">
+                        <a href="backend_api/delete.php?type=album&filename=<?php echo $albumdata['Name']; ?>" id="delete_album" class="delete-link relative inline-flex items-center gap-x-1.5  px-3 py-2 text-sm text-red-500 shadow-xs hover:bg-red-600 hover:text-white">
                           Delete Album
                         </a>
                       </div>
@@ -488,6 +407,33 @@
               removeBtn = document.getElementById('confirmYes');
               removeBtn.innerText = 'Removing...';
               window.location.href = pendingLink;
+            }
+          });
+        </script>
+        <script>
+          let pendingLink2 = null;
+
+          // Klick auf bestätigungspflichtige Links
+          document.querySelectorAll('.delete-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+              e.preventDefault();
+              pendingLink2 = this.href;
+              document.getElementById('confirmModalAlbum').classList.remove('hidden');
+            });
+          });
+
+          // Abbrechen → Modal schließen
+          document.getElementById('confirmAlbumNo').addEventListener('click', () => {
+            document.getElementById('confirmModalAlbum').classList.add('hidden');
+            pendingLink2 = null;
+          });
+
+          // Bestätigen → Weiterleitung
+          document.getElementById('confirmAlbumYes').addEventListener('click', () => {
+            if (pendingLink2) {
+              removeBtn = document.getElementById('confirmAlbumYes');
+              removeBtn.innerText = 'Removing...';
+              window.location.href = pendingLink2;
             }
           });
         </script>

@@ -23,4 +23,8 @@
         case "album_img":
             remove_img_from_album($filename, $albumname);
             break;
+        case "album":
+            delete_album($filename);
+            header("Location: ../media.php");
+            break;
     }

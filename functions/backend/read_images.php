@@ -269,3 +269,49 @@
     
         return $images;
     }
+
+    function getAllUploadedImages()
+    {
+        $imageDir = '../userdata/content/images/';
+        $images = getImagesFromDirectory($imageDir);
+
+        $imageData = [];
+
+        foreach ($images as $image) {
+            $fileName = basename($image);
+            $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
+            $metadata = [];
+
+            // JSON-Daten auslesen und validieren
+            if (file_exists($jsonFile)) {
+                $jsonData = file_get_contents($jsonFile);
+                $decodedData = json_decode($jsonData, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $metadata = $decodedData;
+                } else {
+                    error_log("Fehler beim Parsen von JSON: " . json_last_error_msg());
+                    continue;
+                }
+            } else {
+                continue; // JSON fehlt → Bild überspringen
+            }
+
+            // Metadaten extrahieren
+            $title = !empty($metadata['title']) ? htmlspecialchars($metadata['title']) : "Kein Titel";
+            $description = !empty($metadata['description']) ? htmlspecialchars($metadata['description']) : "Keine Beschreibung verfügbar";
+            $exifDate = $metadata['exif']['Date'] ?? null;
+            $year = $exifDate ? substr($exifDate, 0, 4) : null;
+            $rating = $metadata['rating'] ?? 0;
+
+            $imageData[] = [
+                'filename' => $fileName,
+                'title' => $title,
+                'description' => $description,
+                'year' => $year,
+                'rating' => $rating,
+            ];
+        }
+
+        return $imageData;
+    }
+

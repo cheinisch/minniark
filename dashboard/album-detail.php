@@ -432,11 +432,11 @@
               </nav>
           </aside>
           <main class="flex-1 bg-white dark:bg-neutral-900 overflow-auto">
-            <div class="flex">
+            <div class="flex md:flex-row flex-col">
               <!-- Album Information -->
-              <div class="min-w-xl px-5 mt-5 mb-5">
+              <div class="md:min-w-xl max-w-2xl sm:w-full px-5 mt-5 mb-5">
                 <div>
-                  <div class="max-w-xl">
+                  <div class="w-full">
                     <img src="<?php echo $headimage; ?>">
                   </div>
                   <div id="text-show-frame" class="">
@@ -476,7 +476,7 @@
                 </div>
               </div>
               <!-- Content Bilderblock -->
-              <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
+              <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4 items-start content-start">
                 <?php
 
                   $albumFile = strtolower($albumTitle);

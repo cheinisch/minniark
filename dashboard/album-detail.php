@@ -46,6 +46,21 @@
       </style>
     </head>
     <body class="min-h-screen flex flex-col">
+      <!-- Confirm Modal -->
+      <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+          <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+            <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+              <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
+              <p class="mt-4 text-gray-600">Do you really want to remove this image from album?</p>
+              <div class="flex justify-end mt-6 space-x-3">
+                <button id="confirmNo" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
+                <button id="confirmYes" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Add Album Modal -->
       <div id="addAlbumModal" class="hidden relative z-10" role="dialog" aria-modal="true">
         
@@ -446,5 +461,32 @@
         <script src="js/album_collection.js"></script>
         <script src="js/album_edit.js"></script>
         <script src="js/image_dropdown.js"></script>
+        <script>
+          let pendingLink = null;
+
+          // Klick auf bestätigungspflichtige Links
+          document.querySelectorAll('.confirm-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+              e.preventDefault();
+              pendingLink = this.href;
+              document.getElementById('confirmModal').classList.remove('hidden');
+            });
+          });
+
+          // Abbrechen → Modal schließen
+          document.getElementById('confirmNo').addEventListener('click', () => {
+            document.getElementById('confirmModal').classList.add('hidden');
+            pendingLink = null;
+          });
+
+          // Bestätigen → Weiterleitung
+          document.getElementById('confirmYes').addEventListener('click', () => {
+            if (pendingLink) {
+              removeBtn = document.getElementById('confirmYes');
+              removeBtn.innerText = 'Removing...';
+              window.location.href = pendingLink;
+            }
+          });
+        </script>
     </body>
 </html>

@@ -51,60 +51,55 @@
         </div>
       </div>
       <!-- Add to Album Modal -->
-      <div id="addToAlbumModal" class="hidden relative z-10" role="dialog" aria-modal="true">
-        
-        <div class="fixed inset-0 hidden bg-gray-500/75 transition-opacity md:block" aria-hidden="true"></div>
+      <!-- Assign to Album Modal -->
+<div id="assignToAlbumModal" class="hidden relative z-10" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
 
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+      <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-xl md:px-4 lg:max-w-lg">
+        <div class="relative flex w-full flex-col items-start overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+          
+          <!-- Close Button -->
+          <button type="button" id="closeAssignToAlbumModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8">
+            <span class="sr-only">Close</span>
+            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
 
-            <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-lg">
-              <div class="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-                <button type="button" id="closeAlbumModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8">
-                  <span class="sr-only">Close</span>
-                  <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
-                </button>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">Bild einem Album zuweisen</h2>
 
-                <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-                  <div class="col-span-12">
-                    <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">Create new Album</h2>
+          <form id="assignToAlbumForm" method="post" action="backend_api/assign_image_to_album.php" class="w-full">
+            <!-- Dynamisch befüllbar per JS -->
+            <input type="hidden" name="image" id="assignImageFilename">
 
-                    <section aria-labelledby="information-heading" class="mt-3">
-                      <h3 id="information-heading" class="sr-only">Album information</h3>
-                      <div class="sm:col-span-3">
-                        <label for="album-title" class="block text-2xl text-gray-900">Album Name</label>
-                        <div class="mt-2">
-                        <input type="text" name="album-title" id="album-title" value="" placeholder="Enter album name" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
-                        </div>
-                      </div>
-                      <div class="mt-3">
-                        <h4 class="text-xl text-gray-900 sm:pr-12">Set Album description</h4>
-                        <textarea name="album-description" id="album-description" class="w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500"></textarea>
-                      </div>
-                      <div class="sm:col-span-3">
-                        <label for="album-password" class="block text-2xl text-gray-900">Album Password (optional)</label>
-                        <div class="mt-2">
-                        <input type="text" name="album-password" id="album-password" value="" placeholder="optional password" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
-                        </div>
-                      </div>
-                      <div class="mt-6 flex gap-4">
-                        <button type="button" id="saveAlbum" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Save
-                        </button>
-                        <button type="button" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Cancel
-                        </button>
-                      </div>
-                    </section>
-                  </div>
-                </div>
-              </div>
+            <label for="albumSelect" class="block text-sm font-medium text-gray-700 mb-2">Wähle ein Album:</label>
+            <select id="albumSelect" name="album" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <?php
+                $albums = getAlbumList();
+                foreach ($albums as $album) {
+                  echo '<option value="' . htmlspecialchars($album['Name']) . '">' . htmlspecialchars($album['Name']) . '</option>';
+                }
+              ?>
+            </select>
+
+            <div class="mt-6 flex gap-4 justify-end">
+              <button type="button" id="cancelAssignAlbum" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-6 py-2 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none">
+                Cancel
+              </button>
+              <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-6 py-2 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none">
+                Assign
+              </button>
             </div>
-          </div>
+          </form>
+
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
       <!-- Add Album Modal -->
       <div id="addAlbumModal" class="hidden relative z-10" role="dialog" aria-modal="true">
         
@@ -497,6 +492,23 @@
               window.location.href = pendingLink;
             }
           });
+        </script>
+        <script>
+          document.querySelectorAll('.assign-to-album-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const filename = button.getAttribute('data-filename');
+    document.getElementById('assignImageFilename').value = filename;
+    document.getElementById('assignToAlbumModal').classList.remove('hidden');
+  });
+});
+
+document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
+  document.getElementById('assignToAlbumModal').classList.add('hidden');
+});
+
+document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
+  document.getElementById('assignToAlbumModal').classList.add('hidden');
+});
         </script>
     </body>
 </html>

@@ -253,7 +253,7 @@
                     <div class="flex items-center bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
                       <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">/userdata/content/pages/</div>
                         <input type="text" name="foldername" id="foldername" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="foldername" readonly value="<?php echo $page['source_path']; ?>">
-                        <input type="hidden" id="original_foldername" name="original_foldername" value="">
+                        <input type="hidden" id="original_foldername" name="original_foldername" value="<?php echo $page['source_path']; ?>">
                       </div>
                     </div>
                   </div>
@@ -271,7 +271,7 @@
                       <div class="aspect-w-16 aspect-h-9 w-full max-w-md bg-gray-100 overflow-hidden border border-gray-300">
                         <img id="coverPreview" src="img/placeholder.png" alt="Cover Preview" class="w-full h-full max-h-md object-cover">
                       </div>
-                      <button type="button" onclick="openCoverModal()" class="mt-2 inline-block px-4 py-2 bg-sky-600 text-white text-sm hover:bg-sky-700">
+                      <button type="button" onclick="openCoverModal()" class="mt-2 inline-block px-4 py-2 bg-sky-500 text-white text-sm hover:bg-sky-600">
                         Select Hero Image
                       </button>
                     </div>

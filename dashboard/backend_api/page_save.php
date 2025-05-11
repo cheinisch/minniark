@@ -20,9 +20,10 @@ if (!$input || !isset($input['title'], $input['foldername'])) {
 }
 error_log("Titel: " . $input['title']);
 error_log("Input: " . $input['content']);
+error_log("Array: " . $input['original_foldername']);
 
 $baseDir = realpath(__DIR__ . '/../../userdata/content/pages');
-$originalFolder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $input['foldername']);
+$originalFolder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $input['original_foldername']);
 $originalPath = $baseDir . DIRECTORY_SEPARATOR . $originalFolder;
 
 // Slugify-Titel
@@ -47,6 +48,7 @@ while (is_dir($newPath) && realpath($newPath) !== realpath($originalPath)) {
 
 // Wenn Verzeichnis existiert, aber Titel sich geändert hat → umbenennen
 if (is_dir($originalPath) && realpath($originalPath) !== realpath($newPath)) {
+    error_log("ORdnername aendert sich");
     if (!rename($originalPath, $newPath)) {
         echo json_encode(['success' => false, 'message' => 'Ordner konnte nicht umbenannt werden.']);
         exit;

@@ -14,9 +14,16 @@ use Twig\Environment;
 // use Parsedown;
 
 
+// JSON-Settings einlesen
+$settingsPath = __DIR__ . '/userdata/config/settings.json';
+$settings = file_exists($settingsPath)
+    ? json_decode(file_get_contents($settingsPath), true)
+    : [];
+
+$theme = $settings['theme'] ?? 'basic';
 
 // Twig Setup
-$loader = new FilesystemLoader(__DIR__ . '/userdata/template/basic');
+$loader = new FilesystemLoader(__DIR__ . '/userdata/template/'.$theme);
 $twig = new Environment($loader, [
     'cache' => __DIR__ . '/cache/pages',
     'auto_reload' => true,
@@ -38,13 +45,7 @@ $routes = [
     'blog' => 'blog.twig',
 ];
 
-// JSON-Settings einlesen
-$settingsPath = __DIR__ . '/userdata/config/settings.json';
-$settings = file_exists($settingsPath)
-    ? json_decode(file_get_contents($settingsPath), true)
-    : [];
 
-$theme = $settings['theme'] ?? 'basic';
 
 $data = [
     'title' => ucfirst($uri) ?: 'Home',

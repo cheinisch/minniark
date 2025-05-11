@@ -188,7 +188,7 @@ error_reporting(E_ALL);
         }
 
         $data['source_path'] = basename(dirname($jsonPath));
-        if(array_key_exists($data['is_published']))
+        if(isset($data['is_published']))
         {
             if($data['is_published'])
             {

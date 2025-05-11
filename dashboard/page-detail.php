@@ -298,16 +298,6 @@
                       </button>
                     </div>
                   </div>
-                  <!-- Date/Time Picker -->
-                  <div class="col-span-full mb-6">
-                    <label for="published_at" class="block text-sm font-medium text-gray-900 dark:text-white mb-1">Publishing Date</label>
-                    <input type="datetime-local" id="published_at" name="published_at" class="w-full border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 dark:bg-neutral-800 dark:text-white dark:border-neutral-600" />
-                  </div>
-
-                  <div class="mt-6 flex items-center justify-end gap-x-6">
-                    <button type="button" class="bg-rose-500 px-3 py-2 text-sm/6 font-semibold text-gray-900">Cancel</button>
-                    <button type="submit" class="bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">Save</button>
-                  </div>
                 </div>
               </div>
           </div>

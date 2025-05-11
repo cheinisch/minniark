@@ -298,6 +298,11 @@
                       </button>
                     </div>
                   </div>
+
+                  <div class="mt-6 flex items-center justify-end gap-x-6">
+                    <button type="button" class="bg-rose-500 px-3 py-2 text-sm/6 font-semibold text-gray-900">Cancel</button>
+                    <button type="submit" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">Save</button>
+                  </div>
                 </div>
               </div>
           </div>
@@ -391,7 +396,7 @@
       });
       </script>
       <script src="js/tailwind.js"></script>
-      <script src="js/pagey_save.js"></script>
+      <script src="js/page_save.js"></script>
       <script>
           // Delete-Button Klick öffnet Modal
           document.getElementById('delete-button').addEventListener('click', function() {

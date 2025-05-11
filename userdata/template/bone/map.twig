@@ -12,7 +12,9 @@
             <nav>
                 <ul>
                     {% for item in navItems %}
-                        <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                        <li class="{{ app.request.attributes.get('_route') == item.route ? 'active' : '' }}">
+                            <a href="{{ item.url }}">{{ item.title }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
             </nav>

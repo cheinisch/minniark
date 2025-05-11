@@ -19,7 +19,7 @@ error_log("Titel: " . $input['title']);
 error_log("Input: " . $input['content']);
 
 $baseDir = realpath(__DIR__ . '/../../userdata/content/essays');
-$originalFolder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $input['foldername']);
+$originalFolder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $input['original_foldername']);
 $originalPath = $baseDir . DIRECTORY_SEPARATOR . $originalFolder;
 
 // Slugify-Titel

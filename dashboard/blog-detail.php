@@ -254,7 +254,7 @@
                     <div class="flex items-center bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
                       <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">/userdata/content/essays/</div>
                         <input type="text" name="foldername" id="foldername" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="foldername" readonly value="<?php echo $essay['source_path']; ?>">
-                        <input type="hidden" id="original_foldername" name="original_foldername" value="">
+                        <input type="hidden" id="original_foldername" name="original_foldername" value="<?php echo $essay['source_path']; ?>">
                       </div>
                     </div>
                   </div>

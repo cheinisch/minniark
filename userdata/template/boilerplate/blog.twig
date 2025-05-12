@@ -9,15 +9,26 @@
     </head>
     <body>
         <header>
+            <h1>{{ site_title }}</h1>
             <nav>
                 <ul>
                     {% for item in navItems %}
-                        <li class="{{ app.request.attributes.get('_route') == item.route ? 'active' : '' }}">
-                            <a href="{{ item.url }}">{{ item.title }}</a>
-                        </li>
+                        <li><a href="{{ item.url }}">{{ item.title }}</a></li>
                     {% endfor %}
                 </ul>
             </nav>
         </header>
+        <main>
+            {% if posts is not empty %}
+                <div class="blogpost">
+                    <h2><a href="">Uberschrift</a></h2>
+                    <article>
+                        Content
+                    </article>
+                </div>
+            {% else %}
+                <p>No Blogposts found.</p>
+            {% endif %}
+        </main>
     </body>
 </html>

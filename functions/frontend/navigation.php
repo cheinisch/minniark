@@ -21,8 +21,34 @@
         $hasBlog = file_exists($templateDir . '/blog.twig');
         $hasBlogItems = hasBlogPosts();
 
+        $albumList = null;
+        $albumList = getAlbumList();
+
+        $pageList = null;
+        $pageList = getPageList();
         // Home ist immer dabei
         $nav[] = ['title' => 'Home', 'url' => '/home'];
+
+        if(!empty($albumList))
+        {
+            $children = [];
+
+            foreach ($albumList as $album) {
+                $children[] = [
+                    'title' => $album['Name'],
+                    'url' => '/gallery/' . $album['Slug'], // oder 'id', je nachdem
+                ];
+            }
+
+            $nav[] = [
+                'title' => 'Gallerys',
+                'url' => '/gallery',
+                'children' => $children,
+            ];
+        }else{
+            $nav[] = ['title' => 'Gallerys', 'url' => '/gallery'];
+        }
+        
 
         // Nur hinzufügen, wenn Template existiert
         if ($hasMap && $mapEnable) {
@@ -36,6 +62,14 @@
         if ($hasBlog && $hasBlogItems) {
             $nav[] = ['title' => 'Blog', 'url' => '/blog'];
         }
+
+        if(!empty($pageList))
+        {
+            foreach ($pageList as $page) {
+                $nav[] = ['title' => $page['title'], 'url' => '/p/'.$page['slug']];
+            }
+        }
+
 
         return $nav;
     }

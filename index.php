@@ -11,7 +11,9 @@ is_installed();
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+
 // use Parsedown;
+$Parsedown = new Parsedown();
 
 
 // JSON-Settings einlesen
@@ -35,6 +37,7 @@ $twig->addExtension(new \Twig\Extension\DebugExtension());
 // Routing per URL-Pfad
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $uri = str_replace('image_portfolio/', '', $uri); // falls über Unterordner aufgerufen
+$current_path = '/' . $uri;
 
 // Definiere statische Routen
 $routes = [
@@ -43,6 +46,7 @@ $routes = [
     'timeline' => 'timeline.twig',
     'map' => 'map.twig',
     'blog' => 'blog.twig',
+    'gallery' => 'album.list.twig',
 ];
 
 

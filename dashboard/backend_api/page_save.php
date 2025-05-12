@@ -98,6 +98,7 @@ if (file_exists($jsonPath)) {
 $data = [
     'title' => $input['title'],
     'content' => $input['content'],
+    'slug' => slugify($input['title']),
     'created_at' => $createdAt,
     'updated_at' => $dateNow,
     'cover' => $finalCoverPath,

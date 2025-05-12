@@ -52,3 +52,8 @@
     
         return count($folders);
     }
+
+    function getBlogPosts()
+    {
+        
+    }

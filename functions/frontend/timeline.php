@@ -45,36 +45,3 @@ function getTimelineImagesFromJson(string $mediaPath = 'userdata/content/images/
 
     return $images;
 }
-
-
-function getBlogPosts(string $essaysPath = 'userdata/content/essays/'): array {
-    $posts = [];
-
-    foreach (glob($essaysPath . '*/') as $dir) {
-        $folder = basename($dir); // z. B. "2025-04-14_testeintrag"
-
-        // Finde eine beliebige .json-Datei im Ordner (z. B. post.json)
-        $jsonFiles = glob($dir . '*.json');
-        if (empty($jsonFiles)) continue;
-
-        $jsonFile = $jsonFiles[0]; // erste Datei nehmen
-
-        $json = json_decode(file_get_contents($jsonFile), true);
-        if (json_last_error() === JSON_ERROR_NONE) {
-            // Datum und Slug aus dem Ordnernamen extrahieren
-            if (preg_match('/^(\d{4}-\d{2}-\d{2})_(.+)$/', $folder, $matches)) {
-                $json['date'] = $matches[1];
-                $json['slug'] = $matches[2];
-                $json['folder'] = $folder;
-
-                $posts[] = $json;
-            }
-        }
-    }
-
-    // Sortieren nach Datum
-    usort($posts, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date']));
-
-    return $posts;
-}
-

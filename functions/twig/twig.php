@@ -35,3 +35,32 @@ if (preg_match('#^p/([\w\-]+)$#', $uri, $matches)) {
 }
 
 
+// Dynamischer Blogpost: /blog/<slug>
+// Einzelner Blog-Post anhand des Slugs aus dem Verzeichnisnamen
+if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
+    $slug = $matches[1]; // z. B. "lorem-ipsum"
+    $jsonPath = realpath(__DIR__ . "/../../userdata/content/essays/$slug/data.json");
+
+    if ($jsonPath && file_exists($jsonPath)) {
+        $json = json_decode(file_get_contents($jsonPath), true);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $parsedown = new Parsedown();
+            $json['slug'] = $slug;
+            $json['content_html'] = $parsedown->text($json['content'] ?? '');
+
+            $data['post'] = $json;
+            $data['title'] = $json['title'] ?? ucfirst($slug);
+
+            echo $twig->render('post.twig', $data);
+            exit;
+        }
+    }
+
+    // Fehler: Datei nicht vorhanden oder ungültig
+    http_response_code(404);
+    echo $twig->render('404.twig', $data);
+    exit;
+}
+
+

@@ -52,45 +52,7 @@ $routes = [
 
 include ('functions/twig/twig.php');
 
-// Dynamischer Blogpost: /blog/<slug>
-// Einzelner Blog-Post anhand des Slugs aus dem Verzeichnisnamen
-if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
-    $slug = $matches[1]; // z. B. "testeintrag"
-    $essaysPath = 'content/essays/';
-    $post = null;
 
-    foreach (glob($essaysPath . '*/') as $dir) {
-        $folder = basename($dir); // z. B. "2025-04-14_testeintrag"
-
-        if (str_ends_with($folder, "_$slug")) {
-            $jsonFiles = glob($dir . '*.json');
-            if (!empty($jsonFiles)) {
-                $json = json_decode(file_get_contents($jsonFiles[0]), true);
-                if (json_last_error() === JSON_ERROR_NONE) {
-                    if (preg_match('/^(\d{4}-\d{2}-\d{2})_(.+)$/', $folder, $m)) {
-                        $json['date'] = $m[1];
-                        $json['slug'] = $m[2];
-                        $json['folder'] = $folder;
-                        $post = $json;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if ($post) {
-        $parsedown = new Parsedown();
-        $post['content_html'] = $parsedown->text($post['content'] ?? '');
-        $data['post'] = $post;
-        echo $twig->render('post.twig', $data);
-        exit;
-    } else {
-        http_response_code(404);
-        echo $twig->render('404.twig', $data);
-        exit;
-    }
-}
 
 // Standardrouten behandeln
 if (array_key_exists($uri, $routes)) {

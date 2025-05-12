@@ -10,22 +10,22 @@
     <body>
         <header>
             <h1>{{ site_title }}</h1>
-            <nav>
-                <ul>
-                    {% for item in navItems %}
-                        <li><a href="{{ item.url }}">{{ item.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            </nav>
+            {% include "components/nav.twig" %}
         </header>
         <main>
-            {% if posts is not empty %}
-                <div class="blogpost">
-                    <h2><a href="">Uberschrift</a></h2>
-                    <article>
-                        Content
-                    </article>
-                </div>
+            {% if posts is not empty %}                
+                {% for post in posts %}
+                    <div class="blogpost">
+                        <h2><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h2>
+                        <article>
+                            {% if post.excerpt %}
+                                <p class="excerpt">{{ post.excerpt }}</p>
+                            {% else %}
+                                <p class="excerpt">{{ post.content|striptags|slice(0, 150) ~ '...' }}</p>
+                            {% endif %}
+                        </article>
+                    </div>
+                {% endfor %}
             {% else %}
                 <p>No Blogposts found.</p>
             {% endif %}

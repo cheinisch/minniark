@@ -9,15 +9,8 @@
     </head>
     <body>
         <header>
-            <nav>
-                <ul>
-                    {% for item in navItems %}
-                        <li class="{{ current_path starts with item.url ? 'active' : '' }}">
-                            <a href="{{ item.url }}">{{ item.title }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </nav>
+            <h1>{{ site_title }}</h1>
+            {% include "components/nav.twig" %}
         </header>
     </body>
 </html>

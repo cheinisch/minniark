@@ -53,7 +53,35 @@
         return count($folders);
     }
 
-    function getBlogPosts()
+    function getBlogPosts(): array
     {
+        $baseDir = realpath(__DIR__ . '/../../userdata/content/essays/');
+        if (!$baseDir) {
+            return [];
+        }
+
+        $posts = [];
+
+        foreach (glob($baseDir . '/*/data.json') as $jsonFile) {
+            $dir = dirname($jsonFile);
+            $slug = basename($dir); // Verzeichnisname = slug
+
+            $json = json_decode(file_get_contents($jsonFile), true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $json['slug'] = $slug;
+
+                // Fallbacks, falls Felder fehlen
+                $json['title'] = $json['title'] ?? ucfirst($slug);
+                $json['date'] = $json['created_at'] ?? '1970-01-01';
+                $json['excerpt'] = mb_substr(strip_tags($json['content'] ?? ''), 0, 150) . '...';
+
+                $posts[] = $json;
+            }
+        }
+
+        // Nach Datum sortieren (neueste zuerst)
+        usort($posts, fn($a, $b) => strcmp($b['date'], $a['date']) * -1);
         
+        return $posts;
     }
+

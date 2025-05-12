@@ -9,6 +9,7 @@
                       <li><a href="dashboard-user.php" class="<?php if($settingspage != "user"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">User Settings</a></li>
                       <li><a href="dashboard-system.php" class="<?php if($settingspage != "system"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">System Settings</a></li>
                       <li><a href="dashboard-theme.php" class="<?php if($settingspage != "theme"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">Theme Settings</a></li>
+                      <li><a href="dashboard-welcomepage.php" class="<?php if($settingspage != "welcomepage"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">Start Page</a></li>
                       <li><a href="dashboard-export_import.php" class="<?php if($settingspage != "export"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">Export / Import</a></li>
                     </ul>          
                   </ul>

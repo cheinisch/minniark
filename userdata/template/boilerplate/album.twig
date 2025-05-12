@@ -13,21 +13,21 @@
             {% include "components/nav.twig" %}
         </header>
         <main>
-            <h1>{{ headline }}</h1>
-            <h2>{{ sub_headline }}</h2>
-            <p>{{ content }}</p>
-
-            {% if home_image %}
-                <img src="{{ home_image }}" alt="Home Image">
-            {% endif %}
-
-            {% if home_images is defined %}
-                <div class="home-gallery">
-                    {% for img in home_images %}
-                        <img src="{{ img }}" alt="">
-                    {% endfor %}
+            {% if album.cover %}
+                <div class="album-cover">
+                    <img src="{{ album.cover }}" alt="Cover image for {{ album.title }}">
                 </div>
             {% endif %}
+            <h1>{{ album.title }}</h1>
+            <div class="description">
+                {{ album.description|raw }}
+            </div>
+
+            <div class="gallery">
+                {% for image in album.images %}
+                    <img src="{{ image }}" alt="">
+                {% endfor %}
+            </div>
         </main>
     </body>
 </html>

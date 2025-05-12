@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="{{ settings.language }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }} - {{ site_title }}</title>
+        <link rel="stylesheet" href="{{themepath}}/css/normalize.css">
+        <link rel="stylesheet" href="{{themepath}}/css/style.css">
+    </head>
+    <body>
+        <header>
+            <h1>{{ site_title }}</h1>
+            {% include "components/nav.twig" %}
+        </header>
+        <main>
+            {% if settings.timeline.groupe_by_date %}
+                {% set grouped = {} %}
+
+                {# Gruppiere Bilder nach Jahr-Monat #}
+                {% for image in timeline %}
+                  {% set dateKey = image.exif.Date|date("Y-m") %}
+                  {% if grouped[dateKey] is defined %}
+                    {% set images = grouped[dateKey]|merge([image]) %}
+                  {% else %}
+                    {% set images = [image] %}
+                  {% endif %}
+                  {% set grouped = grouped|merge({ (dateKey): images }) %}
+                {% endfor %}
+
+                {# Darstellung nach Gruppen (Monat/Jahr) #}
+                {# sortierte Schlüssel (Monate) holen #}
+                {% set sortedKeys = grouped|keys|sort|reverse %}
+
+                {% for dateKey in sortedKeys %}
+                  {% set images = grouped[dateKey] %}
+                  {% set displayDate = (dateKey ~ "-01")|date("F Y") %}
+
+                  <div class="flex items-center my-2">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="px-4 text-sm text-gray-500 whitespace-nowrap">{{ displayDate }}</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                  </div>
+
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                    {% for image in images %}
+                      <div class="relative group aspect-square bg-gray-200 overflow-hidden">
+                        <a 
+                          href="{{ image.thumb.l }}"
+                          data-title="{{ image.title }}"
+                          data-description="<p>{{ image.exif.Date|date('d.m.Y H:i') }}</p><p>{{ image.description }}</p>"
+                          data-desc-position="bottom"
+                          data-type="image"
+                          data-effect="fade"
+                          data-width="900px"
+                          data-height="auto"
+                          data-zoomable="true"
+                          data-draggable="true"
+                          class="glightbox"
+                        >
+                          <img 
+                            src="{{ image.thumb.m }}" 
+                            alt="{{ image.title }}" 
+                            class="w-full h-full object-cover transition duration-300 ease-in-out group-hover:scale-105"
+                          >
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              {% else %}
+                {# Normale Darstellung ohne Gruppierung #}
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                  {% for image in timeline %}
+                    <div class="relative group aspect-square bg-gray-200 overflow-hidden">
+                      <a 
+                        href="{{ image.thumb.l }}"
+                        data-title="{{ image.title }}"
+                        data-description="<p>{{ image.exif.Date|date('d.m.Y H:i') }}</p><p>{{ image.description }}</p>"
+                        data-desc-position="bottom"
+                        data-type="image"
+                        data-effect="fade"
+                        data-width="900px"
+                        data-height="auto"
+                        data-zoomable="true"
+                        data-draggable="true"
+                        class="glightbox"
+                      >
+                        <img 
+                          src="{{ image.thumb.l }}" 
+                          alt="{{ image.title }}" 
+                          class="w-full h-full object-cover transition duration-300 ease-in-out group-hover:scale-105"
+                        >
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+        </main>
+    </body>
+</html>

@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $templateDir = __DIR__ . '/../../userdata/template/' . $theme;
 $navItems = buildNavigation($templateDir);
     
@@ -47,7 +51,7 @@ if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
         if (json_last_error() === JSON_ERROR_NONE) {
             $parsedown = new Parsedown();
             $json['slug'] = $slug;
-            $json['content_html'] = $parsedown->text($json['content'] ?? '');
+            $json['content'] = $parsedown->text($json['content'] ?? '');
 
             $data['post'] = $json;
             $data['title'] = $json['title'] ?? ucfirst($slug);
@@ -64,3 +68,149 @@ if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
 }
 
 
+if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
+    $slug = $matches[1];
+    $albumFile = realpath(__DIR__ . "/../../userdata/content/albums/$slug.php");
+
+    if ($albumFile && file_exists($albumFile)) {
+        // Albumdaten initialisieren
+        $Name = $Description = $Password = $HeadImage = '';
+        $Images = [];
+        include $albumFile; // setzt $Name, $Description, $Images, $HeadImage
+
+        $parsedown = new Parsedown();
+
+        // Bildgröße aus Settings
+        $imageSize = $settings['default_image_size'] ?? 'M';
+
+        // Verzeichnisse definieren
+        $imageDir = realpath(__DIR__ . '/../../userdata/content/images/');
+        $cacheDir = '/cache/images/'; // Webroot-URL für gecachete Bilder
+
+        $imageList = [];
+
+        // Bilder iterieren
+        foreach ($Images as $img) {
+            $jsonFile = $imageDir . '/' . pathinfo($img, PATHINFO_FILENAME) . '.json';
+
+            if (file_exists($jsonFile)) {
+                $meta = json_decode(file_get_contents($jsonFile), true);
+                if (
+                    json_last_error() === JSON_ERROR_NONE &&
+                    !empty($meta['guid'])
+                ) {
+                    $guid = $meta['guid'];
+                    $cachedImagePath = $cacheDir . $guid . '_' . $imageSize . '.jpg';
+                    $imageList[] = $cachedImagePath;
+                }
+            }
+        }
+
+        // HeadImage behandeln
+        $cover = null;
+        if (!empty($HeadImage)) {
+            $coverJson = $imageDir . '/' . pathinfo($HeadImage, PATHINFO_FILENAME) . '.json';
+
+            if (file_exists($coverJson)) {
+                $meta = json_decode(file_get_contents($coverJson), true);
+                if (
+                    json_last_error() === JSON_ERROR_NONE &&
+                    !empty($meta['guid'])
+                ) {
+                    $coverGuid = $meta['guid'];
+                    $cover = $cacheDir . $coverGuid . '_' . $imageSize . '.jpg';
+                }
+            }
+        }
+
+        // Daten an Twig übergeben
+        $data['album'] = [
+            'slug' => $slug,
+            'title' => $Name,
+            'description' => $parsedown->text($Description),
+            'images' => $imageList,
+            'cover' => $cover,
+        ];
+
+        $data['title'] = $Name;
+
+        echo $twig->render('album.twig', $data);
+        exit;
+    }
+
+    // Album nicht gefunden
+    http_response_code(404);
+    echo $twig->render('404.twig', $data);
+    exit;
+}
+
+
+
+if ($uri === 'home' || $uri === '') {
+    // Lade Startseiten-Konfiguration
+    
+    $homeConfigPath = __DIR__ . '/../../userdata/config/home.json';
+    $home = file_exists($homeConfigPath)
+        ? json_decode(file_get_contents($homeConfigPath), true)
+        : [];
+
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(500);
+        echo $twig->render('404.twig', ['message' => 'Invalid home.json']);
+        exit;
+    }
+
+    $style = $home['style'] ?? 'start';
+
+    
+
+    switch ($style) {
+        case 'blog':
+            header("Location: /blog");
+            exit;
+
+        case 'page':
+            $slug = $home['startcontent'] ?? '';
+            header("Location: /p/" . urlencode($slug));
+            exit;
+
+        case 'album':
+            $albumSlug = $home['startcontent'] ?? '';
+            $album = readGalleryAlbum($albumSlug, $settings);
+            $data['album'] = $album;
+            $data['title'] = $album['title'] ?? 'Album';
+            echo $twig->render('home_album.twig', $data);
+            exit;
+
+        case 'start':
+        default:
+            $data['title'] = $home['headline'] ?? 'Welcome';
+            $data['headline'] = $home['headline'] ?? '';
+            $data['sub_headline'] = $home['sub-headline'] ?? '';
+            $data['content'] = $home['content'] ?? '';
+
+            // Bildlogik
+            $imgStyle = $home['default_image_style'] ?? null;
+            $imgRef   = $home['default_image'] ?? null;
+            $imgDir   = realpath(__DIR__ . '/../../userdata/content/images/');
+            $size     = $settings['default_image_size'] ?? 'M';
+
+            if ($imgStyle === 'album' && $imgRef) {
+                $album = readGalleryAlbum($imgRef, $settings);
+                $data['home_images'] = $album['images'] ?? [];
+            } elseif ($imgStyle === 'image' && $imgRef) {
+                $jsonFile = $imgDir . '/' . pathinfo($imgRef, PATHINFO_FILENAME) . '.json';
+                if (file_exists($jsonFile)) {
+                    $meta = json_decode(file_get_contents($jsonFile), true);
+                    if (json_last_error() === JSON_ERROR_NONE && !empty($meta['guid'])) {
+                        $guid = $meta['guid'];
+                        $data['home_image'] = '/cache/images/' . $guid . '_' . $size . '.jpg';
+                    }
+                }
+            }
+
+            echo $twig->render('home.twig', $data);
+            exit;
+    }
+}

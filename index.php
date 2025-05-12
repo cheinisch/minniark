@@ -22,6 +22,7 @@ $settings = file_exists($settingsPath)
     ? json_decode(file_get_contents($settingsPath), true)
     : [];
 
+
 $theme = $settings['theme'] ?? 'basic';
 
 // Twig Setup
@@ -65,6 +66,9 @@ if (array_key_exists($uri, $routes)) {
             break;
         case 'map':
             $data['points'] = getGpsPoints();
+            break;
+        case 'gallery':
+            $data['albums'] = getGalleryAlbums();
             break;
     }
 

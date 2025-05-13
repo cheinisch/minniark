@@ -23,9 +23,16 @@ if($home['style'] == "start")
 }elseif($home['style'] == "album")
 {
   $pagetype = "Album";
-}elseif($home['style'] == "")
+}elseif($home['style'] == "page")
 {
   $pagetype = "Page";
+}else{
+  $pagetype ="Welcome Page";
+}
+
+if($home['style'] == null || $home['style'] == '')
+{
+  $home['style'] = "start";
 }
 
 $albumList = getAlbumList();
@@ -247,7 +254,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                   <p class="mt-1 text-sm/6 text-gray-400">Select some Settings for the Images</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-image-size">
+                <form class="md:col-span-2" id="change-welcome-type" action="backend_api/save_home_type.php" method="post">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Select Image Size -->
                     <div class="sm:col-span-full">
@@ -290,7 +297,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                         </ul>
                       </div>
                     </div>
-                    <input type="hidden" name="image_size" id="image_size" value="<?php echo $pagetype; ?>">
+                    <input type="hidden" name="welcome_type" id="welcome_type" value="<?php echo $home['style']; ?>">
                     <!-- Select ende -->
                     <div class="sm:col-span-full" id="second_select_typ-page">
                       <label id="listbox-page-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Select Page</label>
@@ -316,7 +323,6 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                         </ul>
                       </div>
                     </div>
-                    <input type="hidden" name="image_size" id="image_size" value="<?php echo $startvaluePage; ?>">
 
                     <div class="sm:col-span-full" id="second_select_typ-album">
                       <label id="listbox-album-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Select Album</label>
@@ -342,7 +348,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                         </ul>
                       </div>
                     </div>
-                    <input type="hidden" name="image_size" id="image_size" value="<?php echo $startvalueAlbum; ?>">
+                    <input type="hidden" name="welcome_content" id="welcome_content" value="<?php echo $home['startcontent']; ?>">
                   </div>
                   <div class="mt-8 flex">
                     <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>

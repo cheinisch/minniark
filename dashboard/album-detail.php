@@ -300,7 +300,7 @@
 
                       foreach($albums as $album)
                       {
-                        echo '<li id="'.$album['Name'].'"><a href="album-detail.php?album='.$album['Name'].'" class="text-gray-400 hover:text-sky-400">'.$album['Name'].'</a></li>';
+                        echo '<li id="'.$album['Name'].'"><a href="album-detail.php?album='.$album['Slug'].'" class="text-gray-400 hover:text-sky-400">'.$album['Name'].'</a></li>';
                       }                    
                     ?>
                   </ul>

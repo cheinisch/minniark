@@ -22,6 +22,7 @@ if (!$albumName || !$newName) {
 
 $oldFilename = __DIR__ . '/../../userdata/content/albums/' . preg_replace('/[^a-z0-9]/i', '_', strtolower($albumName)) . '.php';
 $newFilename = __DIR__ . '/../../userdata/content/albums/' . preg_replace('/[^a-z0-9]/i', '_', strtolower($newName)) . '.php';
+$newSlug = preg_replace('/[^a-z0-9]/i', '_', strtolower($newName));
 
 if (!file_exists($oldFilename)) {
     http_response_code(404);
@@ -46,6 +47,7 @@ $content .= '$Description = ' . var_export($Description, true) . ";\n";
 $content .= '$Password = ' . var_export($Password ?? '', true) . ";\n";
 $content .= '$Images = ' . var_export($Images ?? [], true) . ";\n";
 $content .= '$HeadImage = ' . var_export($HeadImage ?? '', true) . ";\n";
+$content .= '$Slug = ' . var_export($newSlug, true) . ";\n";
 
 if (file_put_contents($newFilename, $content) === false) {
     http_response_code(500);

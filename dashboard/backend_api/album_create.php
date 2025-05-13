@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Dateiname erstellen (in Kleinbuchstaben und ohne Sonderzeichen)
     $fileName = preg_replace('/[^a-z0-9]/', '_', strtolower($albumName)) . '.php';
+    $newName =  preg_replace('/[^a-z0-9]/', '_', strtolower($albumName));
 
     // Zielverzeichnis
     $albumDir = __DIR__ . '/../../userdata/content/albums';
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content .= '$Password = ' . var_export($password, true) . ";\n";
     $content .= '$Images = ' . var_export($images, true) . ";\n";
     $content .= '$HeadImage = ' . var_export($headImage, true) . ";\n";
+    $content .= '$Slug = ' . var_export($newName, true) . ";\n";
 
     // Datei erstellen
     $filePath = $albumDir . '/' . $fileName;

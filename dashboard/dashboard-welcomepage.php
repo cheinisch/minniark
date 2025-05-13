@@ -4,6 +4,21 @@
   $settingspage = "welcomepage";
   security_checklogin();
 
+  $home = get_homedata();
+
+  $imageDir = realpath(__DIR__ . '/../userdata/content/images');
+$images = [];
+
+if ($imageDir && is_dir($imageDir)) {
+    foreach (glob($imageDir . '/*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE) as $imgFile) {
+        $images[] = basename($imgFile);
+    }
+}
+
+$home['available_images'] = $images;
+
+$albumList = getAlbumList();
+
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +32,55 @@
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body class="min-h-screen flex flex-col">
+      <!-- Modal -->
+      <div id="cover-modal" class="hidden fixed inset-0 z-50 bg-white/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="w-full max-w-2xl bg-white rounded-lg shadow-xl p-6 relative">
+          
+          <!-- Schließen -->
+          <button id="close-cover-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none font-bold">
+            &times;
+          </button>
+
+          <!-- Titel -->
+          <h2 class="text-xl font-semibold text-gray-800 mb-6">Select Background Image or Album</h2>
+
+          <div class="space-y-6">
+            <!-- Album-Auswahl -->
+            <div>
+              <label for="album-select" class="block text-sm font-medium text-gray-700">Select Album</label>
+              <select id="album-select" class="mt-1 block w-full border border-gray-300 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                <option value="">-- None --</option>
+                <?php foreach ($albumList as $album): ?>
+                  <option value="<?php echo htmlspecialchars($album['Slug']); ?>">
+                    <?php echo 'Album: ' . htmlspecialchars($album['Name']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+
+            <!-- Bild-Auswahl -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Or select a single image</label>
+              <div class="grid grid-cols-3 gap-4 max-h-64 overflow-y-auto" id="image-gallery">
+                <?php foreach ($home['available_images'] as $img): ?>
+                  <div class="border border-gray-300 overflow-hidden cursor-pointer hover:ring-2 hover:ring-sky-500 transition" data-filename="<?php echo htmlspecialchars($img); ?>">
+                    <img src="/userdata/content/images/<?php echo urlencode($img); ?>" alt="" class="w-full h-24 object-cover">
+                    <p class="text-xs text-center mt-1 truncate px-1"><?php echo htmlspecialchars($img); ?></p>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aktion -->
+          <div class="mt-8 text-right">
+            <button type="button" id="confirm-cover-selection" class="bg-sky-500 text-white px-4 py-2 text-sm font-semibold hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+              Use Selection
+            </button>
+          </div>
+        </div>
+      </div>
+
         <header>
             <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
@@ -170,20 +234,9 @@
 
                 <form class="md:col-span-2" id="change-image-size">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Bildgr&ouml;ße ge&auml;ndert!</span>
-                    </div>
-
-                    <!-- Fehlermeldung (rot) -->
-                    <div id="notification-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Bildgr&ouml;ße nicht ge&auml;ndert!</span>
-                    </div>
                     <!-- Select Image Size -->
                     <div class="sm:col-span-full">
-                      <label id="listbox-image-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Image size (for chached images)</label>
+                      <label id="listbox-image-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Page Type (Welcome Page, Album, Page)</label>
                       <div class="relative mt-2">
                         <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-image" aria-expanded="true" aria-labelledby="listbox-image-label">
                           <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_imagesize(); ?></span>
@@ -224,6 +277,47 @@
                     </div>
                     <input type="hidden" name="image_size" id="image_size" value="<?php echo get_imagesize(); ?>">
                     <!-- Select ende -->
+                    <div class="sm:col-span-full" id="second_select_typ">
+                      <label id="listbox-image-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Select Album / Page</label>
+                      <div class="relative mt-2">
+                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-image" aria-expanded="true" aria-labelledby="listbox-image-label">
+                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_imagesize(); ?></span>
+                          <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-image-label" aria-activedescendant="listbox-option-1">
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
+                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                            <span class="block truncate font-normal">Welcome Page</span>
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
+                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                              </svg>
+                            </span>
+                          </li>
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
+                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                            <span class="block truncate font-normal">Page</span>
+                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
+                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                              </svg>
+                            </span>
+                          </li>
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-2" role="option">
+                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                            <span class="block truncate font-normal">Album</span>
+                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
+                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                              </svg>
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <input type="hidden" name="image_size" id="image_size" value="<?php echo get_imagesize(); ?>">
 
                   </div>
 
@@ -238,85 +332,70 @@
                   <p class="mt-1 text-sm/6 text-gray-400">Some Site Information</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-sitedata-form">
+                <form class="md:col-span-2" id="welcome-content-form" action="backend_api/save_home.php" method="post">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Notifications für Benutzerdaten -->
-                    <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Daten wurden gespeichert.</span>
-                    </div>
-
-                    <div id="notification-error-user" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Etwas ist schiefgelaufen.</span>
-                    </div>
 
                     <div class="sm:col-span-full">
-                      <label for="site-name" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Headline</label>
+                      <label for="headline" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Headline</label>
                       <div class="mt-2">
-                        <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                        <input type="text" name="headline" id="headline" value="<?php echo $home['headline']; ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
                       </div>
                     </div>
 
                     <div class="sm:col-span-full">
-                      <label for="site-decription" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Sub Headline</label>
+                      <label for="sub-headline" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Sub Headline</label>
                       <div class="mt-2">
-                        <input type="text" name="site-decription" id="site-decription" value="<?php echo get_sitedescription(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                        <input type="text" name="sub-headline" id="sub-headline" value="<?php echo $home['sub-headline']; ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
                       </div>
                     </div>
 
                     <div class="sm:col-span-full">
-                      <label for="site-decription" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Content</label>
+                      <label for="content" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Content</label>
                       <div class="mt-2">
-                        <textarea class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6"></textarea>
+                        <textarea name="content" id="content" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6"><?php echo $home['content']; ?></textarea>
                       </div>
                     </div>
 
-                    <!-- Select Language (en/de) -->
-                   <div class="sm:col-span-full">
-                    <label id="listbox-language-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Language</label>
-                    <div class="relative mt-2">
-                      <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-language" aria-expanded="true" aria-labelledby="listbox-language-label">
-                        <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_language(); ?></span>
-                        <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                          <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                        </svg>
-                      </button>
-                      <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-language-label" aria-activedescendant="listbox-option-1">
-                        <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-language-option-0" role="option">
-                          <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                          <span class="block truncate font-normal">en</span>
-                          <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                            </svg>
-                          </span>
-                        </li>
-                        <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-language-option-1" role="option">
-                          <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                          <span class="block truncate font-normal">de</span>
-                          <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                            </svg>
-                          </span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <input type="hidden" name="language" id="selected-language" value="<?php echo get_language(); ?>">
-                  <!-- Select ende -->
                   </div>
                   <div class="mt-8 flex">
-                    <button type="submit" id="btnSiteSettings" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btnWelcomeSite" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
                   </div>
                 </form>
               </div>
+
+              <!-- Settings forms -->
+            <div class="divide-y divide-gray-400 dark:divide-white/5">
+              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+                <div>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Background</h2>
+                  <p class="mt-1 text-sm/6 text-gray-400">Select a Image or a Album for the background cover.</p>
+                </div>
+
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+
+                    <!-- Select Image Size -->
+                    <div class="sm:col-span-full">
+                      <label id="listbox-image-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Image size (for chached images)</label>
+                      <div class="relative mt-2">
+                        <div class="mt-8 flex">
+                          <input type="hidden" name="cover" id="cover-input" value="">
+                          <input type="hidden" name="default_image_style" id="cover-style" value="">
+                          <button  id="open-cover-modal" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Select Image / Album</button>
+                        </div>
+                        <div id="cover-preview"></div>
+                      </div>
+                    </div>
+                    <!-- Select ende -->
+
+                  </div>
+              </div>
+              
             </div>
           </main>
         </div>
         <script src="js/tailwind.js"></script>
         <script src="js/select_settings.js"></script>
         <script src="js/save_settings.js"></script>
+        <script src="js/cover_selector.js"></script>
     </body>
 </html>

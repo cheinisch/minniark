@@ -16,6 +16,17 @@ if ($imageDir && is_dir($imageDir)) {
 }
 
 $home['available_images'] = $images;
+$pagetype = "Welcome Page";
+if($home['style'] == "start")
+{
+  $pagetype = "Welcome Page";
+}elseif($home['style'] == "album")
+{
+  $pagetype = "Album";
+}elseif($home['style'] == "")
+{
+  $pagetype = "Page";
+}
 
 $albumList = getAlbumList();
 
@@ -236,16 +247,16 @@ $albumList = getAlbumList();
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Select Image Size -->
                     <div class="sm:col-span-full">
-                      <label id="listbox-image-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Page Type (Welcome Page, Album, Page)</label>
+                      <label id="listbox-type-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Page Type (Welcome Page, Album, Page)</label>
                       <div class="relative mt-2">
-                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-image" aria-expanded="true" aria-labelledby="listbox-image-label">
-                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_imagesize(); ?></span>
+                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-type" aria-expanded="true" aria-labelledby="listbox-type-label">
+                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo $pagetype; ?></span>
                           <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                           </svg>
                         </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-image-label" aria-activedescendant="listbox-option-1">
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-type-label" aria-activedescendant="listbox-option-1">
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-type-option-0" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                             <span class="block truncate font-normal">Welcome Page</span>
                             <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
@@ -254,7 +265,7 @@ $albumList = getAlbumList();
                               </svg>
                             </span>
                           </li>
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-type-option-1" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                             <span class="block truncate font-normal">Page</span>
                             <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
@@ -263,7 +274,7 @@ $albumList = getAlbumList();
                               </svg>
                             </span>
                           </li>
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-2" role="option">
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-type-option-2" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                             <span class="block truncate font-normal">Album</span>
                             <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
@@ -275,40 +286,22 @@ $albumList = getAlbumList();
                         </ul>
                       </div>
                     </div>
-                    <input type="hidden" name="image_size" id="image_size" value="<?php echo get_imagesize(); ?>">
+                    <input type="hidden" name="image_size" id="image_size" value="<?php echo $pagetype; ?>">
                     <!-- Select ende -->
-                    <div class="sm:col-span-full" id="second_select_typ">
-                      <label id="listbox-image-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Select Album / Page</label>
+                    <div class="sm:col-span-full" id="second_select_typ-page">
+                      <label id="listbox-page-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Select Page</label>
                       <div class="relative mt-2">
-                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-image" aria-expanded="true" aria-labelledby="listbox-image-label">
+                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-page" aria-expanded="true" aria-labelledby="listbox-page-label">
                           <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_imagesize(); ?></span>
                           <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                           </svg>
                         </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-image-label" aria-activedescendant="listbox-option-1">
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-page-label" aria-activedescendant="listbox-option-1">
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-page-option-0" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                             <span class="block truncate font-normal">Welcome Page</span>
                             <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">Page</span>
-                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-2" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">Album</span>
-                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
                               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                               </svg>
@@ -319,8 +312,32 @@ $albumList = getAlbumList();
                     </div>
                     <input type="hidden" name="image_size" id="image_size" value="<?php echo get_imagesize(); ?>">
 
+                    <div class="sm:col-span-full" id="second_select_typ-album">
+                      <label id="listbox-album-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Select Album</label>
+                      <div class="relative mt-2">
+                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-album" aria-expanded="true" aria-labelledby="listbox-album-label">
+                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_imagesize(); ?></span>
+                          <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-album-label" aria-activedescendant="listbox-option-1">
+                          <?php foreach ($albumList as $album): ?>
+                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-album-option-0" role="option" data-value="<?php echo htmlspecialchars($album['Slug']); ?>">
+                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                            <span class="block truncate font-normal"><?php echo htmlspecialchars($album['Name']); ?></span>
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
+                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                              </svg>
+                            </span>
+                          </li>
+                          <?php endforeach; ?>
+                        </ul>
+                      </div>
+                    </div>
+                    <input type="hidden" name="image_size" id="image_size" value="<?php echo get_imagesize(); ?>">
                   </div>
-
                   <div class="mt-8 flex">
                     <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>
                   </div>
@@ -375,7 +392,7 @@ $albumList = getAlbumList();
 
                     <!-- Select Image Size -->
                     <div class="sm:col-span-full">
-                      <label id="listbox-image-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Image size (for chached images)</label>
+                      <label id="listbox-album-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Image size (for chached images)</label>
                       <div class="relative mt-2">
                         <div class="mt-8 flex">
                           <input type="hidden" name="cover" id="cover-input" value="">
@@ -394,8 +411,9 @@ $albumList = getAlbumList();
           </main>
         </div>
         <script src="js/tailwind.js"></script>
-        <script src="js/select_settings.js"></script>
+        <script src="js/select_home.js"></script>
         <script src="js/save_settings.js"></script>
         <script src="js/cover_selector.js"></script>
+        <script src="js/home_select_type.js"></script>
     </body>
 </html>

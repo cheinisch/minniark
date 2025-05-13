@@ -56,10 +56,6 @@ error_reporting(E_ALL);
                 $postYear = substr($data['created_at'], 0, 4);
 
 
-                if (($year !== null && $postYear !== $year)) {
-                    continue;
-                }
-
                 // Kürze den String
                 $data['content'] = mb_substr($data['content'], 0, 500) . '...';
 

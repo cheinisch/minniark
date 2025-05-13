@@ -194,7 +194,7 @@
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-image-label" aria-activedescendant="listbox-option-1">
                           <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">S</span>
+                            <span class="block truncate font-normal">Welcome Page</span>
                             <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
                               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
@@ -203,7 +203,7 @@
                           </li>
                           <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">M</span>
+                            <span class="block truncate font-normal">Page</span>
                             <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
                               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
@@ -212,16 +212,7 @@
                           </li>
                           <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-2" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">L</span>
-                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-3" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">XL</span>
+                            <span class="block truncate font-normal">Album</span>
                             <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
                               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
@@ -238,13 +229,12 @@
 
                   <div class="mt-8 flex">
                     <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>
-                    <button id="recreate-cache-button" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Recreate Cache</button>
                   </div>
                 </form>
               </div>
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Site Information</h2>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Welcome Page Content</h2>
                   <p class="mt-1 text-sm/6 text-gray-400">Some Site Information</p>
                 </div>
 
@@ -262,16 +252,23 @@
                     </div>
 
                     <div class="sm:col-span-full">
-                      <label for="site-name" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Site name</label>
+                      <label for="site-name" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Headline</label>
                       <div class="mt-2">
                         <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
                       </div>
                     </div>
 
                     <div class="sm:col-span-full">
-                      <label for="site-decription" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Site Description</label>
+                      <label for="site-decription" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Sub Headline</label>
                       <div class="mt-2">
                         <input type="text" name="site-decription" id="site-decription" value="<?php echo get_sitedescription(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                      </div>
+                    </div>
+
+                    <div class="sm:col-span-full">
+                      <label for="site-decription" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Content</label>
+                      <div class="mt-2">
+                        <textarea class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6"></textarea>
                       </div>
                     </div>
 

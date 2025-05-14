@@ -176,44 +176,52 @@
           </aside>
           <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
           
-  <div class="max-w-full px-6 lg:px-8">
-    <div class="max-w-8xl">
-      <div class="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
-        <?php
-          $posts = get_posts($filterYear,$filterTag);
-          foreach($posts as $post)
-          {
-              ?>
-        <article class="relative isolate flex flex-col gap-8 lg:flex-row">
-          <div class="relative aspect-video sm:aspect-2/1 lg:aspect-square lg:w-64 lg:shrink-0">
-            <img src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80" alt="" class="absolute inset-0 size-full rounded-2xl bg-gray-50 object-cover">
-            <div class="absolute inset-0 rounded-2xl ring-1 ring-gray-900/10 ring-inset"></div>
-          </div>
-          <div>
-            <div class="flex items-center gap-x-4 text-xs">
-              <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
-              <?php 
-              if (isset($post['tags']) && is_array($post['tags'])) {
-                  foreach ($post['tags'] as $tag) {
-                      echo "<a href=\"#\" class=\"relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100\">#$tag</a>";
-                  }
-              } ?>
+            <div class="max-w-full px-6 lg:px-8">
+              <div class="max-w-8xl">
+                <div class="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
+                  <?php
+                    $posts = get_posts($filterYear,$filterTag);
+                    foreach($posts as $post)
+                    {
+                      if($post['cover'] == "" || $post['cover'] == null)
+                      {
+                        $post['cover'] = "img/placeholder.png";
+                      }else
+                      {
+                        $post['cover'] = "./../userdata/content/images/".$post['cover'];
+                      }
+                        ?>
+
+                  <article class="relative isolate flex flex-col gap-8 lg:flex-row">
+                    <div class="relative aspect-video sm:aspect-2/1 lg:aspect-square lg:w-64 lg:shrink-0">
+                      <img src="<?php echo $post['cover']; ?>" alt="" class="absolute inset-0 size-full rounded-2xl bg-gray-50 object-cover">
+                      <div class="absolute inset-0 rounded-2xl ring-1 ring-gray-900/10 ring-inset"></div>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-x-4 text-xs">
+                        <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+                        <?php 
+                        if (isset($post['tags']) && is_array($post['tags'])) {
+                            foreach ($post['tags'] as $tag) {
+                                echo "<a href=\"#\" class=\"relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100\">#$tag</a>";
+                            }
+                        } ?>
+                      </div>
+                      <div class="group relative max-w-5xl">
+                        <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200">
+                          <a href="blog-detail.php?edit=<?php echo $post['source_path']; ?>">
+                            <span class="absolute inset-0"></span>
+                            <?php echo $post['title']; ?>
+                          </a>
+                        </h3>
+                        <p class="mt-5 text-sm/6 text-gray-600"><?php echo $post['content']; ?></p>
+                      </div>
+                    </div>
+                  </article>
+                  <?php } ?>
+                </div>
+              </div>
             </div>
-            <div class="group relative max-w-5xl">
-              <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200">
-                <a href="blog-detail.php?edit=<?php echo $post['source_path']; ?>">
-                  <span class="absolute inset-0"></span>
-                  <?php echo $post['title']; ?>
-                </a>
-              </h3>
-              <p class="mt-5 text-sm/6 text-gray-600"><?php echo $post['content']; ?></p>
-            </div>
-          </div>
-        </article>
-        <?php } ?>
-      </div>
-    </div>
-  </div>
 
 
 

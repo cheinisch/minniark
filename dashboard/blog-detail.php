@@ -68,18 +68,10 @@
               <h2 class="text-2xl font-bold text-gray-900">Coverbild auswählen</h2>
 
               <div class="flex gap-4 mt-4 border-b pb-2">
-                <button onclick="switchCoverTab('upload')" id="tab-upload" class="px-4 py-2 border-b-2 border-sky-600 font-medium text-sky-600">Datei hochladen</button>
+                <!--<button onclick="switchCoverTab('upload')" id="tab-upload" class="px-4 py-2 border-b-2 border-sky-600 font-medium text-sky-600">Datei hochladen</button>-->
                 <button onclick="switchCoverTab('choose')" id="tab-choose" class="px-4 py-2 text-gray-600">Aus Galerie</button>
               </div>
-
-              <div id="cover-upload" class="block mt-4">
-                <form id="coverUploadForm" enctype="multipart/form-data">
-                  <input type="file" name="coverFile" id="coverFile" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100">
-                  <button type="submit" class="mt-3 bg-sky-600 text-white px-4 py-2 rounded hover:bg-sky-700">Hochladen</button>
-                </form>
-              </div>
-
-              <div id="cover-choose" class="hidden mt-6 max-h-[60vh] overflow-y-auto columns-2 md:columns-3 gap-4 space-y-4">
+              <div id="cover-choose" class="mt-6 max-h-[60vh] overflow-y-auto columns-2 md:columns-3 gap-4 space-y-4">
                 <?php
                   $imageDir = realpath(__DIR__ . '/../userdata/content/images');
                   $images = array_filter(scandir($imageDir), function($file) use ($imageDir) {
@@ -274,11 +266,11 @@
                   </div>
                   <div class="col-span-full">
                     <!-- Modal Trigger Button + Vorschau mit Dummybild -->
-                    <input type="hidden" name="cover" id="cover">
+                    <input type="hidden" name="cover" id="cover" value="<?php echo $essay['cover']; ?>">
                     <div class="mb-4">
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Hero Image Preview</label>
                       <div class="aspect-w-16 aspect-h-9 w-full max-w-md bg-gray-100 overflow-hidden border border-gray-300">
-                        <img id="coverPreview" src="img/placeholder.png" alt="Cover Preview" class="w-full h-full max-h-md object-cover">
+                        <img id="coverPreview" src="./../userdata/content/images/<?php echo $essay['cover']; ?>" alt="Cover Preview" class="w-full h-full max-h-md object-cover">
                       </div>
                       <button type="button" onclick="openCoverModal()" class="mt-2 inline-block px-4 py-2 bg-sky-600 text-white text-sm hover:bg-sky-700">
                         Select Hero Image
@@ -385,7 +377,7 @@
         });
       });
     </script>
-    <!--<script>
+    <script>
       function switchCoverTab(tab) {
         document.getElementById('cover-upload').classList.toggle('hidden', tab !== 'upload');
         document.getElementById('cover-choose').classList.toggle('hidden', tab !== 'choose');
@@ -428,7 +420,7 @@
           alert("Fehler beim Hochladen: " + result.message);
         }
       });
-    </script>-->
+    </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const toggleBtn = document.getElementById("is_published");

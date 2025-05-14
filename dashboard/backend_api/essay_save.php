@@ -22,6 +22,13 @@ $baseDir = realpath(__DIR__ . '/../../userdata/content/essays');
 $originalFolder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $input['original_foldername']);
 $originalPath = $baseDir . DIRECTORY_SEPARATOR . $originalFolder;
 
+// Image Path
+$imagePath = $input['cover'];
+error_log($imagePath);
+$input['cover'] = basename($imagePath);
+
+error_log($input['cover']);
+
 // Slugify-Titel
 function slugify($text) {
     $map = ['ä'=>'ae','ö'=>'oe','ü'=>'ue','ß'=>'ss'];

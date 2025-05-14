@@ -177,10 +177,17 @@
           $pages = get_pages($filterYear);
           foreach($pages as $page)
           {
+            if($page['cover'] == "" || $page['cover'] == null)
+                      {
+                        $page['cover'] = "img/placeholder.png";
+                      }else
+                      {
+                        $page['cover'] = "./../userdata/content/images/".$page['cover'];
+                      }
               ?>
         <article class="relative isolate flex flex-col gap-8 lg:flex-row">
           <div class="relative aspect-video sm:aspect-2/1 lg:aspect-square lg:w-64 lg:shrink-0">
-            <img src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80" alt="" class="absolute inset-0 size-full rounded-2xl bg-gray-50 object-cover">
+            <img src="<?php echo $page['cover']; ?>" alt="" class="absolute inset-0 size-full rounded-2xl bg-gray-50 object-cover">
             <div class="absolute inset-0 rounded-2xl ring-1 ring-gray-900/10 ring-inset"></div>
           </div>
           <div>

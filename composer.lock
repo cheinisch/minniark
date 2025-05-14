@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c530c132292938f718d52ba5ef83f632",
+    "content-hash": "fd869d45084934d4417339ea4de0239d",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -55,6 +55,46 @@
                 "source": "https://github.com/erusev/parsedown/tree/1.7.x"
             },
             "time": "2019-12-30T22:54:17+00:00"
+        },
+        {
+            "name": "goat1000/svggraph",
+            "version": "3.20.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goat1000/SVGGraph.git",
+                "reference": "97f9c3e96c59c27df4e4e5c6444bfa91ddf80343"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goat1000/SVGGraph/zipball/97f9c3e96c59c27df4e4e5c6444bfa91ddf80343",
+                "reference": "97f9c3e96c59c27df4e4e5c6444bfa91ddf80343",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "lib-pcre": "*",
+                "php": ">=5.4.0"
+            },
+            "suggest": {
+                "ext-iconv": "For non-ASCII text measurement support"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Goat1000\\SVGGraph\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "description": "Generates SVG graphs",
+            "homepage": "http://www.goat1000.com/svggraph.php",
+            "support": {
+                "issues": "https://github.com/goat1000/SVGGraph/issues",
+                "source": "https://github.com/goat1000/SVGGraph/tree/3.20.2"
+            },
+            "time": "2024-10-23T12:40:51+00:00"
         },
         {
             "name": "graham-campbell/result-type",

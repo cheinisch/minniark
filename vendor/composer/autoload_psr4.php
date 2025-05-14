@@ -12,6 +12,7 @@ return array(
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
+    'Goat1000\\SVGGraph\\' => array($vendorDir . '/goat1000/svggraph'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'Chris\\ImagePortfolio\\' => array($baseDir . '/src'),
 );

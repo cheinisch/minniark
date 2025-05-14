@@ -35,6 +35,7 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
         'G' => 
         array (
             'GrahamCampbell\\ResultType\\' => 26,
+            'Goat1000\\SVGGraph\\' => 18,
         ),
         'D' => 
         array (
@@ -70,6 +71,10 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
         'GrahamCampbell\\ResultType\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+        ),
+        'Goat1000\\SVGGraph\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/goat1000/svggraph',
         ),
         'Dotenv\\' => 
         array (

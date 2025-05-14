@@ -1,10 +1,15 @@
 <?php
 
   require_once( __DIR__ . "/../functions/function_backend.php");
+  require_once '../vendor/autoload.php';
   $settingspage = "dashboard";
   security_checklogin();
 
   $news = getNewsFeed();
+
+  $storage = getStorage();
+
+  $version = getVersion();
 
 ?>
 
@@ -169,6 +174,50 @@
               <div class="w-full md:w-1/2 p-2">
                 <div class="bg-gray-300 px-2 py-4">
                   <h2 class="text-2xl  border-b-1">System Information</h2>
+                  <div id="storage" class="pt-5">
+                    <h3 class="text-xl">Storage usage</h3>
+                    <ul>
+                      <li>
+                        <?php echo "Used storage: ".$storage['used'];?> MB
+                        <ul class="list-disc ml-5">
+                          <li><?php echo "Image storage: ".$storage['images'];?> MB</li>
+                          <li><?php echo "Cache storage: ".$storage['cache'];?> MB</li>
+                          <li><?php echo "System and Backup: ".$storage['rest'];?> MB</li>
+                        </ul>
+                      </li>
+                      <li><?php echo "Free storage: ".$storage['free'];?> MB</li>
+                    </ul>
+                  </div>
+                  <div id="stats"></div>
+                  <div id="versionen" class="pt-5">
+                    <h3 class="text-xl">Versionen</h3>
+                    <table class="table-fixed w-full">
+                      <thead class="text-left">
+                        <tr>
+                          <th>Component</th>
+                          <th>Version / Type</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Lensfolio</td>
+                          <td><?php echo $version['App Version']; ?></td>
+                        </tr>
+                        <tr>
+                          <td>Operation System</td>
+                          <td><?php echo $version['Operating System']; ?></td>
+                        </tr>
+                        <tr>
+                          <td>PHP</td>
+                          <td><?php echo $version['PHP Version']; ?></td>
+                        </tr>
+                        <tr>
+                          <td>Webserver</td>
+                          <td><?php echo $version['Webserver']; ?></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <div class="w-full md:w-1/2 p-2">

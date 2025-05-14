@@ -14,6 +14,7 @@
     "require": {
         "twig/twig": "^3.20",
         "erusev/parsedown": "^1.7",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "goat1000/svggraph": "^3.20"
     }
 }

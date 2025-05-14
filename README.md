@@ -45,7 +45,7 @@ Take a look at the [documentation](https://lensfolio.app) to get started with Im
 
 ### Docker Images
 
-| Image | Status |
+| Image | Stable |
 |---|---|
 | Apache + PHP | [![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/lensfolio/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/lensfolio/actions/workflows/docker-build-apache.yml) |
 | Nginx | [![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/lensfolio/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/lensfolio/actions/workflows/docker-build-nginx-app.yml) |

@@ -1,0 +1,26 @@
+name: Build and Push Nightly nginx Docker Image
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '35 2 * * *'
+  workflow_dispatch:  # manuell starten möglich
+
+jobs:
+  build-and-push-nginx:
+    name: Build & Push NGINX Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build NGINX Image
+      run: |
+        docker build -f docker/nginx.Dockerfile -t cheinisch/lensfolio-nginx:nightly .
+    - name: Push NGINX Image
+      run: |
+        docker push cheinisch/lensfolio-nginx:nightly

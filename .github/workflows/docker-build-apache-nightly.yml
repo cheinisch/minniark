@@ -1,4 +1,4 @@
-name: Build and Push Nightly Apache Docker Image
+name: Nightly Apache Docker Image
 
 on:
   schedule:

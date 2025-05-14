@@ -1,4 +1,4 @@
-name: Build and Push stable nginx Docker Image
+name: Stable nginx Docker Image
 
 on:
   push:

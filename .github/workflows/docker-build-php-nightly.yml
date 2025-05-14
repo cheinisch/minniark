@@ -1,4 +1,4 @@
-name: Build and Push Nightly PHP-FPM Image
+name: Nightly PHP-FPM Image
 
 on:
   schedule:

@@ -1,4 +1,4 @@
-name: Build and Push Nightly nginx Docker Image
+name: Nightly nginx Docker Image
 
 on:
   schedule:

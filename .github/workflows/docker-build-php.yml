@@ -1,4 +1,4 @@
-name: Build and Push stable PHP-FPM Image
+name: Stable PHP-FPM Image
 
 on:
   push:

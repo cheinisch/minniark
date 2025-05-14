@@ -1,4 +1,4 @@
-name: Build and Push Apache Docker Image
+name: Build and Push stable Apache Docker Image
 
 on:
   push:

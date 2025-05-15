@@ -1,29 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const versionApiUrl = "/api/version.php";
-
-  fetch(versionApiUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.new_version_available) {
-        const updateBtn = document.getElementById('update-btn');
-        if (updateBtn) {
-          updateBtn.style.display = 'inline-flex';
-          updateBtn.setAttribute('data-version', data.new_version_number);
-          updateBtn.setAttribute('data-download-url', data.new_version_url);
-
-          updateBtn.addEventListener('click', () => {
-            startUpdateProcess();
-          });
-        }
-      }
-    })
-    .catch((error) => {
-      console.error("Fehler beim Abrufen der Version:", error);
-    });
-
   const updateBtn = document.getElementById('update-btn');
   if (updateBtn) {
-    updateBtn.style.display = 'none';
+    updateBtn.style.display = 'inline-flex';
+
+    updateBtn.addEventListener('click', () => {
+      startUpdateProcess();
+    });
   }
 
   function startUpdateProcess() {

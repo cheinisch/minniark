@@ -44,48 +44,55 @@
         
     }
 
-    function is_newer():bool
+    function is_newer(): bool
     {
         $tempDir = __DIR__ . '/../../temp';
-        $tempFile = $tempDir . '/../version.json';
+        $tempFile = $tempDir . '/version.json';
 
+        // Prüfen, ob die Datei existiert und jünger als 24h ist
+        if (file_exists($tempFile) && (time() - filemtime($tempFile) < 86400)) {
+            $versionData = json_decode(file_get_contents($tempFile), true);
+            if (isset($versionData['new_version_available'])) {
+                return $versionData['new_version_available'];
+            } else {
+                http_response_code(500);
+                echo json_encode(["error" => "Fehler: Versionseintrag ungültig in version.json!"]);
+                exit;
+            }
+        }
+
+        // GitHub API URL für den aktuellsten Release
         $url = "https://api.github.com/repos/cheinisch/Image-Portfolio/releases/latest";
 
-        // GitHub benötigt einen User-Agent Header, sonst schlägt die Anfrage fehl
+        // GitHub benötigt einen User-Agent Header
         $options = [
             "http" => [
                 "header" => "User-Agent: PHP\r\n"
             ]
         ];
 
-        // Kontext erstellen und JSON abrufen
         $context = stream_context_create($options);
         $json = file_get_contents($url, false, $context);
-
-        // JSON-Daten in ein PHP-Array umwandeln
         $data = json_decode($json, true);
 
-        if (isset($data['tag_name'])) {
-            $tagName = $data['tag_name'];
-        } else {
+        if (!isset($data['tag_name'])) {
             http_response_code(500);
             echo json_encode(["error" => "Fehler: Tag-Name nicht gefunden!"]);
             exit;
         }
 
-        // lokale Version lesen
-        $versionFile = __DIR__ . '/../../VERSION';
+        $tagName = $data['tag_name'];
+        $gitVersion = str_replace("v", "", $tagName);
 
-        if (file_exists($versionFile)) {
-            $currentVersion = trim(file_get_contents($versionFile));
-        } else {
+        // Lokale Version lesen
+        $versionFile = __DIR__ . '/../../VERSION';
+        if (!file_exists($versionFile)) {
             http_response_code(500);
             echo json_encode(["error" => "Datei VERSION nicht gefunden!"]);
             exit;
         }
 
-        $gitVersion = str_replace("v", "", $tagName);
-
+        $currentVersion = trim(file_get_contents($versionFile));
         $newVersionAvailable = version_compare($currentVersion, $gitVersion, "<");
 
         if (!file_exists($tempDir)) {
@@ -103,6 +110,7 @@
 
         return $newVersionAvailable;
     }
+
 
 
     function is_docker():bool

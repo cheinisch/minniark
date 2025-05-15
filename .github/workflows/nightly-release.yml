@@ -12,20 +12,42 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Create Tag
+      - name: Backup VERSION file
+        run: cp VERSION VERSION.backup
+
+      - name: Set Nightly Version
+        id: version
         run: |
           DATE=$(date -u +'%Y-%m-%d')
+          echo "VERSION=nightly-$DATE" >> $GITHUB_ENV
+          echo "nightly-$DATE" > VERSION
+
+      - name: Commit nightly VERSION
+        run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git tag -f nightly-$DATE
-          git push --force origin nightly-$DATE
+          git add VERSION
+          git commit -m "Set VERSION to nightly-${{ env.VERSION }}"
+          git push
+
+      - name: Create Tag
+        run: |
+          git tag -f nightly-${{ env.VERSION }}
+          git push --force origin nightly-${{ env.VERSION }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: nightly-${{ steps.date.outputs.today }}
-          name: Nightly Release (${{ steps.date.outputs.today }})
+          tag_name: nightly-${{ env.VERSION }}
+          name: Nightly Release (${{ env.VERSION }})
           body: |
-            Automatischer Nightly Build
+            Automatischer Nightly Build vom ${{ env.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Restore original VERSION
+        run: |
+          mv VERSION.backup VERSION
+          git add VERSION
+          git commit -m "Restore original VERSION after nightly release"
+          git push

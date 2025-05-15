@@ -1,6 +1,6 @@
 <?php
 
-    function create_button()
+    function create_update_button()
     {
         $docker = is_docker();
         $isNewer = is_newer();

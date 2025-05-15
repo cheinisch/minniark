@@ -188,7 +188,7 @@
           </div>
           <div>
             <div class="flex items-center gap-x-4 text-xs">
-              <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+              <time datetime="2020-03-16" class="text-gray-500"><?php echo $page['created_at']; ?></time>
             </div>
             <div class="group relative max-w-5xl">
               <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200">

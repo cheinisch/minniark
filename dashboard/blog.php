@@ -198,7 +198,7 @@
                     </div>
                     <div>
                       <div class="flex items-center gap-x-4 text-xs">
-                        <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+                        <time datetime="2020-03-16" class="text-gray-500"><?php echo $post['published_at']; ?></time>
                         <?php 
                         if (isset($post['tags']) && is_array($post['tags'])) {
                             foreach ($post['tags'] as $tag) {

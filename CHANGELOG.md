@@ -3,6 +3,18 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.0.4.3]
+2025-05-15
+
+**Full Changelog**: https://github.com/cheinisch/lensfolio/compare/v0.0.4.2...v0.0.0.4.3
+
+### New Features
+- Use Cached Images in Album View
+- Remove cover images in blog posts or pages
+
+### Bug Fixes
+- 
+
 ## [0.0.4.2]
 2025-05-14
 

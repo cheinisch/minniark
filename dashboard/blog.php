@@ -58,7 +58,7 @@
                     <div class="flex items-center">
                       <div class="shrink-0">
                         <a href="blog-detail.php?post=new">
-                          <button type="button" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                          <button type="button" class="relative inline-flex items-center gap-x-1.5 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                             <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                               <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                             </svg>
@@ -186,16 +186,15 @@
                       if($post['cover'] == "" || $post['cover'] == null)
                       {
                         $post['cover'] = "img/placeholder.png";
-                      }else
-                      {
-                        $post['cover'] = "./../userdata/content/images/".$post['cover'];
+                      }else{
+                        $post['cover'] = get_cached_image_dashboard($post['cover'], 'M');
                       }
                         ?>
 
                   <article class="relative isolate flex flex-col gap-8 lg:flex-row">
                     <div class="relative aspect-video sm:aspect-2/1 lg:aspect-square lg:w-64 lg:shrink-0">
-                      <img src="<?php echo $post['cover']; ?>" alt="" class="absolute inset-0 size-full rounded-2xl bg-gray-50 object-cover">
-                      <div class="absolute inset-0 rounded-2xl ring-1 ring-gray-900/10 ring-inset"></div>
+                      <img src="<?php echo $post['cover']; ?>" alt="" class="absolute inset-0 size-full bg-gray-50 object-cover">
+                      <div class="absolute inset-0 ring-1 ring-gray-900/10 ring-inset"></div>
                     </div>
                     <div>
                       <div class="flex items-center gap-x-4 text-xs">

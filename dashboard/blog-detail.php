@@ -15,7 +15,10 @@
     $essay['content'] = null;
     $essay['tags'] = null;
     $essay['is_published'] = "false";
+    $essay['cover'] = "";
+    $essay['published_at'] = date('Y-m-d');
   }
+
 
 ?>
 
@@ -127,7 +130,7 @@
             </div>
             <div class="flex items-center">
               <div class="shrink-0 pr-5">
-                  <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                  <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                     <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                       <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                     </svg>
@@ -227,7 +230,7 @@
           <div class="space-y-12">
             <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
               <div>
-                <h2 class="text-base/7 font-semibold text-gray-900">Main Content</h2>
+                <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Main Content</h2>
                 <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
               </div>
 
@@ -270,18 +273,23 @@
                     <div class="mb-4">
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Hero Image Preview</label>
                       <div class="aspect-w-16 aspect-h-9 w-full max-w-md bg-gray-100 overflow-hidden border border-gray-300">
-                        <img id="coverPreview" src="./../userdata/content/images/<?php echo $essay['cover']; ?>" alt="Cover Preview" class="w-full h-full max-h-md object-cover">
+                        <img id="coverPreview" src="<?php echo get_cached_image_dashboard($essay['cover'], 'M'); ?>" alt="Cover Preview" class="w-full h-full max-h-md object-cover">
                       </div>
-                      <button type="button" onclick="openCoverModal()" class="mt-2 inline-block px-4 py-2 bg-sky-600 text-white text-sm hover:bg-sky-700">
-                        Select Hero Image
-                      </button>
+                      <div>
+                        <button type="button" onclick="openCoverModal()" class="mt-2 inline-block px-4 py-2 bg-sky-500 text-white text-sm hover:bg-sky-600">
+                          Select Hero Image
+                        </button>
+                        <button type="button" id="removeHeroImg" class="mt-2 inline-block px-4 py-2 bg-rose-500 text-white text-sm hover:bg-rose-600">
+                          Remove Hero Image
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-gray-900">Post settings</h2>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Post settings</h2>
                   <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
                 </div>
 
@@ -302,7 +310,7 @@
                   <!-- Date/Time Picker -->
                   <div class="col-span-full mb-6">
                     <label for="published_at" class="block text-sm font-medium text-gray-900 dark:text-white mb-1">Publishing Date</label>
-                    <input type="datetime-local" id="published_at" name="published_at" class="w-full border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 dark:bg-neutral-800 dark:text-white dark:border-neutral-600" />
+                    <input type="date" id="published_at" name="published_at" class="w-full border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 dark:bg-neutral-800 dark:text-white dark:border-neutral-600" value="<?php echo $essay['published_at']; ?>" />
                   </div>
 
                   <div class="mt-6 flex items-center justify-end gap-x-6">
@@ -447,6 +455,7 @@
       </script>
       <script src="js/tailwind.js"></script>
       <script src="js/essay_save.js"></script>
+      <script src="js/remove_hero_image.js"></script>
       <script>
           // Delete-Button Klick öffnet Modal
           document.getElementById('delete-button').addEventListener('click', function() {

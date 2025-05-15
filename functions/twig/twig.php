@@ -30,6 +30,7 @@ if (preg_match('#^p/([\w\-]+)$#', $uri, $matches)) {
 
         if (json_last_error() === JSON_ERROR_NONE) {
             $json['content'] = $Parsedown->text($json['content']);
+            $json['cover'] = get_cacheimage($json['cover']);
             $data['page'] = $json;            
             $data['title'] = $json['title'];
             echo $twig->render('page.twig', $data);
@@ -49,12 +50,15 @@ if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
         $json = json_decode(file_get_contents($jsonPath), true);
 
         if (json_last_error() === JSON_ERROR_NONE) {
+            
             $parsedown = new Parsedown();
             $json['slug'] = $slug;
             $json['content'] = $parsedown->text($json['content'] ?? '');
+            $json['cover'] = get_cacheimage($json['cover']);
 
             $data['post'] = $json;
             $data['title'] = $json['title'] ?? ucfirst($slug);
+            
 
             echo $twig->render('post.twig', $data);
             exit;

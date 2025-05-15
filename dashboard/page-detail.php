@@ -14,6 +14,7 @@
     $page['source_path'] = null;
     $page['content'] = null;
     $page['is_published'] = "false";
+    $page['cover'] = "";
   }
 
 ?>
@@ -67,18 +68,10 @@
               <h2 class="text-2xl font-bold text-gray-900">Coverbild auswählen</h2>
 
               <div class="flex gap-4 mt-4 border-b pb-2">
-                <button onclick="switchCoverTab('upload')" id="tab-upload" class="px-4 py-2 border-b-2 border-sky-600 font-medium text-sky-600">Datei hochladen</button>
+                <!--<button onclick="switchCoverTab('upload')" id="tab-upload" class="px-4 py-2 border-b-2 border-sky-600 font-medium text-sky-600">Datei hochladen</button>-->
                 <button onclick="switchCoverTab('choose')" id="tab-choose" class="px-4 py-2 text-gray-600">Aus Galerie</button>
               </div>
-
-              <div id="cover-upload" class="block mt-4">
-                <form id="coverUploadForm" enctype="multipart/form-data">
-                  <input type="file" name="coverFile" id="coverFile" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100">
-                  <button type="submit" class="mt-3 bg-sky-600 text-white px-4 py-2 rounded hover:bg-sky-700">Hochladen</button>
-                </form>
-              </div>
-
-              <div id="cover-choose" class="hidden mt-6 max-h-[60vh] overflow-y-auto columns-2 md:columns-3 gap-4 space-y-4">
+              <div id="cover-choose" class="mt-6 max-h-[60vh] overflow-y-auto columns-2 md:columns-3 gap-4 space-y-4">
                 <?php
                   $imageDir = realpath(__DIR__ . '/../userdata/content/images');
                   $images = array_filter(scandir($imageDir), function($file) use ($imageDir) {
@@ -134,7 +127,7 @@
             </div>
             <div class="flex items-center">
               <div class="shrink-0 pr-5">
-                  <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                  <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                     <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                       <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                     </svg>
@@ -234,7 +227,7 @@
           <div class="space-y-12">
             <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
               <div>
-                <h2 class="text-base/7 font-semibold text-gray-900">Main Content</h2>
+                <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Main Content</h2>
                 <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
               </div>
 
@@ -265,22 +258,27 @@
                   </div>
                   <div class="col-span-full">
                     <!-- Modal Trigger Button + Vorschau mit Dummybild -->
-                    <input type="hidden" name="cover" id="cover">
+                    <input type="hidden" name="cover" id="cover" value="<?php echo $page['cover']; ?>">
                     <div class="mb-4">
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Hero Image Preview</label>
                       <div class="aspect-w-16 aspect-h-9 w-full max-w-md bg-gray-100 overflow-hidden border border-gray-300">
-                        <img id="coverPreview" src="img/placeholder.png" alt="Cover Preview" class="w-full h-full max-h-md object-cover">
+                        <img id="coverPreview" src="<?php echo get_cached_image_dashboard($page['cover'], 'M'); ?>" alt="Cover Preview" class="w-full h-full max-h-md object-cover">
                       </div>
-                      <button type="button" onclick="openCoverModal()" class="mt-2 inline-block px-4 py-2 bg-sky-500 text-white text-sm hover:bg-sky-600">
-                        Select Hero Image
-                      </button>
+                      <div>
+                        <button type="button" id="openCoverModalBtn" class="mt-2 inline-block px-4 py-2 bg-sky-500 text-white text-sm hover:bg-sky-600">
+                          Select Hero Image
+                        </button>
+                        <button type="button" id="removeHeroImg" class="mt-2 inline-block px-4 py-2 bg-rose-500 text-white text-sm hover:bg-rose-600">
+                          Remove Hero Image
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-gray-900">Post settings</h2>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Page settings</h2>
                   <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
                 </div>
 
@@ -319,6 +317,67 @@
           placeholder: "Please enter your content",
           toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview", "guide"]
         });
+      });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          console.log("Hero Image Script geladen");
+        // Tabs wechseln (Upload vs. Galerie)
+        function switchCoverTab(tab) {
+          const uploadTab = document.getElementById('cover-upload');
+          const chooseTab = document.getElementById('cover-choose');
+          const tabUploadBtn = document.getElementById('tab-upload');
+          const tabChooseBtn = document.getElementById('tab-choose');
+
+          if (!uploadTab || !chooseTab || !tabUploadBtn || !tabChooseBtn) {
+            console.warn("Ein oder mehrere Tab-Elemente wurden nicht gefunden.");
+            return;
+          }
+
+          uploadTab.classList.toggle('hidden', tab !== 'upload');
+          chooseTab.classList.toggle('hidden', tab !== 'choose');
+          tabUploadBtn.classList.toggle('border-b-2', tab === 'upload');
+          tabChooseBtn.classList.toggle('border-b-2', tab === 'choose');
+          tabUploadBtn.classList.toggle('text-sky-600', tab === 'upload');
+          tabChooseBtn.classList.toggle('text-sky-600', tab === 'choose');
+        }
+
+        // Modal öffnen
+        const openModalBtn = document.getElementById("openCoverModalBtn");
+        const coverModal = document.getElementById("coverModal");
+
+        if (openModalBtn && coverModal) {
+          openModalBtn.addEventListener("click", () => {
+            console.log("Hero Image btn pressed");
+            coverModal.classList.remove("hidden");
+          });
+        } else {
+          console.warn("Modal oder Button zum Öffnen nicht gefunden.");
+        }
+
+        // Modal schließen
+        window.closeCoverModal = () => {
+          if (coverModal) {
+            coverModal.classList.add("hidden");
+          }
+        };
+
+        // Bild auswählen
+        window.selectCover = (path) => {
+          const coverInput = document.getElementById('cover');
+          const previewImg = document.getElementById('coverPreview');
+
+          if (coverInput && previewImg) {
+            coverInput.value = path;
+            previewImg.src = path;
+            closeCoverModal();
+          } else {
+            console.error("Cover-Felder nicht gefunden.");
+          }
+        };
+
+        // Expose `switchCoverTab` to global scope if needed
+        window.switchCoverTab = switchCoverTab;
       });
     </script>
     <script>
@@ -397,6 +456,7 @@
       </script>
       <script src="js/tailwind.js"></script>
       <script src="js/page_save.js"></script>
+      <script src="js/remove_hero_image.js"></script>
       <script>
           // Delete-Button Klick öffnet Modal
           document.getElementById('delete-button').addEventListener('click', function() {
@@ -415,5 +475,6 @@
           });
 
         </script>
+        
   </body>
 </html>

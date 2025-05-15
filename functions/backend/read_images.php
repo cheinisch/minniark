@@ -153,6 +153,8 @@
     
             $title = !empty($metadata['title']) ? htmlspecialchars($metadata['title']) : "Kein Titel";
             $description = !empty($metadata['description']) ? htmlspecialchars($metadata['description']) : "Keine Beschreibung verfügbar";
+
+            $image = get_cached_image_dashboard($image, "M");
     
             // HTML für das Bild generieren
             echo "

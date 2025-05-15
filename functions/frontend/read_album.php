@@ -49,7 +49,7 @@
                 'slug' => $slug,
                 'title' => $Name,
                 'description' => $parsedown->text($Description),
-                'cover' => "/userdata/content/images/$HeadImage",
+                'cover' => get_cacheimage($HeadImage),
             ];
         }
 

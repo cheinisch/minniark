@@ -1,0 +1,31 @@
+name: Nightly Release
+
+on:
+  schedule:
+    - cron: '35 2 * * *'
+  workflow_dispatch:  # manuell starten möglich
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create Tag
+        run: |
+          DATE=$(date -u +'%Y-%m-%d')
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git tag -f nightly-$DATE
+          git push --force origin nightly-$DATE
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly-${{ steps.date.outputs.today }}
+          name: Nightly Release (${{ steps.date.outputs.today }})
+          body: |
+            Automatischer Nightly Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

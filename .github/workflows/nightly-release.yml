@@ -38,7 +38,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: nightly-${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
           name: Nightly Release (${{ env.VERSION }})
           body: |
             Automatischer Nightly Build vom ${{ env.VERSION }}

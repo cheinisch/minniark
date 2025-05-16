@@ -22,10 +22,9 @@
             <div class="description">
                 {{ album.description|raw }}
             </div>
-
             <div class="gallery">
                 {% for image in album.images %}
-                    <img src="{{ image }}" alt="">
+                    <a href="{{ image.url }}"><img src="{{ image.file }}" alt="{{ image.title }}"></a>
                 {% endfor %}
             </div>
         </main>

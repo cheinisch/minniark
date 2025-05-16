@@ -105,7 +105,12 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
                 ) {
                     $guid = $meta['guid'];
                     $cachedImagePath = $cacheDir . $guid . '_' . $imageSize . '.jpg';
-                    $imageList[] = $cachedImagePath;
+                    $imageUrl = '/i/' . rawurlencode($img);
+                    $imageList[] = [
+                        'file' => $cachedImagePath,   // z. B. /cache/images/abc123_M.jpg
+                        'url'  => $imageUrl,          // z. B. /i/IMG_1234.jpg
+                        'title' => $meta['title'] ?? '',
+                    ];
                 }
             }
         }
@@ -135,7 +140,6 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
             'images' => $imageList,
             'cover' => $cover,
         ];
-
         $data['title'] = $Name;
 
         echo $twig->render('album.twig', $data);
@@ -147,6 +151,44 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
     echo $twig->render('404.twig', $data);
     exit;
 }
+
+
+if (preg_match('#^i/(.+)$#', $uri, $matches)) {
+    $filename = basename($matches[1]);
+
+    $imageDir = __DIR__.'/../../userdata/content/images';
+    $jsonFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.json';
+
+    if (file_exists($jsonFile)) {
+        $meta = json_decode(file_get_contents($jsonFile), true);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $parsedown = new Parsedown();
+
+            $imageData = [
+                'title' => $meta['title'] ?? '',
+                'description' => $parsedown->text($meta['description'] ?? ''),
+                'filename' => $meta['filename'] ?? $filename,
+                'guid' => $meta['guid'] ?? '',
+                'rating' => $meta['rating'] ?? '',
+                'upload_date' => $meta['upload_date'] ?? '',
+                'exif' => $meta['exif'] ?? [],
+                'file' =>  get_cacheimage($filename),
+            ];
+
+            $data['image'] = $imageData;
+            $data['title'] = $imageData['title'];
+
+            echo $twig->render('image.twig', $data);
+            exit;
+        }
+    }
+
+    http_response_code(404);
+    echo $twig->render('404.twig');
+    exit;
+}
+
 
 
 

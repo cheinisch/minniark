@@ -82,7 +82,13 @@
                 if (json_last_error() === JSON_ERROR_NONE && !empty($meta['guid'])) {
                     $guid = $meta['guid'];
                     $cachedImagePath = $cacheDir . $guid . '_' . $imageSize . '.jpg';
-                    $imageList[] = $cachedImagePath;
+                    $imageUrl = '/i/' . rawurlencode($img);
+
+                    $imageList[] = [
+                        'file' => $cachedImagePath,   // z. B. /cache/images/abc123_M.jpg
+                        'url'  => $imageUrl,          // z. B. /i/IMG_1234.jpg
+                        'title' => $meta['title'] ?? '',
+                    ];
                 }
             }
         }

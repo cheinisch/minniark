@@ -27,13 +27,13 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add VERSION
-          git commit -m "Set VERSION to nightly-${{ env.VERSION }}"
+          git commit -m "Set VERSION to ${{ env.VERSION }}"
           git push
 
       - name: Create Tag
         run: |
           git tag -f ${{ env.VERSION }}
-          git push --force origin nightly-${{ env.VERSION }}
+          git push --force origin ${{ env.VERSION }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

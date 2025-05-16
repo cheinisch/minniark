@@ -41,7 +41,7 @@ jobs:
           tag_name: ${{ env.VERSION }}
           name: Nightly Release (${{ env.VERSION }})
           body: |
-            Automatischer Nightly Build vom ${{ env.VERSION }}
+            Automatic Nightly Build ${{ env.VERSION }}
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

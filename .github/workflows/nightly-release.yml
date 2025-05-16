@@ -32,7 +32,7 @@ jobs:
 
       - name: Create Tag
         run: |
-          git tag -f nightly-${{ env.VERSION }}
+          git tag -f ${{ env.VERSION }}
           git push --force origin nightly-${{ env.VERSION }}
 
       - name: Create GitHub Release

@@ -16,13 +16,15 @@
           <div class="relative bg-gray-900">
             <!-- Decorative image and overlay -->
             <div aria-hidden="true" class="absolute inset-0 overflow-hidden">
-              <img src="https://demo.image-portfolio.org/cache/images/67ff67c9db103_L.jpg" alt="" class="size-full object-cover">
+              {% if home_image %}
+              <img src="{{ home_image }}" alt="" class="size-full object-cover">
+              {% endif %}
             </div>
             <div aria-hidden="true" class="absolute inset-0 bg-gray-900 opacity-50"></div>
 
             <div class="relative mx-auto flex max-w-3xl flex-col items-center px-6 py-32 text-center sm:py-64 lg:px-0">
-              <h1 class="text-4xl font-bold tracking-tight text-white lg:text-6xl">Welcome</h1>
-              <p class="mt-4 text-xl text-white">to my personal photo website.</p>
+              <h1 class="text-4xl font-bold tracking-tight text-white lg:text-6xl">{{ headline }}</h1>
+              <p class="mt-4 text-xl text-white">{{ sub_headline }}</p>
               
             </div>
           </div>

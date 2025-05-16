@@ -15,9 +15,9 @@
             </button>
           </div>
           <div class="hidden lg:flex lg:gap-x-12">
-            <a href="/blog" class="text-sm/6 font-semibold text-gray-900">Blog</a>
-            <a href="/timeline" class="text-sm/6 font-semibold text-gray-900">Timeline</a>
-            <a href="/map" class="text-sm/6 font-semibold text-gray-900">Map</a>
+            {% for item in navItems %}
+            <a href="{{ item.url }}" class="text-sm/6 font-semibold {{ current_path starts with item.url ? 'text-sky-600' : 'text-gray-900' }}">{{ item.title }}</a>
+            {% endfor %}
           </div>
         </nav>
         <!-- Mobile menu, show/hide based on menu open state. -->

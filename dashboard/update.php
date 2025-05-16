@@ -36,7 +36,7 @@ try {
     $downloadUrl = $versionData['new_version_url'];
     $zipFile = $tempDir . '/update.zip';
 
-    $backupDirs = ['userdata', 'cache'];
+    $backupDirs = ['userdata', 'cache', 'backup'];
     foreach ($backupDirs as $dir) {
         if (is_dir(dirname($baseDir) . "/$dir")) {
             recurse_copy(dirname($baseDir) . "/$dir", $tempDir . "/$dir");

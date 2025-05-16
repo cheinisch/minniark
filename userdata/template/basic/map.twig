@@ -13,6 +13,26 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<style>
+  /* Karte (Map-Container) */
+  #map {
+    z-index: 5;
+    position: relative; /* wichtig, damit z-index greift */
+  }
+
+  /* Marker & Cluster */
+  .leaflet-marker-icon,
+  .leaflet-marker-shadow,
+  .leaflet-cluster {
+    z-index: 6 !important;
+  }
+
+  /* Popup */
+  .leaflet-popup {
+    z-index: 7 !important;
+  }
+</style>
+
 </head>
   <body class="h-full">
     <div class="flex min-h-full flex-col">
@@ -37,32 +57,32 @@
     <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
     <script type="text/javascript" src="{{themepath}}/js/map.js"></script>
     <script>
-  const points = {{ points|json_encode|raw }};
-const map = L.map('map');
+      const points = {{ points|json_encode|raw }};
+      const map = L.map('map');
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
 
-const markers = L.markerClusterGroup();
+      const markers = L.markerClusterGroup();
 
-points.forEach(p => {
-  if (p.lat && p.lng) {
-    const marker = L.marker([p.lat, p.lng]);
-    marker.bindPopup(`
-      <strong>${p.title}</strong><br>
-      ${p.description}<br>
-      <img src="${p.image}" alt="" style="max-width: 200px; margin-top: 5px;">
-    `);
-    markers.addLayer(marker);
-  }
-});
+      points.forEach(p => {
+        if (p.lat && p.lng) {
+          const marker = L.marker([p.lat, p.lng]);
+          marker.bindPopup(`
+            <strong>${p.title}</strong><br>
+            ${p.description}<br>
+            <img src="${p.image}" alt="" style="max-width: 200px; margin-top: 5px;">
+          `);
+          markers.addLayer(marker);
+        }
+      });
 
-map.addLayer(markers);
-map.fitBounds(markers.getBounds(), {
-  padding: [50, 50],
-  maxZoom: 15
-});
-</script>
-</body>
+      map.addLayer(markers);
+      map.fitBounds(markers.getBounds(), {
+        padding: [50, 50],
+        maxZoom: 15
+      });
+    </script>
+  </body>
 </html>

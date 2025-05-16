@@ -165,6 +165,51 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
         if (json_last_error() === JSON_ERROR_NONE) {
             $parsedown = new Parsedown();
 
+            $exif = $meta['exif'] ?? [];
+
+            // Name Fix
+            $exif['Camera'] = str_replace('Canon Canon', 'Canon',$exif['Camera']);
+
+            // Rohwerte holen
+            $apertureRaw = $exif['Aperture'] ?? '';
+            $shutterSpeedRaw = $exif['Shutter Speed'] ?? '';
+
+            // Blende formatieren (f/28/10 → f/2.8)
+            $aperture = "Unknown";
+            if (preg_match('/f\/(\d+)\/(\d+)/i', $apertureRaw, $matches)) {
+                $apertureValue = round($matches[1] / $matches[2], 1);
+                $aperture = "f/" . $apertureValue;
+            } elseif (!empty($apertureRaw)) {
+                $aperture = $apertureRaw;
+            }
+
+            // Belichtungszeit formatieren (z. B. 1/250 → 1/250s, 4/1 → 4s)
+            $shutterSpeed = "Unknown";
+            if (preg_match('/(\d+)\/(\d+)/', $shutterSpeedRaw, $matches)) {
+                $numerator = (int)$matches[1];
+                $denominator = (int)$matches[2];
+
+                if ($numerator >= $denominator) {
+                    $shutterSpeed = round($numerator / $denominator, 1) . "s";
+                } else {
+                    $shutterSpeed = "1/" . round($denominator / $numerator) . "s";
+                }
+            } elseif (!empty($shutterSpeedRaw)) {
+                $shutterSpeed = $shutterSpeedRaw;
+            }
+
+            // Formatiert in EXIF zurückspeichern
+            $exif['aperture'] = $aperture;
+            $exif['shutter_speed'] = $shutterSpeed;
+
+
+            // EXIF-Schlüssel vereinheitlichen: Leerzeichen durch Unterstrich, alles klein
+            $normalizedExif = [];
+            foreach ($exif as $key => $value) {
+                $normalizedKey = strtolower(str_replace(' ', '_', $key));
+                $normalizedExif[$normalizedKey] = $value;
+            }
+
             $imageData = [
                 'title' => $meta['title'] ?? '',
                 'description' => $parsedown->text($meta['description'] ?? ''),
@@ -172,7 +217,7 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
                 'guid' => $meta['guid'] ?? '',
                 'rating' => $meta['rating'] ?? '',
                 'upload_date' => $meta['upload_date'] ?? '',
-                'exif' => $meta['exif'] ?? [],
+                'exif' => $normalizedExif ?? [],
                 'file' =>  get_cacheimage($filename),
             ];
 

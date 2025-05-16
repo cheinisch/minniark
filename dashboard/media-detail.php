@@ -24,6 +24,9 @@
     $iso = $imageData['exif']['ISO'] ?? 'Unknown';
     $dateTaken = $imageData['exif']['Date'] ?? 'Unknown';
   
+    // Name Fix
+    $camera = str_replace('Canon Canon', 'Canon',$camera);
+
     // **Aperture formatieren (f/28/10 → f/2.8)**
     $aperture = "Unknown";
     if (preg_match('/f\/(\d+)\/(\d+)/', $apertureRaw, $matches)) {

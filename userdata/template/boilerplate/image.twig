@@ -15,6 +15,7 @@
         <main>
             <h2>{{ image.title }}</h2>
             <img src="{{ image.file }}" alt="{{ image.title }}">
+            <div><span>{{ image.exif.camera }} | {{ image.exif.aperture }} | {{ image.exif.shutter_speed }} | ISO {{ image.exif.iso }} | {{ image.exif.focal_length }}</span></div>
             {{ image.description|raw }}
         </main>
     </body>

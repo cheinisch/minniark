@@ -17,7 +17,7 @@ jobs:
     - name: Create dockerimage.ini
       run: |
         echo "[dockerimage]" > docker/dockerimage.ini
-        echo "name = cheinisch/lensfolio" >> docker/dockerimage.ini
+        echo "name = cheinisch/minniark" >> docker/dockerimage.ini
         echo "version = nightly" >> docker/dockerimage.ini     
         echo "webserver = apache" >> docker/dockerimage.ini
 
@@ -27,8 +27,8 @@ jobs:
 
     - name: Build Docker Image (Apache + PHP)
       run: |
-        docker build -f docker/Dockerfile -t cheinisch/lensfolio:nightly .
+        docker build -f docker/Dockerfile -t cheinisch/minniark:nightly .
 
     - name: Push Docker Image
       run: |
-        docker push cheinisch/lensfolio:nightly
+        docker push cheinisch/minniark:nightly

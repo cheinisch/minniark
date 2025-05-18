@@ -18,7 +18,7 @@ jobs:
     - name: Create dockerimage.ini
       run: |
         echo "[dockerimage]" > docker/dockerimage.ini
-        echo "name = cheinisch/lensfolio" >> docker/dockerimage.ini
+        echo "name = cheinisch/minniark" >> docker/dockerimage.ini
         echo "version = nightly" >> docker/dockerimage.ini     
         echo "webserver = nginx" >> docker/dockerimage.ini
 
@@ -27,7 +27,7 @@ jobs:
 
     - name: Build NGINX Image
       run: |
-        docker build -f docker/nginx.Dockerfile -t cheinisch/lensfolio-nginx:nightly .
+        docker build -f docker/nginx.Dockerfile -t cheinisch/minniark-nginx:nightly .
     - name: Push NGINX Image
       run: |
-        docker push cheinisch/lensfolio-nginx:nightly
+        docker push cheinisch/minniark-nginx:nightly

@@ -21,8 +21,8 @@ jobs:
 
     - name: Build PHP-FPM Image
       run: |
-        docker build -f docker/php.Dockerfile -t cheinisch/lensfolio-php:nightly .
+        docker build -f docker/php.Dockerfile -t cheinisch/minniark-php:nightly .
 
     - name: Push PHP-FPM Image
       run: |
-        docker push cheinisch/lensfolio-php:nightly
+        docker push cheinisch/minniark-php:nightly

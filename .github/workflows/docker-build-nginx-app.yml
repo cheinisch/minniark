@@ -28,7 +28,7 @@ jobs:
     - name: Create dockerimage.ini
       run: |
         echo "[dockerimage]" > docker/dockerimage.ini
-        echo "name = cheinisch/lensfolio" >> docker/dockerimage.ini
+        echo "name = cheinisch/minniark" >> docker/dockerimage.ini
         echo "version = ${{ env.VERSION }}" >> docker/dockerimage.ini  
         echo "webserver = apache" >> docker/dockerimage.ini
 
@@ -37,14 +37,14 @@ jobs:
 
     - name: Build NGINX Image
       run: |
-        docker build -f docker/nginx.Dockerfile -t cheinisch/lensfolio-nginx:${{ env.VERSION }} .
+        docker build -f docker/nginx.Dockerfile -t cheinisch/minniark-nginx:${{ env.VERSION }} .
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker tag cheinisch/lensfolio-nginx:${{ env.VERSION }} cheinisch/lensfolio-nginx:latest
+          docker tag cheinisch/minniark-nginx:${{ env.VERSION }} cheinisch/minniark-nginx:latest
         fi
 
     - name: Push NGINX Image
       run: |
-        docker push cheinisch/lensfolio-nginx:${{ env.VERSION }}
+        docker push cheinisch/minniark-nginx:${{ env.VERSION }}
         if [[ "${{ env.VERSION }}" != "latest" ]]; then
-          docker push cheinisch/lensfolio-nginx:latest
+          docker push cheinisch/minniark-nginx:latest
         fi

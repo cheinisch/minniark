@@ -1,6 +1,6 @@
 services:
   imageportfolio:
-    image: cheinisch/lensfolio:latest
+    image: cheinisch/minniark:latest
     ports:
       - "8080:80"
     volumes:

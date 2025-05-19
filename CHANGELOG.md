@@ -3,6 +3,18 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.0.4.4]
+2025-05-19
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.4.3...v0.0.0.4.4
+
+### New Features
+- 
+
+### Bug Fixes
+- Update updater
+
+
 ## [0.0.4.3]
 2025-05-15
 

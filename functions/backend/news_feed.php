@@ -3,7 +3,7 @@
 
     function getNewsFeed(): array
     {
-        $url = "https://lensfolio.app/blog.rss";
+        $url = "https://minniark.app/blog.rss";
         $feed = [];
 
         // Feed laden

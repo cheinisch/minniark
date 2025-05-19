@@ -35,7 +35,22 @@
         return $list;
     }
 
-    function getCollectionCount()
+    function getCollectionData($slug):array
     {
+
+        $collectionDir = __DIR__ . '/../../userdata/content/collection/';
+        $file = $slug.'.yml';
+
+        if (!file_exists($filePath)) {
+            return []; // Datei nicht gefunden
+        }
+
+        try {
+            $data = Yaml::parseFile($filePath);
+            return is_array($data) ? $data : [];
+        } catch (\Exception $e) {
+            // Optional: Fehler loggen
+            return [];
+        }
 
     }

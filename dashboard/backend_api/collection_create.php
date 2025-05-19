@@ -20,6 +20,8 @@
         }
     }
 
+    $slug = generateSlug($title);
+
     $filename = generateSlug($title).'.yml';
 
     $fullPath = $collectionDir.''.$filename;
@@ -39,7 +41,7 @@
 
     if($result)
     {
-        header("Location: ../media.php");
+        header("Location: ../collection-detail.php?collection=".$slug);
     }else{
         echo "error writing file";
     }

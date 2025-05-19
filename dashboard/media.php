@@ -414,9 +414,16 @@
                       <line x1="5" y1="12" x2="19" y2="12" />
                     </svg>-->
                   </li>
-                  <ul class="px-5">
-                    <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
-                  </ul>                    
+                    <ul class="px-5">
+                    <?php
+                      $collections = getCollectionList();
+
+                      foreach($collections as $collection)
+                      {
+                        echo '<li id="'.$collection['title'].'"><a href="collection-detail.php?collection='.$collection['slug'].'" class="text-gray-400 hover:text-sky-400">'.$collection['title'].'</a></li>';
+                      }
+                      ?>
+                      </ul>                                  
                 </ul>
               </nav>
           </aside>

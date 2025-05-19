@@ -54,3 +54,39 @@
         }
 
     }
+
+    function saveNewCollection($title, $description)
+    {
+
+        $collectionDir = __DIR__.'/../../userdata/content/collection/';
+
+        if (!is_dir($collectionDir)) {
+            // Versuche, das Verzeichnis anzulegen (inkl. Unterverzeichnisse)
+            if (!mkdir($collectionDir, 0755, true)) {
+                die("Konnte das Verzeichnis nicht erstellen: $collectionDir");
+            }
+        }
+
+        $slug = generateSlug($title);
+
+        $filename = generateSlug($title).'.yml';
+
+        $fullPath = $collectionDir.''.$filename;
+
+        echo("Full Path: ".$collectionDir.''.$filename);
+
+
+        $data = [
+            'collection' => [
+                'name' => $title,
+                'description' => $description,
+                'albums' => [],
+                'image' => '',
+            ]
+        ];
+
+        $yaml = Yaml::dump($data, 2, 4); // 2 = Tiefe, 4 = Einrückung
+        $result = file_put_contents($fullPath, $yaml);
+
+        return $result;
+    }

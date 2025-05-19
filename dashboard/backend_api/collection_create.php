@@ -11,6 +11,8 @@
 
     $result = saveNewCollection($title, $content);
 
+    $slug = generateSlug($title);
+
     if($result)
     {
         header("Location: ../collection-detail.php?collection=".$slug);

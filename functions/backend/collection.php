@@ -5,8 +5,7 @@
     use Symfony\Component\Yaml\Yaml;
 
     function getCollectionList(): array
-    {        
-
+    {
         $collectionDir = __DIR__ . '/../../userdata/content/collection/';
         $list = [];
 
@@ -21,7 +20,7 @@
 
             try {
                 $data = Yaml::parseFile($filePath);
-                $title = $data['title'] ?? 'Empty title';
+                $title = $data['collection']['name'] ?? 'Empty title';
             } catch (\Exception $e) {
                 $title = '(Fehler beim Parsen)';
             }
@@ -40,18 +39,24 @@
 
         $collectionDir = __DIR__ . '/../../userdata/content/collection/';
         $file = $slug.'.yml';
+        $filePath = $collectionDir.$file;
 
         if (!file_exists($filePath)) {
             return []; // Datei nicht gefunden
         }
 
-        try {
-            $data = Yaml::parseFile($filePath);
-            return is_array($data) ? $data : [];
-        } catch (\Exception $e) {
-            // Optional: Fehler loggen
-            return [];
-        }
+        
+        $data = Yaml::parseFile($filePath);
+
+        // Zugriff auf die einzelnen Werte
+        $collection = $data['collection'] ?? [];
+
+        $name = $collection['name'] ?? '';
+        $description = $collection['description'] ?? '';
+        $albums = $collection['albums'] ?? [];
+        $image = $collection['image'] ?? '';
+
+        return $collection;
 
     }
 

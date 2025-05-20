@@ -25,7 +25,7 @@
             header("Location: ../album-detail.php?album=".$albumname);
             break;
         case "album":
-            delete_album($filename);
+            removeAlbum($filename);
             header("Location: ../media.php");
             break;
     }

@@ -19,7 +19,7 @@
                         <h2><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h2>
                         <article>
                             {% if post.excerpt %}
-                                <p class="excerpt">{{ post.excerpt }}</p>
+                                <p class="excerpt">{{ post.excerpt|raw }}</p>
                             {% else %}
                                 <p class="excerpt">{{ post.content|striptags|slice(0, 150) ~ '...' }}</p>
                             {% endif %}

@@ -1,5 +1,8 @@
 <?php
 
+    require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
+    use Symfony\Component\Yaml\Yaml;
+
     function hasBlogPosts()
     {
         $hasPosts = false;
@@ -53,35 +56,54 @@
         return count($folders);
     }
 
-    function getBlogPosts(): array
-    {
-        $baseDir = realpath(__DIR__ . '/../../userdata/content/essays/');
-        if (!$baseDir) {
-            return [];
-        }
+    
 
-        $posts = [];
-
-        foreach (glob($baseDir . '/*/data.json') as $jsonFile) {
-            $dir = dirname($jsonFile);
-            $slug = basename($dir); // Verzeichnisname = slug
-
-            $json = json_decode(file_get_contents($jsonFile), true);
-            if (json_last_error() === JSON_ERROR_NONE) {
-                $json['slug'] = $slug;
-
-                // Fallbacks, falls Felder fehlen
-                $json['title'] = $json['title'] ?? ucfirst($slug);
-                $json['date'] = $json['created_at'] ?? '1970-01-01';
-                $json['excerpt'] = mb_substr(strip_tags($json['content'] ?? ''), 0, 150) . '...';
-
-                $posts[] = $json;
-            }
-        }
-
-        // Nach Datum sortieren (neueste zuerst)
-        usort($posts, fn($a, $b) => strcmp($b['date'], $a['date']) * -1);
-        
-        return $posts;
+function getBlogPosts(): array
+{
+    $baseDir = realpath(__DIR__ . '/../../userdata/content/essay/');
+    if (!$baseDir) {
+        return [];
     }
+
+    $posts = [];
+
+    foreach (scandir($baseDir) as $folder) {
+        if ($folder === '.' || $folder === '..') continue;
+
+        $slug = $folder;
+        $folderPath = $baseDir . '/' . $slug;
+        $yamlPath = $folderPath . '/' . $slug . '.yml';
+        $mdPath = $folderPath . '/' . $slug . '.md';
+
+        if (!file_exists($yamlPath) || !file_exists($mdPath)) {
+            continue;
+        }
+
+        $yaml = Yaml::parseFile($yamlPath);
+        $essay = $yaml['essay'] ?? [];
+
+        $parsedown = new Parsedown();
+
+        // Fallbacks
+        $title = $essay['title'] ?? ucfirst($slug);
+        $created = $essay['created_at'] ?? '1970-01-01';
+        $rawContent = file_get_contents($mdPath);
+        $excerpt =  $parsedown->text(mb_substr(strip_tags($rawContent), 0, 150) . '...');
+
+        $posts[] = [
+            'slug' => $slug,
+            'title' => $title,
+            'date' => $created,
+            'excerpt' => $excerpt,
+            'cover' => get_cacheimage($essay['cover'] ?? ''),
+            'is_published' => $essay['is_published'] ?? false,
+            'tags' => $essay['tags'] ?? [],
+        ];
+    }
+
+    // Sortieren nach Datum absteigend
+    usort($posts, fn($a, $b) => strcmp($b['date'], $a['date']));
+
+    return $posts;
+}
 

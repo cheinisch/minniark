@@ -6,6 +6,10 @@ error_reporting(E_ALL);
 
 $templateDir = __DIR__ . '/../../userdata/template/' . $theme;
 $navItems = buildNavigation($templateDir);
+
+require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
+use Symfony\Component\Yaml\Yaml;
+use Parsedown;
     
 $data = [
     'title' => ucfirst($uri) ?: 'Home',
@@ -44,28 +48,36 @@ if (preg_match('#^p/([\w\-]+)$#', $uri, $matches)) {
 // Einzelner Blog-Post anhand des Slugs aus dem Verzeichnisnamen
 if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
     $slug = $matches[1]; // z. B. "lorem-ipsum"
-    $jsonPath = realpath(__DIR__ . "/../../userdata/content/essays/$slug/data.json");
 
-    if ($jsonPath && file_exists($jsonPath)) {
-        $json = json_decode(file_get_contents($jsonPath), true);
+    $baseDir = realpath(__DIR__ . '/../../userdata/content/essay/');
+    $essayDir = $baseDir . '/' . $slug;
 
-        if (json_last_error() === JSON_ERROR_NONE) {
-            
-            $parsedown = new Parsedown();
-            $json['slug'] = $slug;
-            $json['content'] = $parsedown->text($json['content'] ?? '');
-            $json['cover'] = get_cacheimage($json['cover']);
+    $yamlPath = $essayDir . '/' . $slug . '.yml';
+    $mdPath = $essayDir . '/' . $slug . '.md';
 
-            $data['post'] = $json;
-            $data['title'] = $json['title'] ?? ucfirst($slug);
-            
+    if (file_exists($yamlPath) && file_exists($mdPath)) {
+        $yaml = Yaml::parseFile($yamlPath);
+        $essay = $yaml['essay'] ?? [];
 
-            echo $twig->render('post.twig', $data);
-            exit;
+        if (!isset($essay['title'])) {
+            $essay['title'] = ucfirst($slug);
         }
+
+        // Markdown parsen
+        $parsedown = new Parsedown();
+        $essay['slug'] = $slug;
+        $essay['content'] = $parsedown->text(file_get_contents($mdPath));
+        $essay['cover'] = get_cacheimage($essay['cover'] ?? '');
+
+        // Twig-Daten setzen
+        $data['post'] = $essay;
+        $data['title'] = $essay['title'];
+
+        echo $twig->render('post.twig', $data);
+        exit;
     }
 
-    // Fehler: Datei nicht vorhanden oder ungültig
+    // Fehler: Datei nicht vorhanden oder unvollständig
     http_response_code(404);
     echo $twig->render('404.twig', $data);
     exit;

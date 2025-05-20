@@ -1,112 +1,69 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-require_once(__DIR__ . '/../../functions/function_backend.php');
-security_checklogin();
+require_once __DIR__ . '/../../functions/function_backend.php';
+require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
 
-header('Content-Type: application/json');
+use Symfony\Component\Yaml\Yaml;
 
-$input = json_decode(file_get_contents('php://input'), true);
+// POST-Daten abholen
+$title = trim($_POST['title'] ?? '');
+$content = trim($_POST['content'] ?? '');
+$foldername = trim($_POST['foldername'] ?? '');
+$original = trim($_POST['original_foldername'] ?? '');
+$tags = array_filter(array_map('trim', explode(',', $_POST['tags'] ?? '')));
+$cover = trim($_POST['cover'] ?? '');
+$published_at = trim($_POST['published_at'] ?? '');
 
-if (!$input || !isset($input['title'], $input['foldername'])) {
-    echo json_encode(['success' => false, 'message' => 'Fehlende Pflichtfelder.']);
+print_r($_POST);
+// Validierung
+if (empty($title) || empty($foldername)) {
+    die("Titel und Zielordner (foldername) müssen übergeben werden.");
+}
+
+$isPublished = !empty($published_at);
+
+// Slug normalisieren
+$slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $foldername), '-'));
+$originalSlug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $original), '-'));
+
+$essayDir = __DIR__ . '/../../userdata/content/essay/';
+$targetPath = $essayDir . $slug;
+
+// Neuer Eintrag?
+if (empty($original)) {
+    // Sicherstellen, dass der Slug eindeutig ist
+    $uniqueSlug = $slug;
+    $i = 1;
+    while (is_dir($essayDir . $uniqueSlug)) {
+        $uniqueSlug = $slug . '-' . $i;
+        $i++;
+    }
+    $slug = $uniqueSlug;
+
+    saveNewEssay($title, $content, $tags, $isPublished, $cover);
+
+    header("Location: ../blog-detail.php?edit=$slug");
     exit;
-}
-error_log("Titel: " . $input['title']);
-error_log("Input: " . $input['content']);
+} else {
+    // Update bestehenden Eintrag
+    $data = [
+        'title' => $title,
+        'content' => $content,
+        'tags' => $tags,
+        'cover' => $cover,
+        'published_at' => $published_at,
+        'is_published' => $isPublished
+    ];
 
-$baseDir = realpath(__DIR__ . '/../../userdata/content/essays');
-$originalFolder = preg_replace('/[^a-zA-Z0-9\-_]/', '', $input['original_foldername']);
-$originalPath = $baseDir . DIRECTORY_SEPARATOR . $originalFolder;
+    $success = updateEssay($slug, $data, $originalSlug);
 
-// Image Path
-$imagePath = $input['cover'];
-error_log($imagePath);
-$input['cover'] = basename($imagePath);
-
-error_log($input['cover']);
-
-// Slugify-Titel
-function slugify($text) {
-    $map = ['ä'=>'ae','ö'=>'oe','ü'=>'ue','ß'=>'ss'];
-    $text = strtolower(strtr($text, $map));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
-}
-
-$newFolderBase = slugify($input['title']);
-$newFolder = $newFolderBase;
-$newPath = $baseDir . DIRECTORY_SEPARATOR . $newFolder;
-
-// Prüfen, ob der Slug existiert und ggf. erhöhen (_1, _2, ...), außer es ist derselbe Ordner
-$counter = 1;
-while (is_dir($newPath) && realpath($newPath) !== realpath($originalPath)) {
-    $newFolder = $newFolderBase . "_" . $counter;
-    $newPath = $baseDir . DIRECTORY_SEPARATOR . $newFolder;
-    $counter++;
-}
-
-// Wenn Verzeichnis existiert, aber Titel sich geändert hat → umbenennen
-if (is_dir($originalPath) && realpath($originalPath) !== realpath($newPath)) {
-    if (!rename($originalPath, $newPath)) {
-        echo json_encode(['success' => false, 'message' => 'Ordner konnte nicht umbenannt werden.']);
+    if ($success) {
+        header("Location: ../blog-detail.php?edit=$slug");
         exit;
-    }
-}
-
-// Zielordner verwenden (neu oder umbenannt)
-$targetDir = is_dir($newPath) ? $newPath : $originalPath;
-if (!is_dir($targetDir)) {
-    if (!mkdir($targetDir, 0775, true)) {
-        echo json_encode(['success' => false, 'message' => 'Ordner konnte nicht erstellt werden.']);
-        exit;
-    }
-}
-
-$jsonPath = $targetDir . DIRECTORY_SEPARATOR . 'data.json';
-
-$dateNow = date('Y-m-d');
-$createdAt = $dateNow;
-
-$coverPath = $input['cover'] ?? '';
-$finalCoverPath = '';
-if ($coverPath && str_starts_with($coverPath, '/temp/')) {
-    $tempFilePath = realpath(__DIR__ . '/../../' . ltrim($coverPath, '/'));
-    $newFileName = basename($coverPath);
-    $newFilePath = $targetDir . DIRECTORY_SEPARATOR . $newFileName;
-    if (is_file($tempFilePath) && rename($tempFilePath, $newFilePath)) {
-        $finalCoverPath = '/userdata/content/essays/' . $newFolder . '/' . $newFileName;
     } else {
-        $finalCoverPath = $coverPath; // fallback
+        echo "Fehler beim Speichern des Essays.";
     }
-} else {
-    $finalCoverPath = $coverPath;
-}
-
-// Wenn die Datei bereits existiert, erhalte das ursprüngliche created_at
-if (file_exists($jsonPath)) {
-    $existing = json_decode(file_get_contents($jsonPath), true);
-    if (isset($existing['created_at'])) {
-        $createdAt = $existing['created_at'];
-    }
-}
-
-$data = [
-    'title' => $input['title'],
-    'content' => $input['content'],
-    'created_at' => $createdAt,
-    'published_at' => $input['published_at'] ?: $dateNow,
-    'updated_at' => $dateNow,
-    'tags' => $input['tags'] ?? [],
-    'cover' => $finalCoverPath,
-    'is_published' => $input['is_published'] ?? false
-];
-
-if (file_put_contents($jsonPath, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
-    echo json_encode(['success' => true, 'folder' => $newFolder]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Speichern fehlgeschlagen.']);
 }

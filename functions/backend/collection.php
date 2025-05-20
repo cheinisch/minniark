@@ -21,6 +21,7 @@
             try {
                 $data = Yaml::parseFile($filePath);
                 $title = $data['collection']['name'] ?? 'Empty title';
+                $image = $data['collection']['image'] ?? '';
             } catch (\Exception $e) {
                 $title = '(Fehler beim Parsen)';
             }
@@ -28,6 +29,7 @@
             $list[] = [
                 'slug' => $slug,
                 'title' => $title,
+                'image' => $image,
             ];
         }
 

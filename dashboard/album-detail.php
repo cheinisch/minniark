@@ -11,8 +11,6 @@
 
   $albumdata = getAlbumData($albumTitle);
 
-  print_r($albumdata);
-
   $Parsedown = new Parsedown();
   $descriptionHtml = $Parsedown->text($albumdata['description']);
 
@@ -90,9 +88,9 @@
                       <label class="block text-sm text-center cursor-pointer">
                         <input type="checkbox" name="images[]" value="' . htmlspecialchars($img['filename']) . '" class="sr-only peer">
                         <div class="peer-checked:ring-2 peer-checked:ring-sky-500 rounded overflow-hidden border border-gray-300">
-                          <img src="../userdata/content/images/' . htmlspecialchars($img['filename']) . '" alt="' . $img['name'] . '" class="object-cover w-full aspect-square">
+                          <img src="../userdata/content/images/' . htmlspecialchars($img['filename']) . '" alt="' . $img['title'] . '" class="object-cover w-full aspect-square">
                         </div>
-                        <span class="block mt-1 truncate text-xs">' . $img['name'] . '</span>
+                        <span class="block mt-1 truncate text-xs">' . $img['title'] . '</span>
                       </label>';
                     }
                     ?>
@@ -302,7 +300,7 @@
 
                       foreach($albums as $album)
                       {
-                        echo '<li id="'.$album['name'].'"><a href="album-detail.php?album='.$album['slug'].'" class="text-gray-400 hover:text-sky-400">'.$album['name'].'</a></li>';
+                        echo '<li id="'.$album['title'].'"><a href="album-detail.php?album='.$album['slug'].'" class="text-gray-400 hover:text-sky-400">'.$album['title'].'</a></li>';
                       }                    
                     ?>
                   </ul>
@@ -342,7 +340,7 @@
                         <input type="hidden" id="album-current-title" name="album-current-title" value="<?php echo $albumdata['name']; ?>">
                       </div>
                       <div class="mt-5 bg-white">
-                        <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $descriptionHtml; ?></textarea>
+                        <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $albumdata['description']; ?></textarea>
                       </div>
                     </div>
                     <div id="button_group" class="space-x-2 mt-2">
@@ -369,9 +367,7 @@
               <!-- Content Bilderblock -->
               <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4 items-start content-start">
                 <?php
-
-                  $albumFile = strtolower($albumTitle);
-                  renderImageGalleryAlbum($albumFile); // Galerie ausgeben              
+                  renderImageGalleryAlbum($albumdata['slug']); // Galerie ausgeben              
                 ?>
               </div>
             </div>

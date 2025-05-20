@@ -1,5 +1,9 @@
 <?php
 
+    require_once(__DIR__ . "/../../vendor/autoload.php");
+
+    use Symfony\Component\Yaml\Yaml;
+
 
     function count_images()
     {
@@ -183,36 +187,54 @@
     }
     
 
-    function renderImageGalleryAlbum($album) {
-        $albumFile = __DIR__ . "/../../userdata/content/albums/" . preg_replace('/[^a-z0-9]/i', '_', strtolower($album)) . ".php";
     
-        if (!file_exists($albumFile)) {
+
+    function renderImageGalleryAlbum(string $slug)
+    {
+        // Pfade
+        $albumDir = __DIR__ . '/../../userdata/content/album/';
+        $imageDir = __DIR__ . '/../../userdata/content/images/';
+        $albumYaml = $albumDir . $slug . '.yml';
+
+        // Prüfen, ob Album vorhanden ist
+        if (!file_exists($albumYaml)) {
             echo "<p class='text-red-500'>Album nicht gefunden.</p>";
             return;
         }
-    
-        include $albumFile;
-        $imageDir = __DIR__ .'/../../userdata/content/images/';
+
+        // Album-Daten laden
+        $yamlData = Yaml::parseFile($albumYaml);
+        $album = $yamlData['album'] ?? [];
+
+        $images = $album['images'] ?? [];
+        if (empty($images)) {
+            echo "<p class='text-gray-500'>There are no pictures in this album. Please add some.</p>";
+            return;
+        }
+
+        // Bilddaten sammeln
         $imageData = [];
-    
-        foreach ($Images as $fileName) {
+
+        foreach ($images as $fileName) {
             $jsonFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.json';
             $metadata = [];
+
             if (file_exists($jsonFile)) {
                 $jsonData = file_get_contents($jsonFile);
                 $decodedData = json_decode($jsonData, true);
+
                 if (json_last_error() === JSON_ERROR_NONE) {
                     $metadata = $decodedData;
                 } else {
-                    error_log("Fehler beim Parsen von JSON: " . json_last_error_msg());
+                    error_log("Fehler beim Parsen von JSON ($jsonFile): " . json_last_error_msg());
                     continue;
                 }
             } else {
-                continue; // JSON fehlt → Bild überspringen
+                continue; // Metadaten fehlen → Bild überspringen
             }
-    
+
             $date = $metadata['exif']['Date'] ?? '0000-00-00 00:00:00';
-    
+
             $imageData[] = [
                 'file' => $fileName,
                 'date' => $date,
@@ -220,22 +242,19 @@
                 'description' => $metadata['description'] ?? ''
             ];
         }
-    
-        // Nach Datum absteigend sortieren
-        usort($imageData, function($a, $b) {
+
+        // Nach Datum sortieren (neueste zuerst)
+        usort($imageData, function ($a, $b) {
             return strtotime($b['date']) <=> strtotime($a['date']);
         });
 
-
-        // Bilder anzeigen
+        // Galerie anzeigen
         foreach ($imageData as $img) {
             $title = htmlspecialchars($img['title'] ?: 'Kein Titel');
             $description = htmlspecialchars($img['description'] ?: 'Keine Beschreibung verfügbar');
             $fileName = $img['file'];
-            $imagePath = "../../userdata/content/images/" . $fileName;
-
-            $smallimg = get_cacheimage($fileName,"m");
-            $imagePath = "../cache/images/".$smallimg;
+            $smallimg = get_cacheimage($fileName, "m");
+            $imagePath = "../cache/images/" . $smallimg;
 
             echo "
             <div class=\"\">
@@ -253,14 +272,15 @@
                             </svg>
                         </button>
                         <div class=\"dropdown hidden absolute right-0 z-10 bottom-full mb-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
-                            <a href=\"backend_api/album_set_hero.php?album=$album&filename=$fileName\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Set as Hero Image</a>
-                            <a href=\"backend_api/delete.php?type=album_img&filename=$fileName&albumname=$album\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">remove from album</a>
+                            <a href=\"backend_api/album_set_hero.php?album=$slug&filename=$fileName\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Set as Hero Image</a>
+                            <a href=\"backend_api/delete.php?type=album_img&filename=$fileName&albumname=$slug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">remove from album</a>
                         </div>
                     </div>
                 </div>
             </div>";
         }
     }
+
     
 
 

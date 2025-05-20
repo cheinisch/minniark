@@ -66,11 +66,10 @@
         return [
             'slug' => $slug,
             'name' => $album['name'] ?? null,
-            'description' => $album['description'] ?? null,
+            'description' => $markdown,
             'password' => $album['password'] ?? null,
             'images' => $album['images'] ?? [],
             'headImage' => $album['headImage'] ?? null,
-            'content' => $markdown,
         ];
     }
 
@@ -106,35 +105,57 @@
         return $slug;
     }
 
-
-    function updateAlbum(string $slug, array $data): bool
+    // Update Album Data
+    function updateAlbum(string $slug, array $data, string $oldSlug): bool
     {
         $albumDir = __DIR__ . '/../../userdata/content/album/';
         $albumPath = $albumDir . $slug . '.yml';
         $albumMDPath = $albumDir . $slug . '.md';
 
-        if (!file_exists($albumPath)) {
-            error_log("Kann Album nicht aktualisieren – Datei nicht gefunden: $slug");
-            return false;
+        // Alte YAML laden, falls vorhanden
+        $existing = file_exists($albumPath) ? Yaml::parseFile($albumPath) : [];
+        $album = $existing['album'] ?? [];
+
+        // Nur vorhandene Daten überschreiben
+        if (isset($data['name']) || isset($data['album-title-edit'])) {
+            $album['name'] = $data['name'] ?? $data['album-title-edit'];
         }
 
-        // Nur bekannte Felder übernehmen
-        $yamlData = [
-            'album' => [
-                'name' => $data['name'] ?? '',
-                'description' => $data['description'] ?? '',
-                'password' => $data['password'] ?? '',
-                'images' => $data['images'] ?? [],
-                'headImage' => $data['headImage'] ?? '',
-            ]
-        ];
+        if (isset($data['password'])) {
+            $album['password'] = $data['password'];
+        }
 
-        // YAML & Markdown speichern
-        $yamlOK = file_put_contents($albumPath, Yaml::dump($yamlData, 2, 4)) !== false;
-        $mdOK = file_put_contents($albumMDPath, $data['content'] ?? '') !== false;
+        if (isset($data['images'])) {
+            $album['images'] = $data['images'];
+        }
+
+        if (isset($data['headImage'])) {
+            $album['headImage'] = $data['headImage'];
+        }
+
+        // Markdown-Content (aus "description")
+        $useExistingMarkdown = !isset($data['album-description']);
+        $markdown = $useExistingMarkdown
+            ? (file_exists($albumMDPath) ? file_get_contents($albumMDPath) : '')
+            : $data['album-description'];
+
+
+        // Slug geändert → alte Dateien löschen
+        if ($slug !== $oldSlug) {
+            $oldYamlPath = $albumDir . $oldSlug . '.yml';
+            $oldMDPath = $albumDir . $oldSlug . '.md';
+            if (file_exists($oldYamlPath)) unlink($oldYamlPath);
+            if (file_exists($oldMDPath)) unlink($oldMDPath);
+        }
+
+        // Speichern
+        $yamlOK = file_put_contents($albumPath, Yaml::dump(['album' => $album], 2, 4)) !== false;
+        $mdOK = $useExistingMarkdown || file_put_contents($albumMDPath, $markdown) !== false;
 
         return $yamlOK && $mdOK;
     }
+
+
 
     function removeAlbum($slug)
     {

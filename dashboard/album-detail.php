@@ -11,14 +11,16 @@
 
   $albumdata = getAlbumData($albumTitle);
 
-  $Parsedown = new Parsedown();
-  $descriptionHtml = $Parsedown->text($albumdata['Description']);
+  print_r($albumdata);
 
-  $cacheImage = get_cacheimage($albumdata['HeadImage'],"l");
+  $Parsedown = new Parsedown();
+  $descriptionHtml = $Parsedown->text($albumdata['description']);
+
+  $cacheImage = get_cacheimage($albumdata['headImage'],"l");
 
   $headimage = null;
 
-  if($albumdata['HeadImage'] != null || $albumdata['HeadImage'] != '')
+  if($albumdata['headImage'] != null || $albumdata['headImage'] != '')
   {
     $headimage = "../cache/images/".$cacheImage;
   }else{
@@ -88,9 +90,9 @@
                       <label class="block text-sm text-center cursor-pointer">
                         <input type="checkbox" name="images[]" value="' . htmlspecialchars($img['filename']) . '" class="sr-only peer">
                         <div class="peer-checked:ring-2 peer-checked:ring-sky-500 rounded overflow-hidden border border-gray-300">
-                          <img src="../userdata/content/images/' . htmlspecialchars($img['filename']) . '" alt="' . $img['title'] . '" class="object-cover w-full aspect-square">
+                          <img src="../userdata/content/images/' . htmlspecialchars($img['filename']) . '" alt="' . $img['name'] . '" class="object-cover w-full aspect-square">
                         </div>
-                        <span class="block mt-1 truncate text-xs">' . $img['title'] . '</span>
+                        <span class="block mt-1 truncate text-xs">' . $img['name'] . '</span>
                       </label>';
                     }
                     ?>
@@ -300,7 +302,7 @@
 
                       foreach($albums as $album)
                       {
-                        echo '<li id="'.$album['Name'].'"><a href="album-detail.php?album='.$album['Slug'].'" class="text-gray-400 hover:text-sky-400">'.$album['Name'].'</a></li>';
+                        echo '<li id="'.$album['name'].'"><a href="album-detail.php?album='.$album['slug'].'" class="text-gray-400 hover:text-sky-400">'.$album['name'].'</a></li>';
                       }                    
                     ?>
                   </ul>
@@ -327,7 +329,7 @@
                   </div>
                   <div id="text-show-frame" class="">
                     <div class="pt-5">
-                      <h2 id="headline" class="text-3xl pb-5 dark:text-gray-400"><?php echo $albumdata['Name']; ?></h2>
+                      <h2 id="headline" class="text-3xl pb-5 dark:text-gray-400"><?php echo $albumdata['name']; ?></h2>
                     </div>
                     <div class="dark:text-gray-400">
                       <?php echo $descriptionHtml; ?>
@@ -336,11 +338,11 @@
                   <form action="backend_api/album_update.php" method="post">
                     <div id="text-edit-frame" class="hidden">                    
                       <div class="pt-10">
-                        <input type="text" id="album-title-edit" name="album-title-edit" value="<?php echo $albumdata['Name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none text-2xl dark:text-gray-400 border-gray-400">
-                        <input type="hidden" id="album-current-title" name="album-current-title" value="<?php echo $albumdata['Name']; ?>">
+                        <input type="text" id="album-title-edit" name="album-title-edit" value="<?php echo $albumdata['name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none text-2xl dark:text-gray-400 border-gray-400">
+                        <input type="hidden" id="album-current-title" name="album-current-title" value="<?php echo $albumdata['name']; ?>">
                       </div>
                       <div class="mt-5 bg-white">
-                        <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $albumdata['Description']; ?></textarea>
+                        <textarea id="album-description" name="album-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Album description" rows="10"><?php echo $descriptionHtml; ?></textarea>
                       </div>
                     </div>
                     <div id="button_group" class="space-x-2 mt-2">
@@ -348,7 +350,7 @@
                         <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
                           Edit
                         </button>
-                        <a href="backend_api/delete.php?type=album&filename=<?php echo $albumdata['Name']; ?>" id="delete_album" class="delete-link relative inline-flex items-center gap-x-1.5  px-3 py-2 text-sm text-red-500 shadow-xs hover:bg-red-600 hover:text-white">
+                        <a href="backend_api/delete.php?type=album&filename=<?php echo $albumdata['slug']; ?>" id="delete_album" class="delete-link relative inline-flex items-center gap-x-1.5  px-3 py-2 text-sm text-red-500 shadow-xs hover:bg-red-600 hover:text-white">
                           Delete Album
                         </a>
                       </div>

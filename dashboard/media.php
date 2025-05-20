@@ -120,34 +120,35 @@
                 <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                   <div class="col-span-12">
                     <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">Create new Album</h2>
-
-                    <section aria-labelledby="information-heading" class="mt-3">
-                      <h3 id="information-heading" class="sr-only">Album information</h3>
-                      <div class="sm:col-span-3">
-                        <label for="album-title" class="block text-2xl text-gray-900">Album Name</label>
-                        <div class="mt-2">
-                        <input type="text" name="album-title" id="album-title" value="" placeholder="Enter album name" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                    <form action="backend_api/album_create.php" method="post">
+                      <section aria-labelledby="information-heading" class="mt-3">
+                        <h3 id="information-heading" class="sr-only">Album information</h3>
+                        <div class="sm:col-span-3">
+                          <label for="album-title" class="block text-2xl text-gray-900">Album Name</label>
+                          <div class="mt-2">
+                          <input type="text" name="album-title" id="album-title" value="" placeholder="Enter album name" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                          </div>
                         </div>
-                      </div>
-                      <div class="mt-3">
-                        <h4 class="text-xl text-gray-900 sm:pr-12">Set Album description</h4>
-                        <textarea name="album-description" id="album-description" class="w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500"></textarea>
-                      </div>
-                      <div class="sm:col-span-3">
-                        <label for="album-password" class="block text-2xl text-gray-900">Album Password (optional)</label>
-                        <div class="mt-2">
-                        <input type="text" name="album-password" id="album-password" value="" placeholder="optional password" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                        <div class="mt-3">
+                          <h4 class="text-xl text-gray-900 sm:pr-12">Set Album description</h4>
+                          <textarea name="album-description" id="album-description" class="w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500"></textarea>
                         </div>
-                      </div>
-                      <div class="mt-6 flex gap-4">
-                        <button type="button" id="saveAlbum" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Save
-                        </button>
-                        <button type="button" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
-                        Cancel
-                        </button>
-                      </div>
-                    </section>
+                        <div class="sm:col-span-3">
+                          <label for="album-password" class="block text-2xl text-gray-900">Album Password (optional)</label>
+                          <div class="mt-2">
+                          <input type="text" name="album-password" id="album-password" value="" placeholder="optional password" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                          </div>
+                        </div>
+                        <div class="mt-6 flex gap-4">
+                          <button type="submit" id="saveAlbum" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+                          Save
+                          </button>
+                          <button type="button" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+                          Cancel
+                          </button>
+                        </div>
+                      </section>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -474,7 +475,6 @@
         <script src="js/slider.js"></script>
         <script src="js/file_upload.js"></script>
         <script src="js/album_collection.js"></script>
-        <script src="js/album_create.js"></script>
         <script src="js/image_dropdown.js"></script>
         <script>
           let pendingLink = null;

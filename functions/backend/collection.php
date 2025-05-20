@@ -97,3 +97,17 @@
 
         return $result;
     }
+
+
+    function removeCollection($slug)
+    {
+        $collectionDir = __DIR__.'/../../userdata/content/collection/';
+
+        $filename = $slug.".yml";
+
+        $filePath = $collectionDir.$filename;
+
+        $result = unlink($filePath);
+
+        return $result;
+    }

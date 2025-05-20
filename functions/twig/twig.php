@@ -9,8 +9,7 @@ $navItems = buildNavigation($templateDir);
 
 require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
 use Symfony\Component\Yaml\Yaml;
-use Parsedown;
-    
+
 $data = [
     'title' => ucfirst($uri) ?: 'Home',
     'site_title' => $settings['site_title'] ?? 'Image Portfolio',

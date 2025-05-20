@@ -21,25 +21,42 @@ $data = [
 ];
 
 // Einzelne statische Seite per Slug: /p/<slug>
+
 if (preg_match('#^p/([\w\-]+)$#', $uri, $matches)) {
     $slug = $matches[1]; // z. B. "impressum"
-    $pageDir = realpath(__DIR__ . '/../../userdata/content/pages/' . $slug);
 
-    if ($pageDir && file_exists($pageDir . '/data.json')) {
-        $json = json_decode(file_get_contents($pageDir . '/data.json'), true);
+    $baseDir = realpath(__DIR__ . '/../../userdata/content/page/' . $slug);
+    $yamlPath = $baseDir . '/' . $slug . '.yml';
+    $mdPath = $baseDir . '/' . $slug . '.md';
 
-        // use Parsedown;
-        $Parsedown = new Parsedown();
+    if ($baseDir && file_exists($yamlPath) && file_exists($mdPath)) {
+        $yaml = Yaml::parseFile($yamlPath);
+        $page = $yaml['page'] ?? [];
 
-        if (json_last_error() === JSON_ERROR_NONE) {
-            $json['content'] = $Parsedown->text($json['content']);
-            $json['cover'] = get_cacheimage($json['cover']);
-            $data['page'] = $json;            
-            $data['title'] = $json['title'];
-            echo $twig->render('page.twig', $data);
+        if (!isset($page['title'])) {
+            http_response_code(404);
+            echo $twig->render('404.twig', $data);
             exit;
         }
+
+        $Parsedown = new Parsedown();
+        $content = file_get_contents($mdPath);
+
+        $page['slug'] = $slug;
+        $page['content'] = $Parsedown->text($content);
+        $page['cover'] = get_cacheimage($page['cover'] ?? '');
+
+        $data['page'] = $page;
+        $data['title'] = $page['title'];
+
+        echo $twig->render('page.twig', $data);
+        exit;
     }
+
+    // Fehlerfall
+    http_response_code(404);
+    echo $twig->render('404.twig', $data);
+    exit;
 }
 
 

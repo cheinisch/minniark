@@ -4,9 +4,10 @@
 
     use Symfony\Component\Yaml\Yaml;
 
-    function saveNewpage(
+    function saveNewPage(
         string $title,
         string $content,
+        bool $isPublished = false,
         string $cover = ''
     ): string {
         $baseDir = __DIR__ . '/../../userdata/content/page/';
@@ -32,6 +33,7 @@
                 'title' => $title,
                 'slug' => $slug,
                 'created_at' => $now,
+                'is_published' => $isPublished,
                 'cover' => $cover,
             ]
         ];
@@ -168,32 +170,6 @@
     }
 
 
-    function count_subfolders($pageDir)
-    {
-        if (!is_dir($pageDir)) {
-            error_log("Verzeichnis nicht gefunden: $pageDir");
-            return 0;
-        }
-    
-        $items = scandir($pageDir);
-    
-        $folders = array_filter($items, function ($item) use ($pageDir) {
-            if (!is_string($item) || trim($item) === '.' || trim($item) === '..') {
-                error_log("Übersprungen: >" . var_export($item, true) . "<");
-                return false; // nur OK im Filter-Callback
-            }
-        
-            $path = rtrim($pageDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $item;
-        
-            $isDir = is_dir($path);
-            error_log("Pfad geprüft: $path → " . ($isDir ? 'Ordner' : 'kein Ordner'));
-        
-            return $isDir;
-        });
-    
-        return count($folders);
-    }
-
     function get_pageyearlist(bool $mobile): void
     {
         $baseDir = realpath(__DIR__ . '/../../userdata/content/page/');
@@ -291,7 +267,7 @@
             $pageYear = substr($data['created_at'], 0, 4);
 
 
-            if (($year !== null && $pageYear !== $year) || !$hasTag) {
+            if (($year !== null && $pageYear !== $year)) {
                 continue;
             }
 

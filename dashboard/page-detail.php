@@ -8,10 +8,10 @@
 
   if($edit != null)
   {
-    $page = read_page($edit);
+    $page = GetPageData($edit);
   }else{
     $page['title'] = null;
-    $page['source_path'] = null;
+    $page['slug'] = null;
     $page['content'] = null;
     $page['is_published'] = "false";
     $page['cover'] = "";
@@ -223,7 +223,7 @@
           </nav>
       </aside>
       <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">          
-        <form id="pageForm">
+        <form id="pageForm" action ="backend_api/page_save.php" method="post">
           <div class="space-y-12">
             <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
               <div>
@@ -245,8 +245,8 @@
                   <div class="mt-2">
                     <div class="flex items-center bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
                       <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">/userdata/content/pages/</div>
-                        <input type="text" name="foldername" id="foldername" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="foldername" readonly value="<?php echo $page['source_path']; ?>">
-                        <input type="hidden" id="original_foldername" name="original_foldername" value="<?php echo $page['source_path']; ?>">
+                        <input type="text" name="foldername" id="foldername" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="foldername" readonly value="<?php echo $page['slug']; ?>">
+                        <input type="hidden" id="original_foldername" name="original_foldername" value="<?php echo $page['slug']; ?>">
                       </div>
                     </div>
                   </div>
@@ -455,7 +455,6 @@
       });
       </script>
       <script src="js/tailwind.js"></script>
-      <script src="js/page_save.js"></script>
       <script src="js/remove_hero_image.js"></script>
       <script>
           // Delete-Button Klick öffnet Modal

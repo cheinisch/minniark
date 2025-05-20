@@ -192,7 +192,7 @@
             </div>
             <div class="group relative max-w-5xl">
               <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200">
-                <a href="page-detail.php?edit=<?php echo $page['source_path']; ?>">
+                <a href="page-detail.php?edit=<?php echo $page['slug']; ?>">
                   <span class="absolute inset-0"></span>
                   <?php echo $page['title']; ?>
                 </a>

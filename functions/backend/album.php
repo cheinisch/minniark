@@ -156,6 +156,35 @@
     }
 
 
+    function remove_img_from_album(string $filename, string $albumname): bool
+    {
+        $slug = $albumname;
+        $albumDir = __DIR__ . '/../../userdata/content/album/';
+        $albumPath = $albumDir . $slug . '.yml';
+
+        if (!file_exists($albumPath)) {
+            error_log("Album '$slug' nicht gefunden.");
+            return false;
+        }
+
+        // YAML laden
+        $yamlData = Yaml::parseFile($albumPath);
+        $album = $yamlData['album'] ?? [];
+
+        // Bildliste prüfen
+        if (!isset($album['images']) || !is_array($album['images'])) {
+            error_log("Keine gültige Bildliste im Album '$slug'.");
+            return false;
+        }
+
+        // Bild entfernen
+        $newImages = array_filter($album['images'], fn($img) => $img !== $filename);
+
+        // Änderungen speichern
+        return updateAlbum($slug, ['images' => array_values($newImages)], $slug);
+    }
+
+
 
     function removeAlbum($slug)
     {

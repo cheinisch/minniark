@@ -22,6 +22,7 @@
             break;
         case "album_img":
             remove_img_from_album($filename, $albumname);
+            header("Location: ../album-detail.php?album=".$albumname);
             break;
         case "album":
             delete_album($filename);

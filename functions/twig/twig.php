@@ -74,73 +74,63 @@ if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
 
 if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
     $slug = $matches[1];
-    $albumFile = realpath(__DIR__ . "/../../userdata/content/albums/$slug.php");
+    $albumDir = realpath(__DIR__ . '/../../userdata/content/album/');
+    $albumFile = $albumDir . '/' . $slug . '.yml';
+    $markdownFile = $albumDir . '/' . $slug . '.md';
 
-    if ($albumFile && file_exists($albumFile)) {
-        // Albumdaten initialisieren
-        $Name = $Description = $Password = $HeadImage = '';
-        $Images = [];
-        include $albumFile; // setzt $Name, $Description, $Images, $HeadImage
+    if (file_exists($albumFile)) {
+        $yaml = Symfony\Component\Yaml\Yaml::parseFile($albumFile);
+        $album = $yaml['album'] ?? [];
 
         $parsedown = new Parsedown();
-
-        // Bildgröße aus Settings
         $imageSize = $settings['default_image_size'] ?? 'M';
 
-        // Verzeichnisse definieren
         $imageDir = realpath(__DIR__ . '/../../userdata/content/images/');
-        $cacheDir = '/cache/images/'; // Webroot-URL für gecachete Bilder
-
+        $cacheDir = '/cache/images/';
         $imageList = [];
 
-        // Bilder iterieren
-        foreach ($Images as $img) {
+        // Bilder verarbeiten
+        foreach ($album['images'] ?? [] as $img) {
             $jsonFile = $imageDir . '/' . pathinfo($img, PATHINFO_FILENAME) . '.json';
 
             if (file_exists($jsonFile)) {
                 $meta = json_decode(file_get_contents($jsonFile), true);
-                if (
-                    json_last_error() === JSON_ERROR_NONE &&
-                    !empty($meta['guid'])
-                ) {
+                if (json_last_error() === JSON_ERROR_NONE && !empty($meta['guid'])) {
                     $guid = $meta['guid'];
-                    $cachedImagePath = $cacheDir . $guid . '_' . $imageSize . '.jpg';
-                    $imageUrl = '/i/' . rawurlencode($img);
                     $imageList[] = [
-                        'file' => $cachedImagePath,   // z. B. /cache/images/abc123_M.jpg
-                        'url'  => $imageUrl,          // z. B. /i/IMG_1234.jpg
+                        'file' => $cacheDir . $guid . '_' . $imageSize . '.jpg',
+                        'url'  => '/i/' . rawurlencode($img),
                         'title' => $meta['title'] ?? '',
                     ];
                 }
             }
         }
 
-        // HeadImage behandeln
+        // Cover-Bild
         $cover = null;
-        if (!empty($HeadImage)) {
-            $coverJson = $imageDir . '/' . pathinfo($HeadImage, PATHINFO_FILENAME) . '.json';
-
+        if (!empty($album['headImage'])) {
+            $coverJson = $imageDir . '/' . pathinfo($album['headImage'], PATHINFO_FILENAME) . '.json';
             if (file_exists($coverJson)) {
                 $meta = json_decode(file_get_contents($coverJson), true);
-                if (
-                    json_last_error() === JSON_ERROR_NONE &&
-                    !empty($meta['guid'])
-                ) {
-                    $coverGuid = $meta['guid'];
-                    $cover = $cacheDir . $coverGuid . '_' . $imageSize . '.jpg';
+                if (json_last_error() === JSON_ERROR_NONE && !empty($meta['guid'])) {
+                    $cover = $cacheDir . $meta['guid'] . '_' . $imageSize . '.jpg';
                 }
             }
         }
 
-        // Daten an Twig übergeben
+        // Markdown-Beschreibung
+        $mdContent = file_exists($markdownFile) ? file_get_contents($markdownFile) : '';
+        $descriptionHtml = $parsedown->text($mdContent);
+
+        // Twig-Daten
         $data['album'] = [
             'slug' => $slug,
-            'title' => $Name,
-            'description' => $parsedown->text($Description),
+            'title' => $album['name'] ?? $slug,
+            'description' => $descriptionHtml,
             'images' => $imageList,
             'cover' => $cover,
         ];
-        $data['title'] = $Name;
+        $data['title'] = $album['name'] ?? $slug;
 
         echo $twig->render('album.twig', $data);
         exit;
@@ -151,6 +141,7 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
     echo $twig->render('404.twig', $data);
     exit;
 }
+
 
 
 if (preg_match('#^i/(.+)$#', $uri, $matches)) {

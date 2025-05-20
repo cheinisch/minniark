@@ -1,13 +1,13 @@
 <?php
 
-    
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once __DIR__ . '/../../functions/function_backend.php';
-security_checklogin();
+require_once __DIR__ . '/../../vendor/autoload.php'; // Für Yaml
 
-    
+use Symfony\Component\Yaml\Yaml;
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $albumName = $_GET['album'] ?? '';
     $headImage = $_GET['filename'] ?? '';
@@ -16,45 +16,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         die("Fehlende oder ungültige Daten.");
     }
 
-    $safeAlbumName = preg_replace('/[^a-z0-9]/i', '_', strtolower($albumName));
-    $albumFile = __DIR__ . "/../../userdata/content/albums/$safeAlbumName.php";
+    // Slug bereinigen
+    $slug = generateSlug($albumName);
+    $albumDir = __DIR__ . '/../../userdata/content/album/';
+    $albumPath = $albumDir . $slug . '.yml';
 
-    if (!file_exists($albumFile)) {
+    if (!file_exists($albumPath)) {
         die("Album nicht gefunden.");
     }
 
-    // Bestehendes Album laden
-    include $albumFile;
+    // Bestehende YAML laden
+    $yamlData = Yaml::parseFile($albumPath);
+    $album = $yamlData['album'] ?? [];
 
-    // Standardwerte absichern
-    $Images = isset($Images) && is_array($Images) ? $Images : [];
-    $Name = $Name ?? '';
-    $Description = $Description ?? '';
-    $Password = $Password ?? '';
+    // Prüfen, ob Bild überhaupt im Album vorkommt
+    $imageList = $album['images'] ?? [];
+    if (!in_array($headImage, $imageList)) {
+        die("Bild ist nicht Teil des Albums.");
+    }
 
-    // HeadImage setzen
-    $HeadImage = $headImage;
+    // HeadImage setzen über updateAlbum
+    $success = updateAlbum($slug, ['headImage' => $headImage], $slug);
 
-    // Datei neu schreiben
-    $albumContent = "<?php\n";
-    $albumContent .= '$Name = ' . var_export($Name, true) . ";\n";
-    $albumContent .= '$Description = ' . var_export($Description, true) . ";\n";
-    $albumContent .= '$Password = ' . var_export($Password, true) . ";\n";
-    $albumContent .= '$Images = ' . var_export($Images, true) . ";\n";
-    $albumContent .= '$HeadImage = ' . var_export($HeadImage, true) . ";\n";
-
-    if (file_put_contents($albumFile, $albumContent) === false) {
+    if (!$success) {
         die("Fehler beim Speichern.");
     }
-    clearstatcache(true, $albumFile);
-    if (function_exists('opcache_invalidate')) {
-        opcache_invalidate($albumFile, true);
-    }
 
-    flush();
-    ob_flush();
-
-    header("Location: ../album-detail.php?album=$Name");
+    // Redirect
+    header("Location: ../album-detail.php?album=$slug");
     exit;
 } else {
     echo "Ungültige Anfrage.";

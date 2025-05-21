@@ -4,7 +4,7 @@
   $settingspage = "welcomepage";
   security_checklogin();
 
-  $home = get_homedata();
+  $home = getHomeConfig();
 
   $imageDir = realpath(__DIR__ . '/../userdata/content/images');
 $images = [];
@@ -246,7 +246,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                   <p class="mt-1 text-sm/6 text-gray-400">Select some Settings for the Images</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-welcome-type" action="backend_api/save_home_type.php" method="post">
+                <form class="md:col-span-2" id="welcome-content-form" action="backend_api/home_save.php" method="post">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Select Image Size -->
                     <div class="sm:col-span-full">
@@ -353,7 +353,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                   <p class="mt-1 text-sm/6 text-gray-400">Some Site Information</p>
                 </div>
 
-                <form class="md:col-span-2" id="welcome-content-form" action="backend_api/save_home.php" method="post">
+                <form class="md:col-span-2" id="welcome-content-form" action="backend_api/home_save.php" method="post">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
 
                     <div class="sm:col-span-full">

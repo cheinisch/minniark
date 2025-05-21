@@ -255,25 +255,13 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
 
 
 
-
 if ($uri === 'home' || $uri === '') {
-    // Lade Startseiten-Konfiguration
-    
-    $homeConfigPath = __DIR__ . '/../../userdata/config/home.json';
-    $home = file_exists($homeConfigPath)
-        ? json_decode(file_get_contents($homeConfigPath), true)
-        : [];
-
-
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        http_response_code(500);
-        echo $twig->render('404.twig', ['message' => 'Invalid home.json']);
-        exit;
-    }
+    // Lade Startseiten-Konfiguration aus home.yml
+    $home = getHomeConfig(); // → sichert auch Standardwerte
 
     $style = $home['style'] ?? 'start';
 
-    
+    print_r($home);
 
     switch ($style) {
         case 'blog':

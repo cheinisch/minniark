@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const openBtn = document.getElementById('open-cover-modal');
   const closeBtn = document.getElementById('close-cover-modal');
   const confirmBtn = document.getElementById('confirm-cover-selection');
+  const saveBtn = document.getElementById('save-cover-btn');
 
   const coverInput = document.getElementById('cover-input');
   const styleInput = document.getElementById('cover-style');
@@ -13,13 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
   let selectedImage = null;
 
   // Modal öffnen
-  openBtn.addEventListener('click', () => {
-    modal.classList.remove('hidden');
+  openBtn?.addEventListener('click', () => {
+    modal?.classList.remove('hidden');
   });
 
   // Modal schließen
-  closeBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');
+  closeBtn?.addEventListener('click', () => {
+    modal?.classList.add('hidden');
   });
 
   // Bildauswahl
@@ -27,25 +28,41 @@ document.addEventListener('DOMContentLoaded', function () {
     div.addEventListener('click', () => {
       galleryItems.forEach(d => d.classList.remove('ring-2', 'ring-sky-500'));
       div.classList.add('ring-2', 'ring-sky-500');
-
       selectedImage = div.getAttribute('data-filename');
-
-      // Album zurücksetzen
-      albumSelect.value = '';
+      albumSelect.value = ''; // Reset Album
     });
   });
 
-  // Albumauswahl → Bildauswahl zurücksetzen
-  albumSelect.addEventListener('change', () => {
+  // Album-Auswahl
+  albumSelect?.addEventListener('change', () => {
     if (albumSelect.value !== '') {
       selectedImage = null;
       galleryItems.forEach(d => d.classList.remove('ring-2', 'ring-sky-500'));
     }
   });
 
-  // Auswahl bestätigen & speichern
-  confirmBtn.addEventListener('click', () => {
-    console.log("Confirm pressed");
+  // Vorschau aktualisieren
+  function updateCoverPreview() {
+    if (!previewContainer) return;
+
+    const filename = coverInput.value;
+    const style = styleInput.value;
+
+    if (style === 'image' && filename) {
+      previewContainer.innerHTML = `
+        <img src="/userdata/content/images/${encodeURIComponent(filename)}" alt="Cover Preview"
+             class="mt-4 w-40 rounded shadow border border-gray-300">
+        <p class="text-xs text-gray-500 mt-1">${filename}</p>
+      `;
+    } else if (style === 'album' && filename) {
+      previewContainer.innerHTML = `<p class="mt-4 text-sm text-sky-600 font-semibold">Album: ${filename}</p>`;
+    } else {
+    //#previewContainer.innerHTML = '';
+    }
+  }
+
+  // Auswahl übernehmen
+  confirmBtn?.addEventListener('click', () => {
     const selectedAlbum = albumSelect.value;
 
     if (selectedAlbum) {
@@ -60,12 +77,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     updateCoverPreview();
-    modal.classList.add('hidden');
+    modal?.classList.add('hidden');
+  });
 
-    // Dynamisch POST-Formular erstellen und absenden
+  // ✅ Dynamisches Formular absenden → aus confirm-Handler herausgelöst
+  saveBtn?.addEventListener('click', function () {
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'backend_api/save_home_cover.php';
+    form.action = 'backend_api/home_save.php';
 
     const inputCover = document.createElement('input');
     inputCover.type = 'hidden';
@@ -83,26 +102,5 @@ document.addEventListener('DOMContentLoaded', function () {
     form.submit();
   });
 
-  // Vorschau aktualisieren
-  function updateCoverPreview() {
-    if (!previewContainer) return;
-
-    const filename = coverInput.value;
-    const style = styleInput.value;
-
-    if (style === 'cover' && filename) {
-      previewContainer.innerHTML = `
-        <img src="/userdata/content/images/${encodeURIComponent(filename)}" alt="Cover Preview"
-             class="mt-4 w-40 rounded shadow border border-gray-300">
-        <p class="text-xs text-gray-500 mt-1">${filename}</p>
-      `;
-    } else if (style === 'album' && filename) {
-      previewContainer.innerHTML = `<p class="mt-4 text-sm text-sky-600 font-semibold">Album: ${filename}</p>`;
-    } else {
-      previewContainer.innerHTML = '';
-    }
-  }
-
-  // Vorschau beim Laden anzeigen
-  updateCoverPreview();
+  updateCoverPreview(); // Initial
 });

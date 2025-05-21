@@ -62,7 +62,7 @@ if (array_key_exists($uri, $routes)) {
             $data['posts'] = getBlogPosts();
             break;
         case 'timeline':
-            $data['timeline'] = getTimelineImagesFromJson();
+            $data['timeline'] = getTimelineImagesFromYaml();
             break;
         case 'map':
             $data['points'] = getGpsPoints();

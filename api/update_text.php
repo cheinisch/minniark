@@ -1,33 +1,57 @@
 <?php
 
-    require_once( __DIR__ . "/../functions/function_api.php");
-    secure_API();
+require_once(__DIR__ . "/../functions/function_api.php");
+require_once(__DIR__ . "/../vendor/autoload.php");
 
-    header('Content-Type: application/json');
+use Symfony\Component\Yaml\Yaml;
 
-    $data = json_decode(file_get_contents('php://input'), true);
+secure_API();
+header('Content-Type: application/json');
 
-    if (!isset($data['filename'], $data['title'], $data['description'])) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Missing data']);
-        exit;
-    }
+// Daten einlesen
+$data = json_decode(file_get_contents('php://input'), true);
 
-    $filename = basename($data['filename']);
-    $jsonFile = __DIR__ . '/../userdata/content/images/' . preg_replace('/\.[^.]+$/', '.json', $filename);
+if (!isset($data['filename'], $data['title'], $data['description'])) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Missing data']);
+    exit;
+}
 
-    if (!file_exists($jsonFile)) {
-        http_response_code(404);
-        echo json_encode(['success' => false, 'error' => 'File not found']);
-        exit;
-    }
+$filename = basename($data['filename']); // z. B. img_01.jpg
+$slug = pathinfo($filename, PATHINFO_FILENAME);
+$ymlFile = __DIR__ . '/../userdata/content/images/' . $slug . '.yml';
+$mdFile  = __DIR__ . '/../userdata/content/images/' . $slug . '.md';
 
-    $jsonData = json_decode(file_get_contents($jsonFile), true);
-    $jsonData['title'] = $data['title'];
-    $jsonData['description'] = $data['description'];
+// Prüfen ob YML existiert
+if (!file_exists($ymlFile)) {
+    http_response_code(404);
+    echo json_encode(['success' => false, 'error' => 'YAML-Datei nicht gefunden']);
+    exit;
+}
 
-    file_put_contents($jsonFile, json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+// YAML laden
+try {
+    $yaml = Yaml::parseFile($ymlFile);
+    $image = $yaml['image'] ?? [];
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Fehler beim Lesen der YAML-Datei', 'message' => $e->getMessage()]);
+    exit;
+}
 
-    echo json_encode(['success' => true]);
+// Werte aktualisieren
+$image['title'] = trim($data['title']);
+$image['updated_at'] = date('Y-m-d H:i:s');
+$yaml['image'] = $image;
 
-?>
+// Speichern
+try {
+    file_put_contents($ymlFile, Yaml::dump($yaml, 2, 4));
+    file_put_contents($mdFile, trim($data['description']));
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Fehler beim Speichern', 'message' => $e->getMessage()]);
+    exit;
+}
+
+echo json_encode(['success' => true]);

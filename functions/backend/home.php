@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 
     require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
 
@@ -43,7 +47,7 @@
             'content',
             'default_image_style',
             'default_image',
-            'cover'
+            'cover',
         ];
 
         foreach ($fields as $field) {
@@ -63,6 +67,7 @@
 
     function getHomeConfig(): array
     {
+        error_log("readd Homeconfig");
         $path = __DIR__ . '/../../userdata/config/home.yml';
 
         // Standardwerte

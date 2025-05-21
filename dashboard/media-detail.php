@@ -11,7 +11,7 @@
     $imagePath = "../userdata/content/images/" . $fileName;
     $title = $imageData['title'];
     $description = $imageData['description'];
-    $uploadDate = $imageData['upload_date'];
+    $uploadDate = $imageData['upload_date'] ?? null;
   
     $rating = $imageData['rating'] ?? 0;
 

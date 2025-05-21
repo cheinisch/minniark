@@ -1,10 +1,13 @@
 <?php
 
+require_once(__DIR__ . '/../vendor/autoload.php');
+use Symfony\Component\Yaml\Yaml;
+
 // Daten aus POST holen
 $username = $_POST['username'] ?? '';
 $email    = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
-$sitename = $_POST['sitename'] ?? '';
+$sitename = $_POST['sitename'] ?? 'Minniark';
 
 $authtype = 'password';
 
@@ -35,7 +38,7 @@ $configContent .= "];\n";
 file_put_contents($configPath, $configContent, LOCK_EX);
 
 // Pfad zur settings.json
-$settingsPath = __DIR__ . '/../userdata/config/settings.json';
+$settingsPath = __DIR__ . '/../userdata/config/settings.yml';
 
 // Einstellungsdaten als Array
 $settings = [
@@ -54,9 +57,14 @@ $settings = [
     ]
 ];
 
-// In JSON umwandeln und speichern
-$settingsJson = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-file_put_contents($settingsPath, $settingsJson, LOCK_EX);
+// YAML erzeugen
+try {
+    $yaml = Yaml::dump($settings, 4, 2);
+    file_put_contents($settingsPath, $yaml, LOCK_EX);
+} catch (Exception $e) {
+    die('Fehler beim Speichern der Einstellungen: ' . $e->getMessage());
+}
 
+// Weiterleitung nach erfolgreicher Installation
 header('Location: ../');
-
+exit;

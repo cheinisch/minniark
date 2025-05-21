@@ -1,5 +1,9 @@
 <?php
+
 require_once(__DIR__ . '/../functions/function_api.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
+
+use Symfony\Component\Yaml\Yaml;
 
 header('Content-Type: application/json');
 
@@ -12,31 +16,21 @@ $sizes = [
     'XL' => 1920
 ];
 
-
-if (!is_dir($cacheDir)) {
-    if (!mkdir($cacheDir, 0755, true)) {
-        // Fehler beim Erstellen
-        http_response_code(500);
-        echo json_encode(['status' => 'error', 'message' => 'Cache-Verzeichnis konnte nicht erstellt werden.']);
-        exit;
-    }
-}
-
-// Cache-Verzeichnis prüfen
-if (!is_dir($cacheDir)) {
-    error_log('Cache directory missing: ' . $cacheDir);
-    echo json_encode(['success' => false, 'message' => 'Cache directory does not exist']);
+// Ensure cache directory exists
+if (!is_dir($cacheDir) && !mkdir($cacheDir, 0755, true)) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Could not create cache directory.']);
     exit;
 }
 
-// Content-Verzeichnis prüfen
+// Check content directory
 if (!is_dir($contentDir)) {
-    error_log('Content directory missing: ' . $contentDir);
-    echo json_encode(['success' => false, 'message' => 'Content directory does not exist']);
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Content directory not found.']);
     exit;
 }
 
-// 1. Cache löschen
+// 1. Clear existing thumbnails
 foreach (glob($cacheDir . '*') as $file) {
     if (is_file($file)) {
         unlink($file);
@@ -44,45 +38,50 @@ foreach (glob($cacheDir . '*') as $file) {
 }
 error_log('Cache cleared.');
 
-// 2. Bilder durchgehen
+// 2. Process each image
 $images = glob($contentDir . '*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE);
 
 foreach ($images as $imagePath) {
-    $pathInfo = pathinfo($imagePath);
-    $filenameWithoutExt = $pathInfo['filename'];
-    $extension = strtolower($pathInfo['extension']);
+    $info = pathinfo($imagePath);
+    $basename = $info['filename'];
+    $extension = strtolower($info['extension']);
 
-    $jsonFile = $contentDir . $filenameWithoutExt . '.json';
-    if (!file_exists($jsonFile)) {
-        error_log('JSON missing for image: ' . $filenameWithoutExt);
+    $ymlPath = $contentDir . $basename . '.yml';
+
+    if (!file_exists($ymlPath)) {
+        error_log("Missing YAML for image: $basename");
         continue;
     }
 
-    $jsonData = json_decode(file_get_contents($jsonFile), true);
-    if (!isset($jsonData['guid'])) {
-        error_log('GUID missing in JSON: ' . $jsonFile);
-        continue;
-    }
+    try {
+        $yaml = Yaml::parseFile($ymlPath);
+        $guid = $yaml['image']['guid'] ?? null;
 
-    $guid = $jsonData['guid'];
-
-    foreach ($sizes as $sizeKey => $sizeValue) {
-        $thumbnailPath = $cacheDir . $guid . "_$sizeKey." . $extension;
-
-        // Prüfen ob Quelle existiert
-        if (!file_exists($imagePath)) {
-            error_log('Source file missing: ' . $imagePath);
+        if (!$guid) {
+            error_log("GUID missing in YAML: $ymlPath");
             continue;
         }
 
-        // Thumbnail erzeugen
-        $success = createThumbnail($imagePath, $thumbnailPath, $sizeValue);
+        foreach ($sizes as $sizeKey => $maxWidth) {
+            $targetPath = $cacheDir . "{$guid}_{$sizeKey}.{$extension}";
 
-        if ($success) {
-            error_log('Thumbnail created: ' . $thumbnailPath);
-        } else {
-            error_log('Failed to create thumbnail: ' . $thumbnailPath);
+            if (!file_exists($imagePath)) {
+                error_log("Source image missing: $imagePath");
+                continue;
+            }
+
+            $success = createThumbnail($imagePath, $targetPath, $maxWidth);
+
+            if ($success) {
+                error_log("Thumbnail created: $targetPath");
+            } else {
+                error_log("Failed to create thumbnail: $targetPath");
+            }
         }
+
+    } catch (Exception $e) {
+        error_log("YAML error for file $ymlPath: " . $e->getMessage());
+        continue;
     }
 }
 

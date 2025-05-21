@@ -3,6 +3,14 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.0.5.1]
+2025-05-21
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.4.4...v0.0.0.5.0
+
+### Bug Fixes
+- Recreate cache uses wrong settings
+
 ## [0.0.5.0]
 2025-05-21
 

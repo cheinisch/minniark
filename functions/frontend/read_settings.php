@@ -1,20 +1,38 @@
 <?php
 
+require_once(__DIR__ . '/../../vendor/autoload.php');
+use Symfony\Component\Yaml\Yaml;
 
-    function is_map_enabled()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $switch = $settings['map']['enable'] ?? false;
+function is_map_enabled(): bool
+{
+    $settingsPath = __DIR__ . '/../../userdata/config/settings.yml';
 
-        return $switch;
+    if (!file_exists($settingsPath)) {
+        return false;
     }
 
-    function is_timeline_enabled()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $switch = $settings['timeline']['enable'] ?? false;
-
-        return $switch;
+    try {
+        $settings = Yaml::parseFile($settingsPath);
+        return (bool)($settings['map']['enable'] ?? false);
+    } catch (Exception $e) {
+        error_log("Fehler beim Parsen der settings.yml: " . $e->getMessage());
+        return false;
     }
+}
+
+function is_timeline_enabled(): bool
+{
+    $settingsPath = __DIR__ . '/../../userdata/config/settings.yml';
+
+    if (!file_exists($settingsPath)) {
+        return false;
+    }
+
+    try {
+        $settings = Yaml::parseFile($settingsPath);
+        return (bool)($settings['timeline']['enable'] ?? false);
+    } catch (Exception $e) {
+        error_log("Fehler beim Parsen der settings.yml: " . $e->getMessage());
+        return false;
+    }
+}

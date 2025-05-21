@@ -1,93 +1,74 @@
 <?php
 
-    function get_sitename()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $siteTitle = $settings['site_title'] ?? 'Standard Titel';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-        return $siteTitle;
+use Symfony\Component\Yaml\Yaml;
+
+function get_settings_array()
+{
+    $settingsPath = __DIR__ . '/../../userdata/config/settings.yml';
+
+    if (!file_exists($settingsPath)) {
+        return [];
     }
 
-    function get_sitedescription()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $siteDescription = $settings['site_description'] ?? '';
-
-        return $siteDescription;
+    try {
+        return Yaml::parseFile($settingsPath);
+    } catch (Exception $e) {
+        error_log("YAML Parse Error: " . $e->getMessage());
+        return [];
     }
+}
 
-    function get_language()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $siteTitle = $settings['language'] ?? 'en';
+function get_sitename()
+{
+    $settings = get_settings_array();
+    return $settings['site_title'] ?? 'Standard Titel';
+}
 
-        return $siteTitle;
-    }
+function get_sitedescription()
+{
+    $settings = get_settings_array();
+    return $settings['site_description'] ?? '';
+}
 
-    function get_imagesize()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $imageSize = $settings['default_image_size'] ?? 'M';
+function get_language()
+{
+    $settings = get_settings_array();
+    return $settings['language'] ?? 'en';
+}
 
-        return $imageSize;
-    }
+function get_imagesize()
+{
+    $settings = get_settings_array();
+    return $settings['default_image_size'] ?? 'M';
+}
 
-    function is_map_enabled()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $switch = $settings['map']['enable'] ?? false;
-        if($switch)
-        {
-            $value = "true";
-        }else{
-            $value = "false";
-        }
-        return $value;
-    }
+function is_map_enabled()
+{
+    $settings = get_settings_array();
+    return !empty($settings['map']['enable']) ? "true" : "false";
+}
 
-    function is_timeline_enabled()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $switch = $settings['timeline']['enable'] ?? false;
-        if($switch)
-        {
-            $value = "true";
-        }else{
-            $value = "false";
-        }
-        return $value;
-    }
+function is_timeline_enabled()
+{
+    $settings = get_settings_array();
+    return !empty($settings['timeline']['enable']) ? "true" : "false";
+}
 
-    function is_timeline_grouped()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $switch = $settings['timeline']['groupe_by_date'] ?? false;
-        if($switch)
-        {
-            $value = "true";
-        }else{
-            $value = "false";
-        }
-        return $value;
-    }
+function is_timeline_grouped()
+{
+    $settings = get_settings_array();
+    return !empty($settings['timeline']['groupe_by_date']) ? "true" : "false";
+}
 
-    function get_theme()
-    {
-        $settingsPath = __DIR__ . '/../../userdata/config/settings.json';
-        $settings = json_decode(file_get_contents($settingsPath), true);
-        $value = $settings['theme'] ?? "basic";
-        
-        return $value;
-    }
+function get_theme()
+{
+    $settings = get_settings_array();
+    return $settings['theme'] ?? 'basic';
+}
 
-    function get_themelist()
+function get_themelist()
 {
     $themefolder = realpath(__DIR__ . '/../../userdata/template/');
     $themelist = [];
@@ -97,40 +78,26 @@
     }
 
     foreach (scandir($themefolder) as $folder) {
-        if ($folder === '.' || $folder === '..') {
-            continue;
-        }
+        if ($folder === '.' || $folder === '..') continue;
 
         $themePath = $themefolder . DIRECTORY_SEPARATOR . $folder;
 
-        if (!is_dir($themePath)) {
-            continue;
-        }
+        if (!is_dir($themePath)) continue;
 
         $jsonFile = $themePath . DIRECTORY_SEPARATOR . 'theme.json';
-
-        if (!file_exists($jsonFile)) {
-            continue;
-        }
+        if (!file_exists($jsonFile)) continue;
 
         $jsonContent = file_get_contents($jsonFile);
         $themeData = json_decode($jsonContent, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            continue;
-        }
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($themeData)) continue;
 
-        if (is_array($themeData)) {
-            foreach ($themeData as $theme) {
-                if (isset($theme['name'])) {
-                    $themelist[] = $theme;
-                } else {
-                }
+        foreach ($themeData as $theme) {
+            if (isset($theme['name'])) {
+                $themelist[] = $theme;
             }
-        } else {
         }
     }
 
     return $themelist;
 }
-

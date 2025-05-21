@@ -117,13 +117,12 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
         $cacheDir = '/cache/images/';
         $imageList = [];
 
-        // Bilder verarbeiten
         foreach ($album['images'] ?? [] as $img) {
-            $jsonFile = $imageDir . '/' . pathinfo($img, PATHINFO_FILENAME) . '.json';
+            $ymlFile = $imageDir . '/' . pathinfo($img, PATHINFO_FILENAME) . '.yml';
 
-            if (file_exists($jsonFile)) {
-                $meta = json_decode(file_get_contents($jsonFile), true);
-                if (json_last_error() === JSON_ERROR_NONE && !empty($meta['guid'])) {
+            if (file_exists($ymlFile)) {
+                $meta = Symfony\Component\Yaml\Yaml::parseFile($ymlFile)['image'] ?? null;
+                if (!empty($meta['guid'])) {
                     $guid = $meta['guid'];
                     $imageList[] = [
                         'file' => $cacheDir . $guid . '_' . $imageSize . '.jpg',
@@ -137,10 +136,10 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
         // Cover-Bild
         $cover = null;
         if (!empty($album['headImage'])) {
-            $coverJson = $imageDir . '/' . pathinfo($album['headImage'], PATHINFO_FILENAME) . '.json';
-            if (file_exists($coverJson)) {
-                $meta = json_decode(file_get_contents($coverJson), true);
-                if (json_last_error() === JSON_ERROR_NONE && !empty($meta['guid'])) {
+            $coverYml = $imageDir . '/' . pathinfo($album['headImage'], PATHINFO_FILENAME) . '.yml';
+            if (file_exists($coverYml)) {
+                $meta = Symfony\Component\Yaml\Yaml::parseFile($coverYml)['image'] ?? null;
+                if (!empty($meta['guid'])) {
                     $cover = $cacheDir . $meta['guid'] . '_' . $imageSize . '.jpg';
                 }
             }
@@ -150,7 +149,6 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
         $mdContent = file_exists($markdownFile) ? file_get_contents($markdownFile) : '';
         $descriptionHtml = $parsedown->text($mdContent);
 
-        // Twig-Daten
         $data['album'] = [
             'slug' => $slug,
             'title' => $album['name'] ?? $slug,
@@ -164,36 +162,31 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
         exit;
     }
 
-    // Album nicht gefunden
     http_response_code(404);
     echo $twig->render('404.twig', $data);
     exit;
 }
 
 
-
 if (preg_match('#^i/(.+)$#', $uri, $matches)) {
     $filename = basename($matches[1]);
 
     $imageDir = __DIR__.'/../../userdata/content/images';
-    $jsonFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.json';
+    $ymlFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.yml';
 
-    if (file_exists($jsonFile)) {
-        $meta = json_decode(file_get_contents($jsonFile), true);
+    if (file_exists($ymlFile)) {
+        $meta = Symfony\Component\Yaml\Yaml::parseFile($ymlFile)['image'] ?? null;
 
-        if (json_last_error() === JSON_ERROR_NONE) {
+        if ($meta) {
             $parsedown = new Parsedown();
-
             $exif = $meta['exif'] ?? [];
 
-            // Name Fix
-            $exif['Camera'] = str_replace('Canon Canon', 'Canon',$exif['Camera']);
+            $exif['Camera'] = str_replace('Canon Canon', 'Canon', $exif['Camera'] ?? '');
 
-            // Rohwerte holen
+            // Formatierung
             $apertureRaw = $exif['Aperture'] ?? '';
             $shutterSpeedRaw = $exif['Shutter Speed'] ?? '';
 
-            // Blende formatieren (f/28/10 → f/2.8)
             $aperture = "Unknown";
             if (preg_match('/f\/(\d+)\/(\d+)/i', $apertureRaw, $matches)) {
                 $apertureValue = round($matches[1] / $matches[2], 1);
@@ -202,7 +195,6 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
                 $aperture = $apertureRaw;
             }
 
-            // Belichtungszeit formatieren (z. B. 1/250 → 1/250s, 4/1 → 4s)
             $shutterSpeed = "Unknown";
             if (preg_match('/(\d+)\/(\d+)/', $shutterSpeedRaw, $matches)) {
                 $numerator = (int)$matches[1];
@@ -217,27 +209,28 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
                 $shutterSpeed = $shutterSpeedRaw;
             }
 
-            // Formatiert in EXIF zurückspeichern
             $exif['aperture'] = $aperture;
             $exif['shutter_speed'] = $shutterSpeed;
 
-
-            // EXIF-Schlüssel vereinheitlichen: Leerzeichen durch Unterstrich, alles klein
             $normalizedExif = [];
             foreach ($exif as $key => $value) {
                 $normalizedKey = strtolower(str_replace(' ', '_', $key));
                 $normalizedExif[$normalizedKey] = $value;
             }
 
+            $mdFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.md';
+            $descriptionText = file_exists($mdFile) ? file_get_contents($mdFile) : '';
+            $descriptionHtml = $parsedown->text($descriptionText);
+
             $imageData = [
                 'title' => $meta['title'] ?? '',
-                'description' => $parsedown->text($meta['description'] ?? ''),
+                'description' => $descriptionHtml,
                 'filename' => $meta['filename'] ?? $filename,
                 'guid' => $meta['guid'] ?? '',
                 'rating' => $meta['rating'] ?? '',
-                'upload_date' => $meta['upload_date'] ?? '',
-                'exif' => $normalizedExif ?? [],
-                'file' =>  get_cacheimage($filename),
+                'upload_date' => $meta['uploaded_at'] ?? '',
+                'exif' => $normalizedExif,
+                'file' => get_cacheimage($filename),
             ];
 
             $data['image'] = $imageData;
@@ -254,14 +247,11 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
 }
 
 
-
 if ($uri === 'home' || $uri === '') {
     // Lade Startseiten-Konfiguration aus home.yml
     $home = getHomeConfig(); // → sichert auch Standardwerte
 
     $style = $home['style'] ?? 'start';
-
-    print_r($home);
 
     switch ($style) {
         case 'blog':

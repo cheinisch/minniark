@@ -403,7 +403,8 @@
       }
 
       function selectCover(path) {
-        document.getElementById('cover').value = path;
+        const filename = path.split('/').pop(); // Nur den Dateinamen extrahieren
+        document.getElementById('cover').value = filename;
         document.getElementById('coverPreview').src = path;
         closeCoverModal();
       }

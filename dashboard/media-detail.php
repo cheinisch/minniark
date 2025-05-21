@@ -332,7 +332,7 @@
                   <h2 class="text-xl font-semibold">Metadata</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Kamera</span>
+                      <span class="font-medium">Camera</span>
                       <span><?php echo $camera; ?></span>
                     </li>
                     <li class="flex justify-between py-2">

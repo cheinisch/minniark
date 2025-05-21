@@ -2,27 +2,53 @@
 header('Content-Type: application/json');
 
 require_once(__DIR__ . '/../functions/function_api.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
 
-// Pfad zur settings.json
-$settingsFile = __DIR__ . '/../userdata/config/settings.json';
+use Symfony\Component\Yaml\Yaml;
 
+$settingsFile = __DIR__ . '/../userdata/config/settings.yml';
+
+// POST prüfen
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
     exit;
 }
 
-// Eingehende Daten lesen
+// Eingabedaten lesen
 $input = json_decode(file_get_contents('php://input'), true);
 
-// Settings laden
+// Default-Werte, falls Datei neu angelegt werden muss
+$defaultSettings = [
+    'site_title' => 'Minniark',
+    'site_description' => '',
+    'theme' => 'basic',
+    'language' => 'en',
+    'default_image_size' => 'M',
+    'default_page' => 'home',
+    'timeline' => [
+        'enable' => false,
+        'groupe_by_date' => false
+    ],
+    'map' => [
+        'enable' => false
+    ]
+];
+
+// YAML laden oder initialisieren
 if (!file_exists($settingsFile)) {
-    echo json_encode(['success' => false, 'message' => 'Settings file not found']);
-    exit;
+    // Ordner anlegen, falls notwendig
+    @mkdir(dirname($settingsFile), 0777, true);
+    $settings = $defaultSettings;
+} else {
+    try {
+        $settings = Yaml::parseFile($settingsFile);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => 'Fehler beim Parsen der Einstellungen: ' . $e->getMessage()]);
+        exit;
+    }
 }
 
-$settings = json_decode(file_get_contents($settingsFile), true);
-
-// vorhandene Felder aktualisieren
+// Einstellungen aktualisieren
 if (isset($input['site_name'])) {
     $settings['site_title'] = $input['site_name'];
 }
@@ -36,23 +62,22 @@ if (isset($input['image_size'])) {
     $settings['default_image_size'] = $input['image_size'];
 }
 if (isset($input['timeline_enable'])) {
-    $settings['timeline']['enable'] = $input['timeline_enable'];
+    $settings['timeline']['enable'] = (bool)$input['timeline_enable'];
 }
 if (isset($input['timeline_group_by_date'])) {
-    $settings['timeline']['groupe_by_date'] = $input['timeline_group_by_date'];
+    $settings['timeline']['groupe_by_date'] = (bool)$input['timeline_group_by_date'];
 }
 if (isset($input['map_enable'])) {
-    $settings['map']['enable'] = $input['map_enable'];
+    $settings['map']['enable'] = (bool)$input['map_enable'];
 }
 if (isset($input['theme'])) {
     $settings['theme'] = $input['theme'];
 }
 
-
-// Datei speichern
-if (file_put_contents($settingsFile, json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+// Speichern
+try {
+    file_put_contents($settingsFile, Yaml::dump($settings, 4, 2));
     echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Failed to save settings']);
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Fehler beim Speichern: ' . $e->getMessage()]);
 }
-?>

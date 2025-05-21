@@ -7,7 +7,7 @@
     {
         $hasPosts = false;
 
-        $postDir = __DIR__ . '/../../userdata/content/essays/';
+        $postDir = __DIR__ . '/../../userdata/content/essay/';
 
         $folderCount = count_subfolders($postDir);
 
@@ -21,7 +21,7 @@
 
     function count_posts()
     {
-        $postDir = __DIR__ . '/../../userdata/content/essays/';
+        $postDir = __DIR__ . '/../../userdata/content/essay/';
 
         $folderCount = count_subfolders($postDir);
 

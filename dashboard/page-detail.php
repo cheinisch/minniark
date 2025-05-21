@@ -368,11 +368,9 @@
           const previewImg = document.getElementById('coverPreview');
 
           if (coverInput && previewImg) {
-            coverInput.value = path;
-            previewImg.src = path;
+            coverInput.value = path.split('/').pop(); // ✅ nur der Dateiname
+            previewImg.src = path; // für Vorschau aber weiterhin der ganze Pfad
             closeCoverModal();
-          } else {
-            console.error("Cover-Felder nicht gefunden.");
           }
         };
 

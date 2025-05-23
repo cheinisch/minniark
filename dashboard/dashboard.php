@@ -192,7 +192,7 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Lensfolio</td>
+                          <td><?php echo $version['Application']; ?></td>
                           <td><?php echo $version['App Version']; ?></td>
                         </tr>
                         <tr>
@@ -226,6 +226,9 @@
                   <?php endforeach; ?>
                 </div>
               </div>
+            </div>
+            <div class="w-full px-2 mb-5">
+              <div class="bg-sky-800 text-white px-2 py-2 ">Please report bugs on <a href="https://github.com/cheinisch/minniark/issues" class="underline">Github</a>.</div>
             </div>
 
           </main>

@@ -6,7 +6,7 @@
         $appVersion = is_readable($versionFile) ? trim(file_get_contents($versionFile)) : 'unknown';
 
         return [
-            'Application'       => 'Lensfolio',
+            'Application'       => 'Minniark',
             'App Version'       => $appVersion,
             'Operating System'  => php_uname('s'),
             'PHP Version'       => PHP_VERSION,

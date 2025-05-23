@@ -22,6 +22,7 @@ function renderPluginSettings(string $pluginDir): void
     $author = htmlspecialchars($meta['author'] ?? 'Unknown');
     $url = trim($meta['url'] ?? '');
     $version = htmlspecialchars($meta['version'] ?? '0.0');
+    $note = htmlspecialchars($meta['note'] ?? '');
     $enabled = !empty($settings['enabled']) ? 'true' : 'false';
     $isSaved = isset($_GET['saved'], $_GET['plugin']) && $_GET['saved'] === '1' && $_GET['plugin'] === $pluginKey;
 
@@ -53,6 +54,14 @@ HTML;
         echo <<<HTML
     <div class="mb-4 col-span-full bg-green-100 px-4 py-2 text-sm text-green-800 shadow-inner ring-1 ring-inset ring-green-300">
       Settings saved successfully
+    </div>
+HTML;
+    }
+
+    if (!empty($note)) {
+        echo <<<HTML
+    <div class="mb-4 col-span-full bg-gray-100 px-4 py-2 text-sm text-gray-800 shadow-inner ring-1 ring-inset ring-gray-300">
+      Note: {$note}
     </div>
 HTML;
     }

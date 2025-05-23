@@ -450,8 +450,8 @@
                     <button type="submit" id="btnSiteLicense" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
                   </div>                  
                 </form>
-              </div>
-            </div>-->
+              </div> -->
+            </div>
           </main>
         </div>
         <script src="js/tailwind.js"></script>

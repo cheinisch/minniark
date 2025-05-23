@@ -63,8 +63,13 @@ try {
     $extractedFolder = null;
     foreach (glob(dirname($baseDir) . '/*') as $folder) {
         if (is_dir($folder) && preg_match('/minniark-/', basename($folder))) {
-            $extractedFolder = $folder;
-            break;
+            foreach (glob($folder . '/*') as $item) {
+                $dest = dirname($baseDir) . '/' . basename($item);
+                if (!rename($item, $dest)) {
+                    throw new Exception("Fehler beim Verschieben von $item nach $dest");
+                }
+            }
+            deleteFileOrDir($folder); // Stelle sicher, dass der Ordner vollständig gelöscht wird
         }
     }
 

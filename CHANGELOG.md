@@ -3,6 +3,18 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.0.6.0]
+2025-05-23
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.5.1...v0.0.0.6.0
+
+### New Features
+- Add Plugin option
+- Add some license information for supporter version
+
+### Bug Fixes
+- Delete zip folder after update
+
 ## [0.0.5.1]
 2025-05-21
 

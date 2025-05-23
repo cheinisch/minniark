@@ -409,7 +409,7 @@
                 </form>
               </div>
 
-              <!-- Supporter License -->
+              <!-- Supporter License --
                <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Supporter License</h2>
@@ -451,7 +451,7 @@
                   </div>                  
                 </form>
               </div>
-            </div>
+            </div>-->
           </main>
         </div>
         <script src="js/tailwind.js"></script>

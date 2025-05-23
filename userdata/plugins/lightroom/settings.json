@@ -1,0 +1,4 @@
+{
+    "route": "/api/lightroom/upload",
+    "enabled":true
+}

@@ -9,6 +9,21 @@ require_once __DIR__ . '/functions/function_frontend.php';
 
 is_installed();
 
+// LAden von Plugins
+$pluginDirs = glob(__DIR__ . '/userdata/plugins/*', GLOB_ONLYDIR);
+
+foreach ($pluginDirs as $pluginDir) {
+    $configFile = $pluginDir . '/plugin.json';
+    $routeFile  = $pluginDir . '/routes.php';
+
+    if (file_exists($configFile)) {
+        $config = json_decode(file_get_contents($configFile), true);
+        if (!empty($config['enabled']) && file_exists($routeFile)) {
+            require_once $routeFile;
+        }
+    }
+}
+
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
@@ -34,6 +49,8 @@ $twig = new Environment($loader, [
 ]);
 
 $twig->addExtension(new \Twig\Extension\DebugExtension());
+
+
 
 // Routing per URL-Pfad
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');

@@ -101,3 +101,9 @@ function get_themelist()
 
     return $themelist;
 }
+
+function get_license()
+{
+    $settings = get_settings_array();
+    return $settings['license'] ?? '';
+}

@@ -416,29 +416,39 @@
                   <p class="mt-1 text-sm/6 text-gray-400">Add the additional supporter License Key. Required for some Plugins.</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-sitedata-form">
+                <form class="md:col-span-2" id="change-sitelicense-form" action="backend_api/settings_save.php" method="post">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Notifications für Benutzerdaten -->
-                    <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Daten wurden gespeichert.</span>
-                    </div>
-
-                    <div id="notification-error-user" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Etwas ist schiefgelaufen.</span>
-                    </div>
 
                     <div class="sm:col-span-full">
-                      <label for="site-name" class="block text-sm/6 font-medium text-gray-700 dark:text-white">License Key</label>
+                      <label for="site-license" class="block text-sm/6 font-medium text-gray-700 dark:text-white">
+                        License Key
+                      </label>
+                      <?php
+                      if(!empty(get_license()))
+                      {
+                        $info = getLicenseInformation();
+                        ?>
+                        <ul class="text-sm/6 font-medium text-gray-700 dark:text-white">
+                            <?php if (!$info['valid']): ?>
+                                <li>License is not valid<?php if (!empty($info['message'])) echo ': ' . htmlspecialchars($info['message']); ?>.</li>
+                            <?php else: ?>
+                                <li>License is valid</li>
+                                <li>Status: <?php echo $info['expired'] ? 'expired' : 'active'; ?></li>
+                                <li>Remaining days: <?php echo $info['days']; ?></li>
+                                <li>Expire date: <?php echo htmlspecialchars($info['expired_date']); ?></li>
+                            <?php endif; ?>
+                        </ul>
+                        <?php
+                      }
+                      ?>
                       <div class="mt-2">
-                        <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
+                        <input type="text" name="site-license" id="site-license" value="<?php echo get_license(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+                      </div>                      
                     </div>
                   </div>
                   <div class="mt-8 flex">
-                    <button type="submit" id="btnSiteSettings" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
-                  </div>
+                    <button type="submit" id="btnSiteLicense" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                  </div>                  
                 </form>
               </div>
             </div>

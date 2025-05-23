@@ -21,7 +21,7 @@
             try {
                 $data = Yaml::parseFile($filePath);
                 $title = $data['album']['name'] ?? 'Empty title';
-                $image = $data['album']['image'] ?? '';
+                $image = $data['album']['headImage'] ?? '';
             } catch (\Exception $e) {
                 $title = '(Fehler beim Parsen)';
             }

@@ -392,35 +392,41 @@ try {
 
 
     function get_cacheimage($filename, $size)
-{
-    // Nur den Basisnamen (ohne .jpg usw.)
-    $basename = pathinfo($filename, PATHINFO_FILENAME);
+    {
 
-    // Pfad zur .yml-Datei
-    $imageDir = __DIR__ . '/../../userdata/content/images/';
-    $ymlPath = $imageDir . $basename . '.yml';
+        if($size == 'Original')
+        {
+            return $filename;
+        }
 
-    // Prüfen ob YML existiert
-    if (!file_exists($ymlPath)) {
-        return null;
+        // Nur den Basisnamen (ohne .jpg usw.)
+        $basename = pathinfo($filename, PATHINFO_FILENAME);
+
+        // Pfad zur .yml-Datei
+        $imageDir = __DIR__ . '/../../userdata/content/images/';
+        $ymlPath = $imageDir . $basename . '.yml';
+
+        // Prüfen ob YML existiert
+        if (!file_exists($ymlPath)) {
+            return null;
+        }
+
+        // YML lesen
+        try {
+            $data = Yaml::parseFile($ymlPath);
+        } catch (Exception $e) {
+            error_log("YAML Parse Error: " . $e->getMessage());
+            return null;
+        }
+
+        $guid = $data['image']['guid'] ?? null;
+        if (!$guid) {
+            return null;
+        }
+
+        // Ziel-Dateiname erzeugen
+        $newSize = strtoupper($size);
+        $cachedFile = $guid . "_" . $newSize . ".jpg";
+
+        return $cachedFile;
     }
-
-    // YML lesen
-    try {
-        $data = Yaml::parseFile($ymlPath);
-    } catch (Exception $e) {
-        error_log("YAML Parse Error: " . $e->getMessage());
-        return null;
-    }
-
-    $guid = $data['image']['guid'] ?? null;
-    if (!$guid) {
-        return null;
-    }
-
-    // Ziel-Dateiname erzeugen
-    $newSize = strtoupper($size);
-    $cachedFile = $guid . "_" . $newSize . ".jpg";
-
-    return $cachedFile;
-}

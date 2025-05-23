@@ -28,4 +28,8 @@
             removeAlbum($filename);
             header("Location: ../media.php");
             break;
+        case "collection":
+            removeCollection($filename);
+            header("Location: ../media.php");
+            break;
     }

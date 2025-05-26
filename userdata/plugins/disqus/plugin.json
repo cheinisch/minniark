@@ -1,0 +1,17 @@
+{
+  "name": "Disqus Integration",
+  "author": "Christian Heinisch",
+  "url":"https://heinisch-design.de",
+  "version": "0.1",
+  "settings": {
+    "fields": [
+      {
+        "key": "upload_password",
+        "label": "Upload Password",
+        "type": "password",
+        "hint": "Password that Lightroom sends with the upload",
+        "required": true
+      }
+    ]
+  }
+}

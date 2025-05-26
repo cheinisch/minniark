@@ -1,0 +1,10 @@
+{
+  "fields": [
+    {
+      "key": "enable_disqus",
+      "label": "Enable Disqus",
+      "type": "toggle",
+      "hint": "Show Disqus comment box under this post"
+    }
+  ]
+}

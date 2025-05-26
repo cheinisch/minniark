@@ -6,10 +6,10 @@
   "settings": {
     "fields": [
       {
-        "key": "upload_password",
-        "label": "Upload Password",
-        "type": "password",
-        "hint": "Password that Lightroom sends with the upload",
+        "key": "disqus_shortname",
+        "label": "Disqus Shortname",
+        "type": "text",
+        "hint": "A shortname is the unique identifier assigned to a Disqus site. All the comments posted to a site are referenced with the shortname. The shortname tells Disqus to load only your site's comments, as well as the settings specified in your Disqus admin.",
         "required": true
       }
     ]

@@ -246,6 +246,125 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
     exit;
 }
 
+// Collection content
+if (preg_match('#^collection$#', $uri)) {
+    $collectionDir = __DIR__ . '/../userdata/content/collection/';
+    $collections = [];
+
+    foreach (glob($collectionDir . '*.yml') as $filePath) {
+        $slug = basename($filePath, '.yml');
+        try {
+            $yaml = Symfony\Component\Yaml\Yaml::parseFile($filePath);
+            $collection = $yaml['collection'] ?? [];
+            $title = $collection['name'] ?? $slug;
+            $cover = $collection['image'] ?? null;
+            $coverUrl = null;
+
+            if ($cover) {
+                $imageSlug = pathinfo($cover, PATHINFO_FILENAME);
+                $imageMetaPath = __DIR__ . '/../userdata/content/images/' . $imageSlug . '.yml';
+
+                if (file_exists($imageMetaPath)) {
+                    $imageMeta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
+                    $guid = $imageMeta['image']['guid'] ?? null;
+                    if ($guid) {
+                        $coverUrl = "/cache/images/{$guid}_M.jpg";
+                    }
+                }
+            }
+
+            $collections[] = [
+                'slug' => $slug,
+                'title' => $title,
+                'cover' => $coverUrl,
+            ];
+        } catch (Exception $e) {
+            continue;
+        }
+    }
+
+    echo $twig->render('collection-list.twig', [
+        'title' => 'Collections',
+        'collections' => $collections,
+    ]);
+    exit;
+}
+
+
+if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
+    $slug = $matches[1];
+    $collectionFile = __DIR__ . '/../userdata/content/collection/' . $slug . '.yml';
+    $descriptionFile = __DIR__ . '/../userdata/content/collection/' . $slug . '.md';
+
+    if (!file_exists($collectionFile)) {
+        http_response_code(404);
+        echo $twig->render('404.twig');
+        exit;
+    }
+
+    $yaml = Symfony\Component\Yaml\Yaml::parseFile($collectionFile);
+    $collection = $yaml['collection'] ?? [];
+    $title = $collection['name'] ?? $slug;
+
+    $Parsedown = new Parsedown();
+    $descriptionMd = file_exists($descriptionFile) ? file_get_contents($descriptionFile) : '';
+    $descriptionHtml = $Parsedown->text($descriptionMd ?? '');
+
+    $coverUrl = null;
+    if (!empty($collection['image'])) {
+        $imageSlug = pathinfo($collection['image'], PATHINFO_FILENAME);
+        $imageMetaPath = __DIR__ . '/../userdata/content/images/' . $imageSlug . '.yml';
+        if (file_exists($imageMetaPath)) {
+            $imageMeta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
+            $guid = $imageMeta['image']['guid'] ?? null;
+            if ($guid) {
+                $coverUrl = "/cache/images/{$guid}_M.jpg";
+            }
+        }
+    }
+
+    // Alben laden
+    $albumList = [];
+    foreach ($collection['albums'] ?? [] as $albumSlug) {
+        $albumFile = __DIR__ . '/../userdata/content/album/' . $albumSlug . '.yml';
+        if (!file_exists($albumFile)) continue;
+
+        $albumYaml = Symfony\Component\Yaml\Yaml::parseFile($albumFile);
+        $album = $albumYaml['album'] ?? [];
+        $albumTitle = $album['name'] ?? $albumSlug;
+        $headImage = $album['headImage'] ?? null;
+
+        $albumCover = null;
+        if ($headImage) {
+            $imageSlug = pathinfo($headImage, PATHINFO_FILENAME);
+            $imageMetaPath = __DIR__ . '/../userdata/content/images/' . $imageSlug . '.yml';
+            if (file_exists($imageMetaPath)) {
+                $meta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
+                $guid = $meta['image']['guid'] ?? null;
+                if ($guid) {
+                    $albumCover = "/cache/images/{$guid}_M.jpg";
+                }
+            }
+        }
+
+        $albumList[] = [
+            'slug' => $albumSlug,
+            'title' => $albumTitle,
+            'cover' => $albumCover,
+        ];
+    }
+
+    echo $twig->render('collection.twig', [
+        'title' => $title,
+        'slug' => $slug,
+        'description' => $descriptionHtml,
+        'cover' => $coverUrl,
+        'albums' => $albumList,
+    ]);
+    exit;
+}
+
+
 
 if ($uri === 'home' || $uri === '') {
     // Lade Startseiten-Konfiguration aus home.yml
@@ -261,6 +380,8 @@ if ($uri === 'home' || $uri === '') {
         case 'page':
             $slug = $home['startcontent'] ?? '';
             header("Location: /p/" . urlencode($slug));
+            exit;
+        case 'collection':
             exit;
 
         case 'album':

@@ -97,15 +97,16 @@
     }
 
 
-    function updateCollection($slug, $data, $oldslug) {
+    function updateCollection(string $newSlug, array $data, string $oldSlug): bool
+    {
         $collectionDir = __DIR__ . '/../../userdata/content/collection/';
-        $ymlOldPath = $collectionDir . $oldslug . '.yml';
-        $ymlNewPath = $collectionDir . $slug . '.yml';
+        $ymlOldPath = $collectionDir . $oldSlug . '.yml';
+        $ymlNewPath = $collectionDir . $newSlug . '.yml';
 
-        $mdOldPath = $collectionDir . $oldslug . '.md';
-        $mdNewPath = $collectionDir . $slug . '.md';
+        $mdOldPath = $collectionDir . $oldSlug . '.md';
+        $mdNewPath = $collectionDir . $newSlug . '.md';
 
-        // Optional: alte YAML laden (nur wenn existiert)
+        // Bestehende Daten laden
         $existing = [];
         if (file_exists($ymlOldPath)) {
             try {
@@ -116,37 +117,42 @@
             }
         }
 
-        // Description aus dem POST trennen
-        $description = $data['collection']['description'] ?? null;
-        unset($data['collection']['description']);
+        // Neue Beschreibung aus dem neuen Datensatz extrahieren
+        $newDescription = $data['description'] ?? null;
+        unset($data['description']);
 
-        // Daten zusammenführen
-        $merged = array_merge($existing, $data['collection']);
-        $yamlData = ['collection' => $merged];
-        $yamlString = Symfony\Component\Yaml\Yaml::dump($yamlData, 2, 4);
-
-        // Falls Slug geändert wurde → Dateien umbenennen
-        if ($slug !== $oldslug) {
-            if (file_exists($ymlOldPath)) {
-                rename($ymlOldPath, $ymlNewPath);
-            }
-
-            if (file_exists($mdOldPath)) {
-                rename($mdOldPath, $mdNewPath);
-            }
+        // Vorhandene Alben und Bild übernehmen, wenn im neuen Datensatz nicht enthalten
+        if (!isset($data['albums']) && isset($existing['albums'])) {
+            $data['albums'] = $existing['albums'];
         }
 
-        // YAML speichern (neu oder überschreiben)
-        $ymlSaved = file_put_contents($ymlNewPath, $yamlString) !== false;
+        if (!isset($data['image']) && isset($existing['image'])) {
+            $data['image'] = $existing['image'];
+        }
 
-        // Beschreibung speichern oder beibehalten
+        // Daten zusammenführen
+        $merged = array_merge($existing, $data);
+        $yamlContent = Symfony\Component\Yaml\Yaml::dump(['collection' => $merged], 2, 4);
+
+        // Umbenennen, falls Slug sich geändert hat
+        if ($newSlug !== $oldSlug) {
+            if (file_exists($ymlOldPath)) rename($ymlOldPath, $ymlNewPath);
+            if (file_exists($mdOldPath)) rename($mdOldPath, $mdNewPath);
+        }
+
+        // YAML-Datei speichern
+        $ymlSaved = file_put_contents($ymlNewPath, $yamlContent) !== false;
+
+        // Markdown speichern, falls neue Beschreibung vorhanden ist
         $mdSaved = true;
-        if ($description !== null) {
-            $mdSaved = file_put_contents($mdNewPath, trim($description)) !== false;
+        if ($newDescription !== null) {
+            $mdSaved = file_put_contents($mdNewPath, trim($newDescription)) !== false;
         }
 
         return $ymlSaved && $mdSaved;
     }
+
+
 
 
 

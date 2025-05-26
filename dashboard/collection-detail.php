@@ -357,7 +357,7 @@
                         <input type="hidden" id="collection-current-title" name="collection-current-title" value="<?php echo $collectiondata['name']; ?>">
                       </div>
                       <div class="mt-5 bg-white">
-                        <textarea id="collection-description" name="collection-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Collection description" rows="10"><?php echo $collectiondata['Description']; ?></textarea>
+                        <textarea id="collection-description" name="collection-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Collection description" rows="10"><?php echo $collectiondata['description']; ?></textarea>
                       </div>
                     </div>
                     <div id="button_group" class="space-x-2 mt-2">

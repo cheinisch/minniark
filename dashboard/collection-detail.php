@@ -13,6 +13,8 @@
 
   $collectionTitle = generateSlug($collectiondata['name']);
 
+  $image = $collectiondata['image'] ?? '';
+
   $headimage = null;
 
   if($collectiondata['image'] != null || $collectiondata['image'] != '')
@@ -55,6 +57,91 @@
       </style>
     </head>
     <body class="min-h-screen flex flex-col">
+      <div id="addToAlbumImageModal" class="hidden relative z-10" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+      <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-4xl md:px-4 lg:max-w-5xl">
+        <div class="relative flex w-full flex-col items-start overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+          <!-- Close Button -->
+          <button type="button" id="closeAddToAlbumImageModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8">
+            <span class="sr-only">Close</span>
+            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <h2 class="text-2xl font-bold text-gray-900 sm:pr-12 mb-4">Add Images from Collection Albums</h2>
+
+          <input type="text" id="imageSearchInput" placeholder="Search by image name..." class="w-full mb-4 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm">
+
+          <form id="addImagesForm" method="post" action="backend_api/collection_set_hero.php" class="w-full">
+            <input type="hidden" name="album" value="<?php echo htmlspecialchars($image); ?>">
+
+            <div id="imageList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto mb-6">
+              <?php
+                $collectionSlug = $_GET['collection'];
+              $collection = getCollectionData($collectionSlug); // z. B. 'test-collection'
+              $albums = $collection['albums'] ?? [];
+
+              $imageDir = __DIR__ . '/../userdata/content/images/';
+              $cachePath = '/cache/images/';
+
+              require_once('../vendor/autoload.php');
+
+              use Symfony\Component\Yaml\Yaml;
+
+              foreach ($albums as $albumSlug) {
+                  $album = getAlbumData($albumSlug);
+                  foreach ($album['images'] ?? [] as $imgName) {
+                      $ymlPath = $imageDir . pathinfo($imgName, PATHINFO_FILENAME) . '.yml';
+                      if (!file_exists($ymlPath)) continue;
+
+                      try {
+                          $yamlData = Yaml::parseFile($ymlPath);
+                          $meta = $yamlData['image'] ?? [];
+                      } catch (Exception $e) {
+                          continue;
+                      }
+
+                      if (empty($meta['guid'])) continue;
+
+                      $title = htmlspecialchars($meta['title'] ?? $imgName);
+                      $filename = htmlspecialchars($imgName);
+                      $thumb = $cachePath . $meta['guid'] . '_S.jpg';
+
+                      echo '
+                        <label class="block text-sm text-center cursor-pointer">
+                          <input type="hidden" name="slug" value="'.$slug.'">
+                          <input type="radio" name="image" value="' . $filename . '" class="sr-only peer">
+                          <div class="peer-checked:ring-2 peer-checked:ring-sky-500 rounded overflow-hidden border border-gray-300">
+                            <img src="' . $thumb . '" alt="' . $title . '" class="object-cover w-full aspect-square">
+                          </div>
+                          <span class="block mt-1 truncate text-xs">' . $title . '</span>
+                        </label>';
+                  }
+              }
+
+              ?>
+            </div>
+
+            <div class="flex gap-4 justify-end">
+              <button type="button" id="cancelAddToAlbumImage" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+                Cancel
+              </button>
+              <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+                Add Selected
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       <!-- Add Album to collection Modal-->
       <div id="addTocollectionAlbumModal" class="hidden relative z-10" role="dialog" aria-modal="true">
   <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
@@ -190,6 +277,12 @@
                     </div>
                     <div class="flex items-center">
                          <div class="shrink-0">
+                        <button type="button" id="selectCollectionImageBtn" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                          <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                          </svg>
+                          Select Cover Image
+                        </button>
                         <button type="button" id="addAlbumtoCollectionBtn" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />

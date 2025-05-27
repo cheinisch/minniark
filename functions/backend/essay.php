@@ -5,56 +5,77 @@
     use Symfony\Component\Yaml\Yaml;
 
     function saveNewEssay(
-        string $title,
-        string $content,
-        array $tags = [],
-        bool $isPublished = false,
-        string $cover = ''
-    ): string {
-        $baseDir = __DIR__ . '/../../userdata/content/essay/';
-        $baseSlug = generateSlug($title);
-        $slug = $baseSlug;
-        $i = 1;
+    string $title,
+    string $content,
+    array $tags = [],
+    bool $isPublished = false,
+    string $cover = ''
+): string {
+    $baseDir = __DIR__ . '/../../userdata/content/essay/';
+    $baseSlug = generateSlug($title);
+    $slug = $baseSlug;
+    $i = 1;
 
-        // Slug eindeutig machen
-        while (is_dir($baseDir . $slug)) {
-            $slug = $baseSlug . '-' . $i;
-            $i++;
-        }
-
-        $essayDir = $baseDir . $slug . '/';
-        mkdir($essayDir, 0755, true);
-
-        $yamlPath = $essayDir . $slug . '.yml';
-        $mdPath = $essayDir . $slug . '.md';
-        $now = date('Y-m-d');
-
-        $data = [
-            'essay' => [
-                'title' => $title,
-                'slug' => $slug,
-                'created_at' => $now,
-                'updated_at' => $now,
-                'published_at' => $isPublished ? $now : null,
-                'is_published' => $isPublished,
-                'tags' => $tags,
-                'cover' => $cover,
-            ]
-        ];
-
-        file_put_contents($yamlPath, Yaml::dump($data, 2, 4));
-        file_put_contents($mdPath, $content);
-
-        return $slug;
+    // Slug eindeutig machen
+    while (is_dir($baseDir . $slug)) {
+        $slug = $baseSlug . '-' . $i;
+        $i++;
     }
+
+    $essayDir = $baseDir . $slug . '/';
+    mkdir($essayDir, 0755, true);
+
+    $yamlPath = $essayDir . $slug . '.yml';
+    $mdPath = $essayDir . $slug . '.md';
+    $now = date('Y-m-d');
+
+    // Basisdaten
+    $data = [
+        'title' => $title,
+        'slug' => $slug,
+        'created_at' => $now,
+        'updated_at' => $now,
+        'published_at' => $isPublished ? $now : null,
+        'is_published' => $isPublished,
+        'tags' => $tags,
+        'cover' => $cover,
+    ];
+
+    // Plugin-Felder automatisch einlesen (aus $_POST)
+    $pluginDirs = glob(__DIR__ . '/../../plugins/*', GLOB_ONLYDIR);
+    foreach ($pluginDirs as $pluginDir) {
+        $postJson = $pluginDir . '/post.json';
+        if (!file_exists($postJson)) continue;
+
+        $fields = json_decode(file_get_contents($postJson), true)['fields'] ?? [];
+        foreach ($fields as $field) {
+            $key = $field['key'];
+            $type = $field['type'] ?? 'text';
+
+            if ($type === 'toggle') {
+                $data[$key] = ($_POST[$key] ?? 'false') === 'true';
+            } else {
+                $data[$key] = trim($_POST[$key] ?? '');
+            }
+        }
+    }
+
+    // YAML schreiben
+    file_put_contents($yamlPath, Yaml::dump(['essay' => $data], 2, 4));
+    file_put_contents($mdPath, $content);
+
+    return $slug;
+}
+
 
     function updateEssay(string $slug, array $data, string $oldSlug): bool
     {
+
+
         $baseDir = __DIR__ . '/../../userdata/content/essay/';
         $oldPath = $baseDir . $oldSlug . '/';
         $newPath = $baseDir . $slug . '/';
 
-        // Slug-Wechsel → Ordner umbenennen
         if ($slug !== $oldSlug) {
             if (is_dir($oldPath)) {
                 rename($oldPath, $newPath);
@@ -62,7 +83,6 @@
                 mkdir($newPath, 0755, true);
             }
 
-            // Alte YAML/MD im neuen Ordner löschen, falls durch rename übernommen
             @unlink($newPath . $oldSlug . '.yml');
             @unlink($newPath . $oldSlug . '.md');
         } elseif (!is_dir($newPath)) {
@@ -72,26 +92,20 @@
         $yamlPath = $newPath . $slug . '.yml';
         $mdPath = $newPath . $slug . '.md';
 
-        // Bestehende YAML laden (egal ob neuer oder alter Slug)
         $existingYaml = file_exists($yamlPath)
             ? Yaml::parseFile($yamlPath)
-            : (file_exists($oldPath . $oldSlug . '.yml')
-                ? Yaml::parseFile($oldPath . $oldSlug . '.yml')
-                : []);
+            : [];
 
         $essay = $existingYaml['essay'] ?? [];
 
-        // ✨ created_at erhalten oder setzen
-        $essay['created_at'] = $essay['created_at'] ?? date('Y-m-d');
+        // ✨ Zusammenführen aller übergebenen Felder inkl. Plugins
+        unset($data['content']); 
+        $essay = array_merge($essay, $data);
 
-        // Felder aktualisieren
-        $essay['title'] = $data['title'] ?? $essay['title'] ?? '';
-        $essay['updated_at'] = date('Y-m-d');
-        $essay['published_at'] = $data['published_at'] ?? $essay['published_at'] ?? null;
-        $essay['is_published'] = $data['is_published'] ?? $essay['is_published'] ?? false;
-        $essay['tags'] = $data['tags'] ?? $essay['tags'] ?? [];
-        $essay['cover'] = $data['cover'] ?? $essay['cover'] ?? '';
+        // ✨ Pflichtfelder überschreiben
         $essay['slug'] = $slug;
+        $essay['updated_at'] = date('Y-m-d');
+        $essay['created_at'] = $essay['created_at'] ?? date('Y-m-d');
 
         // YAML speichern
         $yamlOK = file_put_contents($yamlPath, Yaml::dump(['essay' => $essay], 2, 4)) !== false;
@@ -102,12 +116,10 @@
             $mdOK = file_put_contents($mdPath, $data['content']) !== false;
         }
 
-        if (!$yamlOK || !$mdOK) {
-            error_log("updateEssay fehlgeschlagen – YAML OK: " . ($yamlOK ? 'ja' : 'nein') . ", MD OK: " . ($mdOK ? 'ja' : 'nein'));
-        }
-
         return $yamlOK && $mdOK;
     }
+
+
 
 
 

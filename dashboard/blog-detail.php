@@ -312,8 +312,91 @@
                     <label for="published_at" class="block text-sm font-medium text-gray-900 dark:text-white mb-1">Publishing Date</label>
                     <input type="date" id="published_at" name="published_at" class="w-full border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 dark:bg-neutral-800 dark:text-white dark:border-neutral-600" value="<?php echo $essay['published_at']; ?>" />
                   </div>
+                </div>
+              </div> 
+              <?php
+              // Lade Plugin-Felder aus post.json-Dateien
+                $pluginDirs = glob(__DIR__ . '/../userdata/plugins/*', GLOB_ONLYDIR);
+                $pluginFields = [];
 
-                  <div class="mt-6 flex items-center justify-end gap-x-6">
+
+                foreach ($pluginDirs as $pluginDir) {
+                    $pluginMetaFile = $pluginDir . '/plugin.json';
+                    $pluginSettingsFile = $pluginDir . '/settings.json';
+                    $postJson = $pluginDir . '/admin/post.json';
+
+                    // Plugin nur laden, wenn alle 3 Dateien vorhanden sind
+                    if (!file_exists($pluginMetaFile) || !file_exists($pluginSettingsFile) || !file_exists($postJson)) {
+                        continue;
+                    }
+
+                    // Settings laden und prüfen, ob Plugin aktiviert ist
+                    $settings = json_decode(file_get_contents($pluginSettingsFile), true);
+                    if (!is_array($settings) || empty($settings['enabled'])) {
+                        continue;
+                    }
+
+                    // Plugin-Meta lesen
+                    $meta = json_decode(file_get_contents($pluginMetaFile), true);
+                    $pluginName = htmlspecialchars($meta['name'] ?? basename($pluginDir));
+
+                    $fields = json_decode(file_get_contents($postJson), true)['fields'] ?? [];
+
+                    $fields = json_decode(file_get_contents($postJson), true)['fields'] ?? [];
+                    echo '
+                    <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+                      <div>
+                        <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">'.$pluginName.'</h2>
+                        <p class="mt-1 text-sm/6 text-gray-600"></p>
+                      </div>
+
+                      <div class="grid max-w-6xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">';
+                    
+                    foreach ($fields as $field) {
+                        $key = $field['key'];
+                        $type = $field['type'] ?? 'text';
+                        $label = htmlspecialchars($field['label'] ?? $key);
+                        $hint = htmlspecialchars($field['hint'] ?? '');
+                        $value = $essay[$key] ?? ($type === 'toggle' ? false : '');
+
+                        ob_start();
+                        echo '<div class="col-span-full">';
+                        echo '<div class="flex items-center justify-between">';
+                        
+                        if ($type === 'toggle') {
+                            $checked = $value ? 'true' : 'false';
+                            echo '<span class="flex grow flex-col">
+                                    <span class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">'. $label .'</span>
+                                    <span class="text-sm text-gray-500" id="availability-description">' . $hint . '</span>
+                                  </span>';
+                            echo '<button type="button" id="' . $key . '" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2" role="switch" aria-checked="' . $checked . '">';
+                            echo '<span aria-hidden="true" class="pointer-events-none inline-block size-5 ' . ($value ? 'translate-x-5' : 'translate-x-0') . ' transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>';
+                            echo '</button>';
+                            echo '<input type="hidden" name="' . $key . '" id="' . $key . '-input" value="' . ($value ? 'true' : 'false') . '">';
+                        } else {
+                            echo '<input type="' . $type . '" id="' . $key . '" name="' . $key . '" value="' . htmlspecialchars($value) . '" class="mt-1 block w-full rounded border-gray-300 shadow-sm">';
+                        }
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                        $pluginFields[] = ob_get_clean();
+                    }
+                    echo implode("\n", $pluginFields);
+                    echo '
+                      </div>
+                    </div>';
+
+                }
+                ?>
+
+                
+              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-b-10 px-4 pb-16 sm:px-6 md:grid-cols-3 lg:px-8">
+                <div>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Save</h2>
+                  <p class="mt-1 text-sm/6 text-gray-600"></p>
+                </div>
+                <div class="grid max-w-6xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+                  <div class="col-span-6 mt-6 flex items-center justify-start gap-x-6">
                     <button type="button" class="bg-rose-500 px-3 py-2 text-sm/6 font-semibold text-gray-900">Cancel</button>
                     <button type="submit" class="bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">Save</button>
                   </div>
@@ -385,6 +468,36 @@
         });
       });
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll('button[role="switch"]').forEach(btn => {
+    const knob = btn.querySelector('span[aria-hidden]');
+    const hiddenInput = document.getElementById(btn.id + '-input');
+
+    const updateUI = (enabled) => {
+      btn.setAttribute("aria-checked", enabled ? "true" : "false");
+      btn.classList.toggle("bg-sky-600", enabled);
+      btn.classList.toggle("bg-gray-400", !enabled);
+      knob.classList.toggle("translate-x-5", enabled);
+      knob.classList.toggle("translate-x-0", !enabled);
+      if (hiddenInput) {
+        hiddenInput.value = enabled ? "true" : "false";
+      }
+    };
+
+    // Initialer Zustand
+    const initial = btn.getAttribute("aria-checked") === "true";
+    updateUI(initial);
+
+    // Klickverhalten
+    btn.addEventListener("click", () => {
+      const current = btn.getAttribute("aria-checked") === "true";
+      updateUI(!current);
+    });
+  });
+});
+</script>
+
     <script>
       function switchCoverTab(tab) {
         document.getElementById('cover-upload').classList.toggle('hidden', tab !== 'upload');

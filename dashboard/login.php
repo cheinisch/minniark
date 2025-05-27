@@ -62,7 +62,7 @@
         <meta charset="UTF-8">        
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login - <?php echo get_sitename(); ?></title>
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" href="css/tailwind.css">
     </head>
     <body>
         <div class="w-full h-screen bg-neutral-200 dark:bg-gray-950 flex flex-col">

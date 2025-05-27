@@ -30,7 +30,7 @@
       <title>Blogposts - <?php echo get_sitename(); ?></title>
 
       <!-- Tailwind CSS -->
-      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      <link rel="stylesheet" href="css/tailwind.css">
 
       <!-- EasyMDE CSS -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">

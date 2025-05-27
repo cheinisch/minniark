@@ -35,7 +35,7 @@
       <title>Collection - <?php echo get_sitename(); ?></title>
 
       <!-- Tailwind CSS -->
-      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      <link rel="stylesheet" href="css/tailwind.css">
       <link rel="stylesheet" href="../lib/simplemde/simplemde.min.css">
       <link rel="stylesheet" href="css/additional.css">
       <style>

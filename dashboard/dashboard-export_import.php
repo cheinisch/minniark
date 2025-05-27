@@ -14,7 +14,7 @@
         <title>Dashboard - <?php echo get_sitename(); ?></title>
 
         <!-- Tailwind CSS -->
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" href="css/tailwind.css">
     </head>
     <body class="min-h-screen flex flex-col">
       <div id="backup-modal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">

@@ -67,6 +67,8 @@ function getBlogPosts(): array
     foreach (scandir($baseDir) as $folder) {
         if ($folder === '.' || $folder === '..') continue;
 
+        if (!preg_match('/^[a-z0-9\-]+$/', $folder)) continue;
+
         $slug = $folder;
         $folderPath = $baseDir . '/' . $slug;
         $yamlPath = $folderPath . '/' . $slug . '.yml';
@@ -92,6 +94,7 @@ function getBlogPosts(): array
             'title' => $title,
             'date' => $created,
             'excerpt' => $excerpt,
+            'content' => $excerpt,
             'cover' => get_cacheimage($essay['cover'] ?? ''),
             'is_published' => $essay['is_published'] ?? false,
             'tags' => $essay['tags'] ?? [],

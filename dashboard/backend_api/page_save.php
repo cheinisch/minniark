@@ -16,7 +16,6 @@ $original = trim($_POST['original_foldername'] ?? '');
 $cover = trim($_POST['cover'] ?? '');
 $published_at = trim($_POST['published_at'] ?? '');
 
-print_r($_POST);
 // Validierung
 if (empty($title) || empty($foldername)) {
     die("Titel und Zielordner (foldername) müssen übergeben werden.");

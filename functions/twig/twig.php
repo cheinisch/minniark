@@ -20,6 +20,42 @@ $data = [
     'current_path' => $current_path,
 ];
 
+$currentUrl = (
+    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http'
+) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+$data['current_url'] = $currentUrl;
+
+
+
+$pluginTwigSnippets = [];
+$pluginTwigData = [];
+
+$pluginDirs = glob(__DIR__ . '/../../userdata/plugins/*', GLOB_ONLYDIR);
+foreach ($pluginDirs as $pluginDir) {
+    $key = basename($pluginDir);
+    $settingsFile = $pluginDir . '/settings.json';
+    $twigPhp = $pluginDir . '/twig.php';
+
+
+    if (!file_exists($settingsFile)) continue;
+
+    $settings = json_decode(file_get_contents($settingsFile), true);
+    if (empty($settings['enabled'])) continue;
+
+    // twig.php ausführen und als Twig-Datenstruktur speichern
+    if (file_exists($twigPhp)) {
+        $pluginVars = include $twigPhp;
+        
+        if (is_array($pluginVars)) {
+            $pluginTwigData[$key] = $pluginVars[$key] ?? [];
+        }
+    }
+}
+
+$data['plugin'] = $pluginTwigData;
+$data['plugin_snippet'] = $pluginTwigSnippets;
+
 // Einzelne statische Seite per Slug: /p/<slug>
 
 if (preg_match('#^p/([\w\-]+)$#', $uri, $matches)) {

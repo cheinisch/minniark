@@ -40,6 +40,12 @@
                       <p class="text-gray-600">Co-Founder / CTO</p>
                     </div>
                   </div>
+                  {% if plugin.disqus.enabled %}
+                    <div class="pt-4 w-full">
+                      <p>Comments</p>
+                      {{ plugin.disqus.html|raw }}
+                    </div>
+                  {% endif %}
                 </article>
               </div>
             </div>

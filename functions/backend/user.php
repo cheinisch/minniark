@@ -30,7 +30,7 @@
                 'username' => $username,
                 'mail' => $mail,
                 'password' => $passwordHash,
-                'auth_type' => 'mail',
+                'auth_type' => 'password',
             ]
         ];
 

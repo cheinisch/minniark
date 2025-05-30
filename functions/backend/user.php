@@ -43,6 +43,69 @@
         return $yamlOK;
     }
 
+    function updateUserData($username, $data, $newUsername): bool
+    {
+        $ymlDir = __DIR__ . '/../../userdata/config/user/';
+        if (!is_dir($ymlDir)) {
+            return false;
+        }
+
+        $files = scandir($ymlDir);
+        $slug = generateSlug($username);
+        $userFile = null;
+
+        // Bestehende Datei zum aktuellen Benutzer finden
+        foreach ($files as $file) {
+            if (preg_match('/^(\d+)-' . preg_quote($slug, '/') . '\.yml$/', $file)) {
+                $userFile = $file;
+                break;
+            }
+        }
+
+        if (!$userFile) {
+            return false; // Benutzer nicht gefunden
+        }
+
+        $oldFilePath = $ymlDir . $userFile;
+        $userYaml = Yaml::parseFile($oldFilePath);
+
+        if (!isset($userYaml['user'])) {
+            return false;
+        }
+
+        // Prüfen, ob der neue Benutzername bereits verwendet wird (nur wenn er sich ändert)
+        if ($newUsername && $newUsername !== $username) {
+            $newSlug = generateSlug($newUsername);
+            foreach ($files as $file) {
+                if (preg_match('/^\d+-' . preg_quote($newSlug, '/') . '\.yml$/', $file)) {
+                    return false; // Neuer Benutzername existiert bereits
+                }
+            }
+            $userYaml['user']['username'] = $newUsername;
+        }
+
+        // Daten aktualisieren
+        foreach ($data as $key => $value) {
+            $userYaml['user'][$key] = $value;
+        }
+
+        // Neues oder gleiches File schreiben
+        if (isset($newSlug)) {
+            $newFilePath = $ymlDir . $userYaml['user']['id'] . '-' . $newSlug . '.yml';
+            if (file_put_contents($newFilePath, Yaml::dump($userYaml, 2, 4)) === false) {
+                return false;
+            }
+            unlink($oldFilePath); // Alte Datei löschen
+        } else {
+            if (file_put_contents($oldFilePath, Yaml::dump($userYaml, 2, 4)) === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
 
     function getUserFromMail($mail)
     {

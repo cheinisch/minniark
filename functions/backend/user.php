@@ -105,6 +105,48 @@
         return true;
     }
 
+    function getUserDataFromID($id)
+    {
+        $ymlDir = __DIR__ . '/../../userdata/config/user/';
+        if (!is_dir($ymlDir)) {
+            return null;
+        }
+
+        $files = scandir($ymlDir);
+
+        foreach ($files as $file) {
+            if (preg_match('/^' . preg_quote((string)$id, '/') . '-.*\.yml$/', $file)) {
+                $filePath = $ymlDir . $file;
+                $data = Yaml::parseFile($filePath);
+                return $data['user'] ?? null;
+            }
+        }
+
+        return null;
+    }
+
+    function getUserDataFromUsername($username)
+    {
+        $slug = generateSlug($username);
+        $ymlDir = __DIR__ . '/../../userdata/config/user/';
+        if (!is_dir($ymlDir)) {
+            return null;
+        }
+
+        $files = scandir($ymlDir);
+
+        foreach ($files as $file) {
+            if (preg_match('/^\d+-' . preg_quote($slug, '/') . '\.yml$/', $file)) {
+                $filePath = $ymlDir . $file;
+                $data = Yaml::parseFile($filePath);
+                return $data['user'] ?? null;
+            }
+        }
+
+        return null;
+    }
+
+
 
 
     function getUserFromMail($mail)

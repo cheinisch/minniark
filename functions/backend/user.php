@@ -30,7 +30,7 @@
                 'username' => $username,
                 'mail' => $mail,
                 'password' => $passwordHash,
-                'auth_type' => 'password',
+                'auth_type' => 'password', // default login for new users
             ]
         ];
 

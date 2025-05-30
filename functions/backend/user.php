@@ -34,7 +34,7 @@
             ]
         ];
 
-        $yamlOK = file_put_contents($yamlFile, Yaml::dump($data, 2, 4)) !== false;
+        $yamlOK = file_put_contents($ymlFile, Yaml::dump($data, 2, 4)) !== false;
 
         return $yamlOK;
     }

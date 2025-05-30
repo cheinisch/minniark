@@ -38,3 +38,11 @@
 
         return $yamlOK;
     }
+
+
+    function getUserFromMail($mail)
+    {
+        $user = null;
+
+        return $user;
+    }

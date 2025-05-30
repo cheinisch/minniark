@@ -1,6 +1,6 @@
 <?php
 
-function saveNewUser():bool
+function saveNewUser($username, $mail, $password):bool
 {
 return false;
 }

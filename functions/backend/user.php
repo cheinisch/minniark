@@ -43,6 +43,9 @@
     function getUserFromMail($mail)
     {
         $user = null;
+        $ymlDir = __DIR__.'/../../userdata/config/user/';
+
+        
 
         return $user;
     }

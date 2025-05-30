@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form class="space-y-6" action="../api/install.php" method="POST">
+                    <form class="space-y-6" action="backend_api/install.php" method="POST">
                     <div>
                         <label for="username" class="block text-sm/6 font-medium text-gray-900 dark:text-gray-300">Username</label>
                         <div class="mt-2">

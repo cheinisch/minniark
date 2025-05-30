@@ -1,5 +1,8 @@
 <?php
 
+    require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
+    use Symfony\Component\Yaml\Yaml;
+
     function saveNewUser($username, $mail, $password):bool
     {
     

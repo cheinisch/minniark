@@ -17,7 +17,6 @@ if (empty($username) || empty($email) || empty($password)) {
 
 // Authentifizierungsinfos
 $authtype = 'password';
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 $authToken = bin2hex(random_bytes(32));
 
 // Benutzer anlegen (inkl. YAML-Datei im user-Verzeichnis)

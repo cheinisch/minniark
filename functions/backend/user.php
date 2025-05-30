@@ -10,5 +10,12 @@
 
         $ymlDir = __DIR__.'/../../userdata/config/user/';
         $ymlFile = __DIR__.'/../../userdata/config/user/'.$slug.'.yml';
-    return false;
+
+        // Check if user dir exist
+        if (!is_dir($ymlDir))
+        {
+            mkdir($ymlDir, 0755, true);
+        }
+
+        return false;
     }

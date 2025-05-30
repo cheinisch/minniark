@@ -17,5 +17,24 @@
             mkdir($ymlDir, 0755, true);
         }
 
-        return false;
+        // check if file exist
+        if(file_exists($ymlFile))
+        {
+            return false;
+        }
+
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $data = [
+            'user' => [
+                'username' => $username,
+                'mail' => $mail,
+                'password' => $passwordHash,
+                'auth_type' => 'mail',
+            ]
+        ];
+
+        $yamlOK = file_put_contents($yamlFile, Yaml::dump($data, 2, 4)) !== false;
+
+        return $yamlOK;
     }

@@ -3,7 +3,7 @@
     require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
     use Symfony\Component\Yaml\Yaml;
 
-    function saveNewUser($username, $mail, $password):bool
+    function saveNewUser($username, $mail, $password,$userrole):bool
     {
     
         $slug = generateSlug($username);
@@ -35,6 +35,7 @@
                 'mail' => $mail,
                 'password' => $passwordHash,
                 'auth_type' => 'password', // default login for new users
+                'userrole' => $userrole,
             ]
         ];
 

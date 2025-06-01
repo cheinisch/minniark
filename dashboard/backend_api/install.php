@@ -10,6 +10,7 @@ $username = trim($_POST['username'] ?? '');
 $email    = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 $sitename = trim($_POST['sitename'] ?? 'Minniark');
+$userrole = 'admin';
 
 if (empty($username) || empty($email) || empty($password)) {
     die('Bitte Benutzername, E-Mail und Passwort angeben.');
@@ -20,7 +21,7 @@ $authtype = 'password';
 $authToken = bin2hex(random_bytes(32));
 
 // Benutzer anlegen (inkl. YAML-Datei im user-Verzeichnis)
-if (!saveNewUser($username, $email, $password)) {
+if (!saveNewUser($username, $email, $password,$userrole)) {
     die('Benutzer konnte nicht erstellt werden. Möglicherweise existiert er bereits.');
 }
 

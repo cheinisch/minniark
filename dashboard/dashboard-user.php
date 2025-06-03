@@ -3,6 +3,19 @@
   require_once( __DIR__ . "/../functions/function_backend.php");
   $settingspage = "user";
   security_checklogin();
+  onlyAdmin();
+
+
+  $usernameEdit = $_GET['edit'] ?? null;
+  $usernameDelete = $_GET['delete'] ?? null;
+
+  if($usernameEdit != null)
+  {
+    $userdata = getUserDataFromUsername($usernameEdit);
+    $username = $userdata['username'];
+    $mail = $userdata['mail'];
+    $role = $userdata['userrole'];
+  }
 
 ?>
 
@@ -152,48 +165,82 @@
           <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
             <!-- Settings forms -->
             <div class="divide-y divide-gray-400 dark:divide-white/5">
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-4 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Account Information</h2>
                   <p class="mt-1 text-sm/6 text-gray-400">Show all user accounts.</p>
                 </div>
-                <div class="md:col-span-2">
-                  <form class="hidden flex flex-wrap items-center gap-4">
-                    <input
-                      type="text"
-                      name="username"
-                      placeholder="Username"
-                      class="px-4 py-2 border border-gray-300"
-                    />
-                    <input
-                      type="email"
-                      name="mail"
-                      placeholder="E-Mail"
-                      class="px-4 py-2 border border-gray-300"
-                    />
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Passwort"
-                      class="px-4 py-2 border border-gray-300"
-                    />
-                    
-                    <select
-                      name="userrole"
-                      class="px-4 py-2 border border-gray-300 bg-white text-gray-700"
-                    >
-                      <option value="user">User</option>
-                      <option value="admin">Admin</option>
-                    </select>
+                <div class="md:col-span-3">
+                  <!-- Edit Form-->
+                   <?php
 
-                    <button
-                      type="submit"
-                      class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
-                    >
-                      Registrieren
-                    </button>
+                    if($usernameEdit != null)
+                    {
+                  ?>
+                  <form class="flex flex-wrap items-center gap-4">
+                    <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                      <div class="flex flex-col">
+                        <label for="username" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+                        <input
+                          type="text"
+                          id="username"
+                          name="username"
+                          placeholder="Username"
+                          value="<?php echo $username; ?>"
+                          class="px-4 py-2 border border-gray-300 dark:text-white"
+                        />
+                      </div>
+
+                      <div class="flex flex-col">
+                        <label for="mail" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">E-Mail</label>
+                        <input
+                          type="email"
+                          id="mail"
+                          name="mail"
+                          value="<?php echo $mail; ?>"
+                          placeholder="E-Mail"
+                          class="px-4 py-2 border border-gray-300 dark:text-white"
+                        />
+                      </div>
+
+                      <div class="flex flex-col">
+                        <label for="password" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <input
+                          type="password"
+                          id="password"
+                          name="password"
+                          placeholder="leave blank for no change"
+                          class="px-4 py-2 border border-gray-300 dark:text-white"
+                        />
+                      </div>
+
+                      <div class="flex flex-col">
+                        <label for="userrole" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">User Role</label>
+                        <select
+                          id="userrole"
+                          name="userrole"
+                          class="px-4 py-2 border border-gray-300 bg-white text-gray-700"
+                        >
+                          <option value="user" <?php if($role == 'user'){ echo "selected"; } ?>>User</option>
+                          <option value="admin" <?php if($role == 'admin'){ echo "selected"; } ?>>Admin</option>
+                        </select>
+                      </div>
+
+                      <div class="flex flex-col justify-end">
+                        <button
+                          type="submit"
+                          class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+
                   </form>
+                  <?php
 
+                    }
+                  ?>
                   <table class="table-auto w-full text-gray-900 dark:text-white">
                     <thead>    
                       <tr class="border-b">      

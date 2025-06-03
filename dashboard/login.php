@@ -36,16 +36,17 @@
 
    if($step_2)
    {
-        $login_type = get_logintype($password);
+        $login_type = get_logintype($username);
    }
 
    if($username != null && $password != null)
    {
-        if(check_password($password))
+        if(check_password($password, $username))
         {
             session_start();
             $_SESSION['loggedin'] = true;
-            $_SESSION['username'] = $user['USERNAME'];
+            $_SESSION['username'] = $username;
+            $_SESSION['userid'] = getIDfromUsername($username);
             header("Location: dashboard.php");
             exit;
         }else{

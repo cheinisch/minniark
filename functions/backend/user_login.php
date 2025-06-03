@@ -1,40 +1,54 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
-$userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
-//$user = file_exists($userConfigPath) ? require $userConfigPath : [];
+    require_once __DIR__ . '/../../vendor/autoload.php';
+
+    use Symfony\Component\Yaml\Yaml;
+
+    $user = null; // wird durch getUserFromUsername() gefüllt
 
 
-    function check_username($username)
+    function check_username($username): bool
     {
-        global $user;
-        $value = false;
-
-        if($user['USERNAME'] == $username)
-        {
-            $value = true;
+        $ymlDir = __DIR__ . '/../../userdata/config/user/';
+        if (!is_dir($ymlDir)) {
+            return false;
         }
-    
-        return $value;
+
+        $files = scandir($ymlDir);
+
+        foreach ($files as $file) {
+            if (pathinfo($file, PATHINFO_EXTENSION) !== 'yml') {
+                continue;
+            }
+
+            $filePath = $ymlDir . $file;
+            $data = Symfony\Component\Yaml\Yaml::parseFile($filePath);
+
+            if (
+                isset($data['user']['username']) &&
+                strtolower($data['user']['username']) === strtolower($username)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
-    function get_logintype($password)
+
+    function get_logintype(string $username): string
     {
-        global $user;
-        $returnValue = "password";
+        $user = getUserDataFromUsername($username);
 
-        $returnValue = $user['AUTH_TYPE'];
-
-        if($returnValue == 'mail' && $password == null)
-        {
-            send_otp_mail($user['EMAIL'], $user['USERNAME']);
+        if (!$user || !isset($user['auth_type'])) {
+            return 'password'; // Fallback
         }
 
-        return $returnValue;
-
+        return $user['auth_type'];
     }
 
     function send_otp_mail($mail, $username)
@@ -46,26 +60,19 @@ $userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
         return null;
     }
 
-    function check_password($password)
+    function check_password($password, $username): bool
     {
-        global $user;
-        $value = false;
-        if($user['AUTH_TYPE']== 'password'){
-            error_log("Password Login");
-            if(password_verify($password, $user['PASSWORD_HASH']))
-            {
-                $value = true;
-            }
-        }else if($user['AUTH_TYPE']== 'mail')
-        {
-            error_log("OTP Login");
-            if(password_verify($password, $user['MAIL_AUTH_TOKEN']))
-            {
-                $value = true;
-            }
+        $user = getUserDataFromUsername($username);
+
+        if (!$user) return false;
+
+        if ($user['auth_type'] === 'password') {
+            return password_verify($password, $user['password']);
+        } elseif ($user['auth_type'] === 'mail' && isset($user['mail_auth_token'])) {
+            return password_verify($password, $user['mail_auth_token']);
         }
-    
-        return $value;
+
+        return false;
     }
 
     function generate_otp()
@@ -77,15 +84,17 @@ $userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
         return $opt;
     }
 
-    function save_opt($opt)
+    function save_otp($otp): void
     {
         global $user;
 
-        $user['MAIL_AUTH_TOKEN'] = password_hash($opt, PASSWORD_DEFAULT);
+        if (!$user) return;
 
-        $configContent = "<?php\n//define('IMAGEPORTFOLIO', true);\nreturn " . var_export($user, true) . ";\n";
-        $userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
-        file_put_contents($userConfigPath, $configContent, LOCK_EX);
+        $user['mail_auth_token'] = password_hash($otp, PASSWORD_DEFAULT);
+
+        // Benutzerdatei aktualisieren
+        $username = $user['username'];
+        updateUserData($username, ['mail_auth_token' => $user['mail_auth_token']], null);
     }
 
     function send_loginmail($mail, $username, $opt)
@@ -94,16 +103,16 @@ $userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
         error_log("Sendmail: ".$mail.", ".$username.", ".$opt);
 
         $to = $mail;
-        $subject = "Framora Logincode";
+        $subject = "Minniark Logincode";
 
         $message = "
         <html>
         <head>
-        <title>Framora Login</title>
+        <title>Minniark Login</title>
         </head>
         <body>
         <p>Hello ".$username.",</p>
-        <p>Your Logincode for your Framora account is ".$opt."
+        <p>Your Logincode for your Minniark account is ".$opt."
         </body>
         </html>
         ";
@@ -113,7 +122,7 @@ $userConfigPath = __DIR__ . '/../../userdata/config/user_config.php';
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
         // More headers
-        $headers .= 'From: <framora@image-portfolio.org>' . "\r\n";
+        $headers .= 'From: <minniark@minniark.app>' . "\r\n";
 
         $sent = mail($to, $subject, $message, $headers);
 

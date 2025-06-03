@@ -147,6 +147,30 @@
         return null;
     }
 
+    function getIDfromUsername($username):int
+    {
+        $slug = generateSlug($username);
+        $ymlDir = __DIR__ . '/../../userdata/config/user/';
+        if (!is_dir($ymlDir)) {
+            return null;
+        }
+
+        $files = scandir($ymlDir);
+
+        foreach ($files as $file) {
+            if (preg_match('/^\d+-' . preg_quote($slug, '/') . '\.yml$/', $file)) {
+                $filePath = $ymlDir . $file;
+                $data = Symfony\Component\Yaml\Yaml::parseFile($filePath);
+
+                if (isset($data['user']['id'])) {
+                    return (int)$data['user']['id'];
+                }
+            }
+        }
+
+        return 0;
+    }
+
 
 
 
@@ -199,3 +223,55 @@
 
         return $maxId + 1;
     }
+
+    function get_userimage()
+    {
+        $username = $_SESSION['username'];
+        $user = getUserDataFromUsername($username);
+        $email = $user['mail'] ?? '';
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        $fallbackUrl = "$protocol://$host/dashboard/img/avatar.png";
+        $size = 160;
+        $gravatarUrl = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?s=$size&d=" . urlencode($fallbackUrl);
+        return $gravatarUrl;
+    }
+
+    function get_username(): string
+{
+    if (!isset($_SESSION['username'])) {
+        return 'Unbekannt';
+    }
+
+    return $_SESSION['username'];
+}
+
+function get_usermail(): string
+{
+    if (!isset($_SESSION['username'])) {
+        return '';
+    }
+
+    $user = getUserDataFromUsername($_SESSION['username']);
+    return $user['mail'] ?? '';
+}
+
+function get_displayname(): string
+{
+    if (!isset($_SESSION['username'])) {
+        return '';
+    }
+
+    $user = getUserDataFromUsername($_SESSION['username']);
+    return $user['display_name'] ?? $user['username'] ?? '';
+}
+
+function get_logintype_select(): string
+{
+    if (!isset($_SESSION['username'])) {
+        return '';
+    }
+
+    $user = getUserDataFromUsername($_SESSION['username']);
+    return $user['auth_type'] ?? '';
+}

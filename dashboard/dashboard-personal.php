@@ -170,7 +170,7 @@
                       <span class="block sm:inline">Something is wrong.</span>
                     </div>
                     <div class="col-span-3 md:col-span-full flex items-center gap-x-8">
-                      <img src="<?php echo get_userimage(); ?>" alt="" class="size-24 flex-none rounded-lg bg-gray-800 object-cover">
+                      <img src="<?php echo get_userimage(); ?>" alt="" class="size-24 flex-none bg-gray-800 object-cover">
                       <!--<div>
                         <button type="button" class=" bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Change avatar</button>
                         <p class="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>

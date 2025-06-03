@@ -254,7 +254,9 @@
                       <?= getAllUser(); ?>
                     </tbody>
                   </table>
-                  <button>Create new User</button>
+                  <div class="py-5">
+                    <a href="?new" class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400">Create new User</a>
+                  </div>
                 </div>
               </div>
             </div>

@@ -13,3 +13,13 @@
         }
 
     }
+
+
+function onlyAdmin()
+{
+if(!$_SESSION['admin'])
+{
+header("Location: ../dashboard.php");
+}
+
+}

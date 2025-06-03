@@ -254,6 +254,7 @@
                       <?= getAllUser(); ?>
                     </tbody>
                   </table>
+                  <button>Create new User</button>
                 </div>
               </div>
             </div>

@@ -15,6 +15,7 @@
 
         <!-- Tailwind CSS -->
         <link rel="stylesheet" href="css/tailwind.css">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body class="min-h-screen flex flex-col">
         <header>
@@ -70,7 +71,7 @@
                             <button type="button" class="relative flex rounded-full bg-white text-sm focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                               <span class="absolute -inset-1.5"></span>
                               <span class="sr-only">Open user menu</span>
-                              <img class="size-8 rounded-full" src="<?php echo get_userimage(); ?>" alt="">
+                              <img class="size-8 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
                             </button>
                           </div>
               
@@ -120,7 +121,7 @@
                   <div class="border-t border-gray-200 pt-4 pb-3">
                     <div class="flex items-center px-4 sm:px-6">
                       <div class="shrink-0">
-                        <img class="size-10 rounded-full" src="<?php echo get_userimage(); ?>" alt="">
+                        <img class="size-10 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
                       </div>
                       <div class="ml-3">
                         <div class="text-base font-medium text-gray-300"><?php echo get_username(); ?></div>
@@ -153,165 +154,60 @@
             <div class="divide-y divide-gray-400 dark:divide-white/5">
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Personal Information</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Use a permanent address where you can receive mail.</p>
+                  <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Account Information</h2>
+                  <p class="mt-1 text-sm/6 text-gray-400">Show all user accounts.</p>
                 </div>
+                <div class="md:col-span-2">
+                  <form class="flex flex-wrap items-center gap-4">
+  <input
+    type="text"
+    name="username"
+    placeholder="Username"
+    class="px-4 py-2 border border-gray-300"
+  />
+  <input
+    type="email"
+    name="mail"
+    placeholder="E-Mail"
+    class="px-4 py-2 border border-gray-300"
+  />
+  <input
+    type="password"
+    name="password"
+    placeholder="Passwort"
+    class="px-4 py-2 border border-gray-300"
+  />
+  
+  <select
+    name="userrole"
+    class="px-4 py-2 border border-gray-300 bg-white text-gray-700"
+  >
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
 
-                <form class="md:col-span-2" id="change-data-form">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Notifications für Benutzerdaten -->
-                    <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Success!</strong>
-                      <span class="block sm:inline">Userdata has been saved.</span>
-                    </div>
+  <button
+    type="submit"
+    class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
+  >
+    Registrieren
+  </button>
+</form>
 
-                    <div id="notification-error-user" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Error!</strong>
-                      <span class="block sm:inline">Something is wrong.</span>
-                    </div>
-                    <div class="col-span-3 md:col-span-full flex items-center gap-x-8">
-                      <img src="<?php echo get_userimage(); ?>" alt="" class="size-24 flex-none rounded-lg bg-gray-800 object-cover">
-                      <!--<div>
-                        <button type="button" class=" bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Change avatar</button>
-                        <p class="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
-                      </div>-->
-                    </div>
-
-                    <div class="col-span-3">
-                      <label for="first-name" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Display name</label>
-                      <div class="mt-2">
-                        <input type="text" name="display-name" id="display-name" value="<?php echo get_displayname(); ?>" autocomplete="given-name" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                    <div class="col-span-3">
-                      <label for="username" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Username</label>
-                      <div class="mt-2">
-                        <div class="flex items-center">
-                          <input type="text" name="username" id="username" value="<?php echo get_username(); ?>" class="block min-w-0 grow bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-span-3 md:col-span-full">
-                      <label for="email" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Email address</label>
-                      <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email" value="<?php echo get_usermail(); ?>" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
-                  </div>
-                </form>
-              </div>
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-                <div>
-                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Login Type</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Select between password and One Time Code via Mail</p>
+                  <table class="table-auto w-full">
+                    <thead>    
+                      <tr>      
+                        <th>Username</th>      
+                        <th>Mail</th>      
+                        <th>Role</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?= getAllUser(); ?>
+                    </tbody>
+                  </table>
                 </div>
-
-                <form class="md:col-span-2" id="change-login-type-form">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-logintype-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Success!</strong>
-                      <span class="block sm:inline">Login has been changed</span>
-                    </div>
-
-                    <!-- Fehlermeldung (rot) -->
-                    <div id="notification-logintype-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Error!</strong>
-                      <span class="block sm:inline">Login has not been changed!</span>
-                    </div>
-                    <!-- Select Image Size -->
-                    <div class="sm:col-span-full">
-                      <label id="listbox-logintype-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Login Type</label>
-                      <div class="relative mt-2">
-                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-logintype" aria-expanded="true" aria-labelledby="listbox-image-label">
-                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_logintype_select(); ?></span>
-                          <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="hidden absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-logintype-label" aria-activedescendant="listbox-option-1">
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">password</span>
-                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">mail</span>
-                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <input type="hidden" name="login_type" id="login_type" value="<?php echo get_logintype_select(); ?>">
-                    <!-- Select ende -->
-
-                  </div>
-
-                  <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>                    
-                  </div>
-                </form>
-              </div>
-
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-                <div>
-                  <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Change password</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Update your password associated with your account.</p>
-                </div>
-
-                <form class="md:col-span-2" id="change-password-form">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Success!</strong>
-                      <span class="block sm:inline">Password has been changed.</span>
-                    </div>
-
-                    <!-- Fehlermeldung (rot) -->
-                    <div id="notification-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Error!</strong>
-                      <span class="block sm:inline">The current password is wrong.</span>
-                    </div>
-                    <div class="col-span-full">
-                      <label for="current-password" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Current password</label>
-                      <div class="mt-2">
-                        <input id="current-password" name="current_password" type="password" autocomplete="current-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div> 
-
-                    <div class="col-span-full">
-                      <label for="new-password" class="block text-sm/6 font-medium text-gray-700 dark:text-white">New password</label>
-                      <div class="mt-2">
-                        <input id="new-password" name="new_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-
-                    <div class="col-span-full">
-                      <label for="confirm-password" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Confirm password</label>
-                      <div class="mt-2">
-                        <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
-                  </div>
-                </form>
               </div>
             </div>
           </main>

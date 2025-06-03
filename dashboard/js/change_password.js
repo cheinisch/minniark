@@ -38,45 +38,6 @@ function showNotification(type, message) {
   }
 }
 
-document.querySelector('#change-data-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-  
-    const formData = new FormData(this);
-  
-    try {
-      const res = await fetch('../api/change_userdata.php', {
-        method: 'POST',
-        body: formData
-      });
-  
-      const result = await res.json();
-  
-      if (res.ok && result.status === 'success') {
-        showUserNotification('success', result.message);
-      } else {
-        showUserNotification('error', result.message || 'Ein Fehler ist aufgetreten.');
-      }
-    } catch (err) {
-      showUserNotification('error', 'Verbindung zum Server fehlgeschlagen.');
-      console.error(err);
-    }
-  });
-  
-  function showUserNotification(type, message) {
-    const successBox = document.getElementById('notification-success-user');
-    const errorBox = document.getElementById('notification-error-user');
-  
-    successBox.classList.add('hidden');
-    errorBox.classList.add('hidden');
-  
-    if (type === 'success') {
-      successBox.querySelector('span').textContent = message;
-      successBox.classList.remove('hidden');
-    } else if (type === 'error') {
-      errorBox.querySelector('span').textContent = message;
-      errorBox.classList.remove('hidden');
-    }
-  }
 
 
   document.getElementById('change-login-type-form').addEventListener('submit', async function (e) {

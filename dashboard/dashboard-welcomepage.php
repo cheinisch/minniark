@@ -156,7 +156,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                             <button type="button" class="relative flex rounded-full bg-white text-sm focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                               <span class="absolute -inset-1.5"></span>
                               <span class="sr-only">Open user menu</span>
-                              <img class="size-8 rounded-full" src="<?php echo get_userimage(); ?>" alt="">
+                              <img class="size-8 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
                             </button>
                           </div>
               
@@ -209,7 +209,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                   <div class="border-t border-gray-200 pt-4 pb-3">
                     <div class="flex items-center px-4 sm:px-6">
                       <div class="shrink-0">
-                        <img class="size-10 rounded-full" src="<?php echo get_userimage(); ?>" alt="">
+                        <img class="size-10 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
                       </div>
                       <div class="ml-3">
                         <div class="text-base font-medium text-gray-300"><?php echo get_username(); ?></div>

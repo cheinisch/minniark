@@ -224,9 +224,8 @@
         return $maxId + 1;
     }
 
-    function get_userimage()
+    function get_userimage($username)
     {
-        $username = $_SESSION['username'];
         $user = getUserDataFromUsername($username);
         $email = $user['mail'] ?? '';
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
@@ -237,41 +236,66 @@
         return $gravatarUrl;
     }
 
-    function get_username(): string
-{
-    if (!isset($_SESSION['username'])) {
-        return 'Unbekannt';
+    function get_username($username): string
+    {
+        return $username;
     }
 
-    return $_SESSION['username'];
-}
-
-function get_usermail(): string
-{
-    if (!isset($_SESSION['username'])) {
-        return '';
+    function get_usermail($username): string
+    {
+        $user = getUserDataFromUsername($username);
+        return $user['mail'] ?? '';
     }
 
-    $user = getUserDataFromUsername($_SESSION['username']);
-    return $user['mail'] ?? '';
-}
-
-function get_displayname(): string
-{
-    if (!isset($_SESSION['username'])) {
-        return '';
+    function get_displayname($username): string
+    {
+        $user = getUserDataFromUsername($username);
+        return $user['display_name'] ?? $user['username'] ?? '';
     }
 
-    $user = getUserDataFromUsername($_SESSION['username']);
-    return $user['display_name'] ?? $user['username'] ?? '';
-}
-
-function get_logintype_select(): string
-{
-    if (!isset($_SESSION['username'])) {
-        return '';
+    function get_logintype_select($username): string
+    {
+        $user = getUserDataFromUsername($username);
+        return $user['auth_type'] ?? '';
     }
 
-    $user = getUserDataFromUsername($_SESSION['username']);
-    return $user['auth_type'] ?? '';
-}
+    function getAllUser(): string
+    {
+        $ymlDir = __DIR__ . '/../../userdata/config/user/';
+        $output = '';
+
+        if (!is_dir($ymlDir)) {
+            return '<tr><td colspan="4">Keine Benutzer gefunden.</td></tr>';
+        }
+
+        $files = scandir($ymlDir);
+
+        foreach ($files as $file) {
+            if (pathinfo($file, PATHINFO_EXTENSION) !== 'yml') {
+                continue;
+            }
+
+            $filePath = $ymlDir . $file;
+            $data = Symfony\Component\Yaml\Yaml::parseFile($filePath);
+
+            if (!isset($data['user'])) {
+                continue;
+            }
+
+            $username = htmlspecialchars($data['user']['username'] ?? '');
+            $mail     = htmlspecialchars($data['user']['mail'] ?? '');
+            $role     = htmlspecialchars($data['user']['userrole'] ?? 'user');
+
+            // Optional: Button/Link in letzter Spalte
+            $action = '<a href="?edit=' . urlencode($username) . '" class="text-sky-600 hover:underline">Edit</a> <a href="?delete=' . urlencode($username) . '" class="text-rose-600 hover:underline">Delete</a>';
+
+            $output .= "<tr>
+                        <td>$username</td>
+                        <td>$mail</td>
+                        <td>$role</td>
+                        <td>$action</td>
+                        </tr>";
+        }
+
+        return $output;
+    }

@@ -47,6 +47,7 @@
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $username;
             $_SESSION['userid'] = getIDfromUsername($username);
+            $_SESSION['admin'] = isAdmin($username);
             header("Location: dashboard.php");
             exit;
         }else{

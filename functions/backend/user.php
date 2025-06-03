@@ -287,10 +287,10 @@
             $role     = htmlspecialchars($data['user']['userrole'] ?? 'user');
 
             // Optional: Button/Link in letzter Spalte
-            $action = '<a href="?edit=' . urlencode($username) . '" class="text-sky-600 hover:underline">Edit</a> <a href="?delete=' . urlencode($username) . '" class="text-rose-600 hover:underline">Delete</a>';
+            $action = '<a href="?edit=' . urlencode($username) . '" class="text-sky-600 hover:underline">Edit</a> - <a href="?delete=' . urlencode($username) . '" class="text-rose-600 hover:underline">Delete</a>';
 
             $output .= "<tr>
-                        <td>$username</td>
+                        <td class=\"py-2\">$username</td>
                         <td>$mail</td>
                         <td>$role</td>
                         <td>$action</td>
@@ -298,4 +298,18 @@
         }
 
         return $output;
+    }
+
+    function isAdmin(string $username): bool
+    {
+        $user = getUserDataFromUsername($username);
+
+        if (!$user) {
+            return false;
+        }
+
+        // Falls 'userrole' nicht vorhanden ist, standardmäßig 'user' annehmen
+        $role = strtolower($user['userrole'] ?? 'user');
+
+        return $role === 'admin';
     }

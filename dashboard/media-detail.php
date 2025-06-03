@@ -265,8 +265,8 @@
                         <img class="size-10 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
                       </div>
                       <div class="ml-3">
-                        <div class="text-base font-medium text-gray-300"><?php echo get_username(); ?></div>
-                        <div class="text-sm font-medium text-gray-500"><?php echo get_usermail(); ?></div>
+                        <div class="text-base font-medium text-gray-300"><?php echo get_username($_SESSION['username']); ?></div>
+                        <div class="text-sm font-medium text-gray-500"><?php echo get_usermail($_SESSION['username']); ?></div>
                       </div>
                       <button type="button" class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
                         <span class="absolute -inset-1.5"></span>

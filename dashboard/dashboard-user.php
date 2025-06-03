@@ -124,8 +124,8 @@
                         <img class="size-10 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
                       </div>
                       <div class="ml-3">
-                        <div class="text-base font-medium text-gray-300"><?php echo get_username(); ?></div>
-                        <div class="text-sm font-medium text-gray-500"><?php echo get_usermail(); ?></div>
+                        <div class="text-base font-medium text-gray-300"><?php echo get_username($_SESSION['username']); ?></div>
+                        <div class="text-sm font-medium text-gray-500"><?php echo get_usermail($_SESSION['username']); ?></div>
                       </div>
                       <button type="button" class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
                         <span class="absolute -inset-1.5"></span>
@@ -158,49 +158,49 @@
                   <p class="mt-1 text-sm/6 text-gray-400">Show all user accounts.</p>
                 </div>
                 <div class="md:col-span-2">
-                  <form class="flex flex-wrap items-center gap-4">
-  <input
-    type="text"
-    name="username"
-    placeholder="Username"
-    class="px-4 py-2 border border-gray-300"
-  />
-  <input
-    type="email"
-    name="mail"
-    placeholder="E-Mail"
-    class="px-4 py-2 border border-gray-300"
-  />
-  <input
-    type="password"
-    name="password"
-    placeholder="Passwort"
-    class="px-4 py-2 border border-gray-300"
-  />
-  
-  <select
-    name="userrole"
-    class="px-4 py-2 border border-gray-300 bg-white text-gray-700"
-  >
-    <option value="user">User</option>
-    <option value="admin">Admin</option>
-  </select>
+                  <form class="hidden flex flex-wrap items-center gap-4">
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="Username"
+                      class="px-4 py-2 border border-gray-300"
+                    />
+                    <input
+                      type="email"
+                      name="mail"
+                      placeholder="E-Mail"
+                      class="px-4 py-2 border border-gray-300"
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Passwort"
+                      class="px-4 py-2 border border-gray-300"
+                    />
+                    
+                    <select
+                      name="userrole"
+                      class="px-4 py-2 border border-gray-300 bg-white text-gray-700"
+                    >
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
 
-  <button
-    type="submit"
-    class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
-  >
-    Registrieren
-  </button>
-</form>
+                    <button
+                      type="submit"
+                      class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
+                    >
+                      Registrieren
+                    </button>
+                  </form>
 
-                  <table class="table-auto w-full">
+                  <table class="table-auto w-full text-gray-900 dark:text-white">
                     <thead>    
-                      <tr>      
-                        <th>Username</th>      
-                        <th>Mail</th>      
-                        <th>Role</th>
-                        <th></th>
+                      <tr class="border-b">      
+                        <th class="py-2">Username</th>
+                        <th class="py-2">Mail</th>
+                        <th class="py-2">Role</th>
+                        <th class="py-2"></th>
                       </tr>
                     </thead>
                     <tbody>

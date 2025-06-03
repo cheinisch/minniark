@@ -138,8 +138,6 @@
 
                   <div id="imageList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto mb-6">
                     <?php
-                    require_once(__DIR__ . '/../../functions/backend/album.php'); // getAlbumData
-                    require_once(__DIR__ . '/../../functions/backend/collection.php'); // getCollectionData
 
                     $collection = getCollectionData($collectionSlug); // z. B. 'test-collection'
                     $albums = $collection['albums'] ?? [];

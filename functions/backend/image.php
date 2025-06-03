@@ -104,11 +104,11 @@ function getAllUploadedImages()
         $yamlFile = $imageDir . pathinfo($fileName, PATHINFO_FILENAME) . '.yml';
         if (!file_exists($yamlFile)) continue;
         $metadata = Yaml::parseFile($yamlFile);
-        $title = $metadata['title'];
-        $description = htmlspecialchars($metadata['description'] ?? 'Keine Beschreibung verfügbar');
-        $exifDate = $metadata['exif']['Date'] ?? null;
+        $title = $metadata['image']['title'];
+        $description = htmlspecialchars($metadata['image']['description'] ?? 'Keine Beschreibung verfügbar');
+        $exifDate = $metadata['image']['exif']['Date'] ?? null;
         $year = $exifDate ? substr($exifDate, 0, 4) : null;
-        $rating = $metadata['rating'] ?? 0;
+        $rating = $metadata['image']['rating'] ?? 0;
         $imageData[] = [
             'filename' => $fileName,
             'title' => $title,

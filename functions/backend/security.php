@@ -8,18 +8,20 @@
 
         } else {
             // Benutzer ist nicht eingeloggt, Login-Seite anzeigen
-            // Pfad zur Index: Relativ: ../../dashboard_v2/index.php
+            // Pfad zur Index: Relativ: ../../dashboard/index.php
            header("Location: index.php");
         }
 
     }
 
+    // onlyAdmin is to check for Admin Only features (dasboard at this moment)
+    function onlyAdmin()
+    {
+    
+        if(!$_SESSION['admin'])
+        {
+            // redirect to dashboard overview
+            header("Location: ../dashboard.php");
+        }
 
-function onlyAdmin()
-{
-if(!$_SESSION['admin'])
-{
-header("Location: ../dashboard.php");
-}
-
-}
+    }

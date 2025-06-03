@@ -2,15 +2,17 @@
 
     function is_installed()
     {
-        $userconfig = __DIR__ . '/../../userdata/config/user_config.php';
-        $systemsettings = __DIR__ . '/../../userdata/config/system';
+        $userconfig = __DIR__ . '/../../userdata/config/user/';
+        $systemsettings = __DIR__ . '/../../userdata/config/settings.yml';
 
 
-        $accountfile = file_exists($userconfig);
-        //$systemFiles = glob($systemsettings . '/*.json');
+        $systemsettingsfile = file_exists($systemsettingsfile);
+        $accountFiles = glob($userconfig . '/*.yml');
 
-        if(!$accountfile)
+        if($systemsettingsfile && $accountFiles)
         {
+            // do nothing
+        }else{
             header('Location: ./../../dashboard/install.php');
             exit(); // Wichtig: Script hier beenden!
         }

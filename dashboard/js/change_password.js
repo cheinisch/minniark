@@ -37,34 +37,3 @@ function showNotification(type, message) {
     errorBox.classList.remove('hidden');
   }
 }
-
-
-
-  document.getElementById('change-login-type-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-  
-    const loginType = document.getElementById('login_type').value;
-  
-    const payload = new FormData();
-    payload.append('auth_type', loginType);
-  
-    try {
-      const response = await fetch('../api/change_userdata.php', {
-        method: 'POST',
-        body: payload
-      });
-  
-      const result = await response.json();
-  
-      if (result.status === 'success') {
-        document.getElementById('notification-logintype-success').classList.remove('hidden');
-        document.getElementById('notification-logintype-error').classList.add('hidden');
-      } else {
-        throw new Error(result.message);
-      }
-    } catch (error) {
-      console.error('Fehler beim Speichern:', error);
-      document.getElementById('notification-logintype-error').classList.remove('hidden');
-      document.getElementById('notification-logintype-success').classList.add('hidden');
-    }
-  });

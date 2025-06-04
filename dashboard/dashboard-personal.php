@@ -212,7 +212,7 @@
                   <p class="mt-1 text-sm/6 text-gray-400">Select between password and One Time Code via Mail</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-login-type-form">
+                <form class="md:col-span-2" action="backend_api/save_user_data.php?auth_type=<?php echo $_SESSION['username']; ?>" method="post" id="change-login-type-form">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Erfolgsmeldung (grün) -->
                     <div id="notification-logintype-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">

@@ -60,14 +60,23 @@
         }
     }
 
-    if(isset($_GET['auth_typ']))
+    if(isset($_GET['auth_type']))
     {
         $username = $_GET['auth_type'];
+        $login = $_POST['login_type'];
+        
+        $data = [
+            'auth_type' => $login,
+        ];
+
+        $result = updateUserData($username, $data, $username);
 
         if($result)
         {
-            header("Location: ../dashboard-personal.php");
+           header("Location: ../dashboard-personal.php");
+           exit;
         }else{
             echo "Error";
         }
+
     }

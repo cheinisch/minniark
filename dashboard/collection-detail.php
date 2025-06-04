@@ -389,7 +389,7 @@
                     <li><a href="media.php" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
                   </ul>
                   <li class="flex items-center gap-1">
-                    Albums (<a href="#" id="add-album">add new</a>)
+                    Albums
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <line x1="12" y1="5" x2="12" y2="19" />
                       <line x1="5" y1="12" x2="19" y2="12" />
@@ -407,7 +407,7 @@
                     ?>
                   </ul> 
                   <li class="flex items-center gap-1">
-                    Collections (<a href="#" id="add-collection">add new</a>)
+                    Collections
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <line x1="12" y1="5" x2="12" y2="19" />
                       <line x1="5" y1="12" x2="19" y2="12" />

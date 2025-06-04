@@ -389,9 +389,16 @@
                     </svg>-->
                   </li>
                   <ul class="px-5">
-                    <li><a href="#" class="text-gray-400 hover:text-sky-400">Album 1</a></li>
-                  </ul>                    
-                </ul>
+                    <?php 
+
+                      $collections = getcollectionList();
+
+                      foreach($collections as $collection)
+                      {
+                        echo '<li id="'.$collection['title'].'"><a href="collection-detail.php?collection='.$collection['slug'].'" class="text-gray-400 hover:text-sky-400">'.$collection['title'].'</a></li>';
+                      }                    
+                    ?>
+                  </ul> 
               </nav>
           </aside>
           <main class="flex-1 bg-white dark:bg-neutral-900 overflow-auto">

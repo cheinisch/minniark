@@ -10,6 +10,7 @@
     $type = $_GET['type'] ?? null;
     $filename = $_GET['filename'] ?? null;
     $albumname = $_GET['albumname'] ?? null;
+    $collection = $_GET['collection'] ?? null;
 
     switch($type) {
         case "img":
@@ -31,5 +32,9 @@
         case "collection":
             removeCollection($filename);
             header("Location: ../media.php");
+            break;
+        case "removealbumfromcollection":
+            removealbumfromcollection($collection, $albumname);
+            header("Location: ../collection-detail.php?collection=".$collection);
             break;
     }

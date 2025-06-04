@@ -8,6 +8,9 @@
 
   $usernameEdit = $_GET['edit'] ?? null;
   $usernameDelete = $_GET['delete'] ?? null;
+  $wrong_user = false;
+  $delete_modal = false;
+
 
   if($usernameEdit != null)
   {
@@ -15,6 +18,16 @@
     $username = $userdata['username'];
     $mail = $userdata['mail'];
     $role = $userdata['userrole'];
+  }
+
+  if(isset($_GET['delete']))
+  {
+    if($usernameDelete == $_SESSION['username'])
+    {
+      $wrong_user = true;
+    }else{
+      $delete_modal = true;
+    }
   }
 
 ?>
@@ -31,6 +44,47 @@
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body class="min-h-screen flex flex-col">
+      <!-- delete Modal -->
+       <?php
+
+        if($delete_modal)
+        {
+          ?>
+    <div id="deleteModal" class="relative z-50 " role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
+            <p class="mt-4 text-gray-600">Do you really want to delete the user: <?php echo $_GET['delete']; ?></p>
+            <div class="flex justify-end mt-6 space-x-3">
+              <a href="?" id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</a>
+              <a href="backend_api/user_edit_user.php?delete=<?php echo $_GET['delete'] ?>"  id="confirmDelete" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- current user delete Modal -->
+       <?php
+        }
+
+        if($wrong_user)
+        {
+       ?>
+    <div id="deleteModal" class="relative z-50 " role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-800">Delete Error</h2>
+            <p class="mt-4 text-gray-600">You can't delete your own user</p>
+            <div class="flex justify-end mt-6 space-x-3">
+              <a href="?" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Okay</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <?php
+        }
+      ?>
         <header>
             <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
@@ -174,10 +228,10 @@
                   <!-- Edit Form-->
                    <?php
 
-                    if($usernameEdit != null)
+                    if (isset($_GET['edit']))
                     {
                   ?>
-                  <form class="flex flex-wrap items-center gap-4">
+                  <form class="flex flex-wrap items-center gap-4" action="backend_api/user_edit_user.php?edit" method="post">
                     <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
                       <div class="flex flex-col">
                         <label for="username" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
@@ -188,6 +242,12 @@
                           placeholder="Username"
                           value="<?php echo $username; ?>"
                           class="px-4 py-2 border border-gray-300 dark:text-white"
+                        />
+                      <input
+                          type="hidden"
+                          id="username_old"
+                          name="username_old"
+                          value="<?php echo $username; ?>"
                         />
                       </div>
 
@@ -223,6 +283,76 @@
                         >
                           <option value="user" <?php if($role == 'user'){ echo "selected"; } ?>>User</option>
                           <option value="admin" <?php if($role == 'admin'){ echo "selected"; } ?>>Admin</option>
+                        </select>
+                      </div>
+
+                      <div class="flex flex-col justify-end">
+                        <button
+                          type="submit"
+                          class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+
+                  </form>
+                  <?php
+
+                    }
+                  ?>
+                  <!-- New Form-->
+                   <?php
+
+                    if (isset($_GET['new']))
+                    {
+                  ?>
+                  <form class="flex flex-wrap items-center gap-4" action="backend_api/user_edit_user.php?new" method="post">
+                    <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                      <div class="flex flex-col">
+                        <label for="username" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+                        <input
+                          type="text"
+                          id="username"
+                          name="username"
+                          placeholder="Username"
+                          class="px-4 py-2 border border-gray-300 dark:text-white"
+                          required
+                        />
+                      </div>
+
+                      <div class="flex flex-col">
+                        <label for="mail" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">E-Mail</label>
+                        <input
+                          type="email"
+                          id="mail"
+                          name="mail"
+                          placeholder="E-Mail"
+                          class="px-4 py-2 border border-gray-300 dark:text-white"
+                          required
+                        />
+                      </div>
+
+                      <div class="flex flex-col">
+                        <label for="password" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <input
+                          type="password"
+                          id="password"
+                          name="password"
+                          class="px-4 py-2 border border-gray-300 dark:text-white"
+                          required
+                        />
+                      </div>
+
+                      <div class="flex flex-col">
+                        <label for="userrole" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">User Role</label>
+                        <select
+                          id="userrole"
+                          name="userrole"
+                          class="px-4 py-2 border border-gray-300 bg-white text-gray-700"
+                        >
+                          <option value="user" selected>User</option>
+                          <option value="admin">Admin</option>
                         </select>
                       </div>
 

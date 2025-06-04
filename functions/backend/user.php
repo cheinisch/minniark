@@ -85,6 +85,11 @@
             $userYaml['user']['username'] = $newUsername;
         }
 
+        // Wenn Passwort im $data-Array enthalten ist, verschlüsseln
+        if (isset($data['password']) && $data['password'] !== '') {
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
         // Daten aktualisieren
         foreach ($data as $key => $value) {
             $userYaml['user'][$key] = $value;
@@ -312,4 +317,25 @@
         $role = strtolower($user['userrole'] ?? 'user');
 
         return $role === 'admin';
+    }
+
+    function removeUser($username): bool
+    {
+        $slug = generateSlug($username);
+        $ymlDir = __DIR__ . '/../../userdata/config/user/';
+        if (!is_dir($ymlDir)) {
+            return false;
+        }
+
+        $files = scandir($ymlDir);
+
+        foreach ($files as $file) {
+            if (preg_match('/^\d+-' . preg_quote($slug, '/') . '\.yml$/', $file)) {
+                $filePath = $ymlDir . $file;
+                unlink($filePath);
+                return true;
+            }
+        }
+
+        return false;
     }

@@ -5,24 +5,69 @@
     require_once(__DIR__ . "/../../functions/function_backend.php");
     security_checklogin();
 
-
-    $username = $_POST['username'];
-    $oldusername = $_POST['old_username'];
-    $displayname = $_POST['display-name'];
-    $mail = $_POST['email'];
-
-    $data = [
-        'username'     => $username,
-        'display_name' => $displayname,
-        'mail'         => $mail,
-    ];
-
-    $result = updateUserData($username, $data, $oldusername);
-
-    if($result)
+    if(isset($_GET['userdata']))
     {
-        $_SESSION['username'] = $username;
-        header("Location: ../dashboard-personal.php");
-    }else{
-        echo "Error";
+        $username = $_POST['username'];
+        $oldusername = $_POST['old_username'];
+        $displayname = $_POST['display-name'];
+        $mail = $_POST['email'];
+
+        $data = [
+            'username'     => $username,
+            'display_name' => $displayname,
+            'mail'         => $mail,
+        ];
+
+        $result = updateUserData($username, $data, $oldusername);
+
+        if($result)
+        {
+            $_SESSION['username'] = $username;
+            header("Location: ../dashboard-personal.php");
+        }else{
+            echo "Error";
+        }
+    }
+    
+    if(isset($_GET['password']))
+    {
+        $username = $_GET['password'];
+
+        print_r($_POST);
+
+        $password_current = $_POST['current_password'];
+        $password_new = $_POST['new_password'];
+        $password_confirm = $_POST['confirm_password'];
+
+        $currentData = getUserDataFromUsername($username);
+
+        print_r($currentData);
+
+        
+
+        $data = [
+            'password' => $password,
+        ];
+
+        $result = updateUserData($username, $data, $username);
+
+        if($result)
+        {
+           // header("Location: ../dashboard-personal.php");
+           exit;
+        }else{
+            echo "Error";
+        }
+    }
+
+    if(isset($_GET['auth_typ']))
+    {
+        $username = $_GET['auth_type'];
+
+        if($result)
+        {
+            header("Location: ../dashboard-personal.php");
+        }else{
+            echo "Error";
+        }
     }

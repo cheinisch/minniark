@@ -4,7 +4,7 @@ document.querySelector('#change-password-form').addEventListener('submit', async
   const formData = new FormData(e.target);
 
   try {
-    const res = await fetch('../api/change_password.php', {
+    const res = await fetch('backend_api/change_password.php', {
       method: 'POST',
       body: formData
     });

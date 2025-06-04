@@ -157,7 +157,7 @@
                   <p class="mt-1 text-sm/6 text-gray-400">Use a permanent address where you can receive mail.</p>
                 </div>
 
-                <form class="md:col-span-2" action="backend_api/save_user_data.php" method="post" id="change-data-form">
+                <form class="md:col-span-2" action="backend_api/save_user_data.php?userdata" method="post" id="change-data-form">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Notifications für Benutzerdaten -->
                     <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
@@ -274,7 +274,7 @@
                   <p class="mt-1 text-sm/6 text-gray-400">Update your password associated with your account.</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-password-form">
+                <form class="md:col-span-2" action="backend_api/save_user_data.php?password=<?php echo $_SESSION['username']; ?>" method="post" id="change-password-form">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Erfolgsmeldung (grün) -->
                     <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
@@ -287,6 +287,7 @@
                       <strong class="font-bold">Error!</strong>
                       <span class="block sm:inline">The current password is wrong.</span>
                     </div>
+                    
                     <div class="col-span-full">
                       <label for="current-password" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Current password</label>
                       <div class="mt-2">

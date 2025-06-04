@@ -39,14 +39,14 @@ error_log(print_r($userData, true));
 
 if (!$userData || !isset($userData['password'])) {
     http_response_code(404);
-    echo json_encode(['status' => 'error', 'message' => 'Benutzerdaten nicht gefunden.']);
+    echo json_encode(['status' => 'error', 'message' => 'Something\'s wrong with the userdata.']);
     exit;
 }
 
 // Aktuelles Passwort prüfen
 if (!password_verify($currentPassword, $userData['password'])) {
     http_response_code(403);
-    echo json_encode(['status' => 'error', 'message' => 'Aktuelles Passwort ist falsch.']);
+    echo json_encode(['status' => 'error', 'message' => 'Current password is wrong.']);
     exit;
 }
 
@@ -67,8 +67,8 @@ $update = [
 $success = updateUserData($username, $update, $username);
 
 if ($success) {
-    echo json_encode(['status' => 'success', 'message' => 'Passwort erfolgreich geändert.']);
+    echo json_encode(['status' => 'success', 'message' => 'Password succesfully changed.']);
 } else {
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'Fehler beim Speichern.']);
+    echo json_encode(['status' => 'error', 'message' => 'Password can\'t save .']);
 }

@@ -27,7 +27,7 @@ if (!saveNewUser($username, $email, $password,$userrole)) {
 
 
 // settings.yml schreiben
-$settingsPath = __DIR__ . '/../userdata/config/settings.yml';
+$settingsPath = __DIR__ . '/../../userdata/config/settings.yml';
 $settings = [
     'site_title' => $sitename,
     'theme' => 'basic',

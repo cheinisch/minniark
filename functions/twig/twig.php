@@ -12,7 +12,7 @@ use Symfony\Component\Yaml\Yaml;
 
 $data = [
     'title' => ucfirst($uri) ?: 'Home',
-    'site_title' => $settings['site_title'] ?? 'Image Portfolio',
+    'site_title' => $settings['site_title'] ?? 'Minniark',
     'theme' => $theme,
     'themepath' => "/userdata/template/{$theme}",
     'settings' => $settings,

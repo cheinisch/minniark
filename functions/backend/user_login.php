@@ -54,7 +54,7 @@
     function send_otp_mail($mail, $username)
     {
 
-        $new_otp = generate_otp();
+        $new_otp = generate_otp($username);
         send_loginmail($mail, $username, $new_otp);
 
         return null;
@@ -62,6 +62,7 @@
 
     function check_password($password, $username): bool
     {
+
         $user = getUserDataFromUsername($username);
 
         if (!$user) return false;
@@ -69,39 +70,40 @@
         if ($user['auth_type'] === 'password') {
             return password_verify($password, $user['password']);
         } elseif ($user['auth_type'] === 'mail' && isset($user['mail_auth_token'])) {
+            error_log("OTP: ".$password." DATA ".$user['mail_auth_token']);
+            if(password_verify($password, $user['mail_auth_token']))
+            {
+            }else{
+                error_log("Token is wrong");
+            }
             return password_verify($password, $user['mail_auth_token']);
         }
 
         return false;
     }
 
-    function generate_otp()
+    function generate_otp($username)
     {
+        error_log("Generate OPT");
+
         $opt = rand(100000,999999);
         
-        save_opt($opt);
+        save_otp($opt, $username);
 
         return $opt;
     }
 
-    function save_otp($otp): void
+    function save_otp($otp, $username): void
     {
-        global $user;
-
-        if (!$user) return;
 
         $user['mail_auth_token'] = password_hash($otp, PASSWORD_DEFAULT);
+        //$user['mail_auth_token'] = $otp;
 
-        // Benutzerdatei aktualisieren
-        $username = $user['username'];
-        updateUserData($username, ['mail_auth_token' => $user['mail_auth_token']], null);
+        $result = updateUserData($username, ['mail_auth_token' => $user['mail_auth_token']], $username);
     }
 
     function send_loginmail($mail, $username, $opt)
     {
-
-        error_log("Sendmail: ".$mail.", ".$username.", ".$opt);
-
         $to = $mail;
         $subject = "Minniark Logincode";
 
@@ -122,7 +124,7 @@
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
         // More headers
-        $headers .= 'From: <minniark@minniark.app>' . "\r\n";
+        $headers .= 'From: <minniark@image-portfolio.org>' . "\r\n";
 
         $sent = mail($to, $subject, $message, $headers);
 

@@ -37,6 +37,11 @@
    if($step_2)
    {
         $login_type = get_logintype($username);
+        if($login_type == "mail" && $password == null)
+        {
+            $mail = get_usermail($username);
+            send_otp_mail($mail, $username);
+        }
    }
 
    if($username != null && $password != null)

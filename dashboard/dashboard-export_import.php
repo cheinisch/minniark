@@ -4,6 +4,8 @@
   $settingspage = "export";
   security_checklogin();
 
+  $backup_guid = read_prefix(); 
+
 ?>
 
 <!DOCTYPE html>
@@ -169,41 +171,6 @@
           <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
             <!-- Settings forms -->
             <div class="divide-y divide-gray-400 dark:divide-white/5">
-              <!--
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-                <div>
-                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Export Data</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Export your data as a zip file</p>
-                </div>
-
-                <div class="md:col-span-2" id="exportform">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Notifications für Benutzerdaten --
-                    <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Daten wurden gespeichert.</span>
-                    </div>
-
-                    <div id="notification-error-user" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Etwas ist schiefgelaufen.</span>
-                    </div>
-
-                    <div class="col-span-4">
-                      <label for="display-prefix" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Prefix</label>
-                      <div class="mt-2 flex gap-2">
-                        <input type="text" name="display-prefix" id="display-prefix" value="<?php echo read_prefix(); ?>" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                        <button id="backup-pre-btn" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save Prefix</button>
-                      </div>
-                    </div>
-                  </div>                 
-
-                  <div class="mt-8 flex">
-                    <button id="backup-btn" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Generate Backup</button>
-                  </div>
-                </div>
-              </div>-->
-
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Import data</h2>

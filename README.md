@@ -57,6 +57,7 @@ This project uses the following technologies:
 
 - [Tailwind CSS](https://tailwindcss.com/) – for utility-first, modern CSS styling
 - [Twig](https://twig.symfony.com/) – a flexible and fast templating engine for PHP
+- [YAML](https://symfony.com/packages/Yaml)
 - [GLightBox](https://github.com/biati-digital/glightbox) - a small lightbox for the pictures
 - [Parsedown](https://github.com/erusev/parsedown) - parser for markdown
 ---

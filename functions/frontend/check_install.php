@@ -31,7 +31,8 @@
         {
             // do nothing
         }else{
-            //header('Location: ./../../dashboard/install.php');
+            $projectRoot = explode('/', $_SERVER['SCRIPT_NAME'])[1]; // "minniark"
+            header('Location: /' . $projectRoot . '/dashboard/install.php');
             exit(); // Wichtig: Script hier beenden!
         }
 

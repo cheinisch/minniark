@@ -30,13 +30,20 @@ use Twig\Environment;
 // use Parsedown;
 $Parsedown = new Parsedown();
 
+// Import Yaml
+use Symfony\Component\Yaml\Yaml;
 
-// JSON-Settings einlesen
-$settingsPath = __DIR__ . '/userdata/config/settings.json';
-$settings = file_exists($settingsPath)
-    ? json_decode(file_get_contents($settingsPath), true)
-    : [];
 
+$settingsPath = __DIR__ . '/userdata/config/settings.yml';
+$settings = [];
+
+if (file_exists($settingsPath)) {
+    try {
+        $settings = Yaml::parseFile($settingsPath);
+    } catch (Exception $e) {
+        error_log("YAML-Fehler beim Einlesen der Einstellungen: " . $e->getMessage());
+    }
+}
 
 $theme = $settings['theme'] ?? 'basic';
 

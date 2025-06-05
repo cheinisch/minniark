@@ -3,7 +3,7 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
-## [0.0.7.0]
+## [0.0.7.1]
 2025-06-04
 
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.7.0...v0.0.0.7.1

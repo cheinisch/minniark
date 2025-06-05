@@ -169,6 +169,7 @@
           <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
             <!-- Settings forms -->
             <div class="divide-y divide-gray-400 dark:divide-white/5">
+              <!--
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Export Data</h2>
@@ -177,7 +178,7 @@
 
                 <div class="md:col-span-2" id="exportform">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Notifications für Benutzerdaten -->
+                    <!-- Notifications für Benutzerdaten --
                     <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
                       <strong class="font-bold">Erfolg!</strong>
                       <span class="block sm:inline">Daten wurden gespeichert.</span>
@@ -201,7 +202,7 @@
                     <button id="backup-btn" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Generate Backup</button>
                   </div>
                 </div>
-              </div>
+              </div>-->
 
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>

@@ -459,7 +459,7 @@ if ($uri === 'home' || $uri === '') {
                             $data['home_image'] = '/cache/images/' . $guid . '_' . $size . '.jpg';
                         }
                     } catch (Exception $e) {
-                        error_log("YAML-Fehler beim Parsen von $ymlFile: " . $e->getMessage());
+                        error_log("YAML-Fehler beim Parsen von $ymlFile:  " . $e->getMessage());
                     }
                 }
             }

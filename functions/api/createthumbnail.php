@@ -1,8 +1,42 @@
 <?php 
 
-// Erstelle ein Thumbnail in der gewünschten Größe
 function createThumbnail($source, $destination, $newWidth) {
     error_log("Start createThumbnail for source: $source");
+
+    // Erhöhe Memory Limit, falls notwendig
+    ini_set('memory_limit', '512M');
+
+    // Nutze Imagick, wenn verfügbar
+    if (extension_loaded('imagick')) {
+        error_log("Using Imagick for thumbnail creation");
+
+        try {
+            $imagick = new Imagick($source);
+
+            // Optional: nur Bilder verarbeiten
+            if (!$imagick->getImageFormat()) {
+                error_log("Invalid image format for: $source");
+                return false;
+            }
+
+            $imagick->setImageOrientation(imagick::ORIENTATION_TOPLEFT); // Korrigiert ggf. EXIF-Rotation
+            $imagick->thumbnailImage($newWidth, 0); // Höhe wird proportional berechnet
+            $imagick->setImageCompressionQuality(85);
+            $imagick->writeImage($destination);
+
+            $imagick->clear();
+            $imagick->destroy();
+
+            error_log("Thumbnail successfully created at: $destination using Imagick");
+            return true;
+        } catch (Exception $e) {
+            error_log("Imagick failed: " . $e->getMessage());
+            // Fallback auf GD
+        }
+    }
+
+    // --- GD Fallback ---
+    error_log("Falling back to GD for thumbnail creation");
 
     $imageInfo = @getimagesize($source);
     if (!$imageInfo) {
@@ -12,7 +46,6 @@ function createThumbnail($source, $destination, $newWidth) {
 
     list($width, $height, $type) = $imageInfo;
 
-    
     if (empty($width) || empty($height)) {
         error_log("Invalid image dimensions: width=$width, height=$height for source: $source");
         return false;
@@ -22,15 +55,12 @@ function createThumbnail($source, $destination, $newWidth) {
 
     switch ($type) {
         case IMAGETYPE_JPEG:
-            error_log("Image type: JPEG");
             $image = @imagecreatefromjpeg($source);
             break;
         case IMAGETYPE_PNG:
-            error_log("Image type: PNG");
             $image = @imagecreatefrompng($source);
             break;
         case IMAGETYPE_GIF:
-            error_log("Image type: GIF");
             $image = @imagecreatefromgif($source);
             break;
         default:
@@ -58,26 +88,19 @@ function createThumbnail($source, $destination, $newWidth) {
 
     switch ($type) {
         case IMAGETYPE_JPEG:
-            if (!imagejpeg($thumb, $destination, 85)) {
-                error_log("Failed to save JPEG thumbnail to: $destination");
-            }
+            imagejpeg($thumb, $destination, 85);
             break;
         case IMAGETYPE_PNG:
-            if (!imagepng($thumb, $destination, 8)) {
-                error_log("Failed to save PNG thumbnail to: $destination");
-            }
+            imagepng($thumb, $destination, 8);
             break;
         case IMAGETYPE_GIF:
-            if (!imagegif($thumb, $destination)) {
-                error_log("Failed to save GIF thumbnail to: $destination");
-            }
+            imagegif($thumb, $destination);
             break;
     }
-
-    error_log("Thumbnail successfully created at: $destination");
 
     imagedestroy($thumb);
     imagedestroy($image);
 
+    error_log("Thumbnail successfully created at: $destination using GD");
     return true;
 }

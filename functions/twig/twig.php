@@ -447,12 +447,19 @@ if ($uri === 'home' || $uri === '') {
                 $album = readGalleryAlbum($imgRef, $settings);
                 $data['home_images'] = $album['images'] ?? [];
             } elseif ($imgStyle === 'image' && $imgRef) {
-                $jsonFile = $imgDir . '/' . pathinfo($imgRef, PATHINFO_FILENAME) . '.json';
-                if (file_exists($jsonFile)) {
-                    $meta = json_decode(file_get_contents($jsonFile), true);
-                    if (json_last_error() === JSON_ERROR_NONE && !empty($meta['guid'])) {
-                        $guid = $meta['guid'];
-                        $data['home_image'] = '/cache/images/' . $guid . '_' . $size . '.jpg';
+                $ymlFile = $imgDir . '/' . pathinfo($imgRef, PATHINFO_FILENAME) . '.yml';
+
+                if (file_exists($ymlFile)) {
+                    try {
+                        $yaml = Symfony\Component\Yaml\Yaml::parseFile($ymlFile);
+                        $imageMeta = $yaml['image'] ?? [];
+
+                        if (!empty($imageMeta['guid'])) {
+                            $guid = $imageMeta['guid'];
+                            $data['home_image'] = '/cache/images/' . $guid . '_' . $size . '.jpg';
+                        }
+                    } catch (Exception $e) {
+                        error_log("YAML-Fehler beim Parsen von $ymlFile: " . $e->getMessage());
                     }
                 }
             }

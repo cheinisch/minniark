@@ -64,7 +64,7 @@ logMessage("GUID: $guid");
 $exifData = extractExifData($targetFile);
 
 // Vorschaubilder erstellen
-$sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920];
+$sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920, 'XXL' => 3440];
 foreach ($sizes as $sizeKey => $sizeValue) {
     $thumbPath = $cacheDir . $guid . "_$sizeKey." . $fileExt;
     createThumbnail($targetFile, $thumbPath, $sizeValue);

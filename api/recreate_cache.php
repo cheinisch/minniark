@@ -13,7 +13,8 @@ $sizes = [
     'S' => 150,
     'M' => 500,
     'L' => 1024,
-    'XL' => 1920
+    'XL' => 1920,
+    'XXL' => 3440
 ];
 
 // Ensure cache directory exists

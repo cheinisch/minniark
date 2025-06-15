@@ -285,7 +285,7 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
 }
 
 // Collection content
-if (preg_match('#^collection$#', $uri)) {
+if (preg_match('#^collections$#', $uri)) {
     $collectionDir = __DIR__ . '/../userdata/content/collection/';
     $collections = [];
 

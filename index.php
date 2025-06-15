@@ -38,12 +38,17 @@ $settingsPath = __DIR__ . '/userdata/config/settings.yml';
 $settings = [];
 
 if (file_exists($settingsPath)) {
+    error_log("File exist!!!");
     try {
         $settings = Yaml::parseFile($settingsPath);
+        error_log(print_r($settings, true));
     } catch (Exception $e) {
         error_log("YAML-Fehler beim Einlesen der Einstellungen: " . $e->getMessage());
     }
+}else{
+    erorr_log("File not exist");
 }
+
 
 $theme = $settings['theme'] ?? 'basic';
 
@@ -60,7 +65,7 @@ $twig->addExtension(new \Twig\Extension\DebugExtension());
 
 
 // Routing per URL-Pfad
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$uri = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '', '/');
 $uri = str_replace('image_portfolio/', '', $uri); // falls über Unterordner aufgerufen
 $current_path = '/' . $uri;
 

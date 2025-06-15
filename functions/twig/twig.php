@@ -321,7 +321,7 @@ if (preg_match('#^collection$#', $uri)) {
         }
     }
 
-    echo $twig->render('collection-list.twig', [
+    echo $twig->render('collection.list.twig', [
         'title' => 'Collections',
         'collections' => $collections,
     ]);

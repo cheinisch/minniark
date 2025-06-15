@@ -17,9 +17,12 @@
         // Prüfe, ob timeline.twig existiert
         $hasTimeline = file_exists($templateDir . '/timeline.twig');
 
-        // Prüfe, ob timeline.twig existiert
+        // Prüfe, ob blog.twig existiert
         $hasBlog = file_exists($templateDir . '/blog.twig');
         $hasBlogItems = hasBlogPosts();
+
+        $hasCollection = file_exists($templateDir . '/collection.list.twig');
+        $hasCollectionItems = hasCollections();
 
         $albumList = null;
         $albumList = getAlbumList();
@@ -61,6 +64,10 @@
 
         if ($hasBlog && $hasBlogItems) {
             $nav[] = ['title' => 'Blog', 'url' => '/blog'];
+        }
+
+        if ($hasCollection && $hasCollectionItems) {
+            $nav[] = ['title' => 'Collections', 'url' => '/collections'];
         }
 
         if(!empty($pageList))

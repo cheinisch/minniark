@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="{{ settings.language }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }} - {{ site_title }}</title>
+        <link rel="stylesheet" href="{{ themepath }}/css/normalize.css">
+        <link rel="stylesheet" href="{{ themepath }}/css/style.css">
+    </head>
+    <body>
+        <header>
+            <h1>{{ site_title }}</h1>
+            {% include "components/nav.twig" %}
+        </header>
+        <main>
+            <h2>{{ title }}</h2>
+            <ul class="album-list">
+                {% for collection in collections %}
+                    <li class="album-entry">
+                        <a href="/collection/{{ collection.slug }}">
+                            {% if collection.cover %}
+                                <img src="{{ collection.cover }}" alt="{{ collection.title }}" />
+                            {% endif %}
+                            <h2>{{ collection.title }}</h2>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
+    </body>
+</html>

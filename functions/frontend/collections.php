@@ -2,16 +2,16 @@
 
     function hasCollections()
     {
-        $hasPosts = false;
+        $hasCollections = false;
 
-        $postDir = __DIR__ . '/../../userdata/content/collection/';
+        $collectionDir = __DIR__ . '/../../userdata/content/collection/';
 
-        $folderCount = count_subfolders($postDir);
+        // Suche nach YML-Dateien im Verzeichnis
+        $ymlFiles = glob($collectionDir . '*.yml');
 
-        if($folderCount > 0)
-        {
-            $hasPosts = true;
+        if (!empty($ymlFiles)) {
+            $hasCollections = true;
         }
 
-        return $hasPosts;
+        return $hasCollections;
     }

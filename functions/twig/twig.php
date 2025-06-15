@@ -322,11 +322,11 @@ if (preg_match('#^collections$#', $uri)) {
         }
     }
 
-    echo $twig->render('collection.list.twig', [
-        'title' => 'Collections',
-        'collections' => $collections,
-        'site_title' => $settings['site_title'] ?? 'Minniark',
-    ]);
+    $data['collections'] = $collections;
+    $data['title'] = 'Collections';
+
+    echo $twig->render('collection.list.twig', $data);
+
     exit;
 }
 

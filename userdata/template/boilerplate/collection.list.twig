@@ -16,7 +16,7 @@
             <h2>{{ title }}</h2>
             <ul class="album-list">
                 {% for collection in collections %}
-                    <li class="album-entry">
+                    <li class="collection-entry">
                         <a href="/collection/{{ collection.slug }}">
                             {% if collection.cover %}
                                 <img src="{{ collection.cover }}" alt="{{ collection.title }}" />

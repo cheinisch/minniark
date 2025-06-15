@@ -286,7 +286,7 @@ if (preg_match('#^i/(.+)$#', $uri, $matches)) {
 
 // Collection content
 if (preg_match('#^collections$#', $uri)) {
-    $collectionDir = __DIR__ . '/../userdata/content/collection/';
+    $collectionDir = __DIR__ . '/../../userdata/content/collection/';
     $collections = [];
 
     foreach (glob($collectionDir . '*.yml') as $filePath) {
@@ -300,10 +300,11 @@ if (preg_match('#^collections$#', $uri)) {
 
             if ($cover) {
                 $imageSlug = pathinfo($cover, PATHINFO_FILENAME);
-                $imageMetaPath = __DIR__ . '/../userdata/content/images/' . $imageSlug . '.yml';
+                $imageMetaPath = __DIR__ . '/../../userdata/content/images/' . $imageSlug . '.yml';
 
                 if (file_exists($imageMetaPath)) {
                     $imageMeta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
+                    
                     $guid = $imageMeta['image']['guid'] ?? null;
                     if ($guid) {
                         $coverUrl = "/cache/images/{$guid}_M.jpg";
@@ -324,6 +325,7 @@ if (preg_match('#^collections$#', $uri)) {
     echo $twig->render('collection.list.twig', [
         'title' => 'Collections',
         'collections' => $collections,
+        'site_title' => $settings['site_title'] ?? 'Minniark',
     ]);
     exit;
 }
@@ -331,8 +333,8 @@ if (preg_match('#^collections$#', $uri)) {
 
 if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
     $slug = $matches[1];
-    $collectionFile = __DIR__ . '/../userdata/content/collection/' . $slug . '.yml';
-    $descriptionFile = __DIR__ . '/../userdata/content/collection/' . $slug . '.md';
+    $collectionFile = __DIR__ . '/../../userdata/content/collection/' . $slug . '.yml';
+    $descriptionFile = __DIR__ . '/../../userdata/content/collection/' . $slug . '.md';
 
     if (!file_exists($collectionFile)) {
         http_response_code(404);
@@ -351,7 +353,7 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
     $coverUrl = null;
     if (!empty($collection['image'])) {
         $imageSlug = pathinfo($collection['image'], PATHINFO_FILENAME);
-        $imageMetaPath = __DIR__ . '/../userdata/content/images/' . $imageSlug . '.yml';
+        $imageMetaPath = __DIR__ . '/../../userdata/content/images/' . $imageSlug . '.yml';
         if (file_exists($imageMetaPath)) {
             $imageMeta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
             $guid = $imageMeta['image']['guid'] ?? null;
@@ -364,7 +366,7 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
     // Alben laden
     $albumList = [];
     foreach ($collection['albums'] ?? [] as $albumSlug) {
-        $albumFile = __DIR__ . '/../userdata/content/album/' . $albumSlug . '.yml';
+        $albumFile = __DIR__ . '/../../userdata/content/album/' . $albumSlug . '.yml';
         if (!file_exists($albumFile)) continue;
 
         $albumYaml = Symfony\Component\Yaml\Yaml::parseFile($albumFile);
@@ -375,7 +377,7 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
         $albumCover = null;
         if ($headImage) {
             $imageSlug = pathinfo($headImage, PATHINFO_FILENAME);
-            $imageMetaPath = __DIR__ . '/../userdata/content/images/' . $imageSlug . '.yml';
+            $imageMetaPath = __DIR__ . '/../../userdata/content/images/' . $imageSlug . '.yml';
             if (file_exists($imageMetaPath)) {
                 $meta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
                 $guid = $meta['image']['guid'] ?? null;
@@ -398,6 +400,7 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
         'description' => $descriptionHtml,
         'cover' => $coverUrl,
         'albums' => $albumList,
+        'site_title' => $settings['site_title'] ?? 'Minniark',
     ]);
     exit;
 }

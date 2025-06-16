@@ -394,14 +394,13 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
         ];
     }
 
-    echo $twig->render('collection.twig', [
-        'title' => $title,
-        'slug' => $slug,
-        'description' => $descriptionHtml,
-        'cover' => $coverUrl,
-        'albums' => $albumList,
-        'site_title' => $settings['site_title'] ?? 'Minniark',
-    ]);
+    $data['title'] = $title;
+    $data['slug'] = $slug;
+    $data['description'] = $descriptionHtml;
+    $data['cover'] = $coverUrl;
+    $data['albums'] = $albumList;
+
+    echo $twig->render('collection.twig', $data);
     exit;
 }
 

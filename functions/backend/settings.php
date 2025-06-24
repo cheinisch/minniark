@@ -24,6 +24,10 @@
             $settings['license'] = trim($data['site-license']);
         }
 
+        if (isset($data['custom_nav'])) {
+            $settings['custom_nav'] = $data['custom_nav'];
+        }
+
         // Weitere Felder hier ergänzen, falls nötig
 
         // Speichern

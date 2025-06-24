@@ -107,3 +107,9 @@ function get_license()
     $settings = get_settings_array();
     return $settings['license'] ?? '';
 }
+
+function is_nav_enabled()
+{
+    $settings = get_settings_array();
+    return $settings['custom_nav'] ?? false;
+}

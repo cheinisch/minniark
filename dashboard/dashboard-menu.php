@@ -4,6 +4,8 @@
   $settingspage = "menu";
   security_checklogin();
 
+  $nav_items = read_navigation();
+
 ?>
 
 <!DOCTYPE html>
@@ -164,7 +166,7 @@
                 </div>
 
                 
-                <form class="md:col-span-2" id="change-map-form">
+                <form class="md:col-span-2" action="backend_api/nav_change.php?save=active" method="post" id="change-map-form">
                   <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                     <!-- Erfolgsmeldung (grün) -->
                     <div id="notification-map-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
@@ -184,10 +186,11 @@
                           <span class="text-sm text-gray-500" id="availability-description">Enables the custom navigation.</span>
                         </span>
                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                        <button type="button" id="map_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo is_map_enabled(); ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
+                        <button type="button" id="nav_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo is_nav_enabled(); ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
                           <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
+                        <input type="hidden" name="nav_enabled" id="nav_enabled" value="0">
                       </div>
                     </div>
                   </div>
@@ -195,8 +198,7 @@
                   <div class="mt-8 flex">
                     <button type="submit" id="btn_map" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
                   </div>
-                </form>
-                
+                </form>                
             </div>
             <div id="custom_nav" class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
@@ -262,7 +264,7 @@
           </div>
         </div>
         <div class="mt-8 flex">
-          <button type="submit" id="btn_map" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+          <button id="btn_nav" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
         </div>
       </div>
                 <!-- nav end -->
@@ -271,117 +273,11 @@
             </div>
           </main>
         </div>
+        <script>
+            window.existingNav = <?php echo json_encode($nav_items, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>;
+        </script>
         <script src="js/tailwind.js"></script>
         <script src="js/update.js"></script>
-        <script src="js/select_settings.js"></script>
-        <script src="js/save_settings.js"></script>
-        <script>
-const menuList = document.getElementById('menu_list');
-
-// Drag from available items (Seiten, Alben etc.)
-Array.from(document.querySelectorAll('#available_items li')).forEach(item => {
-  item.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text/plain', JSON.stringify({
-      label: item.dataset.label,
-      link: item.dataset.link
-    }));
-  });
-});
-
-// Drop ins Menü
-menuList.addEventListener('dragover', e => e.preventDefault());
-menuList.addEventListener('drop', e => {
-  e.preventDefault();
-  const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-  addMenuItem(data.label, data.link);
-});
-
-// Custom-Link hinzufügen
-document.getElementById("add_custom").addEventListener("click", () => {
-  const label = document.getElementById("custom_label").value.trim();
-  const link = document.getElementById("custom_link").value.trim();
-  if (!label || !link) return alert("Please enter both label and URL.");
-  addMenuItem(label, link);
-  document.getElementById("custom_label").value = "";
-  document.getElementById("custom_link").value = "";
-});
-
-// Menüeintrag erstellen
-function addMenuItem(label, link, parentUl = menuList) {
-  const li = document.createElement("li");
-  li.className = "bg-white p-2 rounded shadow mb-2 cursor-move";
-  li.innerHTML = `
-    <div class="flex items-center justify-between">
-      <span>${label} → <a href="${link}" class="text-blue-600 underline" target="_blank">${link}</a></span>
-      <button type="button" class="text-red-500 hover:text-red-700" onclick="this.closest('li').remove()">Remove</button>
-    </div>
-    <ul class="children border-l-2 border-gray-200 ml-2 pl-4 space-y-2 mt-2"></ul>
-  `;
-  parentUl.appendChild(li);
-  initSortable(li.querySelector('.children'));
-  enableDropTarget(li);
-}
-
-// Sortable aktivieren (auch verschachtelt)
-function initSortable(container = menuList) {
-  Sortable.create(container, {
-    group: {
-      name: 'menu',
-      pull: true,
-      put: true
-    },
-    animation: 150,
-    fallbackOnBody: true,
-    swapThreshold: 0.65,
-    ghostClass: 'bg-yellow-100',
-    onAdd: function (evt) {
-      const item = evt.item;
-      const childrenUl = item.querySelector("ul.children");
-      if (childrenUl) {
-        initSortable(childrenUl);
-      }
-    }
-  });
-}
-
-initSortable(); // Hauptmenü initialisieren
-
-// Menüstruktur rekursiv in JSON umwandeln
-function parseMenu(ul) {
-  const items = [];
-  ul.querySelectorAll(':scope > li').forEach(li => {
-    const span = li.querySelector("span");
-    if (!span) return;
-    const [label, link] = span.innerText.split(" → ");
-    const childrenUl = li.querySelector("ul.children");
-    const children = childrenUl ? parseMenu(childrenUl) : [];
-    items.push({
-      label: label.trim(),
-      link: link.trim(),
-      children: children.length ? children : undefined
-    });
-  });
-  return items;
-}
-
-function enableDropTarget(li) {
-  li.addEventListener('dragover', e => e.preventDefault());
-  li.addEventListener('drop', e => {
-    e.preventDefault();
-    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-    const childrenUl = li.querySelector('ul.children');
-    if (childrenUl) {
-      addMenuItem(data.label, data.link, childrenUl);
-    }
-  });
-}
-
-// Menü speichern
-document.getElementById("btn_map").addEventListener("click", () => {
-  const menuData = parseMenu(menuList);
-  console.log("Saved nested menu:", JSON.stringify(menuData, null, 2));
-  // Hier kannst du menuData per fetch() ans Backend senden
-});
-</script>
+        <script src="js/custom_nav.js"></script>    
     </body>
 </html>

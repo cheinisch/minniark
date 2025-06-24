@@ -211,10 +211,38 @@
               <div>
                 <h3 class="font-semibold mb-2">Available Items</h3>
                 <ul id="available_items" class="space-y-2 bg-gray-100 p-2 rounded min-h-[150px]">
-                  <li draggable="true" data-label="Home" data-link="/home" class="cursor-move p-2 bg-white rounded shadow">Page: Home</li>
-                  <li draggable="true" data-label="About" data-link="/about" class="cursor-move p-2 bg-white rounded shadow">Page: About</li>
-                  <li draggable="true" data-label="Summer Album" data-link="/albums/summer" class="cursor-move p-2 bg-white rounded shadow">Album: Summer</li>
-                  <li draggable="true" data-label="Portfolio Collection" data-link="/collections/portfolio" class="cursor-move p-2 bg-white rounded shadow">Collection: Portfolio</li>
+                    <!-- Home Item -->
+                    <li draggable="true" data-label="Home" data-link="/home" class="cursor-move p-2 bg-white rounded shadow">Home</li>
+                    <!-- Pages -->
+                    <?php
+                        $pages = get_pages();
+                        foreach($pages as $page)
+                        {
+                            echo '<li draggable="true" data-label="'.$page['title'].'" data-link="/p/'.generateSlug($page['title']).'" class="cursor-move p-2 bg-white rounded shadow">Page: '.$page['title'].'</li>';
+                        }               
+                    ?>
+                    <!-- Collection -->
+                    <?php
+                        $collections = getCollectionList();
+
+                        foreach($collections as $collection)
+                        {
+                            echo '<li draggable="true" data-label="'.$collection['title'].'" data-link="/collection/'.$collection['slug'].'" class="cursor-move p-2 bg-white rounded shadow">Collection: '.$collection['title'].'</li>';
+                        }                    
+                    ?>
+                    <!-- Album -->
+                    <?php
+                        $albums = getAlbumList();
+
+                        foreach($albums as $album)
+                        {
+                            echo '<li draggable="true" data-label="'.$album['title'].'" data-link="/gallery/'.$album['slug'].'" class="cursor-move p-2 bg-white rounded shadow">Album: '.$album['title'].'</li>';
+                        }                    
+                    ?>
+                    <!-- General Items  -->
+                    <li draggable="true" data-label="Blog" data-link="/blog" class="cursor-move p-2 bg-white rounded shadow">Blog</li>
+                    <li draggable="true" data-label="Timeline" data-link="/timeline" class="cursor-move p-2 bg-white rounded shadow">Timeline</li>
+                    <li draggable="true" data-label="Map" data-link="/map" class="cursor-move p-2 bg-white rounded shadow">Map</li>
                 </ul>
               </div>
               <div>

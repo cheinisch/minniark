@@ -39,7 +39,7 @@ If you want to customize the docker-compose yourself, you can find it in the rep
 
 ## Documentation
 
-Take a look at the [documentation](https://minniark.app) to get started with Image-Portfolio.
+Take a look at the [documentation](https://minniark.app) to get started with Minniark.
 
 ## Build Status
 

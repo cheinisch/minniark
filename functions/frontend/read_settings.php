@@ -36,3 +36,25 @@ function is_timeline_enabled(): bool
         return false;
     }
 }
+
+function get_settings_array()
+{
+    $settingsPath = __DIR__ . '/../../userdata/config/settings.yml';
+
+    if (!file_exists($settingsPath)) {
+        return [];
+    }
+
+    try {
+        return Yaml::parseFile($settingsPath);
+    } catch (Exception $e) {
+        error_log("YAML Parse Error: " . $e->getMessage());
+        return [];
+    }
+}
+
+function is_nav_enabled()
+{
+    $settings = get_settings_array();
+    return $settings['custom_nav'] ?? false;
+}

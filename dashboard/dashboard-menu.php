@@ -208,7 +208,7 @@
 
                 <!-- nav start -->
                 <div class="md:col-span-2" id="custom_nav_menu">
-        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:w-full sm:grid-cols-6">
           <div class="col-span-full">
             <div class="grid grid-cols-2 gap-4">
               <div>

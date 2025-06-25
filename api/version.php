@@ -16,7 +16,7 @@ if (file_exists($tempFile)) {
 
 if ($needUpdate) {
     // GitHub API URL für den aktuellsten Release
-    $url = "https://api.github.com/repos/cheinisch/Image-Portfolio/releases/latest";
+    $url = "https://api.github.com/repos/cheinisch/minniark/releases/latest";
 
     // GitHub benötigt einen User-Agent Header, sonst schlägt die Anfrage fehl
     $options = [
@@ -62,7 +62,7 @@ if ($needUpdate) {
     $versionData = [
         "new_version_available" => $newVersionAvailable,
         "new_version_number" => $gitVersion,
-        "new_version_url" => "https://github.com/cheinisch/Image-Portfolio/archive/refs/tags/{$tagName}.zip",
+        "new_version_url" => "https://github.com/cheinisch/minniark/archive/refs/tags/{$tagName}.zip",
         "last_check" => time()
     ];
 

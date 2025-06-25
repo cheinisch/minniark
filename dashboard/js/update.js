@@ -51,26 +51,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function callUpdate(url) {
       fetch(url, { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            if (data.redirect) {
-              updateProgress(30, 'Switching to update mode...');
-              setTimeout(() => {
-                callUpdate(data.redirect);
-              }, 500);
+        .then(response => response.text()) // ⬅ Rohtext holen statt direkt .json()
+        .then(text => {
+          console.log('Raw response:', text); // ⬅ zeigt dir z. B. HTML, Fehler oder leere Antwort
+
+          try {
+            const data = JSON.parse(text); // ⬅ erst jetzt parsen
+            console.log('Update response:', data);
+
+            if (data.success) {
+              if (data.redirect) {
+                console.log('Redirecting to:', data.redirect);
+                updateProgress(30, 'Switching to update mode...');
+                setTimeout(() => {
+                  callUpdate(data.redirect);
+                }, 500);
+              } else {
+                updateProgress(100, 'Update complete. Reloading...');
+                setTimeout(() => location.reload(), 2000);
+              }
             } else {
-              updateProgress(100, 'Update complete. Reloading...');
-              setTimeout(() => location.reload(), 2000);
+              updateProgress(0, 'Update error: ' + (data.message || 'Unknown error'), 'error');
             }
-          } else {
-            updateProgress(0, 'Update error: ' + (data.message || 'Unknown error'), 'error');
+          } catch (e) {
+            updateProgress(0, 'Update failed: invalid JSON', 'error');
+            console.error('Invalid JSON:', text); // ⬅ hier siehst du genau, was kaputt war
           }
         })
         .catch(error => {
           updateProgress(0, 'Update failed: ' + error, 'error');
         });
     }
+
 
     updateProgress(10, 'Starting update...');
     callUpdate('update.php');

@@ -129,7 +129,7 @@
 ## [0.0.3.4]
 2025-04-30
 
-**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.3.3...v0.0.0.3.4
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.3.3...v0.0.0.3.4
 
 ### New Features
 - Add functions to Dashboard => Backund and Restore
@@ -139,7 +139,7 @@
 ## [0.0.3.3]
 2025-04-29
 
-**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.3.2...v0.0.0.3.3
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.3.2...v0.0.0.3.3
 
 ### New Features
 - Add functions to Dashboard => System Settings
@@ -147,7 +147,7 @@
 ## [0.0.3.2]
 2025-04-29
 
-**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.3.1...v0.0.0.3.2
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.3.1...v0.0.0.3.2
 
 ### New Features
 - Move Templatefolder to /userdata/template
@@ -158,7 +158,7 @@
 ## [0.0.3.1]
 2025-04-28
 
-**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.1.1-alpha...v0.0.3.1
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.1.1-alpha...v0.0.3.1
 
 ### New Features
 - Add Docker Container with Apache
@@ -170,7 +170,7 @@
 ## [0.0.1.1]
 2025-01-20
 
-**Full Changelog**: https://github.com/cheinisch/Image-Portfolio/compare/v0.0.0.1...v0.0.1.1-alpha
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.0.0.1...v0.0.1.1-alpha
 
 ### New Features
 - Add Essays

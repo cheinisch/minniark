@@ -65,10 +65,10 @@ document.getElementById("add_custom").addEventListener("click", () => {
 // Menüeintrag erstellen
 function addMenuItem(label, link, parentUl = menuList) {
   const li = document.createElement("li");
-  li.className = "bg-white p-2 rounded shadow mb-2 cursor-move";
+  li.className = "bg-white dark:bg-gray-950 p-2 shadow mb-2 cursor-move";
   li.innerHTML = `
-    <div class="flex items-center justify-between">
-      <span>${label} → <a href="${link}" class="text-blue-600 underline" target="_blank">${link}</a></span>
+    <div class="flex items-center justify-between dark:text-gray-400">
+      <span>${label} → <a href="${link}" class="text-sky-600 underline" target="_blank">${link}</a></span>
       <button type="button" class="text-red-500 hover:text-red-700" onclick="this.closest('li').remove()">Remove</button>
     </div>
     <ul class="children border-l-2 border-gray-200 ml-2 pl-4 space-y-2 mt-2"></ul>

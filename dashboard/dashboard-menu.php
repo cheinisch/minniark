@@ -213,15 +213,15 @@
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <h3 class="text-sm/6 font-medium text-gray-900 dark:text-white">Available Items</h3>
-                <ul id="available_items" class="space-y-2 bg-gray-100 p-2 rounded min-h-[150px]">
+                <ul id="available_items" class="space-y-2 bg-gray-100 dark:bg-neutral-900 p-2 border-gray-400 border border-dashed min-h-[150px]">
                     <!-- Home Item -->
-                    <li draggable="true" data-label="Home" data-link="/home" class="cursor-move p-2 my-2 bg-white rounded shadow">Home</li>
+                    <li draggable="true" data-label="Home" data-link="/home" class="cursor-move p-2 my-2 bg-white dark:bg-gray-950 shadow dark:text-gray-400">Home</li>
                     <!-- Pages -->
                     <?php
                         $pages = get_pages();
                         foreach($pages as $page)
                         {
-                            echo '<li draggable="true" data-label="'.$page['title'].'" data-link="/p/'.generateSlug($page['title']).'" class="cursor-move p-2 my-2 bg-white rounded shadow">Page: '.$page['title'].'</li>';
+                            echo '<li draggable="true" data-label="'.$page['title'].'" data-link="/p/'.generateSlug($page['title']).'" class="cursor-move p-2 my-2 bg-white dark:bg-gray-950 shadow dark:text-gray-400">Page: '.$page['title'].'</li>';
                         }               
                     ?>
                     <!-- Collection -->
@@ -230,7 +230,7 @@
 
                         foreach($collections as $collection)
                         {
-                            echo '<li draggable="true" data-label="'.$collection['title'].'" data-link="/collection/'.$collection['slug'].'" class="cursor-move p-2 my-2 bg-white rounded shadow">Collection: '.$collection['title'].'</li>';
+                            echo '<li draggable="true" data-label="'.$collection['title'].'" data-link="/collection/'.$collection['slug'].'" class="cursor-move p-2 my-2 bg-white dark:bg-gray-950 shadow dark:text-gray-400">Collection: '.$collection['title'].'</li>';
                         }                    
                     ?>
                     <!-- Album -->
@@ -239,32 +239,32 @@
 
                         foreach($albums as $album)
                         {
-                            echo '<li draggable="true" data-label="'.$album['title'].'" data-link="/gallery/'.$album['slug'].'" class="cursor-move p-2 my-2 bg-white rounded shadow">Album: '.$album['title'].'</li>';
+                            echo '<li draggable="true" data-label="'.$album['title'].'" data-link="/gallery/'.$album['slug'].'" class="cursor-move p-2 my-2 bg-white dark:bg-gray-950 shadow dark:text-gray-400">Album: '.$album['title'].'</li>';
                         }                    
                     ?>
                     <!-- General Items  -->
-                    <li draggable="true" data-label="Blog" data-link="/blog" class="cursor-move p-2 my-2 bg-white rounded shadow">Blog</li>
-                    <li draggable="true" data-label="Timeline" data-link="/timeline" class="cursor-move p-2 my-2 bg-white rounded shadow">Timeline</li>
-                    <li draggable="true" data-label="Map" data-link="/map" class="cursor-move p-2 my-2 bg-white rounded shadow">Map</li>
+                    <li draggable="true" data-label="Blog" data-link="/blog" class="cursor-move p-2 my-2 bg-white dark:bg-gray-950 shadow dark:text-gray-400">Blog</li>
+                    <li draggable="true" data-label="Timeline" data-link="/timeline" class="cursor-move p-2 my-2 bg-white dark:bg-gray-950 shadow dark:text-gray-400">Timeline</li>
+                    <li draggable="true" data-label="Map" data-link="/map" class="cursor-move p-2 my-2 bg-white dark:bg-gray-950 shadow dark:text-gray-400">Map</li>
                 </ul>
               </div>
               <div>
                 <h3 class="text-sm/6 font-medium text-gray-900 dark:text-white">Custom Menu</h3>
-                <ul id="menu_list" class="space-y-2 bg-gray-50 p-2 rounded min-h-[150px] border border-dashed border-gray-400"></ul>
+                <ul id="menu_list" class="space-y-2 bg-gray-50 p-2 dark:bg-neutral-900 border min-h-[150px] border-dashed border-gray-400"></ul>
               </div>
             </div>
             <div class="col-span-full mt-6">
               <h3 class="text-sm/6 font-medium text-gray-900 dark:text-white">Add Custom Link</h3>
               <div class="flex items-center gap-2">
-                <input type="text" id="custom_label" placeholder="Label (e.g. Blog)" class="w-1/2 rounded border px-2 py-1 dark:text-gray-400" />
-                <input type="text" id="custom_link" placeholder="URL (e.g. /blog)" class="w-1/2 rounded border px-2 py-1 dark:text-gray-400" />
-                <button id="add_custom" type="button" class="bg-emerald-500 text-white px-2 py-1 rounded hover:bg-emerald-400">Add</button>
+                <input type="text" id="custom_label" placeholder="Label (e.g. Blog)" class="w-1/2 border px-2 py-1 dark:text-gray-400" />
+                <input type="text" id="custom_link" placeholder="URL (e.g. /blog)" class="w-1/2 border px-2 py-1 dark:text-gray-400" />
+                <button id="add_custom" type="button" class="bg-sky-600 text-white px-2 py-1 hover:bg-sky-500">Add</button>
               </div>
             </div>
           </div>
         </div>
         <div class="mt-8 flex">
-          <button id="btn_nav" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+          <button id="btn_nav" class="bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
         </div>
       </div>
                 <!-- nav end -->

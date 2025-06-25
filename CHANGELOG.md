@@ -12,6 +12,7 @@
 
 ### Bug Fixes
 - Bugfix album renaming
+- Bugfix Collections if you change an album name
 
 
 ## [0.1.0.4]

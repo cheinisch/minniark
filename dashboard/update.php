@@ -9,27 +9,31 @@ try {
     $tempUpdateScript = $tempDir . '/update.php';
     $lockFile = $tempDir . '/update.lock';
 
-    // Beim ersten Aufruf: nach /temp/update.php umleiten
+    // Redirect bei erstem Aufruf außerhalb von /temp
     if (strpos(str_replace('\\', '/', __DIR__), '/temp') === false) {
         if (!is_dir($tempDir)) {
             mkdir($tempDir, 0755, true);
         }
 
-        // Vorherige update.php in /temp löschen (falls vorhanden)
         if (file_exists($tempUpdateScript)) {
             unlink($tempUpdateScript);
         }
 
-        // Aktuelle Datei nach /temp kopieren
         copy(__FILE__, $tempUpdateScript);
 
-        // Redirect-URL berechnen
-        $redirectPath = dirname(dirname($_SERVER['PHP_SELF'])) . '/temp/update.php';
-        echo json_encode(['success' => true, 'redirect' => $redirectPath]);
+        // Vollständige URL für Redirect berechnen
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+        $host = $_SERVER['HTTP_HOST'];
+        $basePath = dirname(dirname($_SERVER['PHP_SELF']));
+        $relativeRedirect = $basePath . '/temp/update.php';
+        $relativeRedirect = preg_replace('#/+#', '/', $relativeRedirect); // doppelte Slashes entfernen
+        $redirectUrl = $protocol . $host . $relativeRedirect;
+
+        echo json_encode(['success' => true, 'redirect' => $redirectUrl]);
         exit;
     }
 
-    // Schon aktualisiert?
+    // Bereits aktualisiert?
     if (file_exists($lockFile)) {
         echo json_encode(['success' => true]);
         exit;
@@ -48,7 +52,7 @@ try {
     $downloadUrl = $versionData['new_version_url'];
     $zipFile = $tempDir . '/update.zip';
 
-    // Backup relevanter Verzeichnisse
+    // Backup relevanter Ordner
     $backupDirs = ['userdata', 'cache', 'backup'];
     foreach ($backupDirs as $dir) {
         $src = dirname($baseDir) . "/$dir";
@@ -57,14 +61,14 @@ try {
         }
     }
 
-    // Alle alten Dateien löschen, außer /temp
+    // Alle Dateien außer /temp löschen
     foreach (glob(dirname($baseDir) . '/*') as $file) {
         if (basename($file) !== 'temp') {
             deleteFileOrDir($file);
         }
     }
 
-    // Neue Version herunterladen und entpacken
+    // Neue Version herunterladen
     file_put_contents($zipFile, file_get_contents($downloadUrl));
 
     $zip = new ZipArchive;
@@ -75,7 +79,7 @@ try {
         throw new Exception('Fehler beim Entpacken der ZIP-Datei.');
     }
 
-    // Inhalte aus entpacktem Ordner verschieben
+    // Inhalte aus entpacktem Projektordner verschieben
     foreach (glob(dirname($baseDir) . '/*') as $folder) {
         if (is_dir($folder) && preg_match('/minniark-/', basename($folder))) {
             foreach (glob($folder . '/*') as $item) {
@@ -88,7 +92,7 @@ try {
         }
     }
 
-    // Backups wiederherstellen
+    // Backup wiederherstellen
     foreach ($backupDirs as $dir) {
         $src = $tempDir . "/$dir";
         if (is_dir($src)) {
@@ -99,23 +103,21 @@ try {
     // Lock setzen (Update abgeschlossen)
     file_put_contents($lockFile, 'done');
 
-    // Aufräumen: gezielte Dateien & Ordner in /temp löschen
+    // Nur bestimmte Dateien/Ordner in /temp löschen
     $toDelete = [
         $tempDir . '/cache',
         $tempDir . '/userdata',
         $tempDir . '/backup',
         $tempDir . '/update.zip',
         $tempDir . '/version.json',
-        $tempDir . '/update.lock' // ← Ja, Lock kann gelöscht werden, weil Update abgeschlossen
+        $tempDir . '/update.lock'
     ];
-
     foreach ($toDelete as $path) {
         deleteFileOrDir($path);
     }
 
     echo json_encode(['success' => true]);
 } catch (Exception $e) {
-    // Lock entfernen bei Fehler
     if (file_exists($lockFile)) {
         @unlink($lockFile);
     }
@@ -127,7 +129,7 @@ try {
     exit;
 }
 
-// --- Hilfsfunktionen ---
+// --- Helferfunktionen ---
 
 function recurse_copy($src, $dst) {
     $dir = opendir($src);

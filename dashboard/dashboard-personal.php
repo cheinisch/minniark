@@ -70,7 +70,7 @@
                             <button type="button" class="relative flex rounded-full bg-white text-sm focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                               <span class="absolute -inset-1.5"></span>
                               <span class="sr-only">Open user menu</span>
-                              <img class="size-8 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
+                              <img class="size-8 rounded-full border border-gray-400" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
                             </button>
                           </div>
               
@@ -170,7 +170,7 @@
                       <span class="block sm:inline">Something is wrong.</span>
                     </div>
                     <div class="col-span-3 md:col-span-full flex items-center gap-x-8">
-                      <img src="<?php echo get_userimage($_SESSION['username']); ?>" alt="" class="size-24 flex-none bg-gray-800 object-cover">
+                      <img src="<?php echo get_userimage($_SESSION['username']); ?>" alt="" class="size-24 flex-none bg-gray-800 border-gray-400 border object-cover">
                       <!--<div>
                         <button type="button" class=" bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Change avatar</button>
                         <p class="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>

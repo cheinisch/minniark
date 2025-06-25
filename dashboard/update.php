@@ -9,33 +9,31 @@ try {
     $tempUpdateScript = $tempDir . '/update.php';
     $lockFile = $tempDir . '/update.lock';
 
-    // Wenn das Skript noch nicht aus /temp gestartet wurde
-    if (strpos(__DIR__, '/temp') === false) {
+    // Wenn das Skript nicht aus /temp kommt → umleiten
+    if (strpos(str_replace('\\', '/', __DIR__), '/temp') === false) {
         if (!is_dir($tempDir)) {
             mkdir($tempDir, 0755, true);
         }
 
-        // Skript nach /temp kopieren
         copy(__FILE__, $tempUpdateScript);
 
-        echo json_encode(['success' => true, 'redirect' => '/temp/update.php']);
+        $redirectPath = dirname(dirname($_SERVER['PHP_SELF'])) . '/temp/update.php';
+        echo json_encode(['success' => true, 'redirect' => $redirectPath]);
         exit;
     }
 
-    // Wenn das Lockfile existiert, wurde Update bereits durchgeführt
+    // Bereits durchgeführt?
     if (file_exists($lockFile)) {
         echo json_encode(['success' => true]);
         exit;
     }
 
     $versionFile = $tempDir . '/version.json';
-
     if (!file_exists($versionFile)) {
         throw new Exception('Version-Datei nicht gefunden.');
     }
 
     $versionData = json_decode(file_get_contents($versionFile), true);
-
     if (empty($versionData['new_version_url'])) {
         throw new Exception('Download-URL nicht gefunden.');
     }
@@ -43,20 +41,23 @@ try {
     $downloadUrl = $versionData['new_version_url'];
     $zipFile = $tempDir . '/update.zip';
 
+    // Backups sichern
     $backupDirs = ['userdata', 'cache', 'backup'];
     foreach ($backupDirs as $dir) {
-        if (is_dir(dirname($baseDir) . "/$dir")) {
-            recurse_copy(dirname($baseDir) . "/$dir", $tempDir . "/$dir");
+        $src = dirname($baseDir) . "/$dir";
+        if (is_dir($src)) {
+            recurse_copy($src, $tempDir . "/$dir");
         }
     }
 
-    // Bestehende Dateien löschen, außer /temp
+    // Projektverzeichnis leeren (außer /temp)
     foreach (glob(dirname($baseDir) . '/*') as $file) {
         if (basename($file) !== 'temp') {
             deleteFileOrDir($file);
         }
     }
 
+    // ZIP laden & entpacken
     file_put_contents($zipFile, file_get_contents($downloadUrl));
 
     $zip = new ZipArchive;
@@ -67,7 +68,7 @@ try {
         throw new Exception('Fehler beim Entpacken der ZIP-Datei.');
     }
 
-    // Inhalte aus dem entpackten Ordner in das Zielverzeichnis verschieben
+    // extrahierte Inhalte verschieben
     foreach (glob(dirname($baseDir) . '/*') as $folder) {
         if (is_dir($folder) && preg_match('/minniark-/', basename($folder))) {
             foreach (glob($folder . '/*') as $item) {
@@ -82,33 +83,38 @@ try {
 
     // Backups zurückkopieren
     foreach ($backupDirs as $dir) {
-        if (is_dir($tempDir . "/$dir")) {
-            recurse_copy($tempDir . "/$dir", dirname($baseDir) . "/$dir");
+        $src = $tempDir . "/$dir";
+        if (is_dir($src)) {
+            recurse_copy($src, dirname($baseDir) . "/$dir");
         }
     }
 
-    // Aufräumen
-    deleteFileOrDir($tempDir);
-    mkdir($tempDir, 0755, true); // Wiederherstellen für Lockfile
-
-    // Lockfile erstellen (jetzt, wo temp wieder da ist)
+    // Lockfile setzen
     file_put_contents($lockFile, 'done');
+
+    // Version.json entfernen
+    @unlink($versionFile);
 
     echo json_encode(['success' => true]);
 } catch (Exception $e) {
-    // Lock entfernen bei Fehlern, um Neustart zu ermöglichen
+    // Lock entfernen bei Fehler
     if (file_exists($lockFile)) {
-        unlink($lockFile);
+        @unlink($lockFile);
     }
 
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage()
+    ]);
+    exit;
 }
 
+// --- Hilfsfunktionen ---
 function recurse_copy($src, $dst) {
     $dir = opendir($src);
     @mkdir($dst, 0755, true);
     while (false !== ($file = readdir($dir))) {
-        if ($file != '.' && $file != '..') {
+        if ($file !== '.' && $file !== '..') {
             $srcPath = $src . '/' . $file;
             $dstPath = $dst . '/' . $file;
             if (is_dir($srcPath)) {

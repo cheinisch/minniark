@@ -107,53 +107,64 @@
 
     // Update Album Data
     function updateAlbum(string $slug, array $data, string $oldSlug): bool
-    {
-        $albumDir = __DIR__ . '/../../userdata/content/album/';
-        $albumPath = $albumDir . $slug . '.yml';
-        $albumMDPath = $albumDir . $slug . '.md';
+{
+    $albumDir    = __DIR__ . '/../../userdata/content/album';
+    $albumPath   = $albumDir . '/' . $slug . '.yml';
+    $albumMDPath = $albumDir . '/' . $slug . '.md';
 
-        // Alte YAML laden, falls vorhanden
+    // Vorhandene YAML laden
+    if ($slug !== $oldSlug) {
+        $albumOldPath   = $albumDir . '/' . $oldSlug . '.yml';
+        $existing = file_exists($albumOldPath) ? Yaml::parseFile($albumOldPath) : [];
+    }else{
         $existing = file_exists($albumPath) ? Yaml::parseFile($albumPath) : [];
-        $album = $existing['album'] ?? [];
+    }
+    $album    = $existing['album'] ?? [];
 
-        // Nur vorhandene Daten überschreiben
-        if (isset($data['name']) || isset($data['album-title-edit'])) {
-            $album['name'] = $data['name'] ?? $data['album-title-edit'];
-        }
+    // Felder aktualisieren
+    if (array_key_exists('name', $data) || array_key_exists('album-title-edit', $data)) {
+        $album['name'] = $data['name'] ?? $data['album-title-edit'];
+    }
 
-        if (isset($data['password'])) {
-            $album['password'] = $data['password'];
-        }
+    if (array_key_exists('password', $data)) {
+        $album['password'] = $data['password'];
+    }
 
-        if (isset($data['images'])) {
+    if (array_key_exists('images', $data)) {
+        if (is_array($data['images']) && !empty($data['images'])) {
             $album['images'] = $data['images'];
         }
-
-        if (isset($data['headImage'])) {
-            $album['headImage'] = $data['headImage'];
-        }
-
-        // Markdown-Content (aus "description")
-        $useExistingMarkdown = !isset($data['album-description']);
-        $markdown = $useExistingMarkdown
-            ? (file_exists($albumMDPath) ? file_get_contents($albumMDPath) : '')
-            : $data['album-description'];
-
-
-        // Slug geändert → alte Dateien löschen
-        if ($slug !== $oldSlug) {
-            $oldYamlPath = $albumDir . $oldSlug . '.yml';
-            $oldMDPath = $albumDir . $oldSlug . '.md';
-            if (file_exists($oldYamlPath)) unlink($oldYamlPath);
-            if (file_exists($oldMDPath)) unlink($oldMDPath);
-        }
-
-        // Speichern
-        $yamlOK = file_put_contents($albumPath, Yaml::dump(['album' => $album], 2, 4)) !== false;
-        $mdOK = $useExistingMarkdown || file_put_contents($albumMDPath, $markdown) !== false;
-
-        return $yamlOK && $mdOK;
+        // Wenn leer oder kein Array → nichts ändern, alten Wert behalten
     }
+
+    if (array_key_exists('headImage', $data)) {
+        $album['headImage'] = $data['headImage'];
+    }
+    
+    // Markdown-Beschreibung
+    $useExistingMarkdown = !array_key_exists('album-description', $data);
+    $markdown = $useExistingMarkdown
+        ? (file_exists($albumMDPath) ? file_get_contents($albumMDPath) : '')
+        : $data['album-description'];
+
+    // Slug geändert → umbenennen
+    if ($slug !== $oldSlug) {
+        $oldYamlPath = $albumDir . '/' . $oldSlug . '.yml';
+        $oldMDPath   = $albumDir . '/' . $oldSlug . '.md';
+        $newYamlPath = $albumPath;
+        $newMDPath   = $albumMDPath;
+
+        if (file_exists($oldYamlPath)) rename($oldYamlPath, $newYamlPath);
+        if (file_exists($oldMDPath)) rename($oldMDPath, $newMDPath);
+    }
+
+    // Speichern
+    $yamlOK = file_put_contents($albumPath, Yaml::dump(['album' => $album], 2, 4)) !== false;
+    $mdOK   = $useExistingMarkdown || file_put_contents($albumMDPath, $markdown) !== false;
+
+    return $yamlOK && $mdOK;
+}
+
 
 
     function remove_img_from_album(string $filename, string $albumname): bool
@@ -188,18 +199,18 @@
 
     function removeAlbum($slug)
     {
-        $albumnDir = __DIR__.'/../../userdata/content/album/';
+        $albumDir = __DIR__.'/../../userdata/content/album';
 
         $filename = $slug.".yml";
         $filenameMD = $slug.".md";
 
-        $filePath = $albumDir.$filename;
+        $filePath = $albumDir.'/'.$filename;
 
         $result = unlink($filePath);
 
         if($result)
         {
-            $filePathMD = $albumDir.$filenameMD;
+            $filePathMD = $albumDir.'/'.$filenameMD;
 
             unlink($filePathMD);
         }

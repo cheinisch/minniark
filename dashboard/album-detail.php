@@ -213,7 +213,7 @@
               <p class="mt-4 text-gray-600">Do you really want to delete this album?</p>
               <div class="flex justify-end mt-6 space-x-3">
                 <button id="confirmAlbumNo" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
-                <button id="confirmAlbumYes" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
+                <a href="backend_api/delete.php?type=album&albumname=<?php echo $albumTitle; ?>" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</a>
               </div>
             </div>
           </div>
@@ -508,15 +508,6 @@
           document.getElementById('confirmAlbumNo').addEventListener('click', () => {
             document.getElementById('confirmModalAlbum').classList.add('hidden');
             pendingLink2 = null;
-          });
-
-          // Bestätigen → Weiterleitung
-          document.getElementById('confirmAlbumYes').addEventListener('click', () => {
-            if (pendingLink2) {
-              removeBtn = document.getElementById('confirmAlbumYes');
-              removeBtn.innerText = 'Removing...';
-              window.location.href = pendingLink2;
-            }
           });
         </script>
     </body>

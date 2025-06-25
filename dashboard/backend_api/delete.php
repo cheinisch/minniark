@@ -26,8 +26,11 @@
             header("Location: ../album-detail.php?album=".$albumname);
             break;
         case "album":
-            removeAlbum($filename);
-            header("Location: ../media.php");
+            $result = removeAlbum($albumname);
+            if($result)
+            {
+                header("Location: ../media.php");
+            }
             break;
         case "collection":
             removeCollection($filename);

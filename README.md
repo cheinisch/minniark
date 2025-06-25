@@ -7,7 +7,7 @@ Minniark is a lightweight, flat-file-based portfolio template for showcasing ima
 
 ## Demo
 
-There is a demo installation under [demo](https://demo.image-portfolio.org)
+There is a demo installation under [https://demo.minniark.app](https://demo.minniark.app)
 
 ## Installation
 

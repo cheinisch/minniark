@@ -35,7 +35,9 @@ If you want to customize the docker-compose yourself, you can find it in the rep
 
 ## Links
 
-- [Documentation](https://minniark.app)
+- [Project Page](https://minniark.app)
+- [Documentation](https://dev.minniark.app)
+- [Demo](https://demo.minniark.app)
 
 ## Documentation
 

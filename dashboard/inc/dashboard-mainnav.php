@@ -1,3 +1,4 @@
+<a href="dashboard-personal.php" class="block px-4 text-base font-medium text-sky-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Personal Settings</a>
 <?php
                     
     if($_SESSION['admin'])

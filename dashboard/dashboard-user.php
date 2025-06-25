@@ -77,7 +77,7 @@
             <h2 class="text-xl font-semibold text-gray-800">Delete Error</h2>
             <p class="mt-4 text-gray-600">You can't delete your own user</p>
             <div class="flex justify-end mt-6 space-x-3">
-              <a href="?" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Okay</a>
+              <a href="?" class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-500">Okay</a>
             </div>
           </div>
         </div>
@@ -289,7 +289,7 @@
                       <div class="flex flex-col justify-end">
                         <button
                           type="submit"
-                          class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
+                          class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-500"
                         >
                           Save
                         </button>
@@ -359,7 +359,7 @@
                       <div class="flex flex-col justify-end">
                         <button
                           type="submit"
-                          class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400"
+                          class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-500"
                         >
                           Save
                         </button>
@@ -385,7 +385,7 @@
                     </tbody>
                   </table>
                   <div class="py-5">
-                    <a href="?new" class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-400">Create new User</a>
+                    <a href="?new" class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-500">Create new User</a>
                   </div>
                 </div>
               </div>

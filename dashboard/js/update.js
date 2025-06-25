@@ -12,16 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.createElement('div');
     overlay.className = 'fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50';
     overlay.innerHTML = `
-      <div class="bg-white p-6 rounded-lg shadow-lg text-center w-96">
-        <h2 class="text-xl font-bold mb-4">Update wird durchgeführt...</h2>
+      <div class="bg-white p-6 shadow-lg text-center w-96">
+        <h2 class="text-xl font-bold mb-4">Updating in progress...</h2>
         <div id="progress" class="w-full bg-gray-200 rounded-full h-4 overflow-hidden mb-4">
           <div class="bg-sky-500 h-4 transition-all duration-500" style="width: 0%"></div>
         </div>
-        <p id="progress-text" class="mb-4 text-gray-600">Starte Update...</p>
+        <p id="progress-text" class="mb-4 text-gray-600">Starting update...</p>
         <button id="toggle-log" class="text-sky-600 text-sm mb-2 hover:underline focus:outline-none">
-          Details anzeigen ▼
+          Show details ▼
         </button>
-        <div id="log" class="text-left text-xs bg-gray-100 p-2 rounded hidden max-h-40 overflow-y-auto"></div>
+        <div id="log" class="text-left text-xs bg-gray-100 p-2 hidden max-h-40 overflow-y-auto"></div>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     toggleLogButton.addEventListener('click', () => {
       logDiv.classList.toggle('hidden');
-      toggleLogButton.textContent = logDiv.classList.contains('hidden') ? 'Details anzeigen ▼' : 'Details verbergen ▲';
+      toggleLogButton.textContent = logDiv.classList.contains('hidden') ? 'Show details ▼' : 'Hide details ▲';
     });
 
     function appendLog(message, type = 'info') {
@@ -55,24 +55,24 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
           if (data.success) {
             if (data.redirect) {
-              updateProgress(30, 'Wechsle in den Update-Modus...');
+              updateProgress(30, 'Switching to update mode...');
               setTimeout(() => {
                 callUpdate(data.redirect);
               }, 500);
             } else {
-              updateProgress(100, 'Update abgeschlossen. Lade neu...');
+              updateProgress(100, 'Update complete. Reloading...');
               setTimeout(() => location.reload(), 2000);
             }
           } else {
-            updateProgress(0, 'Fehler beim Update: ' + (data.message || 'Unbekannter Fehler'), 'error');
+            updateProgress(0, 'Update error: ' + (data.message || 'Unknown error'), 'error');
           }
         })
         .catch(error => {
-          updateProgress(0, 'Update fehlgeschlagen: ' + error, 'error');
+          updateProgress(0, 'Update failed: ' + error, 'error');
         });
     }
 
-    updateProgress(10, 'Starte Update...');
+    updateProgress(10, 'Starting update...');
     callUpdate('update.php');
   }
 });

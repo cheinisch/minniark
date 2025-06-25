@@ -16,7 +16,6 @@ ini_set('display_errors', 1);
             include $configPath;
             error_log("backup_prefix: ".$backup_prefix);
             if (isset($backup_prefix) && is_string($backup_prefix)) {
-                echo $backup_prefix;
                 return $backup_prefix;
             }
         }

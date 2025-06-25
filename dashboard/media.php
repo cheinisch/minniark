@@ -68,18 +68,19 @@
             </svg>
           </button>
 
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">Bild einem Album zuweisen</h2>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">Add picture to an album</h2>
 
           <form id="assignToAlbumForm" method="post" action="backend_api/assign_image_to_album.php" class="w-full">
             <!-- Dynamisch befüllbar per JS -->
             <input type="hidden" name="image" id="assignImageFilename">
 
-            <label for="albumSelect" class="block text-sm font-medium text-gray-700 mb-2">Wähle ein Album:</label>
+            <label for="albumSelect" class="block text-sm font-medium text-gray-700 mb-2">Choose album:</label>
             <select id="albumSelect" name="album" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-500">
               <?php
                 $albums = getAlbumList();
+                
                 foreach ($albums as $album) {
-                  echo '<option value="' . htmlspecialchars($album['Name']) . '">' . htmlspecialchars($album['Name']) . '</option>';
+                  echo '<option value="' . htmlspecialchars($album['slug']) . '">' . htmlspecialchars($album['title']) . '</option>';
                 }
               ?>
             </select>

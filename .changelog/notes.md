@@ -1,5 +1,4 @@
 ## Notes for next release
 
-0.1.0.2
-- Update Yaml 726 -> 3.7.0
-- Update button only visible for Admins
+- bugfix collection -> Album without hero image are not visible
+- media.php -> add image to an album not working

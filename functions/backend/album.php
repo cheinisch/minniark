@@ -140,7 +140,7 @@
     if (array_key_exists('headImage', $data)) {
         $album['headImage'] = $data['headImage'];
     }
-    
+
     // Markdown-Beschreibung
     $useExistingMarkdown = !array_key_exists('album-description', $data);
     $markdown = $useExistingMarkdown
@@ -156,6 +156,8 @@
 
         if (file_exists($oldYamlPath)) rename($oldYamlPath, $newYamlPath);
         if (file_exists($oldMDPath)) rename($oldMDPath, $newMDPath);
+
+        renameAlbumInCollection($oldSlug, $slug);
     }
 
     // Speichern

@@ -184,7 +184,39 @@
     }
 
 
+    function renameAlbumInCollection(string $oldSlug, string $newSlug): void
+    {
+        $collectionDir = __DIR__ . '/../../userdata/content/collection/';
+        $collectionFiles = glob($collectionDir . '*.yml');
 
+        foreach ($collectionFiles as $filePath) {
+            try {
+                $yaml = Symfony\Component\Yaml\Yaml::parseFile($filePath);
+                $collection = $yaml['collection'] ?? [];
+
+                // Prüfen, ob das Album existiert
+                if (!isset($collection['albums']) || !is_array($collection['albums'])) {
+                    continue;
+                }
+
+                $updated = false;
+                foreach ($collection['albums'] as &$albumSlug) {
+                    if ($albumSlug === $oldSlug) {
+                        $albumSlug = $newSlug;
+                        $updated = true;
+                    }
+                }
+
+                if ($updated) {
+                    $collection['albums'] = array_values($collection['albums']); // Reindex für sauberes YAML
+                    $newYaml = Symfony\Component\Yaml\Yaml::dump(['collection' => $collection], 2, 4);
+                    file_put_contents($filePath, $newYaml);
+                }
+            } catch (Exception $e) {
+                error_log("Fehler beim Bearbeiten der Collection $filePath: " . $e->getMessage());
+            }
+        }
+    }
 
 
     function removeCollection($slug)

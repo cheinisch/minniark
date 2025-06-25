@@ -6,7 +6,7 @@
 ## [0.1.0.5]
 2025-06-24
 
-**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.4...v0.0.1.0.5
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.4...v0.1.0.5
 
 ### New Features
 

@@ -1,48 +1,49 @@
-<nav class="flex items-center justify-between" aria-label="Global">
-          <div class="flex lg:flex-1">
-            <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
-              <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
-              <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
-            </a>
-          </div>
-          <div class="flex lg:hidden">
-            <button id="menu-open" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-              <span class="sr-only">Open main menu</span>
-              <!-- Hamburger Icon -->
-              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-            </button>
-          </div>
-          <div class="hidden lg:flex lg:gap-x-12">
-            {% for item in navItems %}
-            <a href="{{ item.url }}" class="text-sm/6 font-semibold {{ current_path starts with item.url ? 'text-sky-600' : 'text-gray-900' }}">{{ item.title }}</a>
-            {% endfor %}
-          </div>
-        </nav>
-        <!-- Mobile menu, show/hide based on menu open state. -->
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="fixed inset-0 z-10 hidden overflow-y-auto bg-white px-6 py-6 lg:hidden">
-          <div class="flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 -m-1.5 p-1.5">
-              <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="{{ site_title }}">
-              <span class="text-lg font-semibold text-gray-900">{{ site_title }}</span>
-            </a>
-            <button id="menu-close" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
-              <span class="sr-only">Close menu</span>
-              <!-- Close Icon -->
-              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div class="mt-6 flow-root">
-            <div class="-my-6 divide-y divide-gray-500/10">
-              <div class="space-y-2 py-6">
-                {% for item in navItems %}
-                <a href="{{ item.url }}" class="mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-400/10">{{ item.title }}</a>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        </div>  
+            <nav class="bg-black shadow-lg">
+                <div class="mx-auto w-full px-4 sm:px-6 lg:px-8">
+                    <div class="flex h-16 justify-between">
+                        <div class="flex">
+                            <div class="flex shrink-0 items-center">
+                                <span class="text-gray-400 text-lg">{{ site_title }}</span>
+                            </div>
+                            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                                <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+                                {% for item in navItems %}
+                                <a href="{{ item.url }}" class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium  {{ current_path starts with item.url ? 'border-white text-gray-400' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-400' }}">{{ item.title }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    <div class="-mr-2 flex items-center sm:hidden">
+                        <!-- Mobile menu button -->
+                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <!--
+                            Icon when menu is closed.
+
+                            Menu open: "hidden", Menu closed: "block"
+                        -->
+                        <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                        <!--
+                            Icon when menu is open.
+
+                            Menu open: "block", Menu closed: "hidden"
+                        -->
+                        <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                        </button>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu, show/hide based on menu state. -->
+                <div class="sm:hidden" id="mobile-menu">
+                    <div class="space-y-1 pt-2 pb-3">
+                    {% for item in navItems %}
+                        <a href="{{ item.url }}" class="block border-l-4 py-2 pr-4 pl-3 text-base font-medium {{ current_path starts with item.url ? 'border-indigo-500 bg-indigo-50 text-indigo-700' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700' }}">{{ item.title }}</a>
+                    {% endfor %}
+                    </div>
+                </div>
+            </nav>

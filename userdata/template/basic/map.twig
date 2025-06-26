@@ -1,88 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ settings.language }}">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ title }} - {{ site_title }}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Leaflet Styles & Scripts -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }} - {{ site_title }}</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-<!-- MarkerCluster Styles & Scripts -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-<style>
-  /* Karte (Map-Container) */
-  #map {
-    z-index: 5;
-    position: relative; /* wichtig, damit z-index greift */
-  }
+        <!-- Leaflet Styles & Scripts -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 
-  /* Marker & Cluster */
-  .leaflet-marker-icon,
-  .leaflet-marker-shadow,
-  .leaflet-cluster {
-    z-index: 6 !important;
-  }
-
-  /* Popup */
-  .leaflet-popup {
-    z-index: 7 !important;
-  }
-</style>
-
-</head>
-  <body class="h-full">
-    <div class="flex min-h-full flex-col">
-      <header class="mx-auto w-full max-w-7xl px-6 pt-6 lg:px-8">
-            {% include "components/nav.twig" %}
-      </header>
-
-      <main class="w-full max-w-6xl mx-auto px-4 py-8">
-        <!-- ZENTRIERTER TITEL -->
-        <div class="mx-auto max-w-2xl text-center">
-            <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Map</h2>
-        </div>
-
-        <!-- VOLLBREITE KARTE -->
-        <div class="mt-10 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
-            <div class="w-full h-[600px]">
-                <div id="map" class="w-full h-full rounded-lg shadow"></div>
-            </div>
-        </div>
-      </main>
-    </div>
-    <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
-    <script type="text/javascript" src="{{themepath}}/js/map.js"></script>
-    <script>
-      const points = {{ points|json_encode|raw }};
-      const map = L.map('map');
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-
-      const markers = L.markerClusterGroup();
-
-      points.forEach(p => {
-        if (p.lat && p.lng) {
-          const marker = L.marker([p.lat, p.lng]);
-          marker.bindPopup(`
-            <strong>${p.title}</strong><br>
-            ${p.description}<br>
-            <img src="${p.image}" alt="" style="max-width: 200px; margin-top: 5px;">
-          `);
-          markers.addLayer(marker);
+        <!-- MarkerCluster Styles & Scripts -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+        <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+        <style>
+        /* Karte (Map-Container) */
+        #map {
+            z-index: 5;
+            position: relative; /* wichtig, damit z-index greift */
         }
-      });
 
-      map.addLayer(markers);
-      map.fitBounds(markers.getBounds(), {
-        padding: [50, 50],
-        maxZoom: 15
-      });
-    </script>
-  </body>
+        /* Marker & Cluster */
+        .leaflet-marker-icon,
+        .leaflet-marker-shadow,
+        .leaflet-cluster {
+            z-index: 6 !important;
+        }
+
+        /* Popup */
+        .leaflet-popup {
+            z-index: 7 !important;
+        }
+        </style>
+    </head>
+    <body class="bg-neutral-800">
+        <header>
+            {% include "components/nav.twig" %}
+        </header>
+        <main class="w-full bg-neutral-800 text-neutral-400">
+            <!-- Picture Part-->
+            <div class="px-10 mx-auto max-w-7xl">
+                <div class="py-10">
+                    <h2 class="text-xl">My Photo Places</h2>
+                    <div class="w-full h-[750px] py-10">
+                        <div id="map" class="w-full h-full rounded shadow-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
+        <script type="text/javascript" src="{{themepath}}/js/map.js"></script>
+        <script>
+            const points = {{ points|json_encode|raw }};
+            const map = L.map('map');
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            const markers = L.markerClusterGroup();
+
+            points.forEach(p => {
+                if (p.lat && p.lng) {
+                const marker = L.marker([p.lat, p.lng]);
+                marker.bindPopup(`
+                    <strong>${p.title}</strong><br>
+                    <img src="${p.image}" alt="" style="max-width: 200px; margin-top: 5px;">
+                `);
+                markers.addLayer(marker);
+                }
+            });
+
+            map.addLayer(markers);
+            map.fitBounds(markers.getBounds(), {
+                padding: [50, 50],
+                maxZoom: 15
+            });
+        </script>
+    </body>
 </html>

@@ -22,8 +22,11 @@
             header("Location: ../blog.php");
             break;
         case "album_img":
-            remove_img_from_album($filename, $albumname);
-            header("Location: ../album-detail.php?album=".$albumname);
+            $result = remove_img_from_album($filename, $albumname);
+            if($result)
+            {
+                header("Location: ../album-detail.php?album=".$albumname);
+            }            
             break;
         case "album":
             $result = removeAlbum($albumname);

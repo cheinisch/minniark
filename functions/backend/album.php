@@ -107,66 +107,92 @@
 
     // Update Album Data
     function updateAlbum(string $slug, array $data, string $oldSlug): bool
-{
-    $albumDir    = __DIR__ . '/../../userdata/content/album';
-    $albumPath   = $albumDir . '/' . $slug . '.yml';
-    $albumMDPath = $albumDir . '/' . $slug . '.md';
+    {
+        $albumDir    = __DIR__ . '/../../userdata/content/album';
+        $albumPath   = $albumDir . '/' . $slug . '.yml';
+        $albumMDPath = $albumDir . '/' . $slug . '.md';
 
-    // Vorhandene YAML laden
-    if ($slug !== $oldSlug) {
-        $albumOldPath   = $albumDir . '/' . $oldSlug . '.yml';
-        $existing = file_exists($albumOldPath) ? Yaml::parseFile($albumOldPath) : [];
-    }else{
-        $existing = file_exists($albumPath) ? Yaml::parseFile($albumPath) : [];
-    }
-    $album    = $existing['album'] ?? [];
+        print_r($data);
 
-    // Felder aktualisieren
-    if (array_key_exists('name', $data) || array_key_exists('album-title-edit', $data)) {
-        $album['name'] = $data['name'] ?? $data['album-title-edit'];
-    }
-
-    if (array_key_exists('password', $data)) {
-        $album['password'] = $data['password'];
-    }
-
-    if (array_key_exists('images', $data)) {
-        if (is_array($data['images']) && !empty($data['images'])) {
-            $album['images'] = $data['images'];
+        // Vorhandene YAML laden
+        if ($slug !== $oldSlug) {
+            $albumOldPath   = $albumDir . '/' . $oldSlug . '.yml';
+            $existing = file_exists($albumOldPath) ? Yaml::parseFile($albumOldPath) : [];
+        }else{
+            $existing = file_exists($albumPath) ? Yaml::parseFile($albumPath) : [];
         }
-        // Wenn leer oder kein Array → nichts ändern, alten Wert behalten
+        $album    = $existing['album'] ?? [];
+
+        // Felder aktualisieren
+        if (array_key_exists('name', $data) || array_key_exists('album-title-edit', $data)) {
+            $album['name'] = $data['name'] ?? $data['album-title-edit'];
+        }
+
+        if (array_key_exists('password', $data)) {
+            $album['password'] = $data['password'];
+        }
+
+        if (array_key_exists('images', $data)) {
+            if (is_array($data['images'])) {
+                $album['images'] = $data['images'];
+            }
+            // Wenn leer oder kein Array → nichts ändern, alten Wert behalten
+        }
+
+        if (array_key_exists('headImage', $data)) {
+            $album['headImage'] = $data['headImage'];
+        }
+
+        // Markdown-Beschreibung
+        $useExistingMarkdown = !array_key_exists('album-description', $data);
+        $markdown = $useExistingMarkdown
+            ? (file_exists($albumMDPath) ? file_get_contents($albumMDPath) : '')
+            : $data['album-description'];
+
+        // Slug geändert → umbenennen
+        if ($slug !== $oldSlug) {
+            $oldYamlPath = $albumDir . '/' . $oldSlug . '.yml';
+            $oldMDPath   = $albumDir . '/' . $oldSlug . '.md';
+            $newYamlPath = $albumPath;
+            $newMDPath   = $albumMDPath;
+
+            if (file_exists($oldYamlPath)) rename($oldYamlPath, $newYamlPath);
+            if (file_exists($oldMDPath)) rename($oldMDPath, $newMDPath);
+
+            renameAlbumInCollection($oldSlug, $slug);
+        }
+
+        // Speichern
+        $yamlOK = file_put_contents($albumPath, Yaml::dump(['album' => $album], 2, 4)) !== false;
+        $mdOK   = $useExistingMarkdown || file_put_contents($albumMDPath, $markdown) !== false;
+
+        return $yamlOK && $mdOK;
     }
 
-    if (array_key_exists('headImage', $data)) {
-        $album['headImage'] = $data['headImage'];
+
+    function addImageToAlbum($slug, $imagesToAdd)
+    {
+        $albumDir = __DIR__ . '/../../userdata/content/album/';
+        $albumPath = $albumDir . $slug . '.yml';
+
+        if (!file_exists($albumPath)) {
+            die("Album nicht gefunden.");
+        }
+
+        // Bestehende Daten laden
+        $yamlData = Yaml::parseFile($albumPath);
+        $albumData = $yamlData['album'] ?? [];
+        $existingImages = $albumData['images'] ?? [];
+
+        // Neue Bilder hinzufügen (Duplikate vermeiden)
+        $mergedImages = array_unique(array_merge($existingImages, $imagesToAdd));
+
+        // Nur das Feld 'images' übergeben und mit sich selbst als $oldSlug speichern
+        $success = updateAlbum($slug, ['images' => $mergedImages], $slug);
+
+        return $success;
+
     }
-
-    // Markdown-Beschreibung
-    $useExistingMarkdown = !array_key_exists('album-description', $data);
-    $markdown = $useExistingMarkdown
-        ? (file_exists($albumMDPath) ? file_get_contents($albumMDPath) : '')
-        : $data['album-description'];
-
-    // Slug geändert → umbenennen
-    if ($slug !== $oldSlug) {
-        $oldYamlPath = $albumDir . '/' . $oldSlug . '.yml';
-        $oldMDPath   = $albumDir . '/' . $oldSlug . '.md';
-        $newYamlPath = $albumPath;
-        $newMDPath   = $albumMDPath;
-
-        if (file_exists($oldYamlPath)) rename($oldYamlPath, $newYamlPath);
-        if (file_exists($oldMDPath)) rename($oldMDPath, $newMDPath);
-
-        renameAlbumInCollection($oldSlug, $slug);
-    }
-
-    // Speichern
-    $yamlOK = file_put_contents($albumPath, Yaml::dump(['album' => $album], 2, 4)) !== false;
-    $mdOK   = $useExistingMarkdown || file_put_contents($albumMDPath, $markdown) !== false;
-
-    return $yamlOK && $mdOK;
-}
-
 
 
     function remove_img_from_album(string $filename, string $albumname): bool
@@ -193,8 +219,16 @@
         // Bild entfernen
         $newImages = array_filter($album['images'], fn($img) => $img !== $filename);
 
+        // Prüfen, ob das entfernte Bild auch das headImage ist
+        $dataToUpdate = ['images' => array_values($newImages)];
+
+        if (isset($album['headImage']) && $album['headImage'] === $filename) {
+            $dataToUpdate['headImage'] = '';
+        }
+
         // Änderungen speichern
-        return updateAlbum($slug, ['images' => array_values($newImages)], $slug);
+        return updateAlbum($slug, $dataToUpdate, $slug);
+
     }
 
 

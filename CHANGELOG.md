@@ -9,6 +9,7 @@
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.5...v0.1.0.6
 
 ### New Features
+- Update Basic Template
 
 ### Bug Fixes
 - Bugfix removing image from album

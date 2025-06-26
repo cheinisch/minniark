@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="{{ settings.language }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }} - {{ site_title }}</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="bg-neutral-800">
+        <header>
+            {% include "components/nav.twig" %}
+        </header>
+        <main class="w-full bg-neutral-800 text-neutral-400">
+            <!-- Picture Part-->
+            <div class="p-10 mx-auto max-w-7xl">
+                <div class="aspect-21/9">
+                    <img class="w-full h-full shadow-lg rounded-sm mx-auto object-cover" src="{{ home_image }}" alt="{{ image.title }}">
+                </div>
+                <div class="py-10">
+                    <h2 class="text-xl">{{ headline }}</h2>
+                    <span>{{ sub_headline }}</span>
+                    <div class="text-sm">
+                        {{ content }}
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
+    </body>
+</html>

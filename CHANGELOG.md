@@ -14,6 +14,7 @@
 - Bugfix removing image from album
 - Bugfix count ratings
 - Bugfix Timeline with empty Exif Dates
+- Bugfix empty {{ title }} in home.twig
 
 
 

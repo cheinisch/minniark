@@ -434,7 +434,11 @@ if ($uri === 'home' || $uri === '') {
 
         case 'start':
         default:
-            $data['title'] = $home['headline'] ?? 'Welcome';
+            if($home['headline'] == '')
+            {
+                $home['headline'] = null;
+            }
+            $data['title'] = $home['headline'] ?? 'Home';
             $data['headline'] = $home['headline'] ?? '';
             $data['sub_headline'] = $home['sub-headline'] ?? '';
             $data['content'] = $home['content'] ?? '';

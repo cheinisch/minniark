@@ -3,6 +3,18 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.1.0.6]
+2025-06-24
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.5...v0.1.0.6
+
+### New Features
+
+### Bug Fixes
+- Bugfix removing image from album
+
+
+
 ## [0.1.0.5]
 2025-06-24
 

@@ -13,6 +13,7 @@
 ### Bug Fixes
 - Bugfix removing image from album
 - Bugfix count ratings
+- Bugfix Timeline with empty Exif Dates
 
 
 

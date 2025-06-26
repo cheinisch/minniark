@@ -29,10 +29,35 @@ function getTimelineImagesFromYaml(string $mediaPath = 'userdata/content/images/
 
         $guid = $data['guid'] ?? $basename;
         $exifDate = $data['exif']['Date'] ?? null;
+        $exifDateRaw = $data['exif']['Date'] ?? null;
+        
         $createdAt = $data['created_at'] ?? null;
 
         // Datum formatieren (EXIF bevorzugt, sonst created_at)
+
+        // Fallback: EXIF-Datum nicht vorhanden oder ungültig
+        if (empty($exifDateRaw) || strtolower(trim($exifDateRaw)) === 'unknown' || strtotime($exifDateRaw) === false) {
+            // Wenn vorhanden: created_at ins exif-Feld eintragen
+            if (!empty($createdAt)) {
+                // Format: 'YYYY:MM:DD HH:MM:SS' (wie typisches EXIF-Datum)
+                $data['exif']['Date'] = str_replace('-', ':', substr($createdAt, 0, 10)) . substr($createdAt, 10);
+                $exifDateRaw = $data['exif']['Date'];
+            }
+        }
+
+        // Formatieren fürs Sorting (oder Twig)
         $parsedDate = null;
+        if (!empty($exifDateRaw) && strtotime($exifDateRaw) !== false) {
+            $parsedDate = date('Y-m-d H:i:s', strtotime(str_replace(':', '-', substr($exifDateRaw, 0, 10)) . substr($exifDateRaw, 10)));
+        }
+
+        // Wenn kein gültiges EXIF-Datum → fallback auf created_at
+        if (!$parsedDate && !empty($data['created_at'])) {
+            $parsedDate = $data['created_at'];
+        }
+
+        
+
         if ($exifDate) {
             $parsedDate = date('Y-m-d H:i:s', strtotime(str_replace(':', '-', substr($exifDate, 0, 10)) . substr($exifDate, 10)));
         }

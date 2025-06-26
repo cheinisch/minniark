@@ -68,7 +68,7 @@ function get_ratinglist($mobile)
     $ratingCounts = [];
     foreach (glob($imageDir . '*.yml') as $filePath) {
         $data = Yaml::parseFile($filePath);
-        $rating = (int)($data['rating'] ?? 0);
+        $rating = (int)($data['image']['rating'] ?? 0);
         $ratingCounts[$rating] = ($ratingCounts[$rating] ?? 0) + 1;
     }
     for ($i = 0; $i <= 5; $i++) {

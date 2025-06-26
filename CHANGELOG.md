@@ -12,6 +12,7 @@
 
 ### Bug Fixes
 - Bugfix removing image from album
+- Bugfix count ratings
 
 
 

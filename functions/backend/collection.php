@@ -301,6 +301,50 @@
                             </div>
                         </div>
                     </div>";
+                }else if($headImage){
+                    echo "
+                    <div>
+                        <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 200px; max-width: var(--img-max-width);\">
+                            <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
+                                <img src=\"../userdata/content/images/".$headImage."/\" class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
+                            </a>
+                        </div>
+                        <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-400\">
+                            <span class=\"text-sm dark:text-gray-400\">$title</span>
+                            <div class=\"relative inline-block\">
+                                <button id=\"$fileName\" class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\" data-filename=\"$fileName\">
+                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
+                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
+                                    </svg>
+                                </button>                    
+                                <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
+                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">Remove from Collection</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
+                }else{
+                    echo "
+                    <div>
+                        <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 200px; max-width: var(--img-max-width);\">
+                            <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
+                                <img src=\"img/placeholder.png\" class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
+                            </a>
+                        </div>
+                        <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-400\">
+                            <span class=\"text-sm dark:text-gray-400\">$title</span>
+                            <div class=\"relative inline-block\">
+                                <button id=\"$fileName\" class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\" data-filename=\"$fileName\">
+                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
+                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
+                                    </svg>
+                                </button>                    
+                                <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
+                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">Remove from Collection</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
                 }
             } catch (\Exception $e) {
                 error_log("Fehler beim Laden von Album {$slug}: " . $e->getMessage());

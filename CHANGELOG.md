@@ -16,6 +16,7 @@
 - Bugfix count ratings
 - Bugfix Timeline with empty Exif Dates
 - Bugfix empty {{ title }} in home.twig
+- Hide unpublished pages or blog posts
 
 
 

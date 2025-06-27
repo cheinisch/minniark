@@ -3,6 +3,19 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.1.0.7]
+2025-06-24
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.6...v0.1.0.7
+
+### New Features
+- Update Basic Template to local css
+
+### Bug Fixes
+- 
+
+
+
 ## [0.1.0.6]
 2025-06-24
 

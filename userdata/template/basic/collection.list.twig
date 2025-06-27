@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="{{ settings.language }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }} - {{ site_title }}</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="bg-neutral-800">
+        <header>
+            {% include "components/nav.twig" %}
+        </header>
+        <main class="w-full bg-neutral-800 text-neutral-400">
+            <!-- Picture Part-->
+            <div class="px-10 pt-10 mx-auto max-w-7xl">
+                <h2 class="text-xl">My Galleries</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-10">
+                    {% for album in albums %}
+                    <!-- Picture -->
+                    <div class="relative w-full aspect-16/9">
+                        <a href="/gallery/{{ album.slug }}">
+                            <!-- Bild -->
+                            <img class="shadow-lg rounded-sm object-cover w-full h-full" src="{{ album.cover }}">
+
+                            <!-- Graues Overlay -->
+                            <div class="absolute inset-0 bg-gray-900/20 rounded-sm"></div>
+
+                            <!-- Text unten links -->
+                            <span class="absolute bottom-0 left-0 text-white py-2 px-3 text-3xl rounded-tr-md z-10">
+                            {{ album.title }}
+                            </span>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+        <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
+    </body>
+</html>

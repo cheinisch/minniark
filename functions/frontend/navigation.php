@@ -68,17 +68,17 @@
                 foreach ($albumList as $album) {
                     $children[] = [
                         'title' => $album['Name'],
-                        'url' => '/gallery/' . $album['Slug'], // oder 'id', je nachdem
+                        'url' => '/album/' . $album['Slug'], // oder 'id', je nachdem
                     ];
                 }
 
                 $nav[] = [
-                    'title' => 'Gallerys',
-                    'url' => '/gallery',
+                    'title' => 'Galleries',
+                    'url' => '/albums',
                     'children' => $children,
                 ];
             }else{
-                $nav[] = ['title' => 'Gallerys', 'url' => '/gallery'];
+                $nav[] = ['title' => 'Galleries', 'url' => '/albums'];
             }
             
 

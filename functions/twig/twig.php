@@ -183,6 +183,9 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
             }
         }
 
+        // Album URL
+        $url = '/album/'.$slug;
+
         // Markdown-Beschreibung
         $mdContent = file_exists($markdownFile) ? file_get_contents($markdownFile) : '';
         $descriptionHtml = $parsedown->text($mdContent);
@@ -193,6 +196,7 @@ if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
             'description' => $descriptionHtml,
             'images' => $imageList,
             'cover' => $cover,
+            'url' => $url,
         ];
         $data['title'] = $album['name'] ?? $slug;
 
@@ -429,7 +433,7 @@ if ($uri === 'home' || $uri === '') {
             $album = readGalleryAlbum($albumSlug, $settings);
             $data['album'] = $album;
             $data['title'] = $album['title'] ?? 'Album';
-            echo $twig->render('home_album.twig', $data);
+            echo $twig->render('home.album.twig', $data);
             exit;
 
         case 'start':

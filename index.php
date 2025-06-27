@@ -96,7 +96,7 @@ if (array_key_exists($uri, $routes)) {
         case 'map':
             $data['points'] = getGpsPoints();
             break;
-        case 'gallery':
+        case 'albums':
             $data['albums'] = getGalleryAlbums();
             break;
     }

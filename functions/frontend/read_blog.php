@@ -91,6 +91,11 @@ function getBlogPosts(): array
 
         $url = '/blog/'.$slug;
 
+        if($essay['is_published'] == false)
+        {
+            continue;
+        }
+
         $posts[] = [
             'slug' => $slug,
             'title' => $title,

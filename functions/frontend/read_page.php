@@ -35,6 +35,9 @@ function getPageList(): array
         // Pflichtfelder prüfen
         if (!isset($page['title'])) continue;
 
+        // is published
+        if ($page['is_published'] == false) continue;
+
         $contentRaw = file_get_contents($mdPath);
         $excerpt = mb_substr(strip_tags($contentRaw), 0, 500) . '...';
 

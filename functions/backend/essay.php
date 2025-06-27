@@ -98,6 +98,12 @@
 
         $essay = $existingYaml['essay'] ?? [];
 
+        // Markdown speichern
+        $mdOK = true;
+        if (isset($data['content'])) {
+            $mdOK = file_put_contents($mdPath, $data['content']) !== false;
+        }
+
         // ✨ Zusammenführen aller übergebenen Felder inkl. Plugins
         unset($data['content']); 
         $essay = array_merge($essay, $data);
@@ -110,11 +116,7 @@
         // YAML speichern
         $yamlOK = file_put_contents($yamlPath, Yaml::dump(['essay' => $essay], 2, 4)) !== false;
 
-        // Markdown speichern
-        $mdOK = true;
-        if (isset($data['content'])) {
-            $mdOK = file_put_contents($mdPath, $data['content']) !== false;
-        }
+        
 
         return $yamlOK && $mdOK;
     }

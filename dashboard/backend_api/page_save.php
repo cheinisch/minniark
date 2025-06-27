@@ -21,7 +21,14 @@ if (empty($title) || empty($foldername)) {
     die("Titel und Zielordner (foldername) müssen übergeben werden.");
 }
 
-$isPublished = !empty($published_at);
+$isPublished = false;
+
+if($_POST['is_published'] == "true")
+{
+    $isPublished = true;
+}else{
+    $isPublished = false;
+}
 
 // Slug normalisieren
 $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $foldername), '-'));

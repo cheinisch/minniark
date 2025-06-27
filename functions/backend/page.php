@@ -84,6 +84,7 @@
         $page['title'] = $data['title'] ?? $page['title'] ?? '';
         $page['cover'] = $data['cover'] ?? $page['cover'] ?? '';
         $page['slug'] = $slug;
+        $page['is_published'] = $data['is_published'];
 
         // YAML speichern
         $yamlOK = file_put_contents($yamlPath, Yaml::dump(['page' => $page], 2, 4)) !== false;

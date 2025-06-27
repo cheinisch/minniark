@@ -85,6 +85,12 @@ if (preg_match('#^p/([\w\-]+)$#', $uri, $matches)) {
         $data['page'] = $page;
         $data['title'] = $page['title'];
 
+        if($page['is_published'] == false)
+        {
+            echo $twig->render('404.twig', $data);
+            exit;    
+        }
+
         echo $twig->render('page.twig', $data);
         exit;
     }
@@ -124,6 +130,12 @@ if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
         // Twig-Daten setzen
         $data['post'] = $essay;
         $data['title'] = $essay['title'];
+
+        if($essay['is_published'] == false)
+        {
+            echo $twig->render('404.twig', $data);
+            exit;    
+        }
 
         echo $twig->render('post.twig', $data);
         exit;

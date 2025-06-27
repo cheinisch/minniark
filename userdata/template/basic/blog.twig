@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="{{ settings.language }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }} - {{ site_title }}</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="bg-neutral-800">
+        <header>
+            {% include "components/nav.twig" %}
+        </header>
+        <main class="w-full bg-neutral-800 text-neutral-400">
+            <!-- Picture Part-->
+            <div class="p-10 mx-auto max-w-5xl">
+                <div class="py-10">
+                    <h2 class="text-2xl">Blog</h2>
+                    <div class="space-y-10 py-10">
+                        {% if posts is not empty %}                
+                        {% for post in posts %}
+                        <div class="flex items-start space-x-4">
+                            <div class="text-gray-500 text-sm whitespace-nowrap">{{ post.date }}</div>
+                            <div>
+                                <a href="{{ post.url }}"><h3 class="font-semibold text-xl">{{ post.title }}</h3></a>
+                                <div>
+                                    <p class="excerpt">{{ post.excerpt | raw}}</p>                                    
+                                </div>
+                                {% if post.tags is not empty %}
+                                <div class="mt-2 flex flex-wrap gap-2">
+                                    {% for tag in post.tags %}
+                                    <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                            <p>No Blogposts found.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script type="text/javascript" src="{{themepath}}/js/nav.js"></script>
+    </body>
+</html>

@@ -13,21 +13,21 @@
         <main class="w-full bg-neutral-800 text-neutral-400">
             <!-- Picture Part-->
             <div class="px-10 pt-10 mx-auto max-w-7xl">
-                <h2 class="text-xl">My Galleries</h2>
+                <h2 class="text-xl">My Collections</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-10">
-                    {% for album in albums %}
+                    {% for collection in collections %}
                     <!-- Picture -->
                     <div class="relative w-full aspect-16/9">
-                        <a href="/gallery/{{ album.slug }}">
+                        <a href="{{ collection.url }}">
                             <!-- Bild -->
-                            <img class="shadow-lg rounded-sm object-cover w-full h-full" src="{{ album.cover }}">
+                            <img class="shadow-lg rounded-sm object-cover w-full h-full" src="{{ collection.cover }}">
 
                             <!-- Graues Overlay -->
                             <div class="absolute inset-0 bg-gray-900/20 rounded-sm"></div>
 
                             <!-- Text unten links -->
                             <span class="absolute bottom-0 left-0 text-white py-2 px-3 text-3xl rounded-tr-md z-10">
-                            {{ album.title }}
+                            {{ collection.title }}
                             </span>
                         </a>
                     </div>

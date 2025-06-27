@@ -10,8 +10,6 @@ $navItems = buildNavigation($templateDir);
 require_once __DIR__ . '/../../vendor/autoload.php'; // für Yaml
 use Symfony\Component\Yaml\Yaml;
 
-error_log(print_r($settings, true));
-
 $data = [
     'title' => ucfirst($uri) ?: 'Home',
     'site_title' => $settings['site_title'] ?? 'Minniark',
@@ -138,7 +136,7 @@ if (preg_match('#^blog/([\w\-]+)$#', $uri, $matches)) {
 }
 
 
-if (preg_match('#^gallery/([\w\-]+)$#', $uri, $matches)) {
+if (preg_match('#^album/([\w\-]+)$#', $uri, $matches)) {
     $slug = $matches[1];
     $albumDir = realpath(__DIR__ . '/../../userdata/content/album/');
     $albumFile = $albumDir . '/' . $slug . '.yml';
@@ -316,10 +314,13 @@ if (preg_match('#^collections$#', $uri)) {
                 }
             }
 
+            $url = '/collection/'.$slug;
+
             $collections[] = [
                 'slug' => $slug,
                 'title' => $title,
                 'cover' => $coverUrl,
+                'url' => $url,
             ];
         } catch (Exception $e) {
             continue;
@@ -346,6 +347,8 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
         exit;
     }
 
+    $imageSize = $settings['default_image_size'] ?? 'M';
+
     $yaml = Symfony\Component\Yaml\Yaml::parseFile($collectionFile);
     $collection = $yaml['collection'] ?? [];
     $title = $collection['name'] ?? $slug;
@@ -362,7 +365,7 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
             $imageMeta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
             $guid = $imageMeta['image']['guid'] ?? null;
             if ($guid) {
-                $coverUrl = "/cache/images/{$guid}_M.jpg";
+                $coverUrl = "/cache/images/{$guid}_{$imageSize}.jpg";
             }
         }
     }
@@ -378,31 +381,46 @@ if (preg_match('#^collection/([\w\-]+)$#', $uri, $matches)) {
         $albumTitle = $album['name'] ?? $albumSlug;
         $headImage = $album['headImage'] ?? null;
 
+        $imageSize = $settings['default_image_size'] ?? 'M';
+
         $albumCover = null;
         if ($headImage) {
             $imageSlug = pathinfo($headImage, PATHINFO_FILENAME);
             $imageMetaPath = __DIR__ . '/../../userdata/content/images/' . $imageSlug . '.yml';
+            
             if (file_exists($imageMetaPath)) {
                 $meta = Symfony\Component\Yaml\Yaml::parseFile($imageMetaPath);
                 $guid = $meta['image']['guid'] ?? null;
                 if ($guid) {
-                    $albumCover = "/cache/images/{$guid}_M.jpg";
+                    
+                    $coverUrl = "/cache/images/{$guid}_{$imageSize}.jpg";
                 }
             }
         }
 
+        $url = '/album/'.$albumSlug;
+
         $albumList[] = [
             'slug' => $albumSlug,
             'title' => $albumTitle,
-            'cover' => $albumCover,
+            'cover' => $coverUrl,
+            'url' => $url,
         ];
     }
+
+    $collectionData = [
+        'title' => $title,
+        'slug' => $slug,
+        'description' => $descriptionHtml,
+        'cover' => $coverUrl,
+    ];
 
     $data['title'] = $title;
     $data['slug'] = $slug;
     $data['description'] = $descriptionHtml;
     $data['cover'] = $coverUrl;
     $data['albums'] = $albumList;
+    $data['collection'] = $collectionData;
 
     echo $twig->render('collection.twig', $data);
     exit;

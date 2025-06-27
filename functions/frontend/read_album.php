@@ -47,11 +47,14 @@ function getGalleryAlbums(): array
         $mdFile = $albumDir . '/' . $slug . '.md';
         $description = file_exists($mdFile) ? file_get_contents($mdFile) : '';
 
+        $url = '/album/'.$slug;
+
         $albums[] = [
             'slug' => $slug,
             'title' => $album['name'] ?? '',
             'description' => $parsedown->text($description),
             'cover' => get_cacheimage($album['headImage'] ?? ''),
+            'url' => $url,
         ];
     }
 

@@ -76,7 +76,7 @@ $routes = [
     'timeline' => 'timeline.twig',
     'map' => 'map.twig',
     'blog' => 'blog.twig',
-    'gallery' => 'album.list.twig',
+    'albums' => 'album.list.twig',
 ];
 
 

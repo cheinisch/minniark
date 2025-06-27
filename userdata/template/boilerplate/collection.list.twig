@@ -17,7 +17,7 @@
             <ul class="album-list">
                 {% for collection in collections %}
                     <li class="collection-entry">
-                        <a href="/collection/{{ collection.slug }}">
+                        <a href="{{ collection.url }}">
                             {% if collection.cover %}
                                 <img src="{{ collection.cover }}" alt="{{ collection.title }}" />
                             {% endif %}

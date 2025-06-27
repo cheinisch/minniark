@@ -15,12 +15,12 @@
         <main>
             {% if cover %}
                 <div class="album-cover">
-                    <img src="{{ cover }}" alt="Cover image for {{ title }}">
+                    <img src="{{ collection.cover }}" alt="Cover image for {{ collection.title }}">
                 </div>
             {% endif %}
             <h1>{{ title }}</h1>
             <div class="description">
-                {{ description|raw }}
+                {{ collection.description|raw }}
             </div>
 
             {% if albums %}
@@ -28,7 +28,7 @@
                 <ul class="album-list">
                     {% for album in albums %}
                         <li class="album-entry">
-                            <a href="/gallery/{{ album.slug }}">
+                            <a href="{{ album.url }}">
                                 {% if album.cover %}
                                     <img src="{{ album.cover }}" alt="{{ album.title }}" />
                                 {% endif %}

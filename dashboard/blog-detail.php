@@ -301,10 +301,11 @@
                         <span class="text-sm text-gray-500" id="availability-description">Change between visible and invisible</span>
                       </span>
                       <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                      <button type="button" id="is_published" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo $essay['is_published']; ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
+                      <button type="button" id="is_published" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo $essay['is_published'] === true ? "true" : "false"; ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
                         <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
                         <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                       </button>
+                      <input type="hidden" name="is_published" id="is_published_input" value="<?php echo $essay['is_published'] === true ? "true" : "false"; ?>">
                     </div>
                   </div>
                   <!-- Date/Time Picker -->
@@ -468,35 +469,6 @@
         });
       });
     </script>
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll('button[role="switch"]').forEach(btn => {
-    const knob = btn.querySelector('span[aria-hidden]');
-    const hiddenInput = document.getElementById(btn.id + '-input');
-
-    const updateUI = (enabled) => {
-      btn.setAttribute("aria-checked", enabled ? "true" : "false");
-      btn.classList.toggle("bg-sky-600", enabled);
-      btn.classList.toggle("bg-gray-400", !enabled);
-      knob.classList.toggle("translate-x-5", enabled);
-      knob.classList.toggle("translate-x-0", !enabled);
-      if (hiddenInput) {
-        hiddenInput.value = enabled ? "true" : "false";
-      }
-    };
-
-    // Initialer Zustand
-    const initial = btn.getAttribute("aria-checked") === "true";
-    updateUI(initial);
-
-    // Klickverhalten
-    btn.addEventListener("click", () => {
-      const current = btn.getAttribute("aria-checked") === "true";
-      updateUI(!current);
-    });
-  });
-});
-</script>
 
     <script>
       function switchCoverTab(tab) {
@@ -547,13 +519,15 @@ document.addEventListener("DOMContentLoaded", function () {
       document.addEventListener("DOMContentLoaded", function () {
         const toggleBtn = document.getElementById("is_published");
         const knob = toggleBtn.querySelector("span");
+        const hiddenInput = document.getElementById("is_published_input");
 
         function updateToggleUI(enabled) {
           toggleBtn.setAttribute("aria-checked", enabled ? "true" : "false");
-          toggleBtn.classList.toggle("bg-indigo-600", enabled);
+          toggleBtn.classList.toggle("bg-sky-600", enabled);
           toggleBtn.classList.toggle("bg-gray-400", !enabled);
           knob.classList.toggle("translate-x-5", enabled);
           knob.classList.toggle("translate-x-0", !enabled);
+          hiddenInput.value = enabled ? "true" : "false";
         }
 
         // Initialstatus setzen

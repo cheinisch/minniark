@@ -89,6 +89,8 @@ function getBlogPosts(): array
         $rawContent = file_get_contents($mdPath);
         $excerpt =  $parsedown->text(mb_substr(strip_tags($rawContent), 0, 150) . '...');
 
+        $url = '/blog/'.$slug;
+
         $posts[] = [
             'slug' => $slug,
             'title' => $title,
@@ -98,6 +100,7 @@ function getBlogPosts(): array
             'cover' => get_cacheimage($essay['cover'] ?? ''),
             'is_published' => $essay['is_published'] ?? false,
             'tags' => $essay['tags'] ?? [],
+            'url' => $url,
         ];
     }
 

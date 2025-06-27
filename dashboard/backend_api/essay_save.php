@@ -15,7 +15,14 @@ $tags = array_filter(array_map('trim', explode(',', $_POST['tags'] ?? '')));
 $cover = trim($_POST['cover'] ?? '');
 $published_at = trim($_POST['published_at'] ?? '');
 
-$isPublished = !empty($published_at);
+$isPublished = false;
+
+if($_POST['is_published'] == "true")
+{
+    $isPublished = true;
+}else{
+    $isPublished = false;
+}
 
 // Validierung
 if (empty($title) || empty($foldername)) {

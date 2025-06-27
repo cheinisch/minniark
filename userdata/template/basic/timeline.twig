@@ -13,21 +13,21 @@
         <main class="w-full bg-neutral-800 text-neutral-400">
             <!-- Picture Part-->
             <div class="px-10 pt-10 mx-auto max-w-7xl">
-                <h2 class="text-xl">My Galleries</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-10">
-                    {% for album in albums %}
+                <h2 class="text-xl">My Timeline</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 py-10">
+                    {% for image in timeline %}
                     <!-- Picture -->
-                    <div class="relative w-full aspect-16/9">
-                        <a href="{{ album.url }}">
+                    <div class="relative w-full aspect-square">
+                        <a href="{{ image.url }}">
                             <!-- Bild -->
-                            <img class="shadow-lg rounded-sm object-cover w-full h-full" src="{{ album.cover }}">
+                            <img class="shadow-lg rounded-sm object-cover w-full h-full" src="{{ image.thumb.l }}">
 
                             <!-- Graues Overlay -->
                             <div class="absolute inset-0 bg-gray-900/20 rounded-sm"></div>
 
                             <!-- Text unten links -->
-                            <span class="absolute bottom-0 left-0 text-white py-2 px-3 text-3xl rounded-tr-md z-10">
-                            {{ album.title }}
+                            <span class="absolute bottom-0 left-0 text-white py-2 px-3 text-lg rounded-tr-md z-10">
+                            {{ image.title }}
                             </span>
                         </a>
                     </div>

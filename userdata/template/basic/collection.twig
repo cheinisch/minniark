@@ -13,11 +13,11 @@
         <main class="w-full bg-neutral-800 text-neutral-400">
             <!-- Head Part-->
             <div class="px-10 mx-auto max-w-7xl">
-                <h2 class="py-10 text-xl">{{ album.title }}</h2>
-                <img class="shadow-lg rounded-sm mx-auto" src="{{ album.cover }}" alt="Cover image for {{ album.title }}">
+                <h2 class="py-10 text-xl">{{ collection.title }}</h2>
+                <img class="shadow-lg rounded-sm mx-auto w-full" src="{{ collection.cover }}" alt="Cover image for {{ collection.title }}">
                 <div class="py-5">
                     <div class="text-sm">
-                        {{ album.description|raw }}
+                        {{ collection.description|raw }}
                     </div>
                 </div>
             </div>
@@ -25,17 +25,17 @@
             <!-- Picture Part-->
             <div class="px-10 pb-10 mx-auto max-w-7xl">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {% for image in album.images %}
+                    {% for album in albums %}
                     <!-- Picture -->
                     <div class="relative w-full aspect-16/9">
-                        <a href="{{ image.url }}">
+                        <a href="{{ album.url }}">
                             <!-- Bild -->
-                            <img class="shadow-lg rounded-sm object-cover w-full h-full" src="{{ image.file }}" alt="{{ image.title }}">
+                            <img class="shadow-lg rounded-sm object-cover w-full h-full" src="{{ album.cover }}" alt="{{ album.title }}">
 
                             <!-- Text unten links -->
-                            <!--<span class="absolute bottom-0 left-0 text-white py-2 px-3 text-3xl rounded-tr-md z-10">
-                            Title
-                            </span>-->
+                            <span class="absolute bottom-0 left-0 text-white py-2 px-3 text-3xl rounded-tr-md z-10">
+                            {{ album.title }}
+                            </span>
                         </a>
                     </div>
                     {% endfor %}

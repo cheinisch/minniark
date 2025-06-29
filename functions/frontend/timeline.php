@@ -100,8 +100,8 @@ function getTimelineImagesFromYaml(string $mediaPath = 'userdata/content/images/
 
     // Sortieren nach EXIF-Datum > created_at
     usort($images, function ($a, $b) {
-        $dateA = strtotime($a['exif_date'] ?? $a['created_at'] ?? '1970-01-01');
-        $dateB = strtotime($b['exif_date'] ?? $b['created_at'] ?? '1970-01-01');
+        $dateA = strtotime($a['date'] ?? '1970-01-01');
+        $dateB = strtotime($b['date'] ?? '1970-01-01');
         return $dateB <=> $dateA;
     });
 

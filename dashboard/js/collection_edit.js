@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Initialisiere den Editor nur bei Bedarf
         if (!simplemde) {
             simplemde = new SimpleMDE({
-                element: document.getElementById("album-description"),
+                element: document.getElementById("collection-description"),
                 toolbar: ["bold", "italic", "heading", "|", "quote"]
             });
         }

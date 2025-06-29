@@ -64,7 +64,7 @@ function getTimelineImagesFromYaml(string $mediaPath = 'userdata/content/images/
 
 
         $date = null;
-        if ($exifDate != 'Unknown' || $exifDate != null || $exifDate != '') {
+        if ($exifDate != 'Unknown' && $exifDate != null && $exifDate != '') {
             $date = date('F j, Y', strtotime(str_replace(':', '-', substr($exifDate, 0, 10)) . substr($exifDate, 10)));
         }else{
             $date = date('F j, Y', strtotime(str_replace(':', '-', substr($createdAt, 0, 10)) . substr($createdAt, 10)));

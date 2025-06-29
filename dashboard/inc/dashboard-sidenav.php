@@ -20,6 +20,7 @@
                       <li><a href="dashboard-menu.php" class="<?php if($settingspage != "menu"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">Navigation</a></li>
                       <li><a href="dashboard-plugin.php" class="<?php if($settingspage != "plugin"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">Plugins</a></li>
                       <li><a href="dashboard-export_import.php" class="<?php if($settingspage != "export"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">Export / Import</a></li>
+                      <li><a href="dashboard-ki.php" class="<?php if($settingspage != "ki"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">KI</a></li>
                       <?php
                       }
                       ?>

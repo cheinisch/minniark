@@ -62,6 +62,14 @@ function getTimelineImagesFromYaml(string $mediaPath = 'userdata/content/images/
             $parsedDate = date('Y-m-d H:i:s', strtotime(str_replace(':', '-', substr($exifDate, 0, 10)) . substr($exifDate, 10)));
         }
 
+
+        $date = null;
+        if ($exifDate != 'Unknown' || $exifDate != null || $exifDate != '') {
+            $date = date('F j, Y', strtotime(str_replace(':', '-', substr($exifDate, 0, 10)) . substr($exifDate, 10)));
+        }else{
+            $date = date('F j, Y', strtotime(str_replace(':', '-', substr($createdAt, 0, 10)) . substr($createdAt, 10)));
+        }
+
         // Beschreibung aus Markdown oder leer
         $description = '';
         if (file_exists($mdPath)) {
@@ -86,6 +94,7 @@ function getTimelineImagesFromYaml(string $mediaPath = 'userdata/content/images/
             ],
             'file' => "cache/images/{$guid}_" . strtoupper($defaultSize) . ".jpg",
             'url' => "/i/" . $filename,
+            'date' => $date,
         ];
     }
 

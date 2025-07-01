@@ -1,5 +1,6 @@
 services:
   php:
+    container_name: minniark_php
     image: cheinisch/minniark-php:latest
     expose:
       - "9000"
@@ -8,6 +9,7 @@ services:
       - userdata_volume:/var/www/html/userdata
 
   nginx:
+    container_name: minniark_app
     image: cheinisch/minniark-nginx:latest
     ports:
       - "8080:80"

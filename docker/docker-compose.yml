@@ -1,5 +1,6 @@
 services:
   imageportfolio:
+    container_name: minniark_app
     image: cheinisch/minniark:latest
     ports:
       - "8080:80"

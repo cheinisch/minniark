@@ -6,7 +6,7 @@
 ## [0.1.0.9]
 2025-07-01
 
-**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.7...v0.1.0.8
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.8...v0.1.0.9
 
 ### Changes
 - Update Dockerimage PHP version 8.4

@@ -3,6 +3,17 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.1.0.8]
+2025-07-01
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.7...v0.1.0.8
+
+### Changes
+- Remove Apache Docker image
+
+### Bug Fixes
+- fix missing favicon
+
 ## [0.1.0.7]
 2025-06-24
 

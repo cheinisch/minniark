@@ -15,6 +15,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Blogposts - <?php echo get_sitename(); ?></title>
 
+        <!-- FAV Icon -->
+        <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
         <!-- Tailwind CSS -->
         <link rel="stylesheet" href="css/tailwind.css">
     </head>

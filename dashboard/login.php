@@ -70,6 +70,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login - <?php echo get_sitename(); ?></title>
         <link rel="stylesheet" href="css/tailwind.css">
+        <!-- FAV Icon -->
+        <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
     </head>
     <body>
         <div class="w-full h-screen bg-neutral-200 dark:bg-gray-950 flex flex-col">

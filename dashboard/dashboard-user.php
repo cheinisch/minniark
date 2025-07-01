@@ -39,6 +39,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard - <?php echo get_sitename(); ?></title>
 
+        <!-- FAV Icon -->
+        <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
         <!-- Tailwind CSS -->
         <link rel="stylesheet" href="css/tailwind.css">
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>

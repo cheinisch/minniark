@@ -49,7 +49,6 @@ Take a look at the [documentation](https://dev.minniark.app) to get started with
 
 | Image | Stable |
 |---|---|
-| Apache + PHP | [![.github/workflows/docker-build-apache.yml](https://github.com/cheinisch/minniark/actions/workflows/docker-build-apache.yml/badge.svg?branch=main)](https://github.com/cheinisch/minniark/actions/workflows/docker-build-apache.yml) |
 | Nginx | [![.github/workflows/docker-build-nginx-app.yml](https://github.com/cheinisch/minniark/actions/workflows/docker-build-nginx-app.yml/badge.svg?branch=main)](https://github.com/cheinisch/minniark/actions/workflows/docker-build-nginx-app.yml) |
 | PHP for Nginx | [![.github/workflows/docker-build-php.yml](https://github.com/cheinisch/minniark/actions/workflows/docker-build-php.yml/badge.svg?branch=main)](https://github.com/cheinisch/minniark/actions/workflows/docker-build-php.yml) |
 

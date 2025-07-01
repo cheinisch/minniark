@@ -1,16 +1,23 @@
 services:
-  imageportfolio:
+  php:
+    container_name: minniark_php
+    image: cheinisch/minniark-php:latest
+    expose:
+      - "9000"
+    volumes:
+      - appdata:/var/www/html
+      - userdata_volume:/var/www/html/userdata
+
+  nginx:
     container_name: minniark_app
     image: cheinisch/minniark:latest
     ports:
       - "8080:80"
+    depends_on:
+      - php
     volumes:
       - appdata:/var/www/html
       - userdata_volume:/var/www/html/userdata
-    environment:
-      - TZ=Europe/Berlin
-      - PHP_UPLOAD_MAX_FILESIZE=100M
-      - PHP_POST_MAX_SIZE=100M
 
 volumes:
   appdata:

@@ -27,7 +27,7 @@ jobs:
 
     - name: Build NGINX Image
       run: |
-        docker build -f docker/nginx.Dockerfile -t cheinisch/minniark-nginx:nightly .
+        docker build -f docker/nginx.Dockerfile -t cheinisch/minniark:nightly .
     - name: Push NGINX Image
       run: |
-        docker push cheinisch/minniark-nginx:nightly
+        docker push cheinisch/minniark:nightly

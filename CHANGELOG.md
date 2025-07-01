@@ -3,6 +3,17 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.1.0.10]
+2025-06-24
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.9...v0.1.0.10
+
+### New Features
+- 
+
+### Bug Fixes
+- Generating Backup not working
+
 ## [0.1.0.9]
 2025-07-01
 

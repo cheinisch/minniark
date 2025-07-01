@@ -4,7 +4,14 @@
   $settingspage = "export";
   security_checklogin();
 
-  $backup_guid = read_prefix(); 
+  $backup_guid = read_prefix();
+  
+  $success = false;
+
+  if(isset($_GET['success']))
+  {
+    $success = true;
+  }
 
 ?>
 
@@ -21,7 +28,11 @@
         <link rel="stylesheet" href="css/tailwind.css">
     </head>
     <body class="min-h-screen flex flex-col">
-      <div id="backup-modal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
+      <?php
+        if($success)
+        {
+          ?>
+      <div id="backup-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
         <div class="relative bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
           
           <!-- Schließen-X -->
@@ -35,7 +46,7 @@
           <a id="backup-download-link" href="#" class="text-sky-600 hover:underline break-all" download></a>
         </div>
       </div>
-
+        <?php } ?>
         <header>
             <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
@@ -180,21 +191,8 @@
                 </div>
 
                 <div class="md:col-span-2" id="exportform">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Notifications für Benutzerdaten -->
-                    <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Erfolg!</strong>
-                      <span class="block sm:inline">Daten wurden gespeichert.</span>
-                    </div>
-
-                    <div id="notification-error-user" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Fehler!</strong>
-                      <span class="block sm:inline">Etwas ist schiefgelaufen.</span>
-                    </div>
-                  </div>                 
-
                   <div class="mt-8 flex">
-                    <button id="backup-btn" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Generate Backup</button>
+                    <a href="backend_api/backup.php" id="backup-btn-new" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Generate Backup</a>
                   </div>
                 </div>
               </div>

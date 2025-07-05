@@ -1,3 +1,7 @@
 ## Notes for next release
 
-- new basis template (from scratch)
+- backup / restore without js
+- clear cache
+- sync images
+- sort images
+- edit images (flip, rotate)

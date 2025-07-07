@@ -54,6 +54,10 @@ Take a look at the [documentation](https://dev.minniark.app) to get started with
 
 ## Upcoming Features
 
+These are the planned features for upcoming releases
+
+- AI integration for the creation of the image description
+
 ## Technologies Used
 
 This project uses the following technologies:

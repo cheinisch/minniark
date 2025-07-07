@@ -254,7 +254,7 @@
                     <div class="mt-3 space-y-1">
                       <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Modify Image</a>
                       <div class="pl-5">
-                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Rotate left</a>
+                        <a href="backend_api/modify_image.php?file=<?php echo $fileName; ?>&rotate=270" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Rotate left</a>
                         <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Rotate right</a>
                         <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Flip Horizontal</a>
                         <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Flip Vertical</a>
@@ -294,8 +294,8 @@
               <ul role="list" class="-mx-2 space-y-1">
                 <li>Modify Image</li>
                 <ul class="px-5">
-                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Rotate left</a></li>
-                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Rotate right</a></li>
+                  <li><a href="backend_api/modify_image.php?file=<?php echo $fileName; ?>&rotate=270" class="text-gray-400 hover:text-sky-400">Rotate left</a></li>
+                  <li><a href="backend_api/modify_image.php?file=<?php echo $fileName; ?>&rotate=90" class="text-gray-400 hover:text-sky-400">Rotate right</a></li>
                   <li><a href="?" class="text-gray-400 hover:text-sky-400">Flip Horizontal</a></li>
                   <li><a href="?" class="text-gray-400 hover:text-sky-400">Flip Vertical</a></li>
                 </ul>                 

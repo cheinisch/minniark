@@ -11,6 +11,8 @@ session_start();
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../../functions/function_backend.php'; // für getUserDataFromUsername() & updateUserData()
 
+security_checklogin();
+
 use Symfony\Component\Yaml\Yaml;
 
 header('Content-Type: application/json');

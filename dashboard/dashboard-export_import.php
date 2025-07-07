@@ -36,9 +36,9 @@
         <div class="relative bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
           
           <!-- Schließen-X -->
-          <button onclick="closeBackupModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl font-bold leading-none">
+          <a href="dashboard-export_import.php" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl font-bold leading-none">
             &times;
-          </button>
+          </a>
 
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Backup erstellt</h2>
           <p class="text-gray-600 dark:text-gray-300 mb-4">Dein Backup wurde erfolgreich erstellt. Du kannst es hier herunterladen:</p>
@@ -275,13 +275,13 @@
                                   <td class="py-2"><a href="../backup/' . htmlspecialchars($file['name']) . '" class="hover:text-sky-600">' . htmlspecialchars($file['name']) . '</a></td>
                                   <td></td>
                                   <td class="py-2">
-                                    <button
+                                    <a href="backend_api/restore.php?filename='. htmlspecialchars($file['name']) .'"
                                       class="text-sky-600 hover:text-sky-800 restore-backup-btn"
                                       data-filename="'.htmlspecialchars($file['name']).'"
-                                      onclick="return confirm(\'Dieses Backup wirklich wiederherstellen?\');"
+                                      onclick="return confirm(\'Do you really want to restore this backup?\');"
                                     >
                                       Restore
-                                    </button>
+                                    </a>
                                   </td>
                                   <td class="py-2">
                                     <button
@@ -311,9 +311,5 @@
         </script>
         <script src="js/tailwind.js"></script>
         <script src="js/update.js"></script>
-        <script src="js/backup.js"></script>
-        <script src="js/backup_upload.js"></script>
-        <script src="js/backup_delete.js"></script>
-        <script src="js/backup_restore.js"></script>
     </body>
 </html>

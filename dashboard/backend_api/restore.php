@@ -12,11 +12,16 @@
     security_checklogin();
 
 
+    $filename = $_GET['file'];
 
-    $result = generateBackup();
+
+    $result = restoreBackup($filename);
 
     if($result)
     {
-        // do some shit
-        header("Location: ../dashboard-export_import.php?success=true");
+        header("Location: ../dashboard-export_import.php?restore=success");
+        exit;
+    }else{
+        header("Location: ../dashboard-export_import.php?restore=error");
+        exit;
     }

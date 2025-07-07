@@ -49,3 +49,28 @@
         error_log("Backup erfolgreich erstellt.");
         return true;
     }
+
+
+    function restoreBackup($filename)
+    {
+        $backupPath = __DIR__ . '/../../backup/' . $filename;
+        $restorePath = __DIR__ . '/../../userdata';
+
+        if (!file_exists($backupPath)) {
+            return false;
+            exit;
+        }
+
+        $zip = new ZipArchive();
+        if ($zip->open($backupPath) === TRUE) {
+            // Vorher ggf. aufräumen oder sichern?
+            $zip->extractTo($restorePath);
+            $zip->close();
+
+            return true;
+            exit;
+        } else {
+            return false;
+            exit;
+        }
+    }

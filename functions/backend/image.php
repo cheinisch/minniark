@@ -126,10 +126,12 @@ function getAllUploadedImages()
 
 
 
-function renderImageGallery($filterYear = null, $filterRating = null)
+function renderImageGallery($filterYear = null, $filterRating = null, $sort = null, $sort_direction = 'ASC')
 {
     $imageDir = '../userdata/content/images/';
     $files = glob($imageDir . '*.{jpg,jpeg,png,webp,gif}', GLOB_BRACE);
+
+    $images = [];
 
     foreach ($files as $imagePath) {
         $fileName = basename($imagePath);
@@ -138,21 +140,18 @@ function renderImageGallery($filterYear = null, $filterRating = null)
         $mdFile  = $imageDir . $baseName . '.md';
 
         if (!file_exists($ymlFile)) {
-            continue; // Kein YML → überspringen
+            continue;
         }
 
         $metadata = Yaml::parseFile($ymlFile)['image'] ?? [];
 
-        // Beschreibung aus .md übernehmen
         $description = 'Keine Beschreibung verfügbar';
         if (file_exists($mdFile)) {
             $description = trim(file_get_contents($mdFile));
         }
 
-        // EXIF-Datum auslesen
         $exifDate = $metadata['exif']['Date'] ?? null;
         $year = $exifDate ? substr($exifDate, 0, 4) : null;
-
         $rating = $metadata['rating'] ?? 0;
 
         if ($filterYear !== null && $year !== $filterYear) {
@@ -163,8 +162,40 @@ function renderImageGallery($filterYear = null, $filterRating = null)
             continue;
         }
 
-        $title = !empty($metadata['title']) ? htmlspecialchars($metadata['title']) : 'Kein Titel';
-        $description = htmlspecialchars($description);
+        $images[] = [
+            'fileName' => $fileName,
+            'title' => $metadata['title'] ?? '',
+            'description' => $description,
+            'exifDate' => $exifDate,
+            'rating' => $rating
+        ];
+    }
+
+    // Sortierung
+    if ($sort) {
+        usort($images, function ($a, $b) use ($sort, $sort_direction) {
+            $valueA = $a[$sort] ?? '';
+            $valueB = $b[$sort] ?? '';
+
+            if ($sort === 'exifDate') {
+                $valueA = strtotime($valueA);
+                $valueB = strtotime($valueB);
+            } else {
+                $valueA = strtolower($valueA);
+                $valueB = strtolower($valueB);
+            }
+
+            $result = $valueA <=> $valueB;
+
+            return strtoupper($sort_direction) === 'DESC' ? -$result : $result;
+        });
+    }
+
+    // HTML-Ausgabe
+    foreach ($images as $image) {
+        $fileName = $image['fileName'];
+        $title = !empty($image['title']) ? htmlspecialchars($image['title']) : 'Kein Titel';
+        $description = htmlspecialchars($image['description']);
         $cachedImage = get_cached_image_dashboard($fileName, 'M');
 
         echo "
@@ -191,6 +222,7 @@ function renderImageGallery($filterYear = null, $filterRating = null)
         </div>";
     }
 }
+
 
     
 

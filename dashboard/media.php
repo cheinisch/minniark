@@ -5,6 +5,9 @@
   // Prüfen, ob ein bestimmtes Jahr übergeben wurde
   $filterYear = isset($_GET['year']) ? $_GET['year'] : null;
   $filterRating = isset($_GET['rating']) ? $_GET['rating'] : null;
+
+  $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+  $direction = isset($_GET['dir']) ? $_GET['dir'] : null;
 ?>
 
 <!DOCTYPE html>
@@ -460,11 +463,11 @@
               <div class="flex items-center gap-4 mr-4 md:mr-10 md:ml-2 ml-auto md:py-1 py-2">
                 <label for="location" class="text-sm font-medium text-gray-300">Sort by:</label>
                 <div class="relative">
-                  <select id="location" name="location" class="appearance-none rounded-md bg-sky-400 py-1.5 pr-8 pl-3 text-base text-white sm:text-sm">
-                    <option>Date ASC</option>
-                    <option selected>Date DSC</option>
-                    <option>Name ASC</option>
-                    <option>Name DSC</option>
+                  <select id="location" name="location" class="appearance-none bg-sky-600 py-1.5 pr-8 pl-3 text-base text-white sm:text-sm">
+                    <option value="media.php?sort=exifDate&dir=asc">Date ASC</option>
+                    <option value="media.php?sort=exifDate&dir=desc">Date DSC</option>
+                    <option value="media.php?sort=title&dir=asc">Name ASC</option>
+                    <option value="media.php?sort=title&dir=desc">Name DSC</option>
                   </select>
                   <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-4 text-gray-500" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
@@ -475,7 +478,7 @@
             <!-- Content Mainblock -->
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
               <?php
-                renderImageGallery($filterYear, $filterRating); // Galerie ausgeben              
+                renderImageGallery($filterYear, $filterRating, $sort, $direction); // Galerie ausgeben              
               ?>
             </div>
           </main>
@@ -512,20 +515,26 @@
         </script>
         <script>
           document.querySelectorAll('.assign-to-album-btn').forEach(button => {
-  button.addEventListener('click', () => {
-    const filename = button.getAttribute('data-filename');
-    document.getElementById('assignImageFilename').value = filename;
-    document.getElementById('assignToAlbumModal').classList.remove('hidden');
-  });
-});
+            button.addEventListener('click', () => {
+              const filename = button.getAttribute('data-filename');
+              document.getElementById('assignImageFilename').value = filename;
+              document.getElementById('assignToAlbumModal').classList.remove('hidden');
+            });
+          });
 
-document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
-  document.getElementById('assignToAlbumModal').classList.add('hidden');
-});
+          document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
+            document.getElementById('assignToAlbumModal').classList.add('hidden');
+          });
 
-document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
-  document.getElementById('assignToAlbumModal').classList.add('hidden');
-});
+          document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
+            document.getElementById('assignToAlbumModal').classList.add('hidden');
+          });
         </script>
+        <script>
+        document.getElementById('location').addEventListener('change', function () {
+            const url = this.value;
+            window.location.href = url; // Weiterleitung zur gewählten URL
+        });
+      </script>
     </body>
 </html>

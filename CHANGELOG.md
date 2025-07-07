@@ -9,7 +9,7 @@
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.10...v0.1.0.11
 
 ### New Features
-- 
+- Add sort images in media.php
 
 ### Bug Fixes
 - Updating Restore function

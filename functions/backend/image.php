@@ -557,4 +557,57 @@ function renderImageGallery($filterYear = null, $filterRating = null)
     }
 
 
+    function generate_single_image_cache($filename)
+    {
+        //ini_set('memory_limit', '512M'); // Falls nötig, Speicherlimit erhöhen
+
+        $sourceDir = realpath(__DIR__ . '/../../userdata/content/images/');
+        $cacheDir = realpath(__DIR__ . '/../../cache/images/');
+
+        if (!$sourceDir || !$cacheDir) {
+            error_log("Quell- oder Cache-Verzeichnis nicht gefunden.");
+            return;
+        }
+
+        $basename = pathinfo($filename, PATHINFO_FILENAME);
+        $fileExt = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $imgPath = $sourceDir . '/' . $filename;
+        $ymlPath = $sourceDir . '/' . $basename . '.yml';
+
+        if (!file_exists($imgPath)) {
+            error_log("Bild nicht gefunden: $imgPath");
+            return;
+        }
+
+        if (!file_exists($ymlPath)) {
+            error_log("YAML nicht gefunden: $ymlPath");
+            return;
+        }
+
+        try {
+            $yml = Yaml::parseFile($ymlPath);
+            $guid = $yml['image']['guid'] ?? null;
+        } catch (Exception $e) {
+            error_log("Fehler beim Parsen von $ymlPath: " . $e->getMessage());
+            return;
+        }
+
+        if (!$guid) {
+            error_log("GUID fehlt in YAML für $filename");
+            return;
+        }
+
+        $sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920, 'XXL' => 3440];
+
+        foreach ($sizes as $sizeKey => $sizeValue) {
+            $thumbPath = $cacheDir . '/' . $guid . "_$sizeKey.jpg";
+            if (!file_exists($thumbPath)) {
+                createThumbnail($imgPath, $thumbPath, $sizeValue);
+                error_log("Thumbnail erstellt: $thumbPath");
+            }
+        }
+
+        error_log("Bildcache für $filename erfolgreich generiert.");
+    }
+
 

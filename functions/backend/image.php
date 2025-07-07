@@ -1,5 +1,9 @@
 <?php
 
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
 require_once(__DIR__ . "/../../vendor/autoload.php");
 
 use Symfony\Component\Yaml\Yaml;
@@ -309,40 +313,13 @@ function renderImageGallery($filterYear = null, $filterRating = null)
             if (!file_exists($ymlPath)) {
                 $meta = [];
 
-                if (file_exists($jsonPath)) {
-                    $json = file_get_contents($jsonPath);
-                    $meta = json_decode($json, true);
-
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                        error_log("Fehler beim Parsen von $jsonPath: " . json_last_error_msg());
-                        continue;
-                    }
-
-                    // YAML erzeugen basierend auf deiner JSON-Struktur
-                    $yaml = [
-                        'image' => [
-                            'filename'    => $meta['filename'] ?? ($basename . '.jpg'),
-                            'guid'        => $meta['guid'] ?? uniqid(),
-                            'title'       => $meta['title'] ?? '',
-                            'description' => '', // wandert in .md
-                            'tags'        => $meta['tags'] ?? [],
-                            'rating'      => $meta['rating'] ?? 0,
-                            'exif'        => $meta['exif'] ?? [],
-                            'created_at'  => $meta['upload_date'] ?? date('Y-m-d H:i:s'),
-                        ]
-                    ];
-
-                    file_put_contents($ymlPath, Yaml::dump($yaml, 2, 4));
-
-                    if (!empty($meta['description'])) {
-                        file_put_contents($mdPath, $meta['description']);
-                    }
-
-                    unlink($jsonPath); // Alte JSON löschen
-
-                } else {
+                
                     // Keine JSON → Metadaten aus EXIF
+                    error_log("keine json, lade Exif DAta");
                     $exif = @exif_read_data($imagePath, 0, true);
+                    $exifData = extractExifData($imagePath);
+                    error_log(print_r($exif, true));
+                    print_r($exifData);
                     $yaml = [
                         'image' => [
                             'filename'    => basename($imagePath),
@@ -351,13 +328,13 @@ function renderImageGallery($filterYear = null, $filterRating = null)
                             'description' => '',
                             'tags'        => [],
                             'rating'      => 0,
-                            'exif'        => $exif ?: [],
+                            'exif'        => $exifData ?: [],
                             'created_at'  => date('Y-m-d H:i:s'),
                         ]
                     ];
 
                     file_put_contents($ymlPath, Yaml::dump($yaml, 2, 4));
-                }
+                
             }
         }
 
@@ -387,7 +364,11 @@ function renderImageGallery($filterYear = null, $filterRating = null)
             generate_image_cache();
         } else {
             error_log("generate_image_cache() ist nicht definiert.");
+            return false;
+            exit;
         }
+
+        return true;
     }
 
 
@@ -469,41 +450,41 @@ function renderImageGallery($filterYear = null, $filterRating = null)
 
         } elseif ($type === 'exif') {
             // Exif initialisieren, falls nötig
-if (!isset($yaml['image']['exif']) || !is_array($yaml['image']['exif'])) {
-    $yaml['image']['exif'] = [];
-}
+            if (!isset($yaml['image']['exif']) || !is_array($yaml['image']['exif'])) {
+                $yaml['image']['exif'] = [];
+            }
 
-// Exif-Felder direkt übernehmen (z. B. Camera, Date, etc.)
-if (isset($data['exif']) && is_array($data['exif'])) {
-    foreach ($data['exif'] as $key => $value) {
-        $key = trim($key);
-        if ($key !== '' && trim((string)$value) !== '') {
-            $yaml['image']['exif'][$key] = trim($value);
-        }
-    }
-}
+            // Exif-Felder direkt übernehmen (z. B. Camera, Date, etc.)
+            if (isset($data['exif']) && is_array($data['exif'])) {
+                foreach ($data['exif'] as $key => $value) {
+                    $key = trim($key);
+                    if ($key !== '' && trim((string)$value) !== '') {
+                        $yaml['image']['exif'][$key] = trim($value);
+                    }
+                }
+            }
 
-// Debug (falls benötigt)
-error_log("Typ von gps: " . gettype($data['gps'] ?? null));
-error_log("Inhalt gps: " . print_r($data['gps'] ?? [], true));
+            // Debug (falls benötigt)
+            error_log("Typ von gps: " . gettype($data['gps'] ?? null));
+            error_log("Inhalt gps: " . print_r($data['gps'] ?? [], true));
 
-// GPS-Daten ergänzen, wenn gültig
-if (isset($data['gps']) && is_array($data['gps'])) {
-    // Initialisiere GPS nur, wenn es Werte gibt
-    $gps = [];
+            // GPS-Daten ergänzen, wenn gültig
+            if (isset($data['gps']) && is_array($data['gps'])) {
+                // Initialisiere GPS nur, wenn es Werte gibt
+                $gps = [];
 
-    if (isset($data['gps']['latitude']) && $data['gps']['latitude'] !== '') {
-        $gps['latitude'] = (float)$data['gps']['latitude'];
-    }
+                if (isset($data['gps']['latitude']) && $data['gps']['latitude'] !== '') {
+                    $gps['latitude'] = (float)$data['gps']['latitude'];
+                }
 
-    if (isset($data['gps']['longitude']) && $data['gps']['longitude'] !== '') {
-        $gps['longitude'] = (float)$data['gps']['longitude'];
-    }
+                if (isset($data['gps']['longitude']) && $data['gps']['longitude'] !== '') {
+                    $gps['longitude'] = (float)$data['gps']['longitude'];
+                }
 
-    if (!empty($gps)) {
-        $yaml['image']['exif']['GPS'] = $gps;
-    }
-}
+                if (!empty($gps)) {
+                    $yaml['image']['exif']['GPS'] = $gps;
+                }
+            }
 
         }
 

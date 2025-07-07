@@ -3,6 +3,17 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.1.0.11]
+2025-06-24
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.10...v0.1.0.11
+
+### New Features
+- 
+
+### Bug Fixes
+- Updating Restore function
+
 ## [0.1.0.10]
 2025-06-24
 

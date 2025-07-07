@@ -3,7 +3,7 @@
         'name' => 'chris/image-portfolio',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'e1b4ccf0015ee4ce0c438a0100ad3f6eaa4a5afd',
+        'reference' => 'c607c89d7f4f2db032279ebe79e8e406bb1923fe',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'chris/image-portfolio' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'e1b4ccf0015ee4ce0c438a0100ad3f6eaa4a5afd',
+            'reference' => 'c607c89d7f4f2db032279ebe79e8e406bb1923fe',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -198,6 +198,8 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
         $description = htmlspecialchars($image['description']);
         $cachedImage = get_cacheimage_dashboard($fileName, 'M');
 
+        $shorttitle = getShortTitle($title);
+
         echo "
         <div>
         <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 250px; max-width: var(--img-max-width);\">
@@ -206,7 +208,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
                 </a>
             </div>
             <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-400\">
-                <span class=\"text-sm dark:text-gray-400\">$title</span>
+                <span class=\"text-sm dark:text-gray-400\">$shorttitle</span>
                 <div class=\"relative inline-block\">
                     <button id=\"$fileName\" class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\" data-filename=\"$fileName\">
                         <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
@@ -296,6 +298,8 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
             $smallimg = get_cacheimage_dashboard($fileName, "M");
             $imagePath = $smallimg;
 
+            $shorttitle = getShortTitle($title);
+
             echo "
             <div class=\"\">
                 <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 200px; max-width: var(--img-max-width);\">
@@ -304,7 +308,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
                     </a>
                 </div>
                 <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-400\">
-                    <span class=\"text-sm dark:text-gray-400\">$title</span>
+                    <span class=\"text-sm dark:text-gray-400\">$shorttitle</span>
                     <div class=\"relative inline-block\">
                         <button id=\"$fileName\" class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\" data-filename=\"$fileName\">
                             <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
@@ -683,6 +687,19 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
         }
 
         error_log("Bildcache für $filename erfolgreich generiert.");
+    }
+
+
+    function getShortTitle(string $title): string
+    {
+        $maxInputLength = 26; // 28 (Referenzlänge) - 3
+        $maxLength = 24; // 28 (Referenzlänge) - 3
+
+        if (mb_strlen($title) <= $maxLength) {
+            return $title;
+        }
+
+        return mb_substr($title, 0, $maxLength) . ' ...';
     }
 
 

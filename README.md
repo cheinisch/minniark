@@ -56,6 +56,7 @@ Take a look at the [documentation](https://dev.minniark.app) to get started with
 
 These are the planned features for upcoming releases
 
+- Simple image editing (rotate and flip)
 - AI integration for the creation of the image description
 
 ## Technologies Used

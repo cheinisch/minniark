@@ -159,9 +159,9 @@
           </aside>
           <main class="flex-1 bg-white dark:bg-neutral-900 overflow-auto">
             <div class="flex justify-end border-b border-neutral-300 dark:border-gray-600 pb-2">
-              <button class="inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 mr-2 mt-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+              <a href="backend_api/cache.php" class="inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 mr-2 mt-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                 Clear Cache
-              </button>
+              </a>
             </div>
             <div class="flex flex-col md:flex-row my-5">
               <div class="w-full md:w-1/2 p-2">

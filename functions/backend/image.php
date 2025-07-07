@@ -196,7 +196,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
         $fileName = $image['fileName'];
         $title = !empty($image['title']) ? htmlspecialchars($image['title']) : 'Kein Titel';
         $description = htmlspecialchars($image['description']);
-        $cachedImage = get_cached_image_dashboard($fileName, 'M');
+        $cachedImage = get_cacheimage_dashboard($fileName, 'M');
 
         echo "
         <div>
@@ -293,8 +293,8 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
             $title = htmlspecialchars($img['title'] ?: 'Kein Titel');
             $description = htmlspecialchars($img['description'] ?: 'Keine Beschreibung verfügbar');
             $fileName = $img['file'];
-            $smallimg = get_cacheimage($fileName, "m");
-            $imagePath = "../cache/images/" . $smallimg;
+            $smallimg = get_cacheimage_dashboard($fileName, "M");
+            $imagePath = $smallimg;
 
             echo "
             <div class=\"\">
@@ -404,6 +404,49 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
     }
 
 
+    function get_cacheimage_dashboard($filename, $size)
+    {
+
+        if($size == 'Original')
+        {
+            return $filename;
+        }
+
+        // Nur den Basisnamen (ohne .jpg usw.)
+        $basename = pathinfo($filename, PATHINFO_FILENAME);
+
+        // Pfad zur .yml-Datei
+        $imageDir = __DIR__ . '/../../userdata/content/images/';
+        $ymlPath = $imageDir . $basename . '.yml';
+
+        $image = "../userdata/content/images/".$filename;
+
+        // Prüfen ob YML existiert
+        if (!file_exists($ymlPath)) {
+            return $image;
+        }
+
+        // YML lesen
+        try {
+            $data = Yaml::parseFile($ymlPath);
+        } catch (Exception $e) {
+            error_log("YAML Parse Error: " . $e->getMessage());
+            return $image;
+        }
+
+        $guid = $data['image']['guid'] ?? null;
+        if (!$guid) {
+            return $image;
+        }
+
+        // Ziel-Dateiname erzeugen
+        $newSize = strtoupper($size);
+        $cachedFile = "../cache/images/".$guid . "_" . $newSize . ".jpg";
+
+        return $cachedFile;
+        
+    }
+
     function get_cacheimage($filename, $size)
     {
 
@@ -421,7 +464,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
 
         // Prüfen ob YML existiert
         if (!file_exists($ymlPath)) {
-            return null;
+            return $filename;
         }
 
         // YML lesen
@@ -429,12 +472,12 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
             $data = Yaml::parseFile($ymlPath);
         } catch (Exception $e) {
             error_log("YAML Parse Error: " . $e->getMessage());
-            return null;
+            return $filename;
         }
 
         $guid = $data['image']['guid'] ?? null;
         if (!$guid) {
-            return null;
+            return $filename;
         }
 
         // Ziel-Dateiname erzeugen

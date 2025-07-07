@@ -13,6 +13,7 @@
 
 ### Bug Fixes
 - Updating Restore function
+- Sync Images and generate thumbnails
 
 ## [0.1.0.10]
 2025-06-24

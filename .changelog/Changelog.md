@@ -9,7 +9,7 @@
 
 ### Bug Fixes
 - read systemsettings
-- Sync Images and generate thumbnails
+
 
 ## [0.0.7.0]
 2025-06-04

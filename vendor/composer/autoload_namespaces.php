@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
+    'PHPExiftool' => array($vendorDir . '/alchemy/phpexiftool/lib', $vendorDir . '/phpexiftool/phpexiftool/lib'),
 );

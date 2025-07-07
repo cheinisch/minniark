@@ -18,6 +18,10 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
     );
 
     public static $prefixLengthsPsr4 = array (
+        'l' => 
+        array (
+            'lsolesen\\pel\\' => 13,
+        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -28,10 +32,16 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\Process\\' => 26,
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'PhpOption\\' => 10,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
         ),
         'G' => 
         array (
@@ -41,6 +51,9 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
         'D' => 
         array (
             'Dotenv\\' => 7,
+            'Doctrine\\Deprecations\\' => 22,
+            'Doctrine\\Common\\Collections\\' => 28,
+            'Doctrine\\Common\\Cache\\' => 22,
         ),
         'C' => 
         array (
@@ -49,6 +62,10 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
     );
 
     public static $prefixDirsPsr4 = array (
+        'lsolesen\\pel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lsolesen/pel/src',
+        ),
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
@@ -69,9 +86,21 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (
@@ -85,6 +114,18 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/src',
+        ),
+        'Doctrine\\Common\\Collections\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
+        ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
         'Chris\\ImagePortfolio\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -97,6 +138,11 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
             'Parsedown' => 
             array (
                 0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
+            'PHPExiftool' => 
+            array (
+                0 => __DIR__ . '/..' . '/alchemy/phpexiftool/lib',
+                1 => __DIR__ . '/..' . '/phpexiftool/phpexiftool/lib',
             ),
         ),
     );

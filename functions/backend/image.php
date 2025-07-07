@@ -4,9 +4,18 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-require_once(__DIR__ . "/../../vendor/autoload.php");
+    require_once(__DIR__ . "/../../vendor/autoload.php");
 
-use Symfony\Component\Yaml\Yaml;
+    use Symfony\Component\Yaml\Yaml;
+
+    use PHPExiftool\Reader;
+    use PHPExiftool\Writer;
+    use lsolesen\pel\PelJpeg;
+    use lsolesen\pel\PelExif;
+    use lsolesen\pel\PelTiff;
+    use lsolesen\pel\PelIfd;
+    use lsolesen\pel\PelTag;
+    use lsolesen\pel\PelEntryAscii;
 
 function getImage($imagename): ?array
 {
@@ -703,3 +712,123 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
     }
 
 
+    function rotateImage($file, $rotate): bool
+    {
+        $imageDir = realpath(__DIR__ . '/../../userdata/content/images/');
+        $filePath = $imageDir . '/' . basename($file);
+
+        if (!file_exists($filePath)) {
+            error_log("Bild nicht gefunden: $filePath");
+            return false;
+        }
+
+        // Backup EXIF – zuerst versuchen mit exiftool
+        $exifBackup = [];
+        $exiftoolAvailable = is_exiftool_available();
+
+        if ($exiftoolAvailable) {
+            try {
+                $reader = Reader::create();
+                $data = $reader->files([$filePath]);
+                foreach ($data as $metadata) {
+                    foreach ($metadata as $tag) {
+                        $exifBackup[$tag->getTag()] = $tag->getValue();
+                    }
+                }
+            } catch (Exception $e) {
+                error_log("Exiftool konnte EXIF nicht lesen: " . $e->getMessage());
+                $exiftoolAvailable = false; // Fallback aktivieren
+            }
+        }
+
+        // Fallback mit PHP
+        if (!$exiftoolAvailable) {
+            $exifBackup = @exif_read_data($filePath) ?: [];
+        }
+
+        // Bild rotieren
+        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+        $image = match ($extension) {
+            'jpg', 'jpeg' => imagecreatefromjpeg($filePath),
+            'png'         => imagecreatefrompng($filePath),
+            'gif'         => imagecreatefromgif($filePath),
+            default       => null
+        };
+
+        if (!$image) {
+            error_log("Bildformat nicht unterstützt: $filePath");
+            return false;
+        }
+
+        $angle = (int)$rotate;
+        $rotated = imagerotate($image, 360 - $angle, 0);
+        if (!$rotated) {
+            imagedestroy($image);
+            return false;
+        }
+
+        // Temporär speichern
+        $tempPath = $filePath . '.rotated';
+        imagejpeg($rotated, $tempPath, 90);
+        imagedestroy($image);
+        imagedestroy($rotated);
+
+        // EXIF zurückschreiben
+        if ($exiftoolAvailable) {
+            try {
+                $writer = Writer::create();
+                $writer->write($tempPath, $exifBackup); // schreibt alle Tags zurück
+            } catch (Exception $e) {
+                error_log("Exiftool konnte EXIF nicht zurückschreiben: " . $e->getMessage());
+                unlink($tempPath);
+                return false;
+            }
+        } else {
+            // Pel-Fallback mit nur Basisfeldern
+            try {
+                $jpeg = new PelJpeg($tempPath);
+                $exif = new PelExif();
+                $tiff = new PelTiff();
+                $ifd0 = new PelIfd();
+
+                if (!empty($exifBackup['Make'])) {
+                    $ifd0->addEntry(new PelEntryAscii(PelTag::MAKE, $exifBackup['Make']));
+                }
+                if (!empty($exifBackup['Model'])) {
+                    $ifd0->addEntry(new PelEntryAscii(PelTag::MODEL, $exifBackup['Model']));
+                }
+                if (!empty($exifBackup['DateTimeOriginal'])) {
+                    $ifd0->addEntry(new PelEntryAscii(PelTag::DATE_TIME_ORIGINAL, $exifBackup['DateTimeOriginal']));
+                }
+
+                $tiff->setIfd($ifd0);
+                $exif->setTiff($tiff);
+                $jpeg->setExif($exif);
+                file_put_contents($filePath, $jpeg->getBytes());
+
+            } catch (Exception $e) {
+                error_log("Pel konnte EXIF nicht setzen: " . $e->getMessage());
+                unlink($tempPath);
+                return false;
+            }
+        }
+
+        // Final überschreiben & Temp entfernen
+        if (!$exiftoolAvailable) {
+            // Pel hat bereits file_put_contents gemacht
+            unlink($tempPath);
+        } else {
+            rename($tempPath, $filePath);
+        }
+
+        return true;
+    }
+
+
+    function is_exiftool_available(): bool
+    {
+        if (!function_exists('shell_exec')) return false;
+
+        $result = @shell_exec('which exiftool');
+        return !empty($result);
+    }

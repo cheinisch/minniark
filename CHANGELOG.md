@@ -3,6 +3,19 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.1.0.12]
+2025-07-07
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.9...v0.1.0.12
+
+### New Features
+- Add sort images in media.php
+
+### Bug Fixes
+- Updating Restore function
+- Sync Images and generate thumbnails
+- Version number show wrong release
+
 ## [0.1.0.11]
 2025-06-24
 
@@ -14,6 +27,7 @@
 ### Bug Fixes
 - Updating Restore function
 - Sync Images and generate thumbnails
+- Version number show wrong release
 
 ## [0.1.0.10]
 2025-06-24

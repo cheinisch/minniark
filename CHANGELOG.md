@@ -9,12 +9,12 @@
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.12...v2025.7.0
 
 ### New Features
-- Modify Images
+- Modify Images (rotate and flip)
 - Save ExifInformation in .exif File
 - unstable features are marked with a alpha
 
 ### Changes
-- Change format version number
+- Change format of the version number
 
 ### Bug Fixes
 

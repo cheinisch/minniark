@@ -1,7 +1,7 @@
 # Changelog
 
 > [!NOTE]
-> You find a complete Changelog here [].changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
+> You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
 ## [2025.7.0]
 2025-07-08

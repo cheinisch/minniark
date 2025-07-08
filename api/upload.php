@@ -4,119 +4,122 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Berlin');
 
 require_once(__DIR__ . "/../functions/function_api.php");
-require_once(__DIR__ . "/../vendor/autoload.php"); // für Symfony YAML
+require_once(__DIR__ . "/../vendor/autoload.php"); // Symfony YAML
 
 use Symfony\Component\Yaml\Yaml;
 
 secure_API();
 
-// Debug-Logger
-function logMessage($message) {
-    file_put_contents(__DIR__ . '/upload_log.txt', date("[Y-m-d H:i:s] ") . $message . PHP_EOL, FILE_APPEND);
+// Log-Funktion
+function logMessage($msg) {
+    file_put_contents(__DIR__ . '/upload_log.txt', date("[Y-m-d H:i:s] ") . $msg . PHP_EOL, FILE_APPEND);
 }
 
 // Pfade
-$uploadDir = __DIR__ . '/../userdata/content/images/';
-$cacheDir  = __DIR__ . '/../cache/images/';
+$uploadDir = realpath(__DIR__ . '/../userdata/content/images/') . '/';
+$cacheDir  = realpath(__DIR__ . '/../cache/images/') . '/';
 
-// Verzeichnisse sicherstellen
 foreach ([$uploadDir, $cacheDir] as $dir) {
-    if (!is_dir($dir) && !mkdir($dir, 0777, true)) {
-        die(json_encode(["error" => "Verzeichnis konnte nicht erstellt werden: $dir"]));
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
     }
     chmod($dir, 0777);
 }
 
-// Datei prüfen
+// Prüfe Datei
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_FILES['file'])) {
-    die(json_encode(["error" => "Keine Datei übergeben."]));
+    die(json_encode(["error" => "Keine Datei hochgeladen."]));
 }
 
 $file = $_FILES['file'];
-$fileName = basename($file['name']);
-$fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+$originalName = basename($file['name']);
+$extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 $allowedTypes = ['jpg', 'jpeg', 'png', 'webp'];
 
-if (!in_array($fileExt, $allowedTypes)) {
+if (!in_array($extension, $allowedTypes)) {
     die(json_encode(["error" => "Ungültiger Dateityp. Erlaubt: JPG, PNG, WEBP."]));
 }
 
-// Doppelte Namen vermeiden
-$baseName = pathinfo($fileName, PATHINFO_FILENAME);
+// Slug-Name erzeugen (ohne Extension)
+$baseName = pathinfo($originalName, PATHINFO_FILENAME);
+$slug = generateSlug($baseName);
+
+// Dateinamen prüfen und ggf. erhöhen (für Datei, YAML, MD)
+$finalSlug = $slug;
 $counter = 1;
-while (file_exists($uploadDir . $fileName)) {
-    $fileName = $baseName . "_$counter." . $fileExt;
+while (
+    file_exists($uploadDir . $finalSlug . '.' . $extension) ||
+    file_exists($uploadDir . $finalSlug . '.yml') ||
+    file_exists($uploadDir . $finalSlug . '.md')
+) {
+    $finalSlug = $slug . '-' . $counter;
     $counter++;
 }
-$targetFile = $uploadDir . $fileName;
+
+$finalFileName = $finalSlug . '.' . $extension;
+$finalPath     = $uploadDir . $finalFileName;
 
 // Datei speichern
-if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
+if (!move_uploaded_file($file['tmp_name'], $finalPath)) {
     die(json_encode(["error" => "Fehler beim Speichern der Datei."]));
 }
-logMessage("Hochgeladen: $fileName");
+logMessage("Bild gespeichert: $finalFileName");
 
-// GUID erzeugen
+// GUID generieren
 $guid = uniqid();
 logMessage("GUID: $guid");
 
 // EXIF lesen
-$exifData = extractExifData($targetFile);
+$exifData = extractExifData($finalPath);
 
-// Vorschaubilder erstellen
+// Thumbnails
 $sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920, 'XXL' => 3440];
-foreach ($sizes as $sizeKey => $sizeValue) {
-    $thumbPath = $cacheDir . $guid . "_$sizeKey." . $fileExt;
-    createThumbnail($targetFile, $thumbPath, $sizeValue);
-    logMessage("Thumbnail: $thumbPath");
+foreach ($sizes as $key => $size) {
+    $thumbPath = $cacheDir . $guid . "_$key." . $extension;
+    createThumbnail($finalPath, $thumbPath, $size);
+    logMessage("Thumbnail erzeugt: $thumbPath");
 }
 
-// YAML-Datenstruktur
+// YAML-Daten
 $yamlData = [
     'image' => [
-        'filename'    => $fileName,
+        'filename'    => $finalFileName,
         'guid'        => $guid,
         'title'       => '',
-        'description' => '', // optional in .md
+        'description' => '',
         'tags'        => [],
         'rating'      => 0,
-        'exif'        => $exifData,
+        'exif'        => $exifData ?: [],
         'created_at'  => date('Y-m-d H:i:s'),
         'uploaded_at' => date('Y-m-d H:i:s'),
     ]
 ];
 
-    // Speichern als YML
-    $slug = pathinfo($fileName, PATHINFO_FILENAME);
-    $ymlFile = $uploadDir . $slug . '.yml';
-
-    // Save Exif Data
-
-    $exifPath  = $uploadDir . '/' . $slug . '.exif';
-
-    if ($exifData) {
-        file_put_contents($exifPath, json_encode($exifData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-    } else {
-        error_log("EXIF konnte nicht gelesen werden oder fehlt.");
-    }
+// YAML + .md speichern
+$ymlPath = $uploadDir . $finalSlug . '.yml';
+$mdPath  = $uploadDir . $finalSlug . '.md';
 
 try {
-    file_put_contents($ymlFile, Yaml::dump($yamlData, 2, 4));
-    logMessage("Metadaten gespeichert: $ymlFile");
+    file_put_contents($ymlPath, Yaml::dump($yamlData, 2, 4));
+    file_put_contents($mdPath, '');
+    logMessage("Metadaten gespeichert: $ymlPath");
 } catch (Exception $e) {
-    logMessage("Fehler beim Schreiben der YAML: " . $e->getMessage());
-    die(json_encode(["error" => "YAML konnte nicht gespeichert werden."]));
+    logMessage("YAML-Fehler: " . $e->getMessage());
+    die(json_encode(["error" => "Fehler beim Speichern der Metadaten."]));
 }
 
-// Optional .md anlegen für Beschreibung
-$mdPath = $uploadDir . $slug . '.md';
-file_put_contents($mdPath, '');
+// Optional EXIF auch separat speichern
+$exifJsonPath = $uploadDir . $finalSlug . '.exif';
+if (!empty($exifData)) {
+    file_put_contents($exifJsonPath, json_encode($exifData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+}
 
-// Rückgabe
+// JSON Antwort
 header('Content-Type: application/json; charset=utf-8');
 echo json_encode([
-    "success" => true,
-    "filename" => $fileName,
-    "guid" => $guid
+    "success"  => true,
+    "filename" => $finalFileName,
+    "guid"     => $guid,
+    "slug"     => $finalSlug
 ]);
 exit;

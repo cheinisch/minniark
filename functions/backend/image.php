@@ -341,49 +341,64 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
         $usedBaseNames = [];
 
         foreach ($images as $imagePath) {
-            $basename = pathinfo($imagePath, PATHINFO_FILENAME);
+            $originalFilename = basename($imagePath);
+            $extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
+            $basename = pathinfo($originalFilename, PATHINFO_FILENAME);
+
+            // Prüfen auf Leerzeichen → Umbenennung falls nötig
+            if (str_contains($originalFilename, ' ')) {
+                $newBase = generateslug($basename);
+                $newFilename = $newBase . '.' . $extension;
+                $i = 2;
+
+                while (file_exists($imageDir . '/' . $newFilename)) {
+                    $newFilename = $newBase . '-' . $i . '.' . $extension;
+                    $i++;
+                }
+
+                $newPath = $imageDir . '/' . $newFilename;
+
+                if (rename($imagePath, $newPath)) {
+                    error_log("Datei umbenannt: $originalFilename → $newFilename");
+                    $imagePath = $newPath;
+                    $basename = pathinfo($newFilename, PATHINFO_FILENAME);
+                } else {
+                    error_log("Fehler beim Umbenennen von $originalFilename");
+                    continue;
+                }
+            }
+
             $usedBaseNames[] = $basename;
 
             $ymlPath = $imageDir . '/' . $basename . '.yml';
             $mdPath = $imageDir . '/' . $basename . '.md';
+            $exifPath = $imageDir . '/' . $basename . '.exif';
 
             $exif = @exif_read_data($imagePath, 0, true);
             $exifData = extractExifData($imagePath);
-
-            $exifPath  = $imageDir . '/' . $basename . '.exif';
 
             if ($exifData && !file_exists($exifPath)) {
                 file_put_contents($exifPath, json_encode($exifData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
             }
 
             if (!file_exists($ymlPath)) {
-                $meta = [];
-
-                
-                    // Keine JSON → Metadaten aus EXIF
-                    error_log("keine json, lade Exif DAta");
-                    
-                    error_log(print_r($exif, true));
-                    print_r($exifData);
-                    $yaml = [
-                        'image' => [
-                            'filename'    => basename($imagePath),
-                            'guid'        => uniqid(),
-                            'title'       => '',
-                            'description' => '',
-                            'tags'        => [],
-                            'rating'      => 0,
-                            'exif'        => $exifData ?: [],
-                            'created_at'  => date('Y-m-d H:i:s'),
-                        ]
-                    ];
-
-                    file_put_contents($ymlPath, Yaml::dump($yaml, 2, 4));
-                
+                $yaml = [
+                    'image' => [
+                        'filename'    => basename($imagePath),
+                        'guid'        => uniqid(),
+                        'title'       => '',
+                        'description' => '',
+                        'tags'        => [],
+                        'rating'      => 0,
+                        'exif'        => $exifData ?: [],
+                        'created_at'  => date('Y-m-d H:i:s'),
+                    ]
+                ];
+                file_put_contents($ymlPath, Yaml::dump($yaml, 2, 4));
             }
         }
 
-        // Entferne verwaiste YMLs ohne zugehöriges Bild
+        // Verwaiste YAML-Dateien entfernen
         foreach ($metaFiles as $ymlPath) {
             $basename = pathinfo($ymlPath, PATHINFO_FILENAME);
             $imgFound = false;
@@ -410,11 +425,11 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
         } else {
             error_log("generate_image_cache() ist nicht definiert.");
             return false;
-            exit;
         }
 
         return true;
     }
+
 
 
     function get_cacheimage_dashboard($filename, $size)

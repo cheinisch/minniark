@@ -69,7 +69,7 @@
         <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
         <!-- Tailwind CSS -->
         <link rel="stylesheet" href="css/tailwind.css">
-            <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
         <style>
           :root {
             --img-max-width: 250px;

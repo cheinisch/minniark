@@ -13,7 +13,7 @@
 - Save ExifInformation in .exif File
 
 ### Changes
-- Change format version number
+- Change format of the version number
 
 ### Bug Fixes
 

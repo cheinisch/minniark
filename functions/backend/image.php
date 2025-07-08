@@ -345,8 +345,16 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
             $usedBaseNames[] = $basename;
 
             $ymlPath = $imageDir . '/' . $basename . '.yml';
-            $jsonPath = $imageDir . '/' . $basename . '.json';
             $mdPath = $imageDir . '/' . $basename . '.md';
+
+            $exif = @exif_read_data($imagePath, 0, true);
+            $exifData = extractExifData($imagePath);
+
+            $exifPath  = $imageDir . '/' . $basename . '.exif';
+
+            if ($exifData && !file_exists($exifPath)) {
+                file_put_contents($exifPath, json_encode($exifData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
 
             if (!file_exists($ymlPath)) {
                 $meta = [];
@@ -354,8 +362,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
                 
                     // Keine JSON → Metadaten aus EXIF
                     error_log("keine json, lade Exif DAta");
-                    $exif = @exif_read_data($imagePath, 0, true);
-                    $exifData = extractExifData($imagePath);
+                    
                     error_log(print_r($exif, true));
                     print_r($exifData);
                     $yaml = [

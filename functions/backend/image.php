@@ -640,8 +640,6 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
 
     function generate_single_image_cache($filename)
     {
-        //ini_set('memory_limit', '512M'); // Falls nötig, Speicherlimit erhöhen
-
         $sourceDir = realpath(__DIR__ . '/../../userdata/content/images/');
         $cacheDir = realpath(__DIR__ . '/../../cache/images/');
 
@@ -678,18 +676,26 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
             return;
         }
 
+        // 1. Vorherige Thumbnails mit gleichem GUID löschen
+        foreach (glob($cacheDir . '/' . $guid . '_*.jpg') as $oldThumb) {
+            if (is_file($oldThumb)) {
+                unlink($oldThumb);
+                error_log("Alter Cache gelöscht: $oldThumb");
+            }
+        }
+
+        // 2. Neue Thumbnails erstellen
         $sizes = ['S' => 150, 'M' => 500, 'L' => 1024, 'XL' => 1920, 'XXL' => 3440];
 
         foreach ($sizes as $sizeKey => $sizeValue) {
             $thumbPath = $cacheDir . '/' . $guid . "_$sizeKey.jpg";
-            if (!file_exists($thumbPath)) {
-                createThumbnail($imgPath, $thumbPath, $sizeValue);
-                error_log("Thumbnail erstellt: $thumbPath");
-            }
+            createThumbnail($imgPath, $thumbPath, $sizeValue);
+            error_log("Thumbnail erstellt: $thumbPath");
         }
 
         error_log("Bildcache für $filename erfolgreich generiert.");
     }
+
 
 
     function getShortTitle(string $title): string
@@ -705,7 +711,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
     }
 
 
-    function rotateImage($filename, $rotate): bool
+    function modifyImage(string $filename, int $rotate = 0, int $flipX = 1, int $flipY = 1): bool
     {
         $imageDir = realpath(__DIR__ . '/../../userdata/content/images/');
         $basename = pathinfo($filename, PATHINFO_FILENAME);
@@ -719,15 +725,13 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
             return false;
         }
 
-        // 1. EXIF-Daten extrahieren
+        // EXIF-Daten sichern
         $exifData = @exif_read_data($imagePath, null, true);
-        if ($exifData) {
+        if ($exifData && !file_exists($exifPath)) {
             file_put_contents($exifPath, json_encode($exifData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        } else {
-            error_log("EXIF konnte nicht gelesen werden oder fehlt – Datei wird trotzdem rotiert.");
         }
 
-        // 2. Bild rotieren
+        // Bild öffnen
         $image = match ($extension) {
             'jpg', 'jpeg' => imagecreatefromjpeg($imagePath),
             'png'         => imagecreatefrompng($imagePath),
@@ -740,16 +744,125 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
             return false;
         }
 
-        $rotated = imagerotate($image, 360 - (int)$angle, 0);
-        if (!$rotated) {
-            imagedestroy($image);
-            error_log("Rotation fehlgeschlagen");
-            return false;
+        // Bild rotieren
+        if ($rotate !== 0) {
+            error_log("Rotation: $rotate");
+            $image = imagerotate($image, 360 - $rotate, 0);
         }
 
-        imagejpeg($rotated, $imagePath, 90);
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        // Bild spiegeln falls nötig
+        if ($flipX === -1 || $flipY === -1) {
+            $flipped = imagecreatetruecolor($width, $height);
+
+            // PNG-Transparenz beibehalten
+            if ($extension === 'png') {
+                imagealphablending($flipped, false);
+                imagesavealpha($flipped, true);
+                $transparent = imagecolorallocatealpha($flipped, 0, 0, 0, 127);
+                imagefill($flipped, 0, 0, $transparent);
+            }
+
+            imagecopyresampled(
+                $flipped,
+                $image,
+                0, 0,
+                $flipX === -1 ? $width - 1 : 0,
+                $flipY === -1 ? $height - 1 : 0,
+                $width, $height,
+                $flipX === -1 ? -$width : $width,
+                $flipY === -1 ? -$height : $height
+            );
+
+            imagedestroy($image);
+            $image = $flipped;
+        }
+
+        // Bild speichern
+        $saveSuccess = match ($extension) {
+            'jpg', 'jpeg' => imagejpeg($image, $imagePath, 90),
+            'png'         => imagepng($image, $imagePath),
+            'gif'         => imagegif($image, $imagePath),
+            default       => false
+        };
+
         imagedestroy($image);
-        imagedestroy($rotated);
+        return $saveSuccess;
+    }
+
+
+
+    function delete_image(string $filename): bool
+    {
+        $baseName = pathinfo($filename, PATHINFO_FILENAME);
+        $imageDir = realpath(__DIR__ . '/../../userdata/content/images/');
+        $cacheDir = realpath(__DIR__ . '/../../cache/images/');
+        $albumDir = realpath(__DIR__ . '/../../userdata/content/album/');
+
+        $imagePath = $imageDir . '/' . $filename;
+        $ymlPath   = $imageDir . '/' . $baseName . '.yml';
+        $mdPath    = $imageDir . '/' . $baseName . '.md';
+        $exifPath  = $imageDir . '/' . $baseName . '.exif';
+
+        // GUID ermitteln für Cache
+        $guid = null;
+        if (file_exists($ymlPath)) {
+            try {
+                $yml = Yaml::parseFile($ymlPath);
+                $guid = $yml['image']['guid'] ?? null;
+            } catch (Exception $e) {
+                error_log("YAML-Fehler: " . $e->getMessage());
+            }
+        }
+
+        // Bild löschen
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // YML, MD, EXIF löschen
+        foreach ([$ymlPath, $mdPath, $exifPath] as $metaFile) {
+            if (file_exists($metaFile)) {
+                unlink($metaFile);
+            }
+        }
+
+        // Cache-Bilder löschen
+        if ($guid && $cacheDir) {
+            $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+            foreach ($sizes as $size) {
+                $cacheFile = $cacheDir . '/' . $guid . "_$size.jpg";
+                if (file_exists($cacheFile)) {
+                    unlink($cacheFile);
+                }
+            }
+        }
+
+        // Aus allen Alben entfernen
+        if ($albumDir && is_dir($albumDir)) {
+            foreach (glob($albumDir . '/*.yml') as $albumFile) {
+                try {
+                    $yaml = Yaml::parseFile($albumFile);
+                    if (!isset($yaml['album']['images']) || !is_array($yaml['album']['images'])) {
+                        continue;
+                    }
+
+                    $before = count($yaml['album']['images']);
+                    $yaml['album']['images'] = array_values(array_filter($yaml['album']['images'], function ($img) use ($filename) {
+                        return $img !== $filename;
+                    }));
+
+                    if (count($yaml['album']['images']) !== $before) {
+                        file_put_contents($albumFile, Yaml::dump($yaml, 2, 4));
+                    }
+
+                } catch (Exception $e) {
+                    error_log("Fehler beim Bearbeiten von Album: $albumFile – " . $e->getMessage());
+                }
+            }
+        }
 
         return true;
     }

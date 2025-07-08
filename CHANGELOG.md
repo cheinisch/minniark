@@ -3,6 +3,18 @@
 > [!NOTE]
 > You find a complete Changelog here .changelog/Changelog.md
 
+## [0.1.0.13]
+2025-07-07
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.12...v0.1.0.13
+
+### New Features
+- Modify Images
+- Save ExifInformation in .exif File
+
+### Bug Fixes
+
+
 ## [0.1.0.12]
 2025-07-07
 

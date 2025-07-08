@@ -86,9 +86,19 @@ $yamlData = [
     ]
 ];
 
-// Speichern als YML
-$slug = pathinfo($fileName, PATHINFO_FILENAME);
-$ymlFile = $uploadDir . $slug . '.yml';
+    // Speichern als YML
+    $slug = pathinfo($fileName, PATHINFO_FILENAME);
+    $ymlFile = $uploadDir . $slug . '.yml';
+
+    // Save Exif Data
+
+    $exifPath  = $uploadDir . '/' . $slug . '.exif';
+
+    if ($exifData) {
+        file_put_contents($exifPath, json_encode($exifData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    } else {
+        error_log("EXIF konnte nicht gelesen werden oder fehlt.");
+    }
 
 try {
     file_put_contents($ymlFile, Yaml::dump($yamlData, 2, 4));

@@ -26,7 +26,35 @@
 
             "ISO" => $exif['EXIF']['ISOSpeedRatings'] ?? "Unknown",
 
-            "Date" => $exif['EXIF']['DateTimeOriginal'] ?? "Unknown",
+            "Date" => $exif['EXIF']['DateTimeOriginal'] 
+                ?? $exif['IFD0']['DateTime'] 
+                ?? "Unknown",
+
+            "Flash" => $exif['EXIF']['Flash'] ?? "Unknown",
+
+            "White Balance" => $exif['EXIF']['WhiteBalance'] ?? "Unknown",
+
+            "Metering Mode" => $exif['EXIF']['MeteringMode'] ?? "Unknown",
+
+            "Exposure Program" => $exif['EXIF']['ExposureProgram'] ?? "Unknown",
+
+            "Exposure Compensation" => $exif['EXIF']['ExposureBiasValue'] ?? "Unknown",
+
+            "Max Aperture" => isset($exif['EXIF']['MaxApertureValue']) 
+                ? "f/" . round(rationalToFloat($exif['EXIF']['MaxApertureValue']), 1) 
+                : "Unknown",
+
+            "Digital Zoom" => isset($exif['EXIF']['DigitalZoomRatio']) 
+                ? rationalToFloat($exif['EXIF']['DigitalZoomRatio']) . "x"
+                : "Unknown",
+
+            "Orientation" => $exif['IFD0']['Orientation'] ?? "Unknown",
+
+            "Software" => $exif['IFD0']['Software'] ?? "Unknown",
+
+            "Color Space" => $exif['EXIF']['ColorSpace'] ?? "Unknown",
+
+            "Light Source" => $exif['EXIF']['LightSource'] ?? "Unknown",
 
             "GPS" => getGPSData($exif['GPS'] ?? [])
         ];

@@ -8,7 +8,7 @@
 
     // Daten extrahieren
     $fileName = $imageData['filename'];
-    $imagePath = "../userdata/content/images/" . $fileName;
+    $imagePath = "../userdata/content/images/" . $fileName."?v=".time();
     $title = $imageData['title'];
     $description = $imageData['description'];
     $uploadDate = $imageData['upload_date'] ?? null;
@@ -69,6 +69,7 @@
         <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
         <!-- Tailwind CSS -->
         <link rel="stylesheet" href="css/tailwind.css">
+            <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <style>
           :root {
             --img-max-width: 250px;
@@ -85,6 +86,9 @@
               max-width: 100% !important;
             }
           }
+          .leaflet-container {
+            z-index: 0 !important;
+          }
         </style>
         <!-- Leaflet CSS -->
         <link
@@ -98,6 +102,62 @@
         ></script>
     </head>
     <body class="min-h-screen flex flex-col">
+      <!-- ImageEdit Modal -->
+      <div id="imageEditorModal" class="fixed inset-0 z-60 bg-gray-500/75 transition-opacity hidden flex justify-center items-center">
+        <div class="bg-white w-full max-w-6xl h-[90vh] shadow-xl flex flex-col border border-gray-700">
+          
+          <!-- Header -->
+          <div class="bg-gray-800 text-white text-lg px-4 py-3 font-semibold border-b border-gray-700 flex justify-between">
+            <span>Modify Image</span>
+            <button onclick="closeModal()" class="text-white hover:text-red-400">✕</button>
+          </div>
+
+          <!-- Inhalt -->
+          <div class="flex-grow flex overflow-hidden">
+            
+            <!-- Bildvorschau -->
+            <div class="flex-1 bg-gray-100 flex justify-center items-center border-r border-gray-300">
+              <canvas id="editorCanvas" class="max-h-full max-w-full object-contain select-none"></canvas>
+            </div>
+            
+            <!-- Werkzeuge -->
+            <div class="w-64 bg-white p-4 space-y-6 text-sm border-l border-gray-300 overflow-y-auto">
+              <div>
+                <h2 class="font-bold text-gray-700 uppercase mb-2">Rotate</h2>
+                <div class="flex gap-2">
+                  <button onclick="rotateLeft()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↺ Left</button>
+                  <button onclick="rotateRight()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↻ Rîght</button>
+                </div>
+              </div>
+
+              <div>
+                <h2 class="font-bold text-gray-700 uppercase mb-2">Flip</h2>
+                <div class="flex gap-2">
+                  <button onclick="flipHorizontal()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↔ Horizontal</button>
+                  <button onclick="flipVertical()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↕ Vertical</button>
+                </div>
+              </div>
+
+              <div>
+                <h2 class="font-bold text-gray-700 uppercase mb-2">Zuschneiden</h2>
+                <button onclick="startCrop()" class="w-full bg-yellow-500 text-white px-3 py-2 hover:bg-yellow-600">Bereich wählen</button>
+                <button onclick="applyCrop()" class="mt-2 w-full bg-green-600 text-white px-3 py-2 hover:bg-green-700">Zuschneiden</button>
+              </div>
+
+              <div class="pt-6 border-t border-gray-300">
+                <button onclick="saveChanges()" class="w-full bg-sky-600 text-white px-3 py-2 hover:bg-sky-500">Save changes</button>
+                <button onclick="resetEditor()" class="w-full mt-2 bg-gray-300 text-gray-700 px-3 py-2 hover:bg-gray-400">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form id="transformForm" action="backend_api/modify_image.php" method="POST" class="hidden">
+          <input type="hidden" name="filename" value="<?php echo htmlspecialchars($fileName); ?>">
+          <input type="hidden" name="rotation" id="form-rotation" value="0">
+          <input type="hidden" name="flipX" id="form-flipX" value="1">
+          <input type="hidden" name="flipY" id="form-flipY" value="1">
+        </form>
+      </div>
       <!-- delete Modal -->
       <div id="deleteModal" class="hidden relative z-50 " role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
@@ -108,39 +168,6 @@
             <div class="flex justify-end mt-6 space-x-3">
               <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
               <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Upload Modal -->
-      <div id="uploadModal" class="relative z-50 hidden" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
-        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
-          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h2 class="text-xl font-semibold text-gray-800">Neues Medium hochladen</h2>
-              <button id="closeUpload" class="text-gray-500 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div class="border border-gray-200 rounded-lg p-6">
-              <label for="file-upload" class="block text-sm font-medium text-gray-700">Upload File</label>
-              <div id="uploadBox" class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 cursor-pointer">
-                <div class="text-center">
-                  <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V18a2 2 0 002 2h14a2 2 0 002-2v-1.5M7.5 11.5L12 7m0 0l4.5 4.5M12 7v10" />
-                  </svg>
-                  <p class="mt-2 text-sm text-gray-600">Click or drop file here</p>
-                  <p class="mt-1 text-xs text-gray-500">PNG, JPG up to <?php echo get_uploadsize(); ?></p>
-                </div>
-              </div>
-              <input id="fileInput" type="file" class="hidden" multiple>
-              <div id="progressContainer" class="mt-4 w-full bg-gray-200 rounded-full h-2.5">
-                <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full text-xs text-center text-white"></div>
-              </div>
-              <div id="messageBox" class="mt-2 text-sm"></div>
             </div>
           </div>
         </div>
@@ -184,19 +211,17 @@
                     </div>
                     <div class="flex items-center">
                       <div class="shrink-0 pr-5">
-                        <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                        <button type="button" onclick="openModal()" class="hidden relative md:inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                          <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                          </svg>
+                          Edit Image
+                        </button>
+                        <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
                           Delete Image
-                        </button>
-                      </div>
-                      <div class="shrink-0">
-                        <button type="button" class="relative inline-flex items-center gap-x-1.5 bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
-                          <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                          </svg>
-                          Upload new Image
                         </button>
                       </div>
                       
@@ -289,7 +314,7 @@
               
         </header>
         <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[280px] w-full bg-neutral-200 dark:bg-gray-950 overflow-auto flex-1 text-lg">
+          <!--<aside class="hidden md:block max-w-[280px] w-full bg-neutral-200 dark:bg-gray-950 overflow-auto flex-1 text-lg">
             <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 text-base font-medium" aria-label="Sidebar">
               <ul role="list" class="-mx-2 space-y-1">
                 <li>Modify Image</li>
@@ -301,7 +326,7 @@
                 </ul>                 
               </ul>
             </nav>
-          </aside>
+          </aside>-->
           <main class="flex-1 bg-white dark:bg-neutral-900 overflow-auto">
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
               <!-- IMAGE -->
@@ -330,7 +355,7 @@
               </div>
               <!-- META INFO -->
               <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 4xl:max-w-1/8 min-w-full pt-2 md:pt-0 pl-0 md:pl-2 ml-auto">
-                <div class="bg-white shadow-md rounded-xl p-6 space-y-4 min-h-full">
+                <div class="bg-white shadow-md p-6 space-y-4 min-h-full">
                   <h2 class="text-xl font-semibold">Metadata</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between py-2">
@@ -445,6 +470,104 @@
           });
 
         </script>
+        <!-- JavaScript -->
+        <script>
+          let originalImage = null;
+          let canvas = document.getElementById("editorCanvas");
+          let ctx = canvas.getContext("2d");
+          let rotation = 0;
+          let flipX = 1;
+          let flipY = 1;
 
+          function openModal() {
+            document.getElementById("imageEditorModal").classList.remove("hidden");
+            loadImage("<?php echo $imagePath; ?>"); // Pfad anpassen
+          }
+
+          function closeModal() {
+            document.getElementById("imageEditorModal").classList.add("hidden");
+            resetEditor();
+          }
+
+          function loadImage(src) {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => {
+              originalImage = img;
+              resetTransforms();
+              draw();
+            };
+            img.onerror = () => alert("Bild konnte nicht geladen werden!");
+            img.src = src;
+          }
+
+          function draw() {
+            if (!originalImage) return;
+            const w = originalImage.width;
+            const h = originalImage.height;
+            const rad = rotation * Math.PI / 180;
+
+            // Neue Canvas-Größe je nach Rotation
+            const rotatedWidth = Math.abs(Math.cos(rad)) * w + Math.abs(Math.sin(rad)) * h;
+            const rotatedHeight = Math.abs(Math.sin(rad)) * w + Math.abs(Math.cos(rad)) * h;
+
+            canvas.width = rotatedWidth;
+            canvas.height = rotatedHeight;
+
+            ctx.save();
+            ctx.translate(rotatedWidth / 2, rotatedHeight / 2);
+            ctx.rotate(rad);
+            ctx.scale(flipX, flipY);
+            ctx.drawImage(originalImage, -w / 2, -h / 2);
+            ctx.restore();
+          }
+
+          function rotateLeft() {
+            rotation = (rotation - 90 + 360) % 360;
+            draw();
+          }
+
+          function rotateRight() {
+            rotation = (rotation + 90) % 360;
+            draw();
+          }
+
+          function flipHorizontal() {
+            flipX *= -1;
+            draw();
+          }
+
+          function flipVertical() {
+            flipY *= -1;
+            draw();
+          }
+
+          function resetTransforms() {
+            rotation = 0;
+            flipX = 1;
+            flipY = 1;
+          }
+
+          function resetEditor() {
+            resetTransforms();
+            draw();
+          }
+
+          function startCrop() {
+            alert("Zuschneiden-Funktion muss noch ergänzt werden (z. B. mit Cropper.js)");
+          }
+
+          function applyCrop() {
+            alert("Zuschneiden ist noch nicht implementiert.");
+          }
+
+          function saveChanges() {
+            document.getElementById('form-rotation').value = rotation;
+            document.getElementById('form-flipX').value = flipX;
+            document.getElementById('form-flipY').value = flipY;
+
+            document.getElementById('transformForm').submit();
+          }
+        </script>
     </body>
 </html>

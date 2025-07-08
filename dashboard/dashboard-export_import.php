@@ -7,10 +7,20 @@
   $backup_guid = read_prefix();
   
   $success = false;
+  $restore_success = false;
+  $restore_error = false;
 
   if(isset($_GET['success']))
   {
     $success = true;
+  }else if(isset($_GET['restore']))
+  {
+    if($_GET['restore'] == 'success')
+    {
+      $restore_success = true;
+    }else{
+      $restore_error = true;
+    }
   }
 
 ?>
@@ -27,23 +37,55 @@
         <!-- Tailwind CSS -->
         <link rel="stylesheet" href="css/tailwind.css">
     </head>
-    <body class="min-h-screen flex flex-col">
+    <body class="min-h-screen flex flex-col">               
       <?php
         if($success)
         {
           ?>
-      <div id="backup-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-        <div class="relative bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
-          
-          <!-- Schließen-X -->
-          <a href="dashboard-export_import.php" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl font-bold leading-none">
-            &times;
-          </a>
+      <div class="relative z-50 " role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-800">Backup Finish</h2>
+            <p class="mt-4 text-gray-600">Backup successfull created.</p>
+            <div class="flex justify-end mt-6 space-x-3">
+              <a href="?" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Ok</a>
+            </div>
+          </div>
+        </div>
+      </div>
+        <?php }else if($restore_success)
+        {
+          ?>
+        
+      <!-- restore success -->
+      <div class="relative z-50 " role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-800">Backup Restore</h2>
+            <p class="mt-4 text-gray-600">Restore Successfull</p>
+            <div class="flex justify-end mt-6 space-x-3">
+              <a href="?" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Ok</a>
+            </div>
+          </div>
+        </div>
+      </div> 
 
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Backup erstellt</h2>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">Dein Backup wurde erfolgreich erstellt. Du kannst es hier herunterladen:</p>
-          
-          <a id="backup-download-link" href="#" class="text-sky-600 hover:underline break-all" download></a>
+        <?php }else if($restore_error)
+        {
+          ?>
+      <!-- restore error  -->
+      <div  class="relative z-50 " role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-800">Backup Restore Error</h2>
+            <p class="mt-4 text-gray-600">Please restore the data manually</p>
+            <div class="flex justify-end mt-6 space-x-3">
+              <a href="?" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Ok</a>
+            </div>
+          </div>
         </div>
       </div>
         <?php } ?>

@@ -14,8 +14,11 @@
 
     switch($type) {
         case "img":
-            delete_image($filename);
-            header("Location: ../media.php");
+            $value = delete_image($filename);
+            if($value)
+            {
+                header("Location: ../media.php");
+            }
             break;
         case "essay":
             delete_post($filename);

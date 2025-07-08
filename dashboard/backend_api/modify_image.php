@@ -3,14 +3,18 @@
     require_once __DIR__ . '/../../functions/function_backend.php';
     security_checklogin();
 
-    $file = isset($_GET['file']) ? $_GET['file'] : null;
-    $rotate = isset($_GET['rotate']) ? $_GET['rotate'] : null;
+    print_r($_POST);
 
-    if($rotate != null)
+    $rotation = $_POST['rotation'];
+    $flipX = $_POST['flipX'];
+    $flipY = $_POST['flipY'];
+    $filename = $_POST['filename'];
+
+
+    $result = modifyImage($filename, $rotation, $flipX, $flipY);
+
+    if($result)
     {
-        $result = rotateImage($file, $rotate);
-        if($result)
-        {
-            header("Location: ../media-detail.php?image=".$file);
-        }
+        generate_single_image_cache($filename);
+        header("Location: ../media-detail.php?image=".$filename);
     }

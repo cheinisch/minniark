@@ -58,6 +58,7 @@ These are the planned features for upcoming releases
 
 - Simple image editing (rotate and flip)
 - AI integration for the creation of the image description
+- Simple template managment
 
 ## Technologies Used
 

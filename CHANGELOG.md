@@ -12,6 +12,7 @@
 - Modify Images (rotate and flip)
 - Save ExifInformation in .exif File
 - unstable features are marked with a alpha
+- Add pagination to timeline
 
 ### Changes
 - Change format of the version number

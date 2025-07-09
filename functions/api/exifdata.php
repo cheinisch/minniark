@@ -12,51 +12,51 @@ ini_set('display_errors', 1);
         return [
             "Camera" => !empty($exif['IFD0']['Make']) && !empty($exif['IFD0']['Model']) 
                 ? trim($exif['IFD0']['Make'] . ' ' . $exif['IFD0']['Model']) 
-                : "Unknown",
+                : "",
 
-            "Lens" => $exif['EXIF']['UndefinedTag:0xA434'] ?? "Unknown",
+            "Lens" => $exif['EXIF']['UndefinedTag:0xA434'] ?? "",
 
             "Aperture" => !empty($exif['EXIF']['FNumber']) 
                 ? "f/" . round(rationalToFloat($exif['EXIF']['FNumber']), 1) 
-                : "Unknown",
+                : "",
 
-            "Shutter Speed" => $exif['EXIF']['ExposureTime'] ?? "Unknown",
+            "Shutter Speed" => $exif['EXIF']['ExposureTime'] ?? "",
 
             "Focal Length" => !empty($exif['EXIF']['FocalLength']) 
                 ? formatFocalLength($exif['EXIF']['FocalLength']) 
-                : "Unknown",
+                : "",
 
-            "ISO" => $exif['EXIF']['ISOSpeedRatings'] ?? "Unknown",
+            "ISO" => $exif['EXIF']['ISOSpeedRatings'] ?? "",
 
             "Date" => $exif['EXIF']['DateTimeOriginal'] 
                 ?? $exif['IFD0']['DateTime'] 
-                ?? "Unknown",
+                ?? "",
 
-            "Flash" => $exif['EXIF']['Flash'] ?? "Unknown",
+            "Flash" => $exif['EXIF']['Flash'] ?? "",
 
-            "White Balance" => $exif['EXIF']['WhiteBalance'] ?? "Unknown",
+            "White Balance" => $exif['EXIF']['WhiteBalance'] ?? "",
 
-            "Metering Mode" => $exif['EXIF']['MeteringMode'] ?? "Unknown",
+            "Metering Mode" => $exif['EXIF']['MeteringMode'] ?? "",
 
-            "Exposure Program" => $exif['EXIF']['ExposureProgram'] ?? "Unknown",
+            "Exposure Program" => $exif['EXIF']['ExposureProgram'] ?? "",
 
-            "Exposure Compensation" => $exif['EXIF']['ExposureBiasValue'] ?? "Unknown",
+            "Exposure Compensation" => $exif['EXIF']['ExposureBiasValue'] ?? "",
 
             "Max Aperture" => isset($exif['EXIF']['MaxApertureValue']) 
                 ? "f/" . round(rationalToFloat($exif['EXIF']['MaxApertureValue']), 1) 
-                : "Unknown",
+                : "",
 
             "Digital Zoom" => isset($exif['EXIF']['DigitalZoomRatio']) 
                 ? rationalToFloat($exif['EXIF']['DigitalZoomRatio']) . "x"
-                : "Unknown",
+                : "",
 
-            "Orientation" => $exif['IFD0']['Orientation'] ?? "Unknown",
+            "Orientation" => $exif['IFD0']['Orientation'] ?? "",
 
-            "Software" => $exif['IFD0']['Software'] ?? "Unknown",
+            "Software" => $exif['IFD0']['Software'] ?? "",
 
-            "Color Space" => $exif['EXIF']['ColorSpace'] ?? "Unknown",
+            "Color Space" => $exif['EXIF']['ColorSpace'] ?? "",
 
-            "Light Source" => $exif['EXIF']['LightSource'] ?? "Unknown",
+            "Light Source" => $exif['EXIF']['LightSource'] ?? "",
 
             "GPS" => getGPSData($exif['GPS'] ?? [])
         ];

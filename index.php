@@ -91,7 +91,26 @@ if (array_key_exists($uri, $routes)) {
             $data['posts'] = getBlogPosts();
             break;
         case 'timeline':
-            $data['timeline'] = getTimelineImagesFromYaml();
+            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+            $perPage = 12; // Anzahl der Bilder pro Seite
+            $data['fulltimeline'] = getTimelineImagesFromYaml();
+            $allImages = getTimelineImagesFromYaml();
+            $totalItems = count($allImages);
+            $totalPages = ceil($totalItems / $perPage);
+
+            // Begrenzen, damit $page nicht größer als totalPages ist
+            $page = max(1, min($page, $totalPages));
+
+            $offset = ($page - 1) * $perPage;
+            $pagedImages = array_slice($allImages, $offset, $perPage);
+
+            $data['timeline'] = $pagedImages;
+            $data['pagination'] = [
+                'current' => $page,
+                'total' => $totalPages,
+                'has_prev' => $page > 1,
+                'has_next' => $page < $totalPages,
+            ];
             break;
         case 'map':
             $data['points'] = getGpsPoints();

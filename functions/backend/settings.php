@@ -28,6 +28,10 @@
             $settings['custom_nav'] = $data['custom_nav'];
         }
 
+        if (isset($data['theme'])) {
+            $settings['theme'] = $data['theme'];
+        }
+
         // Weitere Felder hier ergänzen, falls nötig
 
         // Speichern

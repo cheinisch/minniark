@@ -4,6 +4,19 @@
   $settingspage = "theme";
   security_checklogin();
 
+  $themes = getInstalledTemplates();
+  $activeTheme = get_theme();
+
+
+  $folder = null;
+  $name = null;
+  if(isset($_GET['selected']))
+  {
+    $folder = $_GET['selected'];
+    $name = $_GET['name'];
+  }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -17,8 +30,28 @@
         <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
         <!-- Tailwind CSS -->
         <link rel="stylesheet" href="css/tailwind.css">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body class="min-h-screen flex flex-col">
+      <?php
+        if($folder != null)
+        {
+        echo '
+        <div class="relative z-50 " role="dialog" aria-modal="true">
+          <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+          <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+            <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+              <h2 class="text-xl font-semibold text-gray-800">Theme activation</h2>
+              <p class="mt-4 text-gray-600">Set <i>'.$name.'</i> as active theme?</p>
+              <div class="flex justify-end mt-6 space-x-3">
+                <a href="backend_api/settheme.php?name='.$folder.'" class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-500">Ok</a>
+                <a href="?" class="px-4 py-2 bg-red-600 text-white hover:bg-red-500">Cancel</a>
+              </div>
+            </div>
+          </div>
+        </div>';          
+        }
+      ?>
         <header>
             <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
                 <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
@@ -56,7 +89,21 @@
                       </div>
                     </div>
                     <div class="flex items-center">
-                      <?php echo create_update_button(); ?>
+                      <div class="shrink-0">
+                        <button type="button" id="update-btn-docker" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                            <svg class="-ml-0.5 w-5 h-5" viewBox="0 0 25 25" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z"/> 
+                            <path d="M3.75 15C3.75 14.5858 3.41422 14.25 3 14.25C2.58579 14.25 2.25 14.5858 2.25 15V15.0549C2.24998 16.4225 2.24996 17.5248 2.36652 18.3918C2.48754 19.2919 2.74643 20.0497 3.34835 20.6516C3.95027 21.2536 4.70814 21.5125 5.60825 21.6335C6.47522 21.75 7.57754 21.75 8.94513 21.75H15.0549C16.4225 21.75 17.5248 21.75 18.3918 21.6335C19.2919 21.5125 20.0497 21.2536 20.6517 20.6516C21.2536 20.0497 21.5125 19.2919 21.6335 18.3918C21.75 17.5248 21.75 16.4225 21.75 15.0549V15C21.75 14.5858 21.4142 14.25 21 14.25C20.5858 14.25 20.25 14.5858 20.25 15C20.25 16.4354 20.2484 17.4365 20.1469 18.1919C20.0482 18.9257 19.8678 19.3142 19.591 19.591C19.3142 19.8678 18.9257 20.0482 18.1919 20.1469C17.4365 20.2484 16.4354 20.25 15 20.25H9C7.56459 20.25 6.56347 20.2484 5.80812 20.1469C5.07435 20.0482 4.68577 19.8678 4.40901 19.591C4.13225 19.3142 3.9518 18.9257 3.85315 18.1919C3.75159 17.4365 3.75 16.4354 3.75 15Z"/>
+                            </svg>
+                            Theme Updates available
+                        </button>
+                        <button type="button" id="update-btn-docker" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                            <svg class="-ml-0.5 w-5 h-5" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                              <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+                            </svg>
+                            Search new Themes
+                        </button>
+                    </div>
                       <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
                         <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
                           <span class="absolute -inset-1.5"></span>
@@ -156,78 +203,54 @@
           <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
             <!-- Settings forms -->
             <div class="divide-y divide-gray-400 dark:divide-white/5">
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+              <div class="grid max-w-9xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-4 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Theme selection</h2>
                   <p class="mt-1 text-sm/6 text-gray-400">Select the theme, you want.</p>
                 </div>
 
-                <form class="md:col-span-2" id="change-theme">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-theme-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Success!</strong>
-                      <span class="block sm:inline">Theme successful changed!</span>
-                    </div>
 
-                    <!-- Fehlermeldung (rot) -->
-                    <div id="notification-theme-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Error!</strong>
-                      <span class="block sm:inline">Theme not changed!</span>
-                    </div>
-                    <!-- Select theme Size -->
-                    <div class="sm:col-span-full">
-                      <label id="listbox-theme-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Template</label>
-                      <div class="relative mt-2">
-                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-theme" aria-expanded="true" aria-labelledby="listbox-theme-label">
-                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_theme(); ?></span>
-                          <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-theme-label" aria-activedescendant="listbox-option-0">
-                          <?php
+                <div class="md:col-span-3">
+                  <div class="grid w-full grid-cols-1 sm:grid-cols-4 gap-x-6 gap-y-8">
+                    <?php foreach ($themes as $theme): ?>
+                      <?php
+                        $isActive = $theme['name'] === $activeTheme;
+                        $borderClass = $isActive ? 'border-emerald-600' : 'border-gray-200';
+                      ?>
+                      <div class="border-4 <?= $borderClass ?> overflow-hidden shadow-sm bg-white h-full">
+                        <img src="../../userdata/template/<?= htmlspecialchars($theme['folder']) ?>/image.png"
+                            alt="Theme Image" class="w-full h-auto">
 
-                              $themelist = get_themelist();
-                              $count = 0;
-                              foreach($themelist as $theme)
-                              {
-                                echo '
-                                <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-'.$count.'" role="option">
-                                  <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                                  <span class="block truncate font-normal">'.$theme['name'].'</span>
-                                  <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                                    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                                    </svg>
-                                  </span>
-                                </li>
-                                ';
-                                  $count = $count +1;
-                              }
-
-
-                          ?>
-                        </ul>
+                        <div class="p-4">
+                          <h3 class="text-lg font-semibold"><?= htmlspecialchars($theme['name']) ?></h3>
+                          <p class="text-sm text-gray-500">Version: <?= htmlspecialchars($theme['version']) ?></p>
+                          <p class="text-sm text-gray-500">Author: <?= htmlspecialchars($theme['author']) ?></p>
+                          <a href="<?= htmlspecialchars($theme['url']) ?>" target="_blank"
+                            class="text-sm text-blue-600 underline">
+                            <?= htmlspecialchars($theme['url']) ?>
+                          </a>
+                          <div class="mt-1">
+                            <?php
+                            if(!$isActive)
+                             {
+                              echo '<a href="?selected='.htmlspecialchars($theme['folder']).'&name='.htmlspecialchars($theme['name']).'" class="bg-sky-600 hover:bg-sky-500 text-white py-1 px-2 my-1">activate theme</a>';
+                             }else{
+                              echo '<span class="bg-emerald-600 text-white py-1 px-2 my-1">is active</span>';
+                             }
+                            ?>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <input type="hidden" name="theme" id="theme" value="<?php echo get_theme(); ?>">
-                    <!-- Select ende -->
-
+                    <?php endforeach; ?>
                   </div>
+                </div>
 
-                  <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>
-                  </div>
-                </form>
+                
               </div>
 
             </div>
           </main>
         </div>
         <script src="js/tailwind.js"></script>
-        <script src="js/update.js"></script>
-        <script src="js/select_settings.js"></script>
-        <script src="js/save_settings.js"></script>
     </body>
 </html>

@@ -6,6 +6,19 @@
 ## [2025.7.0]
 2025-07-09
 
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.7.0...v2025.7.1
+
+### New Features
+- Theme update via packagist is now available
+
+### Changes
+- change starter template folder name: basic => minniark_basic
+
+### Bug Fixes
+
+## [2025.7.0]
+2025-07-09
+
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v0.1.0.12...v2025.7.0
 
 ### New Features

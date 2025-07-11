@@ -63,7 +63,10 @@
                       </div>
                     </div>
                     <div class="flex items-center">
+                      <div class="shrink-0">
+                      <?php echo createThemeUpdateButton(); ?>
                       <?php echo create_update_button(); ?>
+                      </div>
                       <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
                         <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
                           <span class="absolute -inset-1.5"></span>

@@ -113,7 +113,7 @@
 							<?php 
 								$packagistThemes = getTemplatesPackagist();
 								foreach ($packagistThemes as $theme): ?>
-								<div class="bg-white border border-gray-200 overflow-hidden shadow hover:shadow-md transition-shadow">
+								<div class="bg-white border border-gray-200 overflow-hidden shadow hover:shadow-md transition-shadow" data-theme="<?= htmlspecialchars($theme['name']) ?>">
 									<!--<img src="<?= htmlspecialchars($theme['image']) ?>" alt="Theme Preview" class="w-full h-auto">-->
 									<div class="p-4">
 										<h3 class="text-lg font-semibold"><?= htmlspecialchars($theme['name']) ?></h3>
@@ -379,5 +379,26 @@
           </main>
         </div>
         <script src="js/tailwind.js"></script>
+        <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.querySelector('input[type="search"]');
+    const cards = document.querySelectorAll('[data-theme]');
+
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function () {
+      const query = this.value.toLowerCase();
+
+      cards.forEach(card => {
+        const themeName = card.getAttribute('data-theme').toLowerCase();
+        if (themeName.includes(query)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
     </body>
 </html>

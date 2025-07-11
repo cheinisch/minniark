@@ -3,13 +3,14 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
-## [2025.7.0]
-2025-07-09
+## [2025.7.1]
+2025-07-11
 
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.7.0...v2025.7.1
 
 ### New Features
 - Theme update via packagist is now available
+- Theme installation is now available
 
 ### Changes
 - change starter template folder name: basic => minniark_basic

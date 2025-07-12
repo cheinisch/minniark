@@ -320,7 +320,7 @@
           <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
             <!-- Settings forms -->
             <div class="divide-y divide-gray-400 dark:divide-white/5">
-              <div class="grid max-w-9xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-4 lg:px-8">
+              <div class="grid max-w-9xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Theme selection</h2>
                   <p class="mt-1 text-sm/6 text-gray-400">Select the theme, you want.</p>

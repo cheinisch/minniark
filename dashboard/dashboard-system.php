@@ -260,8 +260,8 @@
                           </svg>
                         </button>
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-image-label" aria-activedescendant="listbox-option-1">
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                          <!--<li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
+                            
                             <span class="block truncate font-normal">S</span>
                             <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
                               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -270,14 +270,14 @@
                             </span>
                           </li>
                           <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                            
                             <span class="block truncate font-normal">M</span>
                             <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
                               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                               </svg>
                             </span>
-                          </li>
+                          </li>-->
                           <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-2" role="option">
                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                             <span class="block truncate font-normal">L</span>

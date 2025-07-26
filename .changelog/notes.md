@@ -7,3 +7,5 @@
 - sitemap.xml
 
 - ai integration
+
+- Tag images

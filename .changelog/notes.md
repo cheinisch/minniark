@@ -3,3 +3,7 @@
 - clear / rebuild cache
 
 - edit images (flip, rotate)
+
+- sitemap.xml
+
+- ai integration

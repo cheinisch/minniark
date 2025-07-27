@@ -420,7 +420,7 @@
                 </form>
               </div>
 
-              <!-- Supporter License --
+              <!-- Supporter License -->
                <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Supporter License</h2>
@@ -461,7 +461,7 @@
                     <button type="submit" id="btnSiteLicense" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
                   </div>                  
                 </form>
-              </div> -->
+              </div>
             </div>
           </main>
         </div>

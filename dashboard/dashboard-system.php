@@ -424,7 +424,7 @@
                <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
                   <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Supporter License</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Add the additional supporter License Key. Required for some Plugins.</p>
+                  <p class="mt-1 text-sm/6 text-gray-400">Add the additional supporter License Key. Required for some Plugins. You can buy the license <a href="https://store.minniark.com" class="text-sky-600 hover:text-sky-500">here</a>.</p>
                 </div>
 
                 <form class="md:col-span-2" id="change-sitelicense-form" action="backend_api/settings_save.php" method="post">

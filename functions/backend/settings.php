@@ -21,7 +21,24 @@
 
         // Neue Werte aus dem $data-Array setzen
         if (isset($data['site-license'])) {
-            $settings['license'] = trim($data['site-license']);
+            $newKey = trim($data['site-license']);
+            $oldKey = $settings['license'] ?? null;
+
+            // Aktivierung/Deaktivierung nur wenn sich etwas ändert
+            if (!empty($newKey) && empty($oldKey)) {
+                activateKey($newKey); // Neuer Key, bisher keiner
+                error_log("Key aktiviert: ".$newKey);
+            } elseif (!empty($oldKey) && $oldKey !== $newKey) {
+                deactivateKey($oldKey); // Alter Key deaktivieren
+                error_log("Key deaktiviert: ".$oldKey);
+                if (!empty($newKey)) {
+                    activateKey($newKey); // Neuer Key aktivieren
+                    error_log("anderer Key aktiviert: ".$newKey);
+                }
+            }
+
+            // Neuen Key speichern (auch wenn leer = löschen)
+            $settings['license'] = $newKey;
         }
 
         if (isset($data['custom_nav'])) {

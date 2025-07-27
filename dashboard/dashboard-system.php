@@ -440,15 +440,26 @@
                         $info = getLicenseInformation();
                         ?>
                         <ul class="text-sm/6 font-medium text-gray-700 dark:text-white">
-                            <?php if (!$info['valid']): ?>
-                                <li>License is not valid<?php if (!empty($info['message'])) echo ': ' . htmlspecialchars($info['message']); ?>.</li>
+                        <?php if (!$info['valid']): ?>
+                            <li>License is not valid<?php if (!empty($info['message'])) echo ': ' . htmlspecialchars($info['message']); ?>.</li>
+                            <li>
+                                Expired at:
+                                <?php echo !empty($info['expired_date']) ? htmlspecialchars($info['expired_date']) : '∞ (unlimited)'; ?>
+                            </li>
+                        <?php else: ?>
+                            <li>License is valid</li>
+
+                            <?php if (empty($info['expired_date'])): ?>
+                                <li>Type: unlimited</li>
                             <?php else: ?>
-                                <li>License is valid</li>
                                 <li>Status: <?php echo $info['expired'] ? 'expired' : 'active'; ?></li>
                                 <li>Remaining days: <?php echo $info['days']; ?></li>
                                 <li>Expire date: <?php echo htmlspecialchars($info['expired_date']); ?></li>
                             <?php endif; ?>
-                        </ul>
+
+                        <?php endif; ?>
+                    </ul>
+
                         <?php
                       }
                       ?>

@@ -440,25 +440,34 @@
                         $info = getLicenseInformation();
                         ?>
                         <ul class="text-sm/6 font-medium text-gray-700 dark:text-white">
-                        <?php if (!$info['valid']): ?>
-                            <li>License is not valid<?php if (!empty($info['message'])) echo ': ' . htmlspecialchars($info['message']); ?>.</li>
-                            <li>
-                                Expired at:
-                                <?php echo !empty($info['expired_date']) ? htmlspecialchars($info['expired_date']) : '∞ (unlimited)'; ?>
-                            </li>
-                        <?php else: ?>
-                            <li>License is valid</li>
+                          <?php if (!$info['valid']): ?>
+                              <li>License is not valid<?php if (!empty($info['message'])) echo ': ' . htmlspecialchars($info['message']); ?>.</li>
+                              <?php if (!empty($info['expired_date'])): ?>
+                                  <li>Expired at: <?php echo htmlspecialchars($info['expired_date']); ?></li>
+                              <?php endif; ?>
+                          <?php else: ?>
+                              <li>License is valid</li>
 
-                            <?php if (empty($info['expired_date'])): ?>
-                                <li>Type: unlimited</li>
-                            <?php else: ?>
-                                <li>Status: <?php echo $info['expired'] ? 'expired' : 'active'; ?></li>
-                                <li>Remaining days: <?php echo $info['days']; ?></li>
-                                <li>Expire date: <?php echo htmlspecialchars($info['expired_date']); ?></li>
-                            <?php endif; ?>
+                              <?php if (empty($info['expired_date'])): ?>
+                                  <li>Status: <span class="text-emerald-600">active</span></li>
+                                  <li>Type: unlimited</li>
+                              <?php else: ?>
+                                  <li>Status: <?php echo $info['expired']
+                                      ? '<span class="text-red-600">expired</span>'
+                                      : '<span class="text-emerald-600">active</span>'; ?></li>
 
-                        <?php endif; ?>
-                    </ul>
+                                  <?php if (!$info['expired']): ?>
+                                      <li>Remaining days: <?php echo $info['days']; ?></li>
+                                  <?php endif; ?>
+
+                                  <li>Expire date: <?php echo htmlspecialchars($info['expired_date']); ?></li>
+                              <?php endif; ?>
+
+                              <li>Activation: <?php echo (int)$info['timesActivated'] . ' / ' . (int)$info['timesActivatedMax']; ?></li>
+                          <?php endif; ?>
+                      </ul>
+
+
 
                         <?php
                       }

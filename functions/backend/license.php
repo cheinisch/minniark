@@ -53,6 +53,10 @@ function getLicenseInformation()
         }
 
         $licenseData = $data['data'];
+
+        $returnValue['timesActivated'] = $licenseData['timesActivated'] ?? 0;
+        $returnValue['timesActivatedMax'] = $licenseData['timesActivatedMax'] ?? 0;
+
         $validFor = $licenseData['validFor'] ?? null;
         $createdAt = new DateTime($licenseData['createdAt']);
         $expiresAtRaw = $licenseData['expiresAt'] ?? null;
@@ -81,7 +85,9 @@ function getLicenseInformation()
                     $returnValue['days'] = $remainingDays;
                     $returnValue['expired'] = false;
                 } else {
-                    $returnValue['valid'] = false;
+                    $returnValue['active'] = true;
+                    $returnValue['valid'] = true; // <- WICHTIG
+                    $returnValue['days'] = 0;
                     $returnValue['expired'] = true;
                 }
             } else {

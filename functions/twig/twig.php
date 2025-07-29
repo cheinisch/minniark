@@ -174,7 +174,7 @@ if (preg_match('#^album/([\w\-]+)$#', $uri, $matches)) {
                     $guid = $meta['guid'];
                     $imageList[] = [
                         'file' => $cacheDir . $guid . '_' . $imageSize . '.jpg',
-                        'url'  => '/i/' . rawurlencode($img),
+                        'url'  => '/album/' . rawurlencode($slug) . '/' . rawurlencode($img),
                         'title' => $meta['title'] ?? '',
                     ];
                 }
@@ -218,6 +218,142 @@ if (preg_match('#^album/([\w\-]+)$#', $uri, $matches)) {
     echo $twig->render('404.twig', $data);
     exit;
 }
+
+// album image
+
+if (preg_match('#^album/([\w\-]+)/(.+)$#', $uri, $matches)) {
+    $albumSlug = $matches[1];
+    $filename = basename($matches[2]);
+
+    $albumDir = __DIR__ . '/../../userdata/content/album/';
+    $imageDir = __DIR__ . '/../../userdata/content/images/';
+    $albumFile = $albumDir . $albumSlug . '.yml';
+
+    if (!file_exists($albumFile)) {
+        http_response_code(404);
+        echo $twig->render('404.twig', $data);
+        exit;
+    }
+
+    $yaml = Symfony\Component\Yaml\Yaml::parseFile($albumFile);
+    $album = $yaml['album'] ?? [];
+
+    $images = $album['images'] ?? [];
+
+    $imageIndex = null;
+    $currentImage = null;
+
+    foreach ($images as $index => $imgName) {
+        if ($imgName === $filename) {
+            $currentImage = $imgName;
+            $imageIndex = $index;
+            break;
+        }
+    }
+
+    if ($currentImage === null) {
+        http_response_code(404);
+        echo $twig->render('404.twig', $data);
+        exit;
+    }
+
+    // Prev/Next
+    $prevImage = null;
+    $nextImage = null;
+
+    if (isset($images[$imageIndex - 1])) {
+        $prevFilename = $images[$imageIndex - 1];
+        $prevMetaPath = $imageDir . '/' . pathinfo($prevFilename, PATHINFO_FILENAME) . '.yml';
+        $prevTitle = '';
+
+        if (file_exists($prevMetaPath)) {
+            $prevMeta = Symfony\Component\Yaml\Yaml::parseFile($prevMetaPath);
+            $prevTitle = $prevMeta['image']['title'] ?? '';
+        }
+
+        $prevImage = [
+            'filename' => $prevFilename,
+            'title' => $prevTitle,
+            'url' => '/album/' . rawurlencode($albumSlug) . '/' . rawurlencode($prevFilename),
+        ];
+    }
+
+    if (isset($images[$imageIndex + 1])) {
+        $nextFilename = $images[$imageIndex + 1];
+        $nextMetaPath = $imageDir . '/' . pathinfo($nextFilename, PATHINFO_FILENAME) . '.yml';
+        $nextTitle = '';
+
+        if (file_exists($nextMetaPath)) {
+            $nextMeta = Symfony\Component\Yaml\Yaml::parseFile($nextMetaPath);
+            $nextTitle = $nextMeta['image']['title'] ?? '';
+        }
+
+        $nextImage = [
+            'filename' => $nextFilename,
+            'title' => $nextTitle,
+            'url' => '/album/' . rawurlencode($albumSlug) . '/' . rawurlencode($nextFilename),
+        ];
+    }
+
+    // Bild-Metadaten & Beschreibung
+    $ymlFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.yml';
+    $parsedown = new Parsedown();
+    $meta = file_exists($ymlFile) ? Symfony\Component\Yaml\Yaml::parseFile($ymlFile)['image'] ?? [] : [];
+
+    $exif = $meta['exif'] ?? [];
+    $exif['Camera'] = str_replace('Canon Canon', 'Canon', $exif['Camera'] ?? '');
+
+    $aperture = $exif['Aperture'] ?? 'Unknown';
+    if (preg_match('/f\/(\d+)\/(\d+)/i', $aperture, $m)) {
+        $aperture = "f/" . round($m[1] / $m[2], 1);
+    }
+
+    $shutterSpeed = $exif['Shutter Speed'] ?? 'Unknown';
+    if (preg_match('/(\d+)\/(\d+)/', $shutterSpeed, $m)) {
+        $shutterSpeed = (int)$m[1] >= (int)$m[2]
+            ? round($m[1] / $m[2], 1) . "s"
+            : "1/" . round($m[2] / $m[1]) . "s";
+    }
+
+    $exif['aperture'] = $aperture;
+    $exif['shutter_speed'] = $shutterSpeed;
+
+    $normalizedExif = [];
+    foreach ($exif as $key => $value) {
+        $normalizedKey = strtolower(str_replace(' ', '_', $key));
+        $normalizedExif[$normalizedKey] = $value;
+    }
+
+    $mdFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.md';
+    $descriptionText = file_exists($mdFile) ? file_get_contents($mdFile) : '';
+    $descriptionHtml = $parsedown->text($descriptionText);
+
+    $imageData = [
+        'title' => $meta['title'] ?? '',
+        'description' => $descriptionHtml,
+        'filename' => $meta['filename'] ?? $filename,
+        'guid' => $meta['guid'] ?? '',
+        'rating' => $meta['rating'] ?? '',
+        'upload_date' => $meta['uploaded_at'] ?? '',
+        'exif' => $normalizedExif,
+        'file' => get_cacheimage($filename),
+    ];
+
+    $data['image'] = $imageData;
+    $data['title'] = $imageData['title'];
+    $data['prev'] = $prevImage;
+    $data['next'] = $nextImage;
+
+    $data['breadcrumbs'] = [
+        ['url' => '/', 'label' => 'Home'],
+        ['url' => '/album/' . $albumSlug, 'label' => $album['name'] ?? ucfirst($albumSlug)],
+        ['url' => '', 'label' => $imageData['title']],
+    ];
+
+    echo $twig->render('image.twig', $data);
+    exit;
+}
+
 
 
 if (preg_match('#^i/(.+)$#', $uri, $matches)) {
@@ -507,4 +643,124 @@ if ($uri === 'home' || $uri === '') {
             echo $twig->render('home.twig', $data);
             exit;
     }
+}
+
+
+// Timeline Images
+
+if (preg_match('#^timeline/(.+)$#', $uri, $matches)) {
+    $filename = basename($matches[1]);
+
+    // Alle Timeline-Bilder laden (aus YAML)
+    $allImages = getTimelineImagesFromYaml();  // Funktion bereits in use
+    $imageIndex = null;
+    $currentImage = null;
+
+    foreach ($allImages as $index => $img) {
+        if ($img['filename'] === $filename) {
+            $currentImage = $img;
+            $imageIndex = $index;
+            break;
+        }
+    }
+
+    if ($currentImage !== null) {
+        $prevImage = null;
+        $nextImage = null;
+
+        if (isset($allImages[$imageIndex - 1])) {
+            $prevImage = [
+                'title' => $allImages[$imageIndex - 1]['title'] ?? '',
+                'filename' => $allImages[$imageIndex - 1]['filename'],
+                'url' => '/timeline/' . rawurlencode($allImages[$imageIndex - 1]['filename']),
+            ];
+        }
+        if (isset($allImages[$imageIndex + 1])) {
+            $nextImage = [
+                'title' => $allImages[$imageIndex + 1]['title'] ?? '',
+                'filename' => $allImages[$imageIndex + 1]['filename'],
+                'url' => '/timeline/' . rawurlencode($allImages[$imageIndex + 1]['filename']),
+            ];
+        }
+
+
+        $imageDir = __DIR__.'/../../userdata/content/images';
+        $ymlFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.yml';
+
+        $parsedown = new Parsedown();
+        $meta = [];
+
+        if (file_exists($ymlFile)) {
+            $meta = Symfony\Component\Yaml\Yaml::parseFile($ymlFile)['image'] ?? [];
+        }
+
+        $exif = $meta['exif'] ?? [];
+        $exif['Camera'] = str_replace('Canon Canon', 'Canon', $exif['Camera'] ?? '');
+
+        $apertureRaw = $exif['Aperture'] ?? '';
+        $shutterSpeedRaw = $exif['Shutter Speed'] ?? '';
+
+        $aperture = "Unknown";
+        if (preg_match('/f\/(\d+)\/(\d+)/i', $apertureRaw, $m)) {
+            $apertureValue = round($m[1] / $m[2], 1);
+            $aperture = "f/" . $apertureValue;
+        } elseif (!empty($apertureRaw)) {
+            $aperture = $apertureRaw;
+        }
+
+        $shutterSpeed = "Unknown";
+        if (preg_match('/(\d+)\/(\d+)/', $shutterSpeedRaw, $m)) {
+            $numerator = (int)$m[1];
+            $denominator = (int)$m[2];
+            $shutterSpeed = $numerator >= $denominator
+                ? round($numerator / $denominator, 1) . "s"
+                : "1/" . round($denominator / $numerator) . "s";
+        } elseif (!empty($shutterSpeedRaw)) {
+            $shutterSpeed = $shutterSpeedRaw;
+        }
+
+        $exif['aperture'] = $aperture;
+        $exif['shutter_speed'] = $shutterSpeed;
+
+        $normalizedExif = [];
+        foreach ($exif as $key => $value) {
+            $normalizedKey = strtolower(str_replace(' ', '_', $key));
+            $normalizedExif[$normalizedKey] = $value;
+        }
+
+        $mdFile = $imageDir . '/' . pathinfo($filename, PATHINFO_FILENAME) . '.md';
+        $descriptionText = file_exists($mdFile) ? file_get_contents($mdFile) : '';
+        $descriptionHtml = $parsedown->text($descriptionText);
+
+        $imageData = [
+            'title' => $meta['title'] ?? $currentImage['title'] ?? '',
+            'description' => $descriptionHtml,
+            'filename' => $filename,
+            'guid' => $meta['guid'] ?? '',
+            'rating' => $meta['rating'] ?? '',
+            'upload_date' => $meta['uploaded_at'] ?? '',
+            'exif' => $normalizedExif,
+            'file' => get_cacheimage($filename),
+        ];
+
+        $data['image'] = $imageData;
+        $data['title'] = $imageData['title'];
+
+        $data['breadcrumbs'] = [
+            ['url' => '/', 'label' => 'Home'],
+            ['url' => '/timeline', 'label' => 'Timeline'],
+            ['url' => '', 'label' => $imageData['title']],
+        ];
+
+        $data['prev'] = $prevImage;
+        $data['next'] = $nextImage;
+
+        echo $twig->render('image.twig', $data);
+        exit;
+    }
+
+    // Bild nicht gefunden
+    http_response_code(404);
+    echo $twig->render('404.twig', $data);
+    exit;
 }

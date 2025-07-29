@@ -3,6 +3,19 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
+## [2025.7.2]
+2025-07-29
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.7.1...v2025.7.2
+
+### New Features
+- Add License Key for AI functions
+- Add optional Sitemap
+
+### Changes
+
+### Bug Fixes
+
 ## [2025.7.1]
 2025-07-12
 

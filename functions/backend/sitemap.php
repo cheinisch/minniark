@@ -121,6 +121,13 @@
             }
         }
 
+        if (existEssays()) {
+            $urls[] = "$baseUrl/blog"; // ggf. dein Index-Pfad
+            foreach (getEssaySlugs() as $slug) {
+                $urls[] = "$baseUrl/blog/" . urlencode($slug);
+            }
+        }
+
         if (existImages() && sitemap_images_enabled()) {
             foreach (imageFilename() as $filename) {
                 $urls[] = "$baseUrl/i/" . urlencode($filename);
@@ -301,3 +308,45 @@ function imageFilename(): array
 
     return $filenames;
 }
+
+function existEssays(): bool
+{
+    $baseDir = __DIR__ . '/../../userdata/content/essay/';
+
+    if (!is_dir($baseDir)) {
+        return false;
+    }
+
+    foreach (scandir($baseDir) as $folder) {
+        if ($folder === '.' || $folder === '..' || str_starts_with($folder, '.')) continue;
+
+        $yamlPath = $baseDir . $folder . '/' . $folder . '.yml';
+        if (file_exists($yamlPath)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function getEssaySlugs(): array
+{
+    $baseDir = __DIR__ . '/../../userdata/content/essay/';
+    $slugs = [];
+
+    if (!is_dir($baseDir)) {
+        return $slugs;
+    }
+
+    foreach (scandir($baseDir) as $folder) {
+        if ($folder === '.' || $folder === '..' || str_starts_with($folder, '.')) continue;
+
+        $yamlPath = $baseDir . $folder . '/' . $folder . '.yml';
+        if (file_exists($yamlPath)) {
+            $slugs[] = $folder;
+        }
+    }
+
+    return $slugs;
+}
+

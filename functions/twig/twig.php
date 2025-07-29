@@ -341,6 +341,10 @@ if (preg_match('#^album/([\w\-]+)/(.+)$#', $uri, $matches)) {
         'url' => '/album/' . rawurlencode($albumSlug) . '/' . rawurlencode($filename),
         'url_single' => '/i/' . rawurlencode($filename),
     ];
+        $imageData['goback'] = [
+        'url' => '/album/' . rawurlencode($albumSlug),
+        'label' => $album['name'] ?? ucfirst($albumSlug),
+    ];
 
     $data['image'] = $imageData;
     $data['title'] = $imageData['title'];
@@ -746,6 +750,10 @@ if (preg_match('#^timeline/(.+)$#', $uri, $matches)) {
             'file' => get_cacheimage($filename),
             'url' => '/timeline/' . rawurlencode($filename),
             'url_single' => '/i/' . rawurlencode($filename),
+        ];
+        $imageData['goback'] = [
+            'url' => '/timeline',
+            'label' => 'Timeline',
         ];
 
         $data['image'] = $imageData;

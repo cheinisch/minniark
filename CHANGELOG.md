@@ -9,7 +9,7 @@
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.7.1...v2025.7.3
 
 ### New Features
-- Add License Key for AI functions
+- Add License Key for upcoming AI functions
 - Add optional Sitemap
 
 ### Changes

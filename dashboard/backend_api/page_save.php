@@ -65,6 +65,7 @@ if (empty($original)) {
     $success = updatepage($slug, $data, $originalSlug);
 
     if ($success) {
+        sitemap();
         header("Location: ../page-detail.php?edit=$slug");
         exit;
     } else {

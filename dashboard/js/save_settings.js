@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', function () {
     const sitemapForm = document.getElementById('change-sitemap-form');
     const sitemapSwitch = document.getElementById('sitemap_enable');
+    const sitemapImagesSwitch = document.getElementById('sitemap_images_enable');
 
-    // Optional: Erfolg/Fehler-Benachrichtigungen, falls du sie implementierst
     const successNotification = document.getElementById('notification-sitemap-success');
     const errorNotification = document.getElementById('notification-sitemap-error');
 
@@ -54,36 +54,41 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         const sitemapEnabled = sitemapSwitch.getAttribute('aria-checked') === 'true';
+        const sitemapImagesEnabled = sitemapImagesSwitch.getAttribute('aria-checked') === 'true';
 
         const data = {
-            sitemap_enable: sitemapEnabled
+            sitemap_enable: sitemapEnabled,
+            sitemap_images_enable: sitemapImagesEnabled
         };
 
         try {
-            const response = await fetch('../api/change_sitesettings.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+    const response = await fetch('../api/change_sitesettings.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
 
-            const result = await response.json();
+    const text = await response.text(); // holt Rohtext
+    console.log('Raw response:', text);
 
-            if (result.success) {
-                successNotification?.classList.remove('hidden');
-                errorNotification?.classList.add('hidden');
-            } else {
-                errorNotification?.classList.remove('hidden');
-                successNotification?.classList.add('hidden');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            errorNotification?.classList.remove('hidden');
-            successNotification?.classList.add('hidden');
-        }
+    const result = JSON.parse(text); // hier evtl. Fehler
+    if (result.success) {
+        successNotification.classList.remove('hidden');
+        errorNotification.classList.add('hidden');
+    } else {
+        errorNotification.classList.remove('hidden');
+        successNotification.classList.add('hidden');
+    }
+} catch (error) {
+    console.error('Fehler beim Parsen der Antwort:', error);
+    errorNotification.classList.remove('hidden');
+    successNotification.classList.add('hidden');
+}
     });
 });
+
 
 
 document.addEventListener('DOMContentLoaded', function () {

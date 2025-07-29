@@ -4,7 +4,7 @@
 
 - edit images (flip, rotate)
 
-- sitemap.xml
+- ~~sitemap.xml~~
 
 - ai integration
 

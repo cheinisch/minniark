@@ -1,7 +1,9 @@
 <?php
+
 header('Content-Type: application/json');
 
 require_once(__DIR__ . '/../functions/function_api.php');
+require_once(__DIR__ . '/../functions/backend/sitemap.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Symfony\Component\Yaml\Yaml;
@@ -32,7 +34,10 @@ $defaultSettings = [
     'map' => [
         'enable' => false
     ],
-    'sitemap' => false
+    'sitemap' => [
+        'active' => false,
+        'images' => false
+    ]
 ];
 
 // YAML laden oder initialisieren
@@ -72,7 +77,11 @@ if (isset($input['map_enable'])) {
     $settings['map']['enable'] = (bool)$input['map_enable'];
 }
 if (isset($input['sitemap_enable'])) {
-    $settings['sitemap'] = (bool)$input['sitemap_enable'];
+    //sitemap();
+    $settings['sitemap']['active'] = (bool)$input['sitemap_enable'];
+}
+if (isset($input['sitemap_images_enable'])) {
+    $settings['sitemap']['images'] = (bool)$input['sitemap_images_enable'];
 }
 if (isset($input['theme'])) {
     $settings['theme'] = $input['theme'];
@@ -81,6 +90,9 @@ if (isset($input['theme'])) {
 // Speichern
 try {
     file_put_contents($settingsFile, Yaml::dump($settings, 4, 2));
+    if (isset($input['sitemap_enable'])) {
+        sitemap();
+    }
     echo json_encode(['success' => true]);
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'Fehler beim Speichern: ' . $e->getMessage()]);

@@ -59,7 +59,13 @@ function is_timeline_enabled()
 function is_sitemap_enabled()
 {
     $settings = get_settings_array();
-    return !empty($settings['sitemap']) ? "true" : "false";
+    return !empty($settings['sitemap']['active']) ? "true" : "false";
+}
+
+function is_sitemap_images_enabled()
+{
+    $settings = get_settings_array();
+    return !empty($settings['sitemap']['images']) ? "true" : "false";
 }
 
 function is_timeline_grouped()

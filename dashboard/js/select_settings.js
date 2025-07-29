@@ -193,7 +193,8 @@ document.addEventListener('DOMContentLoaded', function () {
       'timline_enable',
       'timline_group',
       'map_enable',
-      'sitemap_enable'
+      'sitemap_enable',
+      'sitemap_images_enable'
   ];
 
   switchIds.forEach(id => {

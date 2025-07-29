@@ -327,7 +327,7 @@
                 </div>
 
 
-                <div class="md:col-span-3">
+                <div class="md:col-span-4">
                   <div class="grid w-full grid-cols-1 sm:grid-cols-4 gap-x-6 gap-y-8">
                     <?php foreach ($themes as $theme): ?>
                       <?php

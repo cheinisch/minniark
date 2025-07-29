@@ -192,7 +192,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const switchIds = [
       'timline_enable',
       'timline_group',
-      'map_enable'
+      'map_enable',
+      'sitemap_enable'
   ];
 
   switchIds.forEach(id => {

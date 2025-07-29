@@ -31,7 +31,8 @@ $defaultSettings = [
     ],
     'map' => [
         'enable' => false
-    ]
+    ],
+    'sitemap' => false
 ];
 
 // YAML laden oder initialisieren
@@ -69,6 +70,9 @@ if (isset($input['timeline_group_by_date'])) {
 }
 if (isset($input['map_enable'])) {
     $settings['map']['enable'] = (bool)$input['map_enable'];
+}
+if (isset($input['sitemap_enable'])) {
+    $settings['sitemap'] = (bool)$input['sitemap_enable'];
 }
 if (isset($input['theme'])) {
     $settings['theme'] = $input['theme'];

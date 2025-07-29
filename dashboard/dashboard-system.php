@@ -419,6 +419,47 @@
                   </div>
                 </form>
               </div>
+              <!-- Sitemap Settings -->
+              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+              <div>
+                <h2 class="text-base/7 font-semibold text-white">Sitemap Settings</h2>
+                <p class="mt-1 text-sm/6 text-gray-400"></p>
+              </div>
+
+              <form class="md:col-span-2" id="change-sitemap-form">
+                <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+                  <!-- Erfolgsmeldung (grün) -->
+                    <div id="notification-sitemap-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Success!</strong>
+                      <span class="block sm:inline">Settings are saved.</span>
+                    </div>
+
+                    <!-- Fehlermeldung (rot) -->
+                    <div id="notification-sitemap-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
+                      <strong class="font-bold">Error!</strong>
+                      <span class="block sm:inline">Settings not changed.</span>
+                    </div>
+                  <div class="col-span-full">
+                    <div class="flex items-center justify-between">
+                      <span class="flex grow flex-col">
+                        <span class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">Enable Sitemap</span>
+                        <span class="text-sm text-gray-500" id="availability-description">Enables the sitemap.xml in the root directory</span>
+                      </span>
+                      <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                      <button type="button" id="sitemap_enable" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden" role="switch" aria-checked="<?php echo is_sitemap_enabled(); ?>" aria-labelledby="availability-label" aria-describedby="availability-description">
+                        <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                        <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-8 flex">
+                  <button type="submit" id="btn_sitemap" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                </div>
+              </form>
+            </div>
+
 
               <!-- Supporter License -->
                <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">

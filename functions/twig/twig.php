@@ -175,6 +175,7 @@ if (preg_match('#^album/([\w\-]+)$#', $uri, $matches)) {
                     $imageList[] = [
                         'file' => $cacheDir . $guid . '_' . $imageSize . '.jpg',
                         'url'  => '/album/' . rawurlencode($slug) . '/' . rawurlencode($img),
+                        'url.single'  => '/i/' . rawurlencode($img),
                         'title' => $meta['title'] ?? '',
                     ];
                 }
@@ -337,6 +338,8 @@ if (preg_match('#^album/([\w\-]+)/(.+)$#', $uri, $matches)) {
         'upload_date' => $meta['uploaded_at'] ?? '',
         'exif' => $normalizedExif,
         'file' => get_cacheimage($filename),
+        'url' => '/album/' . rawurlencode($albumSlug) . '/' . rawurlencode($filename),
+        'url_single' => '/i/' . rawurlencode($filename),
     ];
 
     $data['image'] = $imageData;
@@ -354,7 +357,7 @@ if (preg_match('#^album/([\w\-]+)/(.+)$#', $uri, $matches)) {
     exit;
 }
 
-
+// single image data
 
 if (preg_match('#^i/(.+)$#', $uri, $matches)) {
     $filename = basename($matches[1]);
@@ -741,6 +744,8 @@ if (preg_match('#^timeline/(.+)$#', $uri, $matches)) {
             'upload_date' => $meta['uploaded_at'] ?? '',
             'exif' => $normalizedExif,
             'file' => get_cacheimage($filename),
+            'url' => '/timeline/' . rawurlencode($filename),
+            'url_single' => '/i/' . rawurlencode($filename),
         ];
 
         $data['image'] = $imageData;

@@ -94,6 +94,7 @@ function getTimelineImagesFromYaml(string $mediaPath = 'userdata/content/images/
             ],
             'file' => "cache/images/{$guid}_" . strtoupper($defaultSize) . ".jpg",
             'url' => "/timeline/" . $filename,
+            'url_single' => "/i/" . $filename,
             'date' => $date,
         ];
     }

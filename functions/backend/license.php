@@ -172,3 +172,10 @@ function deactivateKey(string $key): void
     }
 }
 
+
+function license_isActive(): bool
+{
+    $info = getLicenseInformation();
+
+    return isset($info['valid'], $info['expired']) && $info['valid'] === true && $info['expired'] === false;
+}

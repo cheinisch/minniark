@@ -344,12 +344,23 @@
                   </div>
 
                   <div id="button_group" class="space-x-2 mt-2">
+                    
                     <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
                       Edit
                     </button>
                     <button type="button" id="cancel_edit" class="invisible relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
                       Cancel
                     </button>
+                    <?php
+                      if(license_isActive() && isAI_active())
+                      {
+                    ?>
+                    <button type="button" id="generate_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+                      Generate AI Text
+                    </button>
+                    <?php
+                      }
+                    ?>
                   </div>
                 </article>
               </div>

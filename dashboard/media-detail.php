@@ -343,24 +343,29 @@
                     <textarea id="edit-description" class="hidden w-full mt-2 p-1 border rounded text-sm"><?php echo htmlspecialchars($description); ?></textarea>
                   </div>
 
-                  <div id="button_group" class="space-x-2 mt-2">
-                    
-                    <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      Edit
-                    </button>
-                    <button type="button" id="cancel_edit" class="invisible relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
-                      Cancel
-                    </button>
-                    <?php
-                      if(license_isActive() && isAI_active())
-                      {
-                    ?>
-                    <button type="button" id="generate_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                      Generate AI Text
-                    </button>
-                    <?php
-                      }
-                    ?>
+                  <div id="button_group" class="flex space-x-2 mt-2">
+                    <div id="editBtnDiv" class="">
+                      <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+                        Edit
+                      </button>
+                    </div>
+                    <div id="saveBtnDiv" class="hidden">
+                      <button type="button" id="save_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+                        Save
+                      </button>
+                    </div>
+                    <div id="cancelBtnDiv" class="hidden">
+                      <button type="button" id="cancel_edit" class="relative inline-flex items-center gap-x-1.5 bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
+                        Cancel
+                      </button>
+                    </div>
+                    <?php if(license_isActive() && isAI_active()) { ?>
+                    <div>
+                      <button type="button" id="generate_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+                        Generate AI Text
+                      </button>
+                    </div>
+                    <?php } ?>
                   </div>
                 </article>
               </div>

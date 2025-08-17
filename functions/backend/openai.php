@@ -31,6 +31,9 @@ function getOpenAIKey($key): ?string
 
 function generateOpenAIImageText(array $meta, int $targetWords = 250, string $language = 'en'): string
 {
+    // Modell fest auf günstiges GPT-4 setzen
+    $MODEL = 'gpt-4o-mini';
+
     // OpenAI-Key holen
     $apiKey = getOpenAIKey(null);
     if (empty($apiKey)) {
@@ -39,6 +42,10 @@ function generateOpenAIImageText(array $meta, int $targetWords = 250, string $la
 
     // Ziel-Wortzahl absichern
     $targetWords = max(50, $targetWords);
+
+    // Tokens sparsam kalkulieren (~0.75 Worte je Token) + Sicherheitsaufschlag
+    $approxTokens = (int)ceil($targetWords / 0.75) + 150; // Puffer für System/Userprompt
+    $maxTokens = min(900, max(300, $approxTokens));       // harte Grenzen
 
     // Metadaten zu Textblock formen
     $lines = [];
@@ -55,15 +62,15 @@ function generateOpenAIImageText(array $meta, int $targetWords = 250, string $la
     }
     $metadataBlock = implode("\n", $lines);
 
-    // Chat-Nachrichten
     $messages = [
         [
             "role" => "system",
-            "content" => "You are a helpful assistant that writes vivid, natural-sounding photo descriptions for websites.
+            "content" =>
+                "You are a helpful assistant that writes vivid, natural-sounding photo descriptions for websites.
 - Write in {$language}.
 - Output ONLY the description paragraph, no titles, no markdown, no bullet points.
 - Aim for about {$targetWords} words.
-- Keep it accessible (avoid heavy jargon), but you may include subtle photographic details.
+- Keep it accessible (avoid heavy jargon), include subtle photographic details when justified by metadata.
 - Do not invent facts beyond what metadata reasonably implies."
         ],
         [
@@ -75,12 +82,11 @@ function generateOpenAIImageText(array $meta, int $targetWords = 250, string $la
         ]
     ];
 
-    // Request vorbereiten
     $payload = [
-        "model"       => "gpt-4o-mini",
+        "model"       => $MODEL,
         "messages"    => $messages,
         "temperature" => 0.7,
-        "max_tokens"  => 700
+        "max_tokens"  => $maxTokens
     ];
 
     $ch = curl_init("https://api.openai.com/v1/chat/completions");
@@ -118,10 +124,10 @@ function generateOpenAIImageText(array $meta, int $targetWords = 250, string $la
         return "Error: No content returned.";
     }
 
-    // Grobe Bereinigung
     $text = trim($text);
-    $text = preg_replace('/^#+\s*/', '', $text); // evtl. Markdown-Heading entfernen
+    $text = preg_replace('/^#+\s*/', '', $text);
     $text = trim($text, "\"' \t\n\r\0\x0B");
 
     return $text;
 }
+

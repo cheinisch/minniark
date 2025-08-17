@@ -1,8 +1,10 @@
 name: Deploy Release via FTP
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"        # löst bei Tags wie v1.0.0 aus
+  workflow_dispatch:  # manuell im Actions-Tab startbar
 
 jobs:
   deploy:

@@ -34,34 +34,34 @@
     ],
     ];
 
-    // 1) OpenAI-Text generieren
-$generated = generateOpenAIImageText($meta, $contentlength, $language);
+    // 1)AI-Text generieren
+    $generated = generateOpenAIImageText($meta, $contentlength, $language);
 
-// Fehlerbehandlung OpenAI
-if (is_string($generated) && str_starts_with($generated, 'Error:')) {
-  // optional: Fehlermeldung loggen/weiterreichen
-  error_log("AI generation failed: " . $generated);
-  header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=fail");
-  exit;
-}
+    // Fehlerbehandlung AI
+    if (is_string($generated) && str_starts_with($generated, 'Error:')) {
+    // optional: Fehlermeldung loggen/weiterreichen
+    error_log("AI generation failed: " . $generated);
+    header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=fail");
+    exit;
+    }
 
-    // 2) YAML speichern (updateImage erwartet Daten + Typ)
-        $saveData = [
-        'filename'    => $imageData['filename'],          // WICHTIG!
-        'title'       => $imageData['title'] ?? null,     // optional
-        'description' => $generated,                      // neue Beschreibung
-        ];
+        // 2) YAML speichern (updateImage erwartet Daten + Typ)
+            $saveData = [
+            'filename'    => $imageData['filename'],          // WICHTIG!
+            'title'       => $imageData['title'] ?? null,     // optional
+            'description' => $generated,                      // neue Beschreibung
+            ];
 
-        $ok = updateImage($saveData, 'description');
+            $ok = updateImage($saveData, 'description');
 
-        // 3) Redirect zurück zur Detailseite
-        if ($ok) {
-            header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=ok");
-            exit;
-        } else {
-            error_log("updateImage failed for {$imageData['filename']}");
-            header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=savefail");
-            exit;
-        }
+            // 3) Redirect zurück zur Detailseite
+            if ($ok) {
+                header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=ok");
+                exit;
+            } else {
+                error_log("updateImage failed for {$imageData['filename']}");
+                header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=savefail");
+                exit;
+            }
 
 ?>

@@ -56,12 +56,12 @@ if (is_string($generated) && str_starts_with($generated, 'Error:')) {
 
         // 3) Redirect zurück zur Detailseite
         if ($ok) {
-        header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=ok");
-        exit;
+            header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=ok");
+            exit;
         } else {
-        error_log("updateImage failed for {$imageData['filename']}");
-        header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=savefail");
-        exit;
+            error_log("updateImage failed for {$imageData['filename']}");
+            header("Location: ../media-detail.php?image=" . urlencode($file) . "&gen=savefail");
+            exit;
         }
 
 ?>

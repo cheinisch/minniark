@@ -516,94 +516,97 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
     }
 
     function updateImage(array $data = [], string $type = 'description'): bool
-    {
-        echo '<br />';
-        print_r($data);
-        echo '<br />';
-        if (empty($data['filename'])) {
-            error_log("Dateiname fehlt.");
-            return false;
-        }
+{
+    if (empty($data['filename'])) {
+        error_log("Dateiname fehlt.");
+        return false;
+    }
 
-        $filename = basename($data['filename']);
-        $slug     = pathinfo($filename, PATHINFO_FILENAME);
-        $file     = __DIR__ . "/../../userdata/content/images/{$slug}.yml";
+    $filename = basename($data['filename']);
+    $slug     = pathinfo($filename, PATHINFO_FILENAME);
 
-        // YAML laden oder leere Struktur
-        $yaml = [];
-        if (file_exists($file)) {
-            try {
-                $yaml = Yaml::parseFile($file);
-            } catch (Exception $e) {
-                error_log("Fehler beim Laden der YAML: " . $e->getMessage());
-                return false;
-            }
-        }
+    $yamlFile = __DIR__ . "/../../userdata/content/images/{$slug}.yml";
+    $mdFile   = __DIR__ . "/../../userdata/content/images/{$slug}.md";
 
-        $yaml['image'] = $yaml['image'] ?? [];
-
-        if ($type === 'description') {
-            if (!empty($data['title'])) {
-                $yaml['image']['title'] = trim($data['title']);
-            }
-
-            if (!empty($data['description'])) {
-                $yaml['image']['description'] = trim($data['description']);
-            }
-
-        } elseif ($type === 'exif') {
-            // Exif initialisieren, falls nötig
-            if (!isset($yaml['image']['exif']) || !is_array($yaml['image']['exif'])) {
-                $yaml['image']['exif'] = [];
-            }
-
-            // Exif-Felder direkt übernehmen (z. B. Camera, Date, etc.)
-            if (isset($data['exif']) && is_array($data['exif'])) {
-                foreach ($data['exif'] as $key => $value) {
-                    $key = trim($key);
-                    if ($key !== '' && trim((string)$value) !== '') {
-                        $yaml['image']['exif'][$key] = trim($value);
-                    }
-                }
-            }
-
-            // Debug (falls benötigt)
-            error_log("Typ von gps: " . gettype($data['gps'] ?? null));
-            error_log("Inhalt gps: " . print_r($data['gps'] ?? [], true));
-
-            // GPS-Daten ergänzen, wenn gültig
-            if (isset($data['gps']) && is_array($data['gps'])) {
-                // Initialisiere GPS nur, wenn es Werte gibt
-                $gps = [];
-
-                if (isset($data['gps']['latitude']) && $data['gps']['latitude'] !== '') {
-                    $gps['latitude'] = (float)$data['gps']['latitude'];
-                }
-
-                if (isset($data['gps']['longitude']) && $data['gps']['longitude'] !== '') {
-                    $gps['longitude'] = (float)$data['gps']['longitude'];
-                }
-
-                if (!empty($gps)) {
-                    $yaml['image']['exif']['GPS'] = $gps;
-                }
-            }
-
-        }
-
-        // updated_at immer setzen
-        $yaml['image']['updated_at'] = date('Y-m-d H:i:s');
-        print_r($yaml);
-        // Speichern
+    // YAML laden oder leere Struktur
+    $yaml = [];
+    if (file_exists($yamlFile)) {
         try {
-            $dump = Yaml::dump($yaml, 2, 4);
-            file_put_contents($file, $dump);
-            return true;
+            $yaml = Yaml::parseFile($yamlFile);
         } catch (Exception $e) {
-            error_log("Fehler beim Speichern: " . $e->getMessage());
+            error_log("Fehler beim Laden der YAML: " . $e->getMessage());
             return false;
         }
     }
+
+    $yaml['image'] = $yaml['image'] ?? [];
+
+    if ($type === 'description') {
+        // Titel weiterhin in YAML pflegen (optional)
+        if (!empty($data['title'])) {
+            $yaml['image']['title'] = trim($data['title']);
+        }
+
+        // Beschreibung NICHT in YAML speichern, sondern in .md
+        // Falls vorher mal description in YAML existierte, entfernen:
+        if (isset($yaml['image']['description'])) {
+            unset($yaml['image']['description']);
+        }
+
+        // .md schreiben (leer ist erlaubt → löscht/überschreibt Inhalt)
+        $desc = isset($data['description']) ? (string)$data['description'] : '';
+        try {
+            // Du kannst hier weitere Normalisierung machen (z. B. \r\n → \n)
+            file_put_contents($mdFile, $desc);
+        } catch (Exception $e) {
+            error_log("Fehler beim Schreiben der MD-Datei: " . $e->getMessage());
+            return false;
+        }
+
+    } elseif ($type === 'exif') {
+        // Exif initialisieren, falls nötig
+        if (!isset($yaml['image']['exif']) || !is_array($yaml['image']['exif'])) {
+            $yaml['image']['exif'] = [];
+        }
+
+        // Exif-Felder direkt übernehmen (z. B. Camera, Date, etc.)
+        if (isset($data['exif']) && is_array($data['exif'])) {
+            foreach ($data['exif'] as $key => $value) {
+                $key = trim($key);
+                if ($key !== '' && trim((string)$value) !== '') {
+                    $yaml['image']['exif'][$key] = trim($value);
+                }
+            }
+        }
+
+        // GPS-Daten ergänzen, wenn gültig
+        if (isset($data['gps']) && is_array($data['gps'])) {
+            $gps = [];
+            if (isset($data['gps']['latitude']) && $data['gps']['latitude'] !== '') {
+                $gps['latitude'] = (float)$data['gps']['latitude'];
+            }
+            if (isset($data['gps']['longitude']) && $data['gps']['longitude'] !== '') {
+                $gps['longitude'] = (float)$data['gps']['longitude'];
+            }
+            if (!empty($gps)) {
+                $yaml['image']['exif']['GPS'] = $gps;
+            }
+        }
+    }
+
+    // updated_at immer setzen
+    $yaml['image']['updated_at'] = date('Y-m-d H:i:s');
+
+    // YAML speichern
+    try {
+        $dump = Yaml::dump($yaml, 2, 4);
+        file_put_contents($yamlFile, $dump);
+        return true;
+    } catch (Exception $e) {
+        error_log("Fehler beim Speichern der YAML: " . $e->getMessage());
+        return false;
+    }
+}
 
 
 

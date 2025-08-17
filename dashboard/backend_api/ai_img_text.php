@@ -12,6 +12,12 @@
     $contentlength = 250;   // Ziel-Wortzahl (ändern falls Zeichen gewünscht)
     $language      = "en";  // "de", "en", ...
 
+    // GPS-Daten für OpenStreetMap
+    $latitude = $imageData['exif']['GPS']['latitude'] ?? 0;
+    $longitude = $imageData['exif']['GPS']['longitude'] ?? 0;
+  
+    $hasGPS = !is_null($latitude) && !is_null($longitude);
+
     $meta = [
     'title'        => $imageData['title']                 ?? null,
     'camera'       => $imageData['exif']['Camera']        ?? null,

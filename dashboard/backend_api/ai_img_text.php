@@ -30,4 +30,7 @@
 
     $imageText = generateOpenAIImageText($meta, $contentlength, $language);
 
+
+    echo $imageText;
+
 ?>

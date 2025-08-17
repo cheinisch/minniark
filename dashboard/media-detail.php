@@ -102,6 +102,21 @@
         ></script>
     </head>
     <body class="min-h-screen flex flex-col">
+      <!-- Confirm AI Modal -->
+      <div id="confirmAiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+          <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+            <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
+              <h2 class="text-xl font-semibold text-gray-800">AI Text generation Confirmation</h2>
+              <p class="mt-4 text-gray-600">Do you really wan't to generate a AI description? The current text will be removed.</p>
+              <div class="flex justify-end mt-6 space-x-3">
+                <button id="confirmNo" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Cancel</button>
+                <a href="backend_api/ai_img_text.php?file=<?php echo $image_url; ?>" id="confirmYes" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Generate</a>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- ImageEdit Modal -->
       <div id="imageEditorModal" class="fixed inset-0 z-60 bg-gray-500/75 transition-opacity hidden flex justify-center items-center">
         <div class="bg-white w-full max-w-6xl h-[90vh] shadow-xl flex flex-col border border-gray-700">
@@ -454,6 +469,9 @@
         <script src="js/edit_text.js"></script>
         <script src="js/sync_exifdata.js?<?=time()?>"></script>
         <script src="js/edit_exifdata.js"></script>
+        <?php if(license_isActive() && isAI_active()) { ?>
+        <script src="js/ai_generate_imagetxt.js"></script>
+        <?php } ?>
         <script src="js/file_upload.js"></script>
         <!--<script src="js/image_delete.js"></script>-->
         <script>

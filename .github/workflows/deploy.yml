@@ -9,19 +9,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Zip project
-        run: zip -r latest.zip .
+      - name: Create latest.zip
+        run: |
+          rm -f latest.zip
+          zip -r latest.zip . -x ".git/*" ".github/*" "node_modules/*"
 
-      - name: Upload via FTP
+      - name: Prepare upload dir
+        run: |
+          rm -rf upload && mkdir upload
+          mv latest.zip upload/
+
+      - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./latest.zip
+          local-dir: ./upload/   # << muss mit / enden
           server-dir: /minniark/

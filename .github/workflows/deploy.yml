@@ -10,24 +10,22 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Create latest.zip
         run: |
           rm -f latest.zip
           zip -r latest.zip . -x ".git/*" ".github/*" "node_modules/*"
-
-      - name: Prepare upload dir
+      - name: Upload via FTP (curl IPv4, no EPSV)
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}   # am besten direkt die IPv4-Adresse!
+          FTP_USER:   ${{ secrets.FTP_USER }}
+          FTP_PASS:   ${{ secrets.FTP_PASSWORD }}
         run: |
-          rm -rf upload && mkdir upload
-          mv latest.zip upload/
-
-      - name: FTP deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./upload/   # << muss mit / enden
-          server-dir: /minniark/
+          # Verzeichnis anlegen (ignorieren, wenn schon vorhanden)
+          curl -sS --ipv4 --user "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER/minniark/" || true
+          # Upload: IPv4 erzwingen, EPSV (IPv6/Firewall-Problem) deaktivieren
+          curl -sS --fail --ipv4 --disable-epsv \
+               --ftp-method nocwd \
+               -T latest.zip \
+               --user "$FTP_USER:$FTP_PASS" \
+               "ftp://$FTP_SERVER/minniark/latest.zip"

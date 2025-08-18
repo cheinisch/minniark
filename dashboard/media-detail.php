@@ -56,6 +56,15 @@
     $longitude = $imageData['exif']['GPS']['longitude'] ?? 0;
   
     $hasGPS = !is_null($latitude) && !is_null($longitude);
+
+    // Tags auslesen
+
+    // ---- Tags vorbereiten ----
+    $tags = $imageData['tags'] ?? [];  // falls im YAML vorhanden
+    if (!is_array($tags)) {
+        // falls als String gespeichert → in Array umwandeln
+        $tags = array_map('trim', explode(',', $tags));
+    }
 ?>
 
 <!DOCTYPE html>
@@ -426,7 +435,21 @@
                     </li>
                     <li class="flex justify-between py-2">
                       <span class="font-medium">Tags</span>
-                      <span>coming soon</span>
+                      <div class="ml-2 flex flex-wrap gap-2">
+                        <?php foreach ($tags as $tag): ?>
+                          <span class="bg-sky-600 px-2 py-0.5 text-white border border-sky-600 rounded-lg">
+                            <?= htmlspecialchars($tag) ?>
+                            <a href="backend_api/remove_tags.php?type=image&file=<?= urlencode($image_url) ?>&tag=<?= urlencode($tag) ?>"
+                              class="ml-1 hover:text-red-500">&#x2715;</a>
+                          </span>
+                        <?php endforeach; ?>
+                      </div>
+                    </li>
+
+                    <li class="flex justify-between py-2">
+                      <form action="backend_api/add_tags.php?type=image&file=<?php echo $image_url;?>" method="post" class="w-full">
+                        <input type="text" name="tag" class="w-full border border-gray-200" placeholder="Add Tags"/>
+                      </form>
                     </li>
                   </ul>
                   <h2 class="text-xl font-semibold">GPS Data</h2>

@@ -3,6 +3,20 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
+## [2025.8.0]
+2025-08-18
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.7.3...v2025.8.0
+
+### New Features
+- Add Generate Image Description Button (with AI)
+- Add Tags to Images
+
+### Changes
+
+### Bug Fixes
+
+
 ## [2025.7.3]
 2025-07-29
 

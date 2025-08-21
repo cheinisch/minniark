@@ -5,6 +5,8 @@
   // Prüfen, ob ein bestimmtes Jahr übergeben wurde
   $filterYear = isset($_GET['year']) ? $_GET['year'] : null;
   $filterRating = isset($_GET['rating']) ? $_GET['rating'] : null;
+  $filterTag = isset($_GET['tag']) ? $_GET['tag'] : null;
+  $filterCountry = isset($_GET['country']) ? $_GET['country'] : null;
 
   $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
   $direction = isset($_GET['dir']) ? $_GET['dir'] : null;
@@ -402,6 +404,14 @@
                   <ul class="px-5">
                     <?php get_ratinglist(false); ?>
                   </ul>
+                  <li>Tags</li>
+                  <ul class="px-5">
+                    <?php getTagsList(false, 'alpha'); ?>
+                  </ul>
+                  <li>Countries</li>
+                  <ul class="px-5">
+                    <?php getCountries(false); ?>
+                  </ul>
                   <li class="flex items-center gap-1">
                     Albums (<a href="#" id="add-album">add new</a>)
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -478,7 +488,7 @@
             <!-- Content Mainblock -->
             <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap gap-4">
               <?php
-                renderImageGallery($filterYear, $filterRating, $sort, $direction); // Galerie ausgeben              
+                renderImageGallery($filterYear, $filterRating, $filterTag, $filterCountry, $sort, $direction); // Galerie ausgeben              
               ?>
             </div>
           </main>

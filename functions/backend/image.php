@@ -128,7 +128,7 @@ function getAllUploadedImages()
 
 
 
-function renderImageGallery($filterYear = null, $filterRating = null, $sort = null, $sort_direction = 'ASC')
+function renderImageGallery($filterYear = null, $filterRating = null, $filterTag = null, $filterCountry = null, $sort = null, $sort_direction = 'ASC')
 {
     $imageDir = '../userdata/content/images/';
     $files = glob($imageDir . '*.{jpg,jpeg,png,webp,gif}', GLOB_BRACE);
@@ -162,6 +162,53 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
 
         if ($filterRating !== null && (int)$rating !== (int)$filterRating) {
             continue;
+        }
+
+        $tagsRaw = $metadata['tags'] ?? [];
+        if (is_string($tagsRaw)) {
+            $tags = array_map('trim', explode(',', $tagsRaw));
+        } elseif (is_array($tagsRaw)) {
+            $tags = $tagsRaw;
+        } else {
+            $tags = [];
+        }
+        // normalisiert (case-insensitiv, leere raus)
+        $tagsNorm = array_values(array_filter(array_map(function($t){
+            if (!is_string($t)) return '';
+            $t = trim(preg_replace('/\s+/', ' ', $t));
+            if ($t !== '' && $t[0] === '#') $t = ltrim($t, '#');
+            return mb_strtolower($t);
+        }, $tags), fn($t) => $t !== ''));
+
+        $countryCode = $metadata['exif']['CountryCode'] ?? '';
+        $countryCode = is_string($countryCode) ? strtoupper(trim($countryCode)) : '';
+
+        if ($filterTag !== null) {
+            $needles = is_array($filterTag) ? $filterTag : [$filterTag];
+            $needles = array_values(array_filter(array_map(function($t){
+                return mb_strtolower(trim((string)$t));
+            }, $needles), fn($v)=>$v!==''));
+
+            if (!empty($needles)) {
+                $match = false;
+                foreach ($needles as $needle) {
+                    if (in_array($needle, $tagsNorm, true)) { $match = true; break; }
+                }
+                if (!$match) continue;
+            }
+        }
+
+        if ($filterCountry !== null) {
+            $fc = strtoupper(trim((string)$filterCountry));
+            $hasValidCode = (strlen($countryCode) === 2 && ctype_alpha($countryCode));
+
+            if ($fc === 'UN') {
+                // nur Bilder ohne gültigen ISO-2 Code
+                if ($hasValidCode) continue;
+            } else {
+                // exakte Übereinstimmung (ISO-2)
+                if (!$hasValidCode || $countryCode !== $fc) continue;
+            }
         }
 
         $images[] = [
@@ -955,3 +1002,382 @@ function renderImageGallery($filterYear = null, $filterRating = null, $sort = nu
 
         return true;
     }
+
+/**
+ * Länder-Liste rendern:
+ * - Liest alle *.yml im Bilderverzeichnis
+ * - Falls GPS vorhanden und kein CountryCode: via Nominatim ermitteln und in YAML (uppercased) speichern
+ * - Zählt pro ISO2-Code (DE, FR, US, ...) – „UN“ für unbekannt
+ * - Rendert Liste; Label per Sprachdatei (Fallback: Code)
+ *
+ * @param bool $mobile Steuert das HTML (mobile vs. Desktop)
+ * @return void
+ */
+function getCountries(bool $mobile): void
+{
+    $imageDir = __DIR__ . '/../../userdata/content/images/';
+    $countryCounts = [];
+
+    if (!is_dir($imageDir)) {
+        echo $mobile
+            ? "<div class=\"pl-5 text-gray-500\">Keine Daten</div>\n"
+            : "<li class=\"text-gray-400\">Keine Daten</li>\n";
+        return;
+    }
+
+    foreach (glob($imageDir . '*.yml') as $filePath) {
+        try {
+            $yaml = Yaml::parseFile($filePath);
+        } catch (Exception $e) {
+            error_log("YAML-Fehler in $filePath: " . $e->getMessage());
+            continue;
+        }
+
+        $yaml = is_array($yaml) ? $yaml : [];
+        $img  = $yaml['image'] ?? [];
+        $exif = $img['exif'] ?? [];
+
+        // Aktuellen CountryCode lesen (erwartet 2 Buchstaben)
+        $countryCode = $exif['CountryCode'] ?? null;
+
+        // GPS-Koordinaten vorhanden?
+        $lat = isset($exif['GPS']['latitude'])  ? (float)$exif['GPS']['latitude']  : null;
+        $lon = isset($exif['GPS']['longitude']) ? (float)$exif['GPS']['longitude'] : null;
+
+        // Nur wenn kein valider Code vorhanden und GPS sinnvoll ist -> reverse geocoding
+        $needsLookup = !($countryCode && is_string($countryCode) && strlen(trim($countryCode)) === 2 && ctype_alpha($countryCode));
+        $hasCoords   = ($lat !== null && $lon !== null && ($lat !== 0.0 || $lon !== 0.0));
+
+        if ($needsLookup && $hasCoords) {
+            $code = nominatim_country_code($lat, $lon); // lowercase oder null
+            if ($code) {
+                // In YAML NUR den Ländercode (uppercase) persistieren
+                $yaml['image'] = $yaml['image'] ?? [];
+                $yaml['image']['exif'] = $yaml['image']['exif'] ?? [];
+                $yaml['image']['exif']['CountryCode'] = strtoupper($code);
+                $yaml['image']['updated_at'] = date('Y-m-d H:i:s');
+
+                try {
+                    file_put_contents($filePath, Yaml::dump($yaml, 2, 4), LOCK_EX);
+                    $countryCode = $yaml['image']['exif']['CountryCode'];
+                } catch (Exception $e) {
+                    error_log("Fehler beim Speichern CountryCode in $filePath: " . $e->getMessage());
+                }
+            }
+        }
+
+        // Zählen (nur gültige ISO2); sonst „UN“
+        if (is_string($countryCode)) {
+            $cc = strtoupper(trim($countryCode));
+            if (strlen($cc) === 2 && ctype_alpha($cc)) {
+                $countryCounts[$cc] = ($countryCounts[$cc] ?? 0) + 1;
+                continue;
+            }
+        }
+        $countryCounts['UN'] = ($countryCounts['UN'] ?? 0) + 1; // Unknown
+    }
+
+    if (empty($countryCounts)) {
+        echo $mobile
+            ? "<div class=\"pl-5 text-gray-500\">Keine Daten</div>\n"
+            : "<li class=\"text-gray-400\">Keine Daten</li>\n";
+        return;
+    }
+
+    // Sortierung: UN nach hinten; sonst Anzahl DESC, Code ASC
+    uksort($countryCounts, function ($a, $b) use ($countryCounts) {
+        if ($a === 'UN' && $b !== 'UN') return 1;
+        if ($b === 'UN' && $a !== 'UN') return -1;
+        $ca = $countryCounts[$a] ?? 0;
+        $cb = $countryCounts[$b] ?? 0;
+        if ($ca === $cb) return strcmp($a, $b);
+        return $cb <=> $ca;
+    });
+
+    // Sprachlabels laden (z. B. aus Session; Fallback 'de')
+    $lang = get_language();
+    $translations = getCountryTranslations($lang);
+
+    foreach ($countryCounts as $code => $count) {
+        $label = $translations[$code] ?? ($code === 'UN' ? ($translations['UN'] ?? 'Unbekannt') : $code);
+        $url   = "media.php?country=" . urlencode($code);
+        $safe  = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
+
+        $html = $mobile
+            ? "<div class=\"pl-5\"><a href=\"$url\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$safe ($count)</a></div>"
+            : "<li><a href=\"$url\" class=\"text-gray-400 hover:text-sky-400\">$safe ($count)</a></li>";
+
+        echo $html . "\n";
+    }
+}
+
+
+/**
+ * Reverse-Geocoding via OSM Nominatim → ISO2-Ländercode (lowercase) oder null.
+ * - JSON-Disk-Cache (cache/geocode_country.json)
+ * - in-memory Cache (static)
+ * - sanftes Rate-Limit (1 req/s)
+ * - ein einfacher Retry bei HTTP 429
+ */
+function nominatim_country_code(float $lat, float $lon): ?string
+{
+    // In-Memory Cache (pro Request-Lebensdauer)
+    static $memCache = [];
+    $latKey = number_format($lat, 4, '.', ''); // ~11 m
+    $lonKey = number_format($lon, 4, '.', '');
+    $key    = $latKey . ',' . $lonKey;
+    if (isset($memCache[$key])) {
+        return $memCache[$key];
+    }
+
+    // Cache-Verzeichnis sicherstellen
+    $cacheDir = __DIR__ . '/../../cache';
+    if (!is_dir($cacheDir)) {
+        @mkdir($cacheDir, 0775, true);
+    }
+    $cacheFile = $cacheDir . '/geocode_country.json';
+
+    // Disk-Cache laden
+    $diskCache = [];
+    if (is_file($cacheFile)) {
+        $raw = @file_get_contents($cacheFile);
+        if ($raw !== false) {
+            $dec = json_decode($raw, true);
+            if (is_array($dec)) $diskCache = $dec;
+        }
+    }
+
+    if (!empty($diskCache[$key])) {
+        $code = is_string($diskCache[$key]) ? $diskCache[$key] : null;
+        $memCache[$key] = $code;
+        return $code;
+    }
+
+    // Rate-Limit (1 req/s)
+    static $lastCall = 0.0;
+    $now = microtime(true);
+    if ($now - $lastCall < 1.05) {
+        usleep((int)((1.05 - ($now - $lastCall)) * 1_000_000));
+    }
+
+    $url = "https://nominatim.openstreetmap.org/reverse?format=json&lat={$latKey}&lon={$lonKey}&zoom=3&addressdetails=1";
+    $ua  = 'Minniark-Media/1.0 (+contact@example.com)'; // <--- bitte echte Kontaktadresse setzen
+    $opts = [
+        'http' => [
+            'header'  => "User-Agent: $ua\r\nAccept: application/json\r\n",
+            'timeout' => 8,
+        ],
+    ];
+    $ctx = stream_context_create($opts);
+
+    $json = @file_get_contents($url, false, $ctx);
+    $lastCall = microtime(true);
+
+    // einfacher Retry bei 429 (Too Many Requests)
+    $status = null;
+    if (isset($http_response_header) && is_array($http_response_header)) {
+        foreach ($http_response_header as $h) {
+            if (preg_match('#^HTTP/\d\.\d\s+(\d{3})#', $h, $m)) {
+                $status = (int)$m[1];
+                break;
+            }
+        }
+    }
+    if ($json === false && $status === 429) {
+        usleep(1_500_000); // 1.5s warten
+        $json = @file_get_contents($url, false, $ctx);
+    }
+
+    if ($json === false) {
+        error_log("Nominatim: kein Response für $key");
+        return null;
+    }
+
+    $data = json_decode($json, true);
+    if (!is_array($data)) {
+        return null;
+    }
+
+    $code = $data['address']['country_code'] ?? null;
+    if (!is_string($code) || strlen($code) !== 2) {
+        return null;
+    }
+    $code = strtolower($code);
+
+    // In-Memory + Disk-Cache aktualisieren
+    $memCache[$key] = $code;
+    $diskCache[$key] = $code;
+    @file_put_contents($cacheFile, json_encode($diskCache, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), LOCK_EX);
+
+    return $code;
+}
+
+
+/**
+ * Lädt die Übersetzungen der Ländernamen für die Anzeige.
+ * Erwartet Datei: __DIR__/../../lang/<lang>.yml mit Struktur:
+ *
+ *  countries:
+ *    UN: Unbekannt
+ *    DE: Deutschland
+ *    FR: Frankreich
+ *    ...
+ *
+ * @param string|null $lang Sprachcode (z. B. 'de', 'en'); default: $_SESSION['lang'] oder 'de'
+ * @return array ['DE' => 'Deutschland', ...]
+ */
+function getCountryTranslations(?string $lang = null): array
+{
+    if ($lang === null) {
+        $lang = get_language();
+    }
+    error_log("Language: " . $lang);
+    $lang = preg_replace('/[^a-zA-Z_-]/', '', $lang) ?: 'en';
+
+    $langFile = __DIR__ . "/../../language/countries/$lang.yml";
+    if (!file_exists($langFile)) {
+        // Minimaler Fallback
+        return ['UN' => 'Unbekannt'];
+    }
+    try {
+        $yaml = Yaml::parseFile($langFile);
+        $map  = $yaml['countries'] ?? [];
+        if (!isset($map['UN'])) {
+            $map['UN'] = ($lang === 'en') ? 'Unknown' : 'Unbekannt';
+        }
+        return $map;
+    } catch (Exception $e) {
+        error_log("Fehler beim Laden der Sprachdatei $langFile: " . $e->getMessage());
+        return ['UN' => 'Unbekannt'];
+    }
+}
+
+/**
+ * Zählt alle Tags über alle Bild-YAMLs.
+ * - Tags können als Array oder als Komma-String vorliegen
+ * - Case-insensitiv zusammenführen, erste Schreibweise behalten
+ * - Führendes '#' wird entfernt, Whitespace normalisiert
+ *
+ * @return array ['counts'=>['tagkey'=>int,...], 'labels'=>['tagkey'=>'Anzeige',...]]
+ */
+function computeTagCounts(): array
+{
+    $imageDir = __DIR__ . '/../../userdata/content/images/';
+    $counts = [];
+    $labels = [];
+
+    if (!is_dir($imageDir)) {
+        return ['counts' => [], 'labels' => []];
+    }
+
+    foreach (glob($imageDir . '*.yml') as $filePath) {
+        try {
+            $yaml = Yaml::parseFile($filePath);
+        } catch (Exception $e) {
+            error_log("YAML-Fehler in $filePath: " . $e->getMessage());
+            continue;
+        }
+
+        $image = $yaml['image'] ?? [];
+        $tags  = $image['tags'] ?? [];
+
+        // Tags können als Array ODER String (kommagetrennt) vorliegen
+        if (is_string($tags)) {
+            $tags = array_map('trim', explode(',', $tags));
+        } elseif (!is_array($tags)) {
+            $tags = [];
+        }
+
+        foreach ($tags as $tag) {
+            if (!is_string($tag)) continue;
+
+            // Normalisieren
+            $t = trim(preg_replace('/\s+/', ' ', $tag));
+            if ($t === '') continue;
+            if ($t[0] === '#') $t = ltrim($t, '#'); // führendes '#' entfernen
+            if ($t === '') continue;
+
+            // Case-insensitive Key
+            $key = mb_strtolower($t);
+
+            // Erste Schreibweise merken
+            if (!isset($labels[$key])) {
+                $labels[$key] = $t;
+            }
+
+            // Zählen
+            $counts[$key] = ($counts[$key] ?? 0) + 1;
+        }
+    }
+
+    return ['counts' => $counts, 'labels' => $labels];
+}
+
+/**
+ * Rendert eine Tag-Liste (ähnlich Jahr-/Rating-Liste).
+ *
+ * @param bool   $mobile       true = mobiles HTML, false = Desktop-<li>
+ * @param string $sort         'alpha' (A→Z) oder 'count' (häufigste zuerst)
+ * @param int    $minCount     nur Tags mit mindestens so vielen Vorkommen
+ * @param int    $limit        0 = alle; sonst Top-N nach Sortierung
+ * @return void
+ */
+function getTagsList(bool $mobile, string $sort='alpha', int $minCount=1, int $limit=0): void
+{
+    $res = computeTagCounts();
+    $counts = $res['counts'];
+    $labels = $res['labels'];
+
+    if (empty($counts)) {
+        echo $mobile
+            ? "<div class=\"pl-5 text-gray-500\">Keine Tags</div>\n"
+            : "<li class=\"text-gray-400\">Keine Tags</li>\n";
+        return;
+    }
+
+    // Filtern nach minCount
+    $counts = array_filter($counts, fn($c) => $c >= $minCount);
+
+    if (empty($counts)) {
+        echo $mobile
+            ? "<div class=\"pl-5 text-gray-500\">Keine Tags</div>\n"
+            : "<li class=\"text-gray-400\">Keine Tags</li>\n";
+        return;
+    }
+
+    // Sortierung
+    if ($sort === 'count') {
+        // Häufigkeit DESC, Tiebreaker Label ASC
+        uksort($counts, function($a, $b) use ($counts, $labels) {
+            $ca = $counts[$a]; $cb = $counts[$b];
+            if ($ca === $cb) {
+                return strcasecmp($labels[$a] ?? $a, $labels[$b] ?? $b);
+            }
+            return $cb <=> $ca;
+        });
+    } else {
+        // Alphabetisch nach Label
+        uksort($counts, function($a, $b) use ($labels) {
+            return strcasecmp($labels[$a] ?? $a, $labels[$b] ?? $b);
+        });
+    }
+
+    // Limit anwenden
+    if ($limit > 0) {
+        $sliceKeys = array_slice(array_keys($counts), 0, $limit);
+        $counts = array_intersect_key($counts, array_flip($sliceKeys));
+    }
+
+    // Ausgabe
+    foreach ($counts as $key => $count) {
+        $label = $labels[$key] ?? $key;
+        $safe  = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
+        $url   = "media.php?tag=" . urlencode($label);
+
+        $html = $mobile
+            ? "<div class=\"pl-5\"><a href=\"$url\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$safe ($count)</a></div>"
+            : "<li><a href=\"$url\" class=\"text-gray-400 hover:text-sky-400\">$safe ($count)</a></li>";
+
+        echo $html . "\n";
+    }
+}

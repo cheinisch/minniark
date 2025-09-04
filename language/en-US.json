@@ -44,11 +44,17 @@
         "delete" : "Delete Image",
         "meta_edit" : "Edit Metadata",
         "meta_sync" : "Sync Metadata",
-        "meta" : "Metadata"
+        "meta" : "Metadata",
+        "information" : "Information"
     },
     "exif" :{
         "camera":"Camera",
         "iso" : "ISO",
+        "lens" : "Lens",
+        "aperture" : "Aperture",
+        "shutter_speed" : "Shutter Speed",
+        "focal_length" : "Focal Length",
+        "date" : "Date",
         "gps" : {
             "label" : "GPS Data",
             "lat" : "Lat",

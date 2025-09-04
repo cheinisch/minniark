@@ -3,7 +3,9 @@
         "dashboard": "Dashboard",
         "images": "Images",
         "blogposts":"Blogposts",
-        "pages":"Pages"
+        "pages":"Pages",
+        "your_profile":"Your Profile",
+        "sign_out":"Sign Out"
     },
     "login": {
         "login":"Login",
@@ -13,7 +15,12 @@
         "enter_otp":"Enter OTP",
         "username":"Username",
         "username_wrong":"Username is wrong"
-    },    
+    },
+    "dashboard_nav": {
+        "overview":"Overview",
+        "dashboard":"Dashboard",
+        "settings":"Settings"
+    },
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }
 }

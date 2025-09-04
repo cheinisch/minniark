@@ -3,7 +3,9 @@
         "dashboard": "Dashboard",
         "images": "Bilder",
         "blogposts":"Blog Beiträge",
-        "pages":"Seiten"
+        "pages":"Seiten",
+        "your_profile":"Dein Profil",
+        "sign_out":"Abmelden"
     },
     "login": {
         "login":"Anmelden",

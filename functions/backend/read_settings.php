@@ -35,7 +35,7 @@ function get_sitedescription()
 function get_language()
 {
     $settings = get_settings_array();
-    return $settings['language'] ?? 'en';
+    return $settings['language'] ?? 'en-US';
 }
 
 function get_imagesize()

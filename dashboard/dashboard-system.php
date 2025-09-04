@@ -49,10 +49,10 @@
                       </div>
                       <div class="hidden md:ml-6 md:flex md:space-x-8">
                         <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-base font-medium text-sky-400">Dashboard</a>
-                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Images</a>
-                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Blogposts</a>
-                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400">Pages</a>
+                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-base font-medium text-sky-400"><?php echo languageString('nav.dashboard'); ?></a>
+                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.images'); ?></a>
+                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.blogposts'); ?></a>
+                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.pages'); ?></a>
                       </div>
                     </div>
                     <div class="flex items-center">
@@ -102,16 +102,16 @@
                 <div class="md:hidden" id="mobile-menu">
                   <div class="space-y-1 pt-2 pb-3">
                     <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
-                    <a href="dashboard.php" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5">Dashboard</a>
-                    <a href="media.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Images</a>
-                    <a href="blog.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Blogposts</a>
-                    <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5">Pages</a>
+                    <a href="dashboard.php" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5"><?php echo languageString('nav.dashboard'); ?></a>
+                    <a href="media.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.images'); ?></a>
+                    <a href="blog.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.blogposts'); ?></a>
+                    <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.pages'); ?></a>
                   </div>
                   <div class="border-t border-gray-500 pt-4 pb-3">
                     <div class="mt-3 space-y-1">
                       <span class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Overview</span>
                       <div class="pl-5">
-                        <a href="dashboard.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Dashboard</a>
+                        <a href="dashboard.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('nav.dashboard'); ?></a>
                       </div>
                       <span class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</span>
                       <div class="pl-5">
@@ -200,24 +200,32 @@
                         </svg>
                       </button>
                       <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-language-label" aria-activedescendant="listbox-option-1">
-                        <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-language-option-0" role="option">
-                          <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                          <span class="block truncate font-normal">en</span>
-                          <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
+                      <?php 
+                              $langs = getLangFiles();
+                              $current = get_language();
+                              foreach ($langs as $i => $lang): 
+                              $selected = strcasecmp($lang, $current) === 0;
+                        ?>
+                        <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none"
+                            id="listbox-language-option-<?= (int)$i; ?>"
+                            role="option"
+                            aria-selected="<?= $selected ? 'true' : 'false'; ?>"
+                            data-lang="<?= htmlspecialchars($lang, ENT_QUOTES, 'UTF-8'); ?>">
+                          <span class="block truncate <?= $selected ? 'font-semibold' : 'font-normal'; ?>">
+                            <?= htmlspecialchars($lang, ENT_QUOTES, 'UTF-8'); ?>
+                          </span>
+                          <span class="<?= $selected ? '' : 'hidden'; ?> absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
                             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                               <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                             </svg>
                           </span>
                         </li>
-                        <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-language-option-1" role="option">
-                          <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                          <span class="block truncate font-normal">de</span>
-                          <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                            </svg>
-                          </span>
+                        <?php endforeach; ?>
+                        <?php if (empty($langs)): ?>
+                        <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-500 select-none" role="option" aria-disabled="true">
+                          <span class="block truncate italic">No languages found</span>
                         </li>
+                        <?php endif; ?>
                       </ul>
                     </div>
                   </div>

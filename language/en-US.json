@@ -1,9 +1,9 @@
 {
     "nav": {
         "dashboard": "Dashboard",
-        "images": "Bilder",
-        "blogposts":"Blog Beiträge",
-        "pages":"Seiten"
+        "images": "Images",
+        "blogposts":"Blogposts",
+        "pages":"Pages"
     },
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }

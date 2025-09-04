@@ -2,7 +2,7 @@
                   <ul role="list" class="-mx-2 space-y-1">
                     <li>Overview</li>
                     <ul class="px-5">
-                      <li><a href="dashboard.php" class="<?php if($settingspage != "dashboard"){ ?> text-gray-400 hover:<?php } ?>text-sky-400">Dashboard</a></li>
+                      <li><a href="dashboard.php" class="<?php if($settingspage != "dashboard"){ ?> text-gray-400 hover:<?php } ?>text-sky-400"><?php echo languageString('nav.dashboard'); ?></a></li>
                     </ul>
                     
                     <li>Settings</li>

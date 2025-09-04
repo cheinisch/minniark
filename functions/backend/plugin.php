@@ -143,7 +143,7 @@ HTML;
 
     echo <<<HTML
     <div class="mt-8 flex">
-      <button type="submit" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus:outline-sky-500">Save</button>
+      <button type="submit" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus:outline-sky-500"><?php echo languageString('general.save'); ?></button>
     </div>
     </div>
   </form>

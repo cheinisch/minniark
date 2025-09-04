@@ -233,7 +233,7 @@
                   <!-- Select ende -->
                   </div>
                   <div class="mt-8 flex">
-                    <button type="submit" id="btnSiteSettings" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btnSiteSettings" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
                   </div>
                 </form>
               </div>
@@ -331,7 +331,7 @@
                   </div>
 
                   <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>
+                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5"><?php echo languageString('general.save'); ?></button>
                     <button id="recreate-cache-button" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Recreate Cache</button>
                   </div>
                 </form>
@@ -384,7 +384,7 @@
                   </div>
 
                   <div class="mt-8 flex">
-                    <button type="submit" id="btn_timeline" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btn_timeline" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
                   </div>
                 </form>
               </div>
@@ -423,7 +423,7 @@
                   </div>
 
                   <div class="mt-8 flex">
-                    <button type="submit" id="btn_map" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btn_map" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
                   </div>
                 </form>
               </div>
@@ -476,7 +476,7 @@
                 </div>
 
                 <div class="mt-8 flex">
-                  <button type="submit" id="btn_sitemap" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                  <button type="submit" id="btn_sitemap" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
                 </div>
               </form>
             </div>
@@ -538,7 +538,7 @@
                     </div>
                   </div>
                   <div class="mt-8 flex">
-                    <button type="submit" id="btnSiteLicense" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btnSiteLicense" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
                   </div>                  
                 </form>
               </div>

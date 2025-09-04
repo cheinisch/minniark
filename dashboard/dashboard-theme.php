@@ -148,7 +148,7 @@
               <p class="mt-4 text-gray-600">Set <i>'.$name.'</i> as active theme?</p>
               <div class="flex justify-end mt-6 space-x-3">
                 <a href="backend_api/settheme.php?name='.$folder.'" class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-500">Ok</a>
-                <a href="?" class="px-4 py-2 bg-red-600 text-white hover:bg-red-500">Cancel</a>
+                <a href="?" class="px-4 py-2 bg-red-600 text-white hover:bg-red-500"><?php echo languageString('general.cancel'); ?></a>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@
               <p class="mt-4 text-gray-600">Remove <i>'.$name.'</i> from the system?</p>
               <div class="flex justify-end mt-6 space-x-3">
                 <a href="backend_api/thememodify.php?remove='.$folder.'" class="px-4 py-2 bg-sky-600 text-white hover:bg-sky-500">Ok</a>
-                <a href="?" class="px-4 py-2 bg-red-600 text-white hover:bg-red-500">Cancel</a>
+                <a href="?" class="px-4 py-2 bg-red-600 text-white hover:bg-red-500"><?php echo languageString('general.cancel'); ?></a>
               </div>
             </div>
           </div>

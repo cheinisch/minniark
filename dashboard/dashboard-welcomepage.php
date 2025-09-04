@@ -345,7 +345,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
                     <input type="hidden" name="welcome_content" id="welcome_content" value="<?php echo $home['startcontent']; ?>">
                   </div>
                   <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5">Save</button>
+                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5"><?php echo languageString('general.save'); ?></button>
                   </div>
                 </form>
               </div>
@@ -381,7 +381,7 @@ $startvaluePage = isInListPage($home['startcontent'],$pageList);
 
                   </div>
                   <div class="mt-8 flex">
-                    <button type="submit" id="btnWelcomeSite" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+                    <button type="submit" id="btnWelcomeSite" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
                   </div>
                 </form>
               </div>

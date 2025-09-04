@@ -1,4 +1,11 @@
 {
+    "general" : {
+        "save" : "Save",
+        "cancel" : "Cancel",
+        "edit" : "Edit",
+        "tags" : "Tags",
+        "tags_add" : "Add Tags"
+    },
     "nav": {
         "dashboard": "Dashboard",
         "images": "Images",
@@ -30,8 +37,12 @@
         "import_export":"Export / Import",
         "ai":"AI"
     },
+    "image" : {
+        "generate_ai_text":"Generate AI Text"
+    },
     "exif" :{
-        "camera":"Camera"
+        "camera":"Camera",
+        "iso" : "ISO"
     },
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }

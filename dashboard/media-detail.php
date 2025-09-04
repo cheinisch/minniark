@@ -119,7 +119,7 @@
               <h2 class="text-xl font-semibold text-gray-800">AI Text generation Confirmation</h2>
               <p class="mt-4 text-gray-600">Do you really wan't to generate a AI description? The current text will be removed.</p>
               <div class="flex justify-end mt-6 space-x-3">
-                <button id="confirmNo" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Cancel</button>
+                <button id="confirmNo" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600"><?php echo languageString('general.cancel'); ?></button>
                 <a href="backend_api/ai_img_text.php?file=<?php echo $image_url; ?>" id="confirmYes" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Generate</a>                
               </div>
             </div>
@@ -190,7 +190,7 @@
             <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
             <p class="mt-4 text-gray-600">Do you really want to delete this image?</p>
             <div class="flex justify-end mt-6 space-x-3">
-              <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
+              <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"><?php echo languageString('general.cancel'); ?></button>
               <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
             </div>
           </div>
@@ -370,23 +370,23 @@
                   <div id="button_group" class="flex space-x-2 mt-2">
                     <div id="editBtnDiv" class="">
                       <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                        Edit
+                        <?php echo languageString('general.edit'); ?>
                       </button>
                     </div>
                     <div id="saveBtnDiv" class="hidden">
                       <button type="button" id="save_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                        Save
+                        <?php echo languageString('general.save'); ?>
                       </button>
                     </div>
                     <div id="cancelBtnDiv" class="hidden">
                       <button type="button" id="cancel_edit" class="relative inline-flex items-center gap-x-1.5 bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
-                        Cancel
+                        <?php echo languageString('general.cancel'); ?>
                       </button>
                     </div>
                     <?php if(license_isActive() && isAI_active()) { ?>
                     <div>
                       <button type="button" id="generate_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                        Generate AI Text
+                        <?php echo languageString('image.generate_ai_text'); ?>
                       </button>
                     </div>
                     <?php } ?>
@@ -448,7 +448,7 @@
 
                     <li class="flex justify-between py-2">
                       <form action="backend_api/add_tags.php?type=image&file=<?php echo $image_url;?>" method="post" class="w-full">
-                        <input type="text" name="tag" class="w-full border border-gray-200" placeholder="Add Tags"/>
+                        <input type="text" name="tag" class="w-full border border-gray-200" placeholder="<?php echo languageString('general.tags_add'); ?>"/>
                       </form>
                     </li>
                   </ul>

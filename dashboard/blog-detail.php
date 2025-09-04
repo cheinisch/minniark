@@ -49,7 +49,7 @@
             <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
             <p class="mt-4 text-gray-600">Do you really want to delete this post?</p>
             <div class="flex justify-end mt-6 space-x-3">
-              <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
+              <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"><?php echo languageString('general.cancel'); ?></button>
               <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
             </div>
           </div>
@@ -395,13 +395,13 @@
                 
               <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-b-10 px-4 pb-16 sm:px-6 md:grid-cols-3 lg:px-8">
                 <div>
-                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Save</h2>
+                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white"><?php echo languageString('general.save'); ?></h2>
                   <p class="mt-1 text-sm/6 text-gray-600"></p>
                 </div>
                 <div class="grid max-w-6xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
                   <div class="col-span-6 mt-6 flex items-center justify-start gap-x-6">
-                    <button type="button" class="bg-rose-500 px-3 py-2 text-sm/6 font-semibold text-gray-900">Cancel</button>
-                    <button type="submit" class="bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">Save</button>
+                    <button type="button" class="bg-rose-500 px-3 py-2 text-sm/6 font-semibold text-gray-900"><?php echo languageString('general.cancel'); ?></button>
+                    <button type="submit" class="bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"><?php echo languageString('general.save'); ?></button>
                   </div>
                 </div>
               </div>

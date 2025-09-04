@@ -50,7 +50,7 @@
               <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
               <p class="mt-4 text-gray-600">Do you really want to delete this image?</p>
               <div class="flex justify-end mt-6 space-x-3">
-                <button id="confirmYes" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Cancel</button>
+                <button id="confirmYes" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"><?php echo languageString('general.cancel'); ?></button>
                 <button id="confirmNo" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
               </div>
             </div>

@@ -239,13 +239,13 @@
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
-                          Edit Image &alpha;
+                          <?php echo languageString('image.edit'); ?> &alpha;
                         </button>
                         <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
-                          Delete Image
+                          <?php echo languageString('image.delete'); ?>
                         </button>
                       </div>
                       
@@ -278,7 +278,7 @@
                               From: "transform opacity-100 scale-100"
                               To: "transform opacity-0 scale-95"
                           -->
-                          <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                          <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
                             <a href="dashboard-personal.php" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0"><?php echo languageString('nav.your_profile'); ?></a>
                             
@@ -399,42 +399,42 @@
                   <h2 class="text-xl font-semibold">Metadata</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Camera</span>
+                      <span class="font-medium"><?php echo languageString('exif.camera'); ?></span>
                       <span><?php echo $camera; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Lens</span>
+                      <span class="font-medium"><?php echo languageString('exif.lens'); ?></span>
                       <span><?php echo $lens; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Aperture</span>
+                      <span class="font-medium"><?php echo languageString('exif.aperture'); ?></span>
                       <span><?php echo $aperture; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Shutter Speed</span>
+                      <span class="font-medium"><?php echo languageString('exif.shutter_speed'); ?></span>
                       <span><?php echo $shutterSpeed; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">ISO</span>
+                      <span class="font-medium"><?php echo languageString('exif.iso'); ?></span>
                       <span><?php echo $iso; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Focal length</span>
+                      <span class="font-medium"><?php echo languageString('exif.focal_length'); ?></span>
                       <span><?php echo $focallength; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Date</span>
+                      <span class="font-medium"><?php echo languageString('exif.date'); ?></span>
                       <span><?php echo $dateTaken; ?></span>
                     </li>
                   </ul>
                   <h2 class="text-xl font-semibold">Informationen</h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between items-center py-2">
-                      <span class="font-medium">Rating</span>
+                      <span class="font-medium"><?php echo languageString('image.rating'); ?></span>
                       <span id="rating-stars" class="flex space-x-1 text-yellow-400" data-rating="<?php echo htmlspecialchars($rating); ?>" data-filename="<?php echo htmlspecialchars($fileName); ?>">></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Tags</span>
+                      <span class="font-medium"><?php echo languageString('general.tags'); ?></span>
                       <div class="ml-2 flex flex-wrap gap-2">
                         <?php foreach ($tags as $tag): ?>
                           <span class="bg-sky-600 px-2 py-0.5 text-white border border-sky-600 rounded-lg">
@@ -452,14 +452,14 @@
                       </form>
                     </li>
                   </ul>
-                  <h2 class="text-xl font-semibold">GPS Data</h2>
+                  <h2 class="text-xl font-semibold"><?php echo languageString('exif.gps_data'); ?></h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Lat:</span>
+                      <span class="font-medium"><?php echo languageString('exif.gps.lat'); ?>:</span>
                       <span><?php echo $latitude; ?></span>
                     </li>
                     <li class="flex justify-between py-2">
-                      <span class="font-medium">Lon:</span>
+                      <span class="font-medium"><?php echo languageString('exif.gps.lon'); ?>:</span>
                       <span><?php echo $longitude; ?></span>
                     </li>
                     <li>
@@ -468,18 +468,18 @@
                   </ul>
                   <div id="button_group_meta" class=" relative flex space-x-2 mt-2">
                     <button type="button" id="edit_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      Edit Metadata
+                      <?php echo languageString('image.meta.edit'); ?>
                     </button>
                     <button type="button" id="update-exif" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      Sync Metadata
+                      <?php echo languageString('image.meta.sync'); ?>
                     </button>
                   </div>
                   <div id="button_group_meta_manual" class="hidden relative flex space-x-2 mt-2">
                     <button type="button" id="save_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      Save
+                      <?php echo languageString('general.save'); ?>
                     </button>
                     <button type="button" id="cancel_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-rose-600">
-                      Cancel
+                      <?php echo languageString('general.cancel'); ?>
                     </button>
                   </div>
                 </div>

@@ -529,10 +529,7 @@
                               
                           <?php endif; ?>
                       </ul>
-
-
-
-                        <?php
+                      <?php
                       }
                       ?>
                       <div class="mt-2">

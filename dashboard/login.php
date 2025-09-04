@@ -83,16 +83,16 @@
                         </div>
                         <div class="text-2xl py-5">
                             <div class="pb-6">
-                                Login
+                                <?php echo languageString('login.login'); ?>
                             </div>
                             <div>
-                                <input type="text" id="username" name="username" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Username">
-                                <span id="wrong-user" class="<?php if(!$user_wrong){ echo "invisible"; }?> text-sm text-red-500">Username is wrong</span>
+                                <input type="text" id="username" name="username" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="<?php echo languageString('login.username'); ?>">
+                                <span id="wrong-user" class="<?php if(!$user_wrong){ echo "invisible"; }?> text-sm text-red-500"><?php echo languageString('login.username_wrong'); ?></span>
                             </div>
                         </div>
                         <div class="py-5">
                             <div>
-                                <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2">Login</button>
+                                <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2"><?php echo languageString('login.login'); ?></button>
                             </div>
                         </div>
                     </form>
@@ -103,7 +103,7 @@
                 <div class="py-5 px-5">
                     <form id="pass-form" method="post" action="login.php">
                         <div>
-                            <h2 class="text-xl text-sky-600 pb-3 mb-2">Login at <?php echo get_sitename(); ?></h2>
+                            <h2 class="text-xl text-sky-600 pb-3 mb-2"><?php echo languageString('login.login_at'); ?> <?php echo get_sitename(); ?></h2>
                         </div>
                         <div class="pb-5">
                             <nav class="flex" aria-label="Breadcrumb">
@@ -131,17 +131,17 @@
                         </div>
                         <div class="text-2xl py-5">
                             <div class="pb-6">
-                                <span id="passwordtype"><?php if($login_type == "password"){ echo "Password"; }else{ echo "Enter OTP"; } ?></span>
+                                <span id="passwordtype"><?php if($login_type == "password"){ echo languageString('login.password'); }else{ languageString('login.enter_otp'); } ?></span>
                             </div>
                             <div>
                                 <input type="hidden" id="username" name="username" value="<?php echo $username; ?>">
-                                <input type="password" name="password" id="password" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="Password">
-                                <span id="wrong-pass" class="<?php if(!$pass_wrong){ echo "invisible"; }?> text-sm text-red-500">Password is wrong</span>
+                                <input type="password" name="password" id="password" class="border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400 min-w-full " placeholder="<?php echo languageString('login.password'); ?>">
+                                <span id="wrong-pass" class="<?php if(!$pass_wrong){ echo "invisible"; }?> text-sm text-red-500"><?php echo languageString('login.password_wrong'); ?></span>
                             </div>
                         </div>
                         <div class="py-5">
                             <div>
-                                <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2">Login</button>
+                                <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2"><?php echo languageString('login.login'); ?></button>
                             </div>
                         </div>
                     </form>

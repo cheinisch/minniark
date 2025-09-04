@@ -6,7 +6,13 @@
         "pages":"Pages"
     },
     "login": {
-
+        "login":"Login",
+        "login_at":"Login at",
+        "password":"Password",
+        "passowrd_wrong":"Password is wrong",
+        "enter_otp":"Enter OTP",
+        "username":"Username",
+        "username_wrong":"Username is wrong"
     },    
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }

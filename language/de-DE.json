@@ -6,7 +6,13 @@
         "pages":"Seiten"
     },
     "login": {
-
+        "login":"Anmelden",
+        "login_at":"Anmelden an",
+        "password":"Passwort",
+        "passowrd_wrong":"Passwort ist falsch",
+        "enter_otp":"OTP eingeben",
+        "username":"Benutzername",
+        "username_wrong":"Benutzername ist falsch"
     },
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }

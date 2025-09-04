@@ -38,7 +38,13 @@
         "ai":"AI"
     },
     "image" : {
-        "generate_ai_text":"Generate AI Text"
+        "generate_ai_text":"Generate AI Text",
+        "rating" : "Image Rating",
+        "edit" : "Edit Image",
+        "delete" : "Delete Image",
+        "meta_edit" : "Edit Metadata",
+        "meta_sync" : "Sync Metadata",
+        "meta" : "Metadata"
     },
     "exif" :{
         "camera":"Camera",

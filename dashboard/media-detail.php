@@ -396,7 +396,7 @@
               <!-- META INFO -->
               <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 4xl:max-w-1/8 min-w-full pt-2 md:pt-0 pl-0 md:pl-2 ml-auto">
                 <div class="bg-white shadow-md p-6 space-y-4 min-h-full">
-                  <h2 class="text-xl font-semibold">Metadata</h2>
+                  <h2 class="text-xl font-semibold"><?php echo languageString('image.meta'); ?></h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between py-2">
                       <span class="font-medium"><?php echo languageString('exif.camera'); ?></span>
@@ -427,7 +427,7 @@
                       <span><?php echo $dateTaken; ?></span>
                     </li>
                   </ul>
-                  <h2 class="text-xl font-semibold">Informationen</h2>
+                  <h2 class="text-xl font-semibold"><?php echo languageString('image.information'); ?></h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between items-center py-2">
                       <span class="font-medium"><?php echo languageString('image.rating'); ?></span>
@@ -468,10 +468,10 @@
                   </ul>
                   <div id="button_group_meta" class=" relative flex space-x-2 mt-2">
                     <button type="button" id="edit_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      <?php echo languageString('image.meta.edit'); ?>
+                      <?php echo languageString('image.meta_edit'); ?>
                     </button>
                     <button type="button" id="update-exif" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      <?php echo languageString('image.meta.sync'); ?>
+                      <?php echo languageString('image.meta_sync'); ?>
                     </button>
                   </div>
                   <div id="button_group_meta_manual" class="hidden relative flex space-x-2 mt-2">

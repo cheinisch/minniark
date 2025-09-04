@@ -1,5 +1,5 @@
 {
-    "name": "chris/image-portfolio",
+    "name": "cheinisch/minniark",
     "autoload": {
         "psr-4": {
             "Chris\\ImagePortfolio\\": "src/"

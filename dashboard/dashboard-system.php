@@ -528,14 +528,6 @@
                               <li>Activation: <?php echo (int)$info['timesActivated'] . ' / ' . (int)$info['timesActivatedMax']; ?></li>
                               
                           <?php endif; ?>
-                          <?php
-
-                                  if(license_isActive())
-                                  {
-                                    ?>
-                              <li>Open AI Key: <?php echo getOpenAIKey(get_license()); ?></li>
-                          
-                                  <?php } ?>
                       </ul>
 
 

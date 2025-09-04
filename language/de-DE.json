@@ -16,6 +16,20 @@
         "username":"Benutzername",
         "username_wrong":"Benutzername ist falsch"
     },
+    "dashboard_nav": {
+        "overview":"Übersicht",
+        "dashboard":"Dashboard",
+        "settings":"Einstellungen",
+        "personalsettings":"Benutzer Einstellungen",
+        "usersettings":"Benutzer Übersicht",
+        "systemsettings":"System Einstellungen",
+        "themesettings":"Theme Einstellungen",
+        "startpage":"Start Seite",
+        "navigation":"Navigation",
+        "plugins":"Plugins",
+        "import_export":"Export / Import",
+        "ai":"KI"
+    },    
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }
 }

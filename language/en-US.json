@@ -19,7 +19,16 @@
     "dashboard_nav": {
         "overview":"Overview",
         "dashboard":"Dashboard",
-        "settings":"Settings"
+        "settings":"Settings",
+        "personalsettings":"Personal Settings",
+        "usersettings":"User Settings",
+        "systemsettings":"System Settings",
+        "themesettings":"Theme Settings",
+        "startpage":"Start Page",
+        "navigation":"Navigation",
+        "plugins":"Plugins",
+        "import_export":"Export / Import",
+        "ai":"AI"
     },
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }

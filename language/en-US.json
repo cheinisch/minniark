@@ -48,7 +48,12 @@
     },
     "exif" :{
         "camera":"Camera",
-        "iso" : "ISO"
+        "iso" : "ISO",
+        "gps" : {
+            "label" : "GPS Data",
+            "lat" : "Lat",
+            "lon" : "Lon"
+        }
     },
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }

@@ -452,7 +452,7 @@
                       </form>
                     </li>
                   </ul>
-                  <h2 class="text-xl font-semibold"><?php echo languageString('exif.gps_data'); ?></h2>
+                  <h2 class="text-xl font-semibold"><?php echo languageString('exif.gps.label'); ?></h2>
                   <ul class="divide-y divide-gray-200 text-sm text-gray-700">
                     <li class="flex justify-between py-2">
                       <span class="font-medium"><?php echo languageString('exif.gps.lat'); ?>:</span>

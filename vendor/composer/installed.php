@@ -3,7 +3,7 @@
         'name' => 'cheinisch/minniark',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '027163f5f41da4a20cab0a74df987602ced3dd80',
+        'reference' => '877dc7f9f7a33fb56941c483f94e6e9e7b19b73e',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'cheinisch/minniark' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '027163f5f41da4a20cab0a74df987602ced3dd80',
+            'reference' => '877dc7f9f7a33fb56941c483f94e6e9e7b19b73e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

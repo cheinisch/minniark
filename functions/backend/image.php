@@ -47,11 +47,11 @@ function count_images()
 
 function get_imageyearlist($mobile)
 {
-    $imageDir = '../userdata/content/images/';
+    $imageDir = __DIR__.'/../../userdata/content/images/';
     $yearCounts = [];
     foreach (glob($imageDir . '*.yml') as $filePath) {
         $data = Yaml::parseFile($filePath);
-        $date = $data['exif']['Date'] ?? null;
+        $date = $data['image']['exif']['Date'] ?? null;
         if ($date) {
             $year = substr($date, 0, 4);
             if (ctype_digit($year)) {

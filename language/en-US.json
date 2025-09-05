@@ -5,7 +5,14 @@
         "edit" : "Edit",
         "tags" : "Tags",
         "tags_add" : "Add Tags",
-        "delete" : "Delete"
+        "delete" : "Delete",
+        "add_new" : "add new",
+        "countries" : "Countries",
+        "year" : "Year",
+        "content" : "Content",
+        "albums" : "Albums",
+        "collections" : "Colelctions",
+        "ratings" : "Ratings"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -46,7 +53,10 @@
         "meta_edit" : "Edit Metadata",
         "meta_sync" : "Sync Metadata",
         "meta" : "Metadata",
-        "information" : "Information"
+        "information" : "Information",
+        "upload_image" : "Upload new Image",
+        "all_photos" : "All Photos",
+        "sync_images" : "Sync Images"
     },
     "exif" :{
         "camera":"Camera",

@@ -289,13 +289,13 @@
                           <svg xmlns="http://www.w3.org/2000/svg" class="-ml-0.5 size-5" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
                             <path d="M160-160v-80h110l-16-14q-52-46-73-105t-21-119q0-111 66.5-197.5T400-790v84q-72 26-116 88.5T240-478q0 45 17 87.5t53 78.5l10 10v-98h80v240H160Zm400-10v-84q72-26 116-88.5T720-482q0-45-17-87.5T650-648l-10-10v98h-80v-240h240v80H690l16 14q49 49 71.5 106.5T800-482q0 111-66.5 197.5T560-170Z"/>
                           </svg>
-                          Sync Images
+                          <?php echo languageString('image.sync_images'); ?>
                           </a>
                         <button type="button" id="uploadImageButton" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
-                          Upload new Image
+                          <?php echo languageString('image.upload_image'); ?>
                         </button>
                       </div>
                       <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
@@ -390,30 +390,30 @@
         </header>
         <div class="flex flex-1">
           <aside class="hidden md:block max-w-[280px] w-full bg-neutral-200 dark:bg-gray-950 overflow-auto flex-1 text-lg">
-            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 text-base font-medium" aria-label="Sidebar">
+            <nav class="flex flex-1 flex-col pt-5 pt-5 px-15 text-gray-600 text-base font-medium" aria-label="Sidebar">
                 <ul role="list" class="-mx-2 space-y-1">
-                  <li>Content</li>
+                  <li><?php echo languageString('general.content'); ?></li>
                   <ul class="px-5">
-                    <li><a href="?" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
+                    <li><a href="?" class="text-gray-400 hover:text-sky-400"><?php echo languageString('image.all_photos'); ?> (<?php count_images(); ?>)</a></li>
                   </ul>
-                  <li>Year</li>
+                  <li><?php echo languageString('general.year'); ?></li>
                   <ul class="px-5">
                     <?php get_imageyearlist(false); ?>
                   </ul>
-                  <li>Ratings</li>
+                  <li><?php echo languageString('general.ratings'); ?></li>
                   <ul class="px-5">
                     <?php get_ratinglist(false); ?>
                   </ul>
-                  <li>Tags</li>
+                  <li><?php echo languageString('general.tags'); ?></li>
                   <ul class="px-5">
                     <?php getTagsList(false, 'alpha'); ?>
                   </ul>
-                  <li>Countries</li>
+                  <li><?php echo languageString('general.countries'); ?></li>
                   <ul class="px-5">
                     <?php getCountries(false); ?>
                   </ul>
                   <li class="flex items-center gap-1">
-                    Albums (<a href="#" id="add-album">add new</a>)
+                    <?php echo languageString('general.albums'); ?> (<a href="#" id="add-album"><?php echo languageString('general.add_new'); ?></a>)
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <line x1="12" y1="5" x2="12" y2="19" />
                       <line x1="5" y1="12" x2="19" y2="12" />
@@ -431,7 +431,7 @@
                     ?>
                   </ul> 
                   <li class="flex items-center gap-1">
-                    Collections (<a href="#" id="add-collection">add new</a>)
+                    <?php echo languageString('general.collections'); ?> (<a href="#" id="add-collection"><?php echo languageString('general.add_new'); ?></a>)
                     <!--<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <line x1="12" y1="5" x2="12" y2="19" />
                       <line x1="5" y1="12" x2="19" y2="12" />

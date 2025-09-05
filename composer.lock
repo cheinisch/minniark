@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3865e35777761e0e47352489c888d3ba",
+    "content-hash": "cfc43a0631403212b43f85c3501b4611",
     "packages": [
         {
             "name": "cheinisch/openrouter-php-client",
-            "version": "v0.0.0.5",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cheinisch/OpenRouter-php-Client.git",
-                "reference": "d0299ed6fa08548711dd495a9b22258aa703e0c4"
+                "reference": "c54f8afea3a93169bc8a4e8bb08fe35b13c6075e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/d0299ed6fa08548711dd495a9b22258aa703e0c4",
-                "reference": "d0299ed6fa08548711dd495a9b22258aa703e0c4",
+                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/c54f8afea3a93169bc8a4e8bb08fe35b13c6075e",
+                "reference": "c54f8afea3a93169bc8a4e8bb08fe35b13c6075e",
                 "shasum": ""
             },
             "require": {
@@ -48,9 +48,15 @@
             ],
             "support": {
                 "issues": "https://github.com/cheinisch/OpenRouter-php-Client/issues",
-                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.0.0.5"
+                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.1.1"
             },
-            "time": "2025-09-04T19:32:26+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/cheinisch",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-09-04T21:51:14+00:00"
         },
         {
             "name": "erusev/parsedown",

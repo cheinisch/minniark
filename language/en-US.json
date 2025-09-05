@@ -4,7 +4,8 @@
         "cancel" : "Cancel",
         "edit" : "Edit",
         "tags" : "Tags",
-        "tags_add" : "Add Tags"
+        "tags_add" : "Add Tags",
+        "delete" : "Delete"
     },
     "nav": {
         "dashboard": "Dashboard",

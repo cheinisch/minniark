@@ -11,6 +11,12 @@
     "client",
     "chat-completions"
   ],
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/cheinisch"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "OpenRouter\\": "src/"

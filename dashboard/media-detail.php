@@ -356,7 +356,7 @@
               <!-- IMAGE -->
               <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5 4xl:max-w-7/8 mx-auto">
                 <img src="<?php echo $imagePath; ?>" class="w-full 2xl:max-w-7xl h-auto border-2 border-gray-300">
-                <article class="text-wrap text-gray-200 pt-2">
+                <article class="w-full 2xl:max-w-7xl text-wrap text-gray-200 pt-2">
                   <h2 class="text-xl font-semibold">
                     <span id="image-title"><?php echo htmlspecialchars($title); ?></span>
                     <input type="text" id="edit-title" class="hidden w-full mt-2 p-1 border rounded text-sm" value="<?php echo htmlspecialchars($title); ?>">

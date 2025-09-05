@@ -17,6 +17,6 @@
         "vlucas/phpdotenv": "^5.6",
         "goat1000/svggraph": "^3.20",
         "symfony/yaml": "^7.2",
-        "cheinisch/openrouter-php-client": "^0.0.0"
+        "cheinisch/openrouter-php-client": "^0.1.1"
     }
 }

@@ -5,12 +5,36 @@
 
     $file = $_GET['file'];
 
+
+    // Protokoll erkennen (auch hinter Proxy berücksichtigen)
+    $scheme = 'http';
+    if (
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+        (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) ||
+        (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+    ) {
+        $scheme = 'https';
+    }
+
+    // Host bestimmen (X-Forwarded-Host falls vorhanden, sonst HTTP_HOST)
+    $host = !empty($_SERVER['HTTP_X_FORWARDED_HOST'])
+        ? $_SERVER['HTTP_X_FORWARDED_HOST']
+        : ($_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost');
+
+    // Datei aus GET absichern (Pfad-Traversal verhindern)
+    $file = isset($_GET['file']) ? basename($_GET['file']) : '';
+    // Ggf. nur bestimmte Endungen erlauben
+    // if (!preg_match('/\.(png|jpe?g|gif|webp)$/i', $file)) { die('Ungültige Datei'); }
+
     $imageData = getImage($file);
+
+    // Absolute URL bauen
+    $url = $scheme . '://' . $host . '/userdata/content/images/' . rawurlencode($file);
 
 
 
     $contentlength = 250;   // Ziel-Wortzahl (ändern falls Zeichen gewünscht)
-    $language      = "en";  // "de", "en", ...
+    $language      = get_language();  // "de", "en", ...
 
     // GPS-Daten für OpenStreetMap
     $latitude = $imageData['exif']['GPS']['latitude'] ?? 0;
@@ -34,8 +58,10 @@
     ],
     ];
 
+    $tags = $imageData['tags'] ?? [];
+
     // 1)AI-Text generieren
-    $generated = generateOpenAIImageText($meta, $contentlength, $language);
+    $generated = generateOpenRouterImageText($meta, $tags, $contentlength, $language, $url);
 
     // Fehlerbehandlung AI
     if (is_string($generated) && str_starts_with($generated, 'Error:')) {

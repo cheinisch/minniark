@@ -3,7 +3,11 @@
         'name' => 'cheinisch/minniark',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< Updated upstream
         'reference' => 'e078137f14b36e1254f07f3b74def683b84b46eb',
+=======
+        'reference' => '1befa9dca9aaebcfa20d610b165e886c81919c19',
+>>>>>>> Stashed changes
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +17,11 @@
         'cheinisch/minniark' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< Updated upstream
             'reference' => 'e078137f14b36e1254f07f3b74def683b84b46eb',
+=======
+            'reference' => '1befa9dca9aaebcfa20d610b165e886c81919c19',
+>>>>>>> Stashed changes
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

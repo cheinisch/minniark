@@ -252,7 +252,7 @@
                                         <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
                                         <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        <span class="flex-1 text-left">Rating</span>
+                                        <span class="flex-1 text-left"><?php echo languageString('general.ratings'); ?></span>
                                         <!-- Chevron -->
                                         <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                                             class="size-5 shrink-0 transition-transform duration-200" data-chevron>
@@ -262,18 +262,7 @@
 
                                     <!-- Unterpunkte -->
                                     <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                        <li>
-                                        <a href="#"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            Übersicht
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a href="#"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            Analytics
-                                        </a>
-                                        </li>
+                                      <?php get_ratinglist(false); ?>  
                                     </ul>
                                 </li>
                                 <li>
@@ -286,7 +275,7 @@
                                         <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
                                         <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        <span class="flex-1 text-left">Year</span>
+                                        <span class="flex-1 text-left"><?php echo languageString('general.year'); ?></span>
                                         <!-- Chevron -->
                                         <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                                             class="size-5 shrink-0 transition-transform duration-200" data-chevron>
@@ -296,18 +285,7 @@
 
                                     <!-- Unterpunkte -->
                                     <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                        <li>
-                                        <a href="#"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            Übersicht
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a href="#"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            Analytics
-                                        </a>
-                                        </li>
+                                      <?php get_imageyearlist(false); ?>
                                     </ul>
                                 </li>
                                 <li>
@@ -343,7 +321,7 @@
                                         <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
                                         <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        <span class="flex-1 text-left">Tags</span>
+                                        <span class="flex-1 text-left"><?php echo languageString('general.tags'); ?></span>
                                         <!-- Chevron -->
                                         <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                                             class="size-5 shrink-0 transition-transform duration-200" data-chevron>
@@ -353,18 +331,7 @@
 
                                     <!-- Unterpunkte -->
                                     <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                        <li>
-                                        <a href="#"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            Übersicht
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a href="#"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            Analytics
-                                        </a>
-                                        </li>
+                                        <?php getTagsList(false); ?>
                                     </ul>
                                 </li>
 							</ul>

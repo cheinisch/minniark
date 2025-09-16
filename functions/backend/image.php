@@ -61,9 +61,13 @@ function get_imageyearlist($mobile)
     }
     ksort($yearCounts);
     foreach ($yearCounts as $year => $count) {
-        $html = $mobile
-            ? "<div class=\"pl-5\"><a href=\"media.php?year=$year\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$year ($count)</a></div>"
-            : "<li><a href=\"media.php?year=$year\" class=\"text-gray-400 hover:text-sky-400\">$year ($count)</a></li>";
+        $html = 
+        "<li>
+            <a href=\"media.php?year=$year\"
+                class=\"group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
+                $year ($count)
+            </a>
+            </li>";
         echo $html . "\n";
     }
 }
@@ -87,9 +91,13 @@ function get_ratinglist($mobile)
             $colorClass = $i <= $rating ? 'text-sky-400' : 'text-gray-300';
             $stars .= "<svg class='w-4 h-4 inline-block $colorClass' viewBox='0 0 20 20' fill='currentColor'><path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.137 3.5h3.684c.969 0 1.371 1.24.588 1.81l-2.984 2.17 1.138 3.5c.3.921-.755 1.688-1.538 1.117L10 13.348l-2.976 2.176c-.783.571-1.838-.196-1.538-1.117l1.138-3.5-2.984-2.17c-.783-.57-.38-1.81.588-1.81h3.684l1.137-3.5z'/></svg>";
         }
-        $html = $mobile
-            ? "<div class=\"pl-5\"><a href=\"media.php?rating=$rating\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$stars ($count)</a></div>"
-            : "<li><a href=\"media.php?rating=$rating\" class=\"text-gray-400 hover:text-sky-400\">$stars ($count)</a></li>";
+        $html = "
+                <li>
+            <a href=\"media.php?rating=$rating\"
+                class=\"group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
+                $stars ($count)
+            </a>
+            </li>";
         echo $html . "\n";
     }
 }
@@ -1105,7 +1113,7 @@ function getCountries(bool $mobile): void
         $html =
             "<li>
             <a href=\"$url\"
-                class=\"group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
+                class=\"group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
                 $safe ($count)
             </a>
             </li>";
@@ -1376,9 +1384,13 @@ function getTagsList(bool $mobile, string $sort='alpha', int $minCount=1, int $l
         $safe  = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
         $url   = "media.php?tag=" . urlencode($label);
 
-        $html = $mobile
-            ? "<div class=\"pl-5\"><a href=\"$url\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$safe ($count)</a></div>"
-            : "<li><a href=\"$url\" class=\"text-gray-400 hover:text-sky-400\">$safe ($count)</a></li>";
+        $html = "
+            <li>
+            <a href=\"$url\"
+                class=\"group flex items-center rounded-md p-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
+                $safe ($count)
+            </a>
+            </li>";
 
         echo $html . "\n";
     }

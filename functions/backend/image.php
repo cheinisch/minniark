@@ -259,7 +259,9 @@ function renderImageGallery($filterYear = null, $filterRating = null, $filterTag
 
         echo "
         <div class=\"relative w-full md:w-72 rounded-sm border border-black dark:border-white/10 overflow-hidden\">
-            <img src=\"$cachedImage\" alt=\"$title\" class=\"w-full  aspect-[3/2] object-cover\">
+            <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
+                <img src=\"$cachedImage\" alt=\"$title\" class=\"w-full  aspect-[3/2] object-cover\">
+            </a>
             <div class=\"p-3\">
                 <h3 class=\"text-sm font-medium text-black dark:text-white\">$shorttitle</h3>
             </div>

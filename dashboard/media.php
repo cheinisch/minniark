@@ -145,91 +145,91 @@
 										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 shrink-0">
 											<path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" stroke-linecap="round" stroke-linejoin="round" />
 										</svg>
-										Images
+										<?php echo languageString('nav.images'); ?>
 									</a>
 								</li>
-                                <!-- Dashboard 2 mit Dropdown -->
-                                <li>
-                                    <button type="button"
-                                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
-                                        data-collapse-target="next"
-                                        aria-expanded="false">
-                                        <!-- Icon -->
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
-                                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span class="flex-1 text-left"><?php echo languageString('general.albums'); ?></span>
-                                        <!-- Chevron -->
-                                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                <!-- Dashboard 2 mit Dropdown -->
+                <li>
+                    <button type="button"
+                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
+                        data-collapse-target="next"
+                        aria-expanded="false">
+                        <!-- Icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
+                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="flex-1 text-left"><?php echo languageString('general.albums'); ?></span>
+                        <!-- Chevron -->
+                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
 
-                                    <!-- Unterpunkte -->
-                                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                        <li>
-                                        <a href="#"
-                                            id="add-album"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            <?php echo languageString('general.add_new'); ?>
-                                        </a>
-                                        </li>
-                                        <?php 
+                    <!-- Unterpunkte -->
+                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
+                        <li>
+                        <a href="#"
+                            id="add-album"
+                            class="group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
+                            <?php echo languageString('general.add_new'); ?>
+                        </a>
+                        </li>
+                        <?php 
 
-                                        $albums = getAlbumList();
+                        $albums = getAlbumList();
 
-                                        foreach($albums as $album)
-                                        {
-                                          echo '<li id="'.$album['title'].'">
-                                                <a href="album-detail.php?album='.$album['slug'].'" class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">'.$album['title'].'</a>
-                                                </li>';
-                                          }                    
-                                        ?>
-                                    </ul>
-                                </li>
-                                <!-- Dashboard 2 mit Dropdown -->
-                                <li>
-                                    <button type="button"
-                                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
-                                        data-collapse-target="next"
-                                        aria-expanded="false">
-                                        <!-- Icon -->
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
-                                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span class="flex-1 text-left"><?php echo languageString('general.collections'); ?></span>
-                                        <!-- Chevron -->
-                                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                        foreach($albums as $album)
+                        {
+                          echo '<li id="'.$album['title'].'">
+                                <a href="album-detail.php?album='.$album['slug'].'" class="group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">'.$album['title'].'</a>
+                                </li>';
+                          }                    
+                        ?>
+                    </ul>
+                </li>
+                <!-- Dashboard 2 mit Dropdown -->
+                <li>
+                    <button type="button"
+                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
+                        data-collapse-target="next"
+                        aria-expanded="false">
+                        <!-- Icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
+                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="flex-1 text-left"><?php echo languageString('general.collections'); ?></span>
+                        <!-- Chevron -->
+                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
 
-                                    <!-- Unterpunkte -->
-                                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                        <li>
-                                        <a href="#"
-                                            id="add-album"
-                                            class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-                                            <?php echo languageString('general.add_new'); ?>
-                                        </a>
-                                        </li>
-                                        <?php 
+                    <!-- Unterpunkte -->
+                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
+                        <li>
+                        <a href="#"
+                            id="add-album"
+                            class="group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
+                            <?php echo languageString('general.add_new'); ?>
+                        </a>
+                        </li>
+                        <?php 
 
-                                        $collections = getCollectionList();
+                        $collections = getCollectionList();
 
-                                        foreach($collections as $collection)
-                                        {
-                                          echo '<li id="'.$collection['title'].'">
-                                                <a href="collection-detail.php?collection='.$collection['slug'].'" class="group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">'.$collection['title'].'</a>
-                                                </li>';
-                                          }                    
-                                        ?>
-                                    </ul>
-                                </li>
+                        foreach($collections as $collection)
+                        {
+                          echo '<li id="'.$collection['title'].'">
+                                <a href="collection-detail.php?collection='.$collection['slug'].'" class="group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">'.$collection['title'].'</a>
+                                </li>';
+                          }                    
+                        ?>
+                    </ul>
+                </li>
 							</ul>
 						</li>
 						<li>
@@ -238,102 +238,102 @@
                 <li>
 									<!-- Current: "bg-white/5 text-white", Default: "text-gray-400 hover:text-white hover:bg-white/5" -->
 									<a href="?" class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
-									<span class="flex size-6 shrink-0 items-center justify-center rounded-lg border border-black dark:border-white/10 bg-white/5 text-[0.625rem] font-medium text-gray-400 group-hover:border-black dark:border-white/20 group-hover:text-white">H</span>
+									<span class="flex size-6 shrink-0 items-center justify-center rounded-lg border border-black dark:border-white/10 bg-white/5 text-[0.625rem] font-medium text-gray-400 group-hover:border-black dark:border-white/20 group-hover:text-white">R</span>
 									<span class="truncate"><?php echo languageString('image.reset_filter'); ?></span>
 									</a>
 								</li>
-                                <li>
-                                    <button type="button"
-                                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
-                                        data-collapse-target="next"
-                                        aria-expanded="false">
-                                        <!-- Icon -->
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
-                                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span class="flex-1 text-left"><?php echo languageString('general.ratings'); ?></span>
-                                        <!-- Chevron -->
-                                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                <li>
+                    <button type="button"
+                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
+                        data-collapse-target="next"
+                        aria-expanded="false">
+                        <!-- Icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
+                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="flex-1 text-left"><?php echo languageString('general.ratings'); ?></span>
+                        <!-- Chevron -->
+                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
 
-                                    <!-- Unterpunkte -->
-                                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                      <?php get_ratinglist(false); ?>  
-                                    </ul>
-                                </li>
-                                <li>
-                                    <button type="button"
-                                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
-                                        data-collapse-target="next"
-                                        aria-expanded="false">
-                                        <!-- Icon -->
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
-                                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span class="flex-1 text-left"><?php echo languageString('general.year'); ?></span>
-                                        <!-- Chevron -->
-                                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                    <!-- Unterpunkte -->
+                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
+                      <?php get_ratinglist(false); ?>  
+                    </ul>
+                </li>
+                <li>
+                    <button type="button"
+                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
+                        data-collapse-target="next"
+                        aria-expanded="false">
+                        <!-- Icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
+                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="flex-1 text-left"><?php echo languageString('general.year'); ?></span>
+                        <!-- Chevron -->
+                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
 
-                                    <!-- Unterpunkte -->
-                                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                      <?php get_imageyearlist(false); ?>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <button type="button"
-                                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
-                                        data-collapse-target="next"
-                                        aria-expanded="false">
-                                        <!-- Icon -->
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
-                                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span class="flex-1 text-left"><?php echo languageString('general.countries'); ?></span>
-                                        <!-- Chevron -->
-                                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                    <!-- Unterpunkte -->
+                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
+                      <?php get_imageyearlist(false); ?>
+                    </ul>
+                </li>
+                <li>
+                    <button type="button"
+                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white"
+                        data-collapse-target="next"
+                        aria-expanded="false">
+                        <!-- Icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
+                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="flex-1 text-left"><?php echo languageString('general.countries'); ?></span>
+                        <!-- Chevron -->
+                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
 
-                                    <!-- Unterpunkte -->
-                                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                      <?php getCountries(false); ?>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <button type="button"
-                                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-black hover:dark:text-white"
-                                        data-collapse-target="next"
-                                        aria-expanded="false">
-                                        <!-- Icon -->
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
-                                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span class="flex-1 text-left"><?php echo languageString('general.tags'); ?></span>
-                                        <!-- Chevron -->
-                                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                    <!-- Unterpunkte -->
+                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
+                      <?php getCountries(false); ?>
+                    </ul>
+                </li>
+                <li>
+                    <button type="button"
+                        class="w-full group flex items-center gap-x-3 rounded-md p-2 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-black hover:dark:text-white"
+                        data-collapse-target="next"
+                        aria-expanded="false">
+                        <!-- Icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 shrink-0">
+                        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.5 9.75V21h6.375v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21H19.5V9.75" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="flex-1 text-left"><?php echo languageString('general.tags'); ?></span>
+                        <!-- Chevron -->
+                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                            class="size-5 shrink-0 transition-transform duration-200" data-chevron>
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
 
-                                    <!-- Unterpunkte -->
-                                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
-                                        <?php getTagsList(false); ?>
-                                    </ul>
-                                </li>
+                    <!-- Unterpunkte -->
+                    <ul id="submenu-dashboard-2" class="mt-1 space-y-1 hidden">
+                        <?php getTagsList(false); ?>
+                    </ul>
+                </li>
 							</ul>
 						</li>
 					</ul>
@@ -353,25 +353,25 @@
 				<div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 text-black dark:text-white">
 					<div class="grid flex-1 grid-cols-1">
 						<div class="hidden md:flex justify-start gap-2">
-						    <a href="#"
+						    <a href="dashboard.php"
 								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
-								Dashboard
+								<?php echo languageString('nav.dashboard'); ?>
 							</a>
-							<a href="#"
+							<a href="media.php"
 								class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
-								Images
+								<?php echo languageString('nav.images'); ?>
 							</a>
-							<a href="#"
+							<a href="blog.php"
 								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
-								Blog Posts
+								<?php echo languageString('nav.blogposts'); ?>
 							</a>
-							<a href="#"
+							<a href="pages.php"
 								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
-								Pages
+								<?php echo languageString('nav.pages'); ?>
 							</a>
 						</div>
 					</div>
@@ -383,7 +383,7 @@
 								<path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707z"/>
   								<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
 							</svg>
-							<span class="sr-only">Neues Bild erstellen</span>
+							<span class="sr-only">Upload new Image</span>
 							</button>
 						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
 							<span class="sr-only">View notifications</span>
@@ -418,25 +418,25 @@
 			<div class="sm:block md:hidden border-b border-gray-600 dark:border-gray-200 bg-white bg-white dark:bg-black dark:border-black dark:border-white/10">
 				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
 					<nav class="flex gap-2 justify-center">
-					<a href="#"
+					<a href="dashboard.php"
 						class="inline-flex items-center  py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
-						Dashboard
+						<?php echo languageString('nav.dashboard'); ?>
 					</a>
-					<a href="#"
+					<a href="media.php"
 						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
-						Images
+						<?php echo languageString('nav.images'); ?>
 					</a>
-					<a href="#"
+					<a href="blog.php"
 						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
-						Pages
+						<?php echo languageString('nav.blogposts'); ?>
 					</a>
-					<a href="#"
+					<a href="pages.php"
 						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
-						Posts
+						<?php echo languageString('nav.pages'); ?>
 					</a>
 					</nav>
 				</div>

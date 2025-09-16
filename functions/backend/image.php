@@ -250,24 +250,23 @@ function renderImageGallery($filterYear = null, $filterRating = null, $filterTag
         $shorttitle = getShortTitle($title);
 
         echo "
-        <div>
-        <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 250px; max-width: var(--img-max-width);\">
-                <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
-                    <img src='$cachedImage' class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
-                </a>
+        <div class=\"relative w-full md:w-72 rounded-sm border border-black dark:border-white/10 overflow-hidden\">
+            <img src=\"$cachedImage\" alt=\"$title\" class=\"w-full  aspect-[3/2] object-cover\">
+            <div class=\"p-3\">
+                <h3 class=\"text-sm font-medium text-black dark:text-white\">$shorttitle</h3>
             </div>
-            <div class=\"w-full flex justify-between items-center text-sm pt-1 dark:text-gray-400\">
-                <span class=\"text-sm dark:text-gray-400\">$shorttitle</span>
-                <div class=\"relative inline-block\">
-                    <button id=\"$fileName\" class=\"p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-400\" data-filename=\"$fileName\">
-                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"3\" stroke=\"currentColor\" class=\"w-5 h-5\">
-                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 12h.01M12 12h.01M18 12h.01\" />
-                        </svg>
-                    </button>                    
-                    <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
-                        <a href=\"#\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 assign-to-album-btn\" data-filename=\"$fileName\">Add to Album</a>
-                        <a href=\"backend_api/delete.php?type=img&filename=$fileName\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">Delete</a>
-                    </div>
+            <div class=\"absolute bottom-2 right-2\">
+                <button type=\"button\" aria-expanded=\"false\" data-collapse-target=\"next\"
+                        class=\"p-2 rounded hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20\">
+                <span class=\"sr-only\">Optionen</span>
+                <svg viewBox=\"0 0 20 20\" fill=\"currentColor\" class=\"size-5 text-black/80 dark:text-white/80\">
+                    <path d=\"M6 10a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z\"/>
+                </svg>
+                </button>
+                <!-- Menü: öffnet nach oben -->
+                <div class=\"absolute bottom-10 right-0 z-10 hidden min-w-36 rounded-md border border-black dark:border-white/10 bg-white dark:bg-black/90 shadow-lg backdrop-blur-md p-1\">
+                    <a href=\"#\" class=\"block w-full text-left px-3 py-2 text-sm/6 text-black dark:text-white hover:bg-white/10 rounded\">Add to Album</a>
+                    <a href=\"backend_api/delete.php?type=img&filename=$fileName\" class=\"block w-full text-left px-3 py-2 text-sm/6 text-red-400 hover:bg-white/10 rounded\">Delete</a>
                 </div>
             </div>
         </div>";
@@ -1103,10 +1102,13 @@ function getCountries(bool $mobile): void
         $url   = "media.php?country=" . urlencode($code);
         $safe  = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
 
-        $html = $mobile
-            ? "<div class=\"pl-5\"><a href=\"$url\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$safe ($count)</a></div>"
-            : "<li><a href=\"$url\" class=\"text-gray-400 hover:text-sky-400\">$safe ($count)</a></li>";
-
+        $html =
+            "<li>
+            <a href=\"$url\"
+                class=\"group flex items-center rounded-md p-2 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
+                $safe ($count)
+            </a>
+            </li>";
         echo $html . "\n";
     }
 }

@@ -280,7 +280,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $filterTag
                 </button>
                 <!-- Menü: öffnet nach oben -->
                 <div class=\"absolute bottom-10 right-0 z-10 hidden min-w-36 rounded-md border border-black dark:border-white/10 bg-white dark:bg-black/90 shadow-lg backdrop-blur-md p-1\">
-                    <a href=\"#\" class=\"block w-full text-left px-3 py-2 text-sm/6 text-black dark:text-white hover:bg-white/10 rounded\">$addToAlbum</a>
+                    <a href=\"#\" class=\"block w-full text-left px-3 py-2 text-sm/6 text-black dark:text-white hover:bg-white/10 rounded assign-to-album-btn\" data-filename=\"$fileName\">$addToAlbum</a>
                     <a href=\"backend_api/delete.php?type=img&filename=$fileName\" class=\"block w-full text-left px-3 py-2 text-sm/6 text-red-400 hover:bg-white/10 rounded\">$delete</a>
                 </div>
             </div>

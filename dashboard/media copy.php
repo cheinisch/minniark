@@ -212,7 +212,7 @@
             </div>
           </div>
         </div>
-      </div>      
+      </div>  
       <!-- Upload Modal -->
       <div id="uploadModal" class="relative z-50 hidden" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>

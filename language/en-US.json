@@ -12,7 +12,8 @@
         "content" : "Content",
         "albums" : "Albums",
         "collections" : "Collections",
-        "ratings" : "Ratings"
+        "ratings" : "Ratings",
+        "close" : "Close"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -58,7 +59,10 @@
         "all_photos" : "All Photos",
         "sync_images" : "Sync Images",
         "filter_images" : "Filter Images",
-        "reset_filter" : "All Images (Reset Filter)"
+        "reset_filter" : "All Images (Reset Filter)",
+        "drop_or_click" : "Drop file here or click here",
+        "choose_files" : "Choose Files",
+        "upload_hint" : "Image Uploader"
     },
     "exif" :{
         "camera":"Camera",

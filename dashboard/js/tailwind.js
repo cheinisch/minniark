@@ -88,6 +88,121 @@
   });
 })();
 
+(() => {
+  function setup(dd){
+    const btn  = dd.querySelector('button');
+    const menu = dd.querySelector('[data-menu]');
+    if (!btn || !menu) return;
+
+    // Defaults (inline, damit kein CSS angefasst werden muss)
+    dd.style.position ||= 'relative';
+    menu.style.minWidth ||= '8rem';
+    menu.style.zIndex = '1000';
+
+    const hasPopover = menu.hasAttribute('popover') && typeof menu.showPopover === 'function';
+
+    const closeOthers = () => {
+      document.querySelectorAll('[data-dropdown] [data-menu].is-open').forEach(m => {
+        if (m === menu) return;
+        if (m.matches?.(':popover-open')) m.hidePopover?.();
+        m.classList.remove('is-open');
+        m.hidden = true;
+        m.closest('[data-dropdown]')?.querySelector('button')?.setAttribute('aria-expanded','false');
+      });
+    };
+
+    const onDocDown = (e) => {
+      if (!dd.contains(e.target) && !menu.contains(e.target)) hide();
+    };
+    const onKey = (e) => { if (e.key === 'Escape') hide(); };
+
+    function trap(){
+      document.addEventListener('mousedown', onDocDown, true);
+      document.addEventListener('touchstart', onDocDown, {passive:true, capture:true});
+      document.addEventListener('keydown', onKey, true);
+    }
+    function untrap(){
+      document.removeEventListener('mousedown', onDocDown, true);
+      document.removeEventListener('touchstart', onDocDown, true);
+      document.removeEventListener('keydown', onKey, true);
+    }
+
+    function computePos(){
+      // Fallback-Positionierung ohne Popover
+      menu.style.position = 'absolute';
+      menu.style.right = '0';
+      const br = btn.getBoundingClientRect();
+      const dy = window.scrollY || document.documentElement.scrollTop || 0;
+      const top = br.bottom + dy + 8;
+      const ddTop = dd.getBoundingClientRect().top + dy;
+      menu.style.top = (top - ddTop) + 'px';
+    }
+
+    function positionPopover(){
+      // Popover oben im Top-Layer korrekt platzieren
+      menu.style.position = 'fixed';
+      menu.style.inset = 'auto';
+      const br = btn.getBoundingClientRect();
+      const mr = menu.getBoundingClientRect();
+      const left = Math.max(8, Math.min(br.right - mr.width, window.innerWidth - mr.width - 8));
+      const top  = Math.min(br.bottom + 8, window.innerHeight - mr.height - 8);
+      menu.style.left = left + 'px';
+      menu.style.top  = top  + 'px';
+    }
+
+    function show(){
+      closeOthers();
+      btn.setAttribute('aria-expanded', 'true');
+      if (hasPopover) {
+        if (!menu.matches(':popover-open')) menu.showPopover();
+        requestAnimationFrame(positionPopover);
+      } else {
+        computePos();
+        menu.hidden = false;
+      }
+      menu.classList.add('is-open');
+      trap();
+    }
+
+    function hide(){
+      btn.setAttribute('aria-expanded', 'false');
+      if (hasPopover && menu.matches(':popover-open')) {
+        menu.hidePopover();
+      } else {
+        menu.hidden = true;
+      }
+      menu.classList.remove('is-open');
+      untrap();
+    }
+
+    // Events
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // verhindert "direkt wieder schließen"
+      const open = menu.classList.contains('is-open')
+                || (hasPopover && menu.matches(':popover-open'))
+                || (!hasPopover && !menu.hidden);
+      open ? hide() : show();
+    });
+
+    menu.addEventListener('click', (e) => {
+      if (e.target.closest('[role="menuitem"]')) hide();
+    });
+
+    // Reposition bei Scroll/Resize nur wenn offen
+    const onMove = () => {
+      if (hasPopover) { if (menu.matches(':popover-open')) positionPopover(); }
+      else { if (menu.classList.contains('is-open')) computePos(); }
+    };
+    window.addEventListener('resize', onMove, { passive: true });
+    window.addEventListener('scroll',  onMove, { passive: true, capture: true });
+  }
+
+  function init(){ document.querySelectorAll('[data-dropdown]').forEach(setup); }
+  (document.readyState === 'loading') ? document.addEventListener('DOMContentLoaded', init) : init();
+})();
+
+
 
 (() => {
   // Alle el-dropdowns aktivieren

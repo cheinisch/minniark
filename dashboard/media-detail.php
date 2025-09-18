@@ -252,13 +252,13 @@
 						</header>
 						<div class="p-4">
 						<dl class="text-sm text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Camera</dt><dd id="exif-camera"><?php echo $camera; ?></dd></div>
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Lens</dt><dd id="exif-lens"><?php echo $lens; ?></dd></div>
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Aperture</dt><dd id="exif-aperture"><?php echo $aperture; ?></dd></div>
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Shutter</dt><dd id="exif-shutter"><?php echo $shutterSpeed; ?></dd></div>
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">ISO</dt><dd id="exif-iso"><?php echo $iso; ?></dd></div>
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Focal Length</dt><dd id="exif-focal"><?php echo $focallength; ?></dd></div>
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Date Taken</dt><dd id="exif-date"><?php echo $dateTaken; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">><?php echo languageString('exif.camera'); ?></dt><dd id="exif-camera"><?php echo $camera; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.lens'); ?></dt><dd id="exif-lens"><?php echo $lens; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.aperture'); ?></dt><dd id="exif-aperture"><?php echo $aperture; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.shutter_speed'); ?></dt><dd id="exif-shutter"><?php echo $shutterSpeed; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.iso'); ?></dt><dd id="exif-iso"><?php echo $iso; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.focal_length'); ?></dt><dd id="exif-focal"><?php echo $focallength; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.date'); ?></dt><dd id="exif-date"><?php echo $dateTaken; ?></dd></div>
 							<div class="py-2">
 							<div class="flex items-center justify-between">
 								<dt class="font-medium">GPS</dt>

@@ -84,7 +84,7 @@
 </script>
 	</head>
 	<body class="bg-white dark:bg-black">
-		<!-- Sidebar -->
+		<!-- Sidebar --
 		<el-dialog>
 			<dialog id="sidebar" class="backdrop:bg-transparent lg:hidden">
 				<el-dialog-backdrop class="fixed inset-0 bg-white/80 dark:bg-black/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"></el-dialog-backdrop>
@@ -98,32 +98,33 @@
 								</svg>
 							</button>
 						</div>
-						<!-- Sidebar component, swap this element with another sidebar if you like -->
+						<!-- Sidebar component, swap this element with another sidebar if you like --
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
 								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
-								<?php include (__DIR__.'/layout/media_menu.php'); ?>
+								<?php # include (__DIR__.'/layout/media_menu.php'); ?>
 							</nav>
 						</div>
 					</el-dialog-panel>
 				</div>
 			</dialog>
 		</el-dialog>
-		<!-- Static sidebar for desktop -->
+		<!-- Static sidebar for desktop --
 		<div class="hidden bg-white dark:bg-black ring-1 ring-black/10 dark:ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-			<!-- Sidebar component, swap this element with another sidebar if you like -->
+			<!-- Sidebar component, swap this element with another sidebar if you like --
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
 					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
-					<?php include (__DIR__.'/layout/media_menu.php'); ?>
+					<?php # include (__DIR__.'/layout/media_menu.php'); ?>
 				</nav>
 			</div>
-		</div>
-		<div class="lg:pl-72">
+		</div>--
+		<div class="lg:pl-72">-->
+		<div>
 			<div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-black/10 dark:border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8  dark:border-white/10 bg-white dark:bg-black">
 				<button type="button" command="show-modal" commandfor="sidebar" class="-m-2.5 p-2.5 text-gray-700 hover:text-gray-900 lg:hidden dark:text-gray-400 dark:hover:text-white">
 					<span class="sr-only">Open sidebar</span>
@@ -251,9 +252,9 @@
 			<main class="bg-white dark:bg-black text-black dark:text-white">
 				<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_22rem] gap-8">
 					<!-- IMAGE -->
-					<article class="w-full max-w-7xl">
+					<article class="w-full">
 						<!-- Bild -->
-						<figure class="w-full">
+						<figure class="w-full mx-auto max-w-6xl">
 							<img
 							id="image"
 							src=<?php echo $imagePath; ?>

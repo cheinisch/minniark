@@ -245,10 +245,27 @@
 				<div class="px-4 sm:px-6 lg:px-8">
 					<!-- IMAGE -->
 					<!-- META / EXIF -->
-					<div>
+					<div class="w-92 text-black dark:text-white">
+						<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs mb-1">
+							<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+							<h3 class="text-sm font-semibold">Metadata</h3>
+							</header>
+							<div class="p-4">
+							<dl class="text-sm text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
+								<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Tags</dt><dd id="meta-modified">Unknown</dd></div>
+								<div class="py-2 flex items-center justify-between gap-4">
+								<dt class="font-medium"><?php echo languageString('image.rating'); ?></dt>
+								<dd>
+									<span id="rating-stars" class="flex space-x-1 text-yellow-400" data-rating="<?php echo htmlspecialchars($rating); ?>" data-filename="<?php echo htmlspecialchars($fileName); ?>"></span>
+									
+								</dd>
+								</div>
+							</dl>
+							</div>
+						</section>
 						<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
 						<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-						<h3 class="text-sm font-semibold">EXIF</h3>
+						<h3 class="text-sm">EXIF</h3>
 						</header>
 						<div class="p-4">
 						<dl class="text-sm text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
@@ -267,7 +284,7 @@
 								</div>
 							</div>
 							<dd class="mt-1 text-xs">
-								<span id="exif-lat"><?php echo $latitude; ?></span>,
+								<span id="exif-lat"><?php echo $latitude; ?></span><br />
 								<span id="exif-lon"><?php echo $longitude; ?></span>
 							</dd>
 							<div id="map" class="mt-3 h-40 rounded border border-black/10 dark:border-white/10 flex items-center justify-center text-xs text-black/60 dark:text-gray-400">
@@ -384,6 +401,6 @@
             window.location.href = url; // Weiterleitung zur gewählten URL
         });
       </script>-->
-
+		  <script src="js/image_rating.js"></script>
 	</body>
 </html>

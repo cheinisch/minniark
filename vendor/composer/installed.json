@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "cheinisch/openrouter-php-client",
-            "version": "v0.1.1",
-            "version_normalized": "0.1.1.0",
+            "version": "v0.2.1",
+            "version_normalized": "0.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cheinisch/OpenRouter-php-Client.git",
-                "reference": "c54f8afea3a93169bc8a4e8bb08fe35b13c6075e"
+                "reference": "9c0521b61b154e4ed8173b278443961e0ffec5fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/c54f8afea3a93169bc8a4e8bb08fe35b13c6075e",
-                "reference": "c54f8afea3a93169bc8a4e8bb08fe35b13c6075e",
+                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/9c0521b61b154e4ed8173b278443961e0ffec5fa",
+                "reference": "9c0521b61b154e4ed8173b278443961e0ffec5fa",
                 "shasum": ""
             },
             "require": {
@@ -22,12 +22,13 @@
             "require-dev": {
                 "phpunit/phpunit": "^10.0"
             },
-            "time": "2025-09-04T21:51:14+00:00",
+            "time": "2025-09-18T10:17:43+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OpenRouter\\": "src/"
+                    "cheinisch\\": "src/",
+                    "OpenRouter\\": "src-legacy/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -45,7 +46,7 @@
             ],
             "support": {
                 "issues": "https://github.com/cheinisch/OpenRouter-php-Client/issues",
-                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.1.1"
+                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.2.1"
             },
             "funding": [
                 {

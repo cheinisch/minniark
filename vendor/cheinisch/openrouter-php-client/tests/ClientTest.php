@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use OpenRouter\Client;
+use cheinisch\OpenRouterClient;
 
 class ClientTest extends TestCase {
     public function testChat() {

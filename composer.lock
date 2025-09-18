@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfc43a0631403212b43f85c3501b4611",
+    "content-hash": "de4d0a4a5628a6b177fd459f4b0ab946",
     "packages": [
         {
             "name": "cheinisch/openrouter-php-client",
-            "version": "v0.1.1",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cheinisch/OpenRouter-php-Client.git",
-                "reference": "c54f8afea3a93169bc8a4e8bb08fe35b13c6075e"
+                "reference": "9c0521b61b154e4ed8173b278443961e0ffec5fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/c54f8afea3a93169bc8a4e8bb08fe35b13c6075e",
-                "reference": "c54f8afea3a93169bc8a4e8bb08fe35b13c6075e",
+                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/9c0521b61b154e4ed8173b278443961e0ffec5fa",
+                "reference": "9c0521b61b154e4ed8173b278443961e0ffec5fa",
                 "shasum": ""
             },
             "require": {
@@ -30,7 +30,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "OpenRouter\\": "src/"
+                    "cheinisch\\": "src/",
+                    "OpenRouter\\": "src-legacy/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -48,7 +49,7 @@
             ],
             "support": {
                 "issues": "https://github.com/cheinisch/OpenRouter-php-Client/issues",
-                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.1.1"
+                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.2.1"
             },
             "funding": [
                 {
@@ -56,7 +57,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-04T21:51:14+00:00"
+            "time": "2025-09-18T10:17:43+00:00"
         },
         {
             "name": "erusev/parsedown",

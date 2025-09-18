@@ -1,630 +1,301 @@
 <?php
+
   require_once( __DIR__ . "/../functions/function_backend.php");
   security_checklogin();
 
-  $image_url = $_GET['image'];
+  // Prüfen, ob ein bestimmtes Jahr übergeben wurde
+  $filterYear = isset($_GET['year']) ? $_GET['year'] : null;
+  $filterRating = isset($_GET['rating']) ? $_GET['rating'] : null;
+  $filterTag = isset($_GET['tag']) ? $_GET['tag'] : null;
+  $filterCountry = isset($_GET['country']) ? $_GET['country'] : null;
 
-  $imageData = getImage($image_url);
-
-    // Daten extrahieren
-    $fileName = $imageData['filename'];
-    $imagePath = "../userdata/content/images/" . $fileName."?v=".time();
-    $title = $imageData['title'];
-    $description = $imageData['description'];
-    $uploadDate = $imageData['upload_date'] ?? null;
-  
-    $rating = $imageData['rating'] ?? 0;
-
-    // Exif-Daten
-    $camera = $imageData['exif']['Camera'] ?? 'Unknown';
-    $lens = $imageData['exif']['Lens'] ?? 'Unknown';
-    $focallength = $imageData['exif']['Focal Length'] ?? 'Unknown';
-    $apertureRaw = $imageData['exif']['Aperture'] ?? 'Unknown';
-    $shutterSpeedRaw = $imageData['exif']['Shutter Speed'] ?? 'Unknown';
-    $iso = $imageData['exif']['ISO'] ?? 'Unknown';
-    $dateTaken = $imageData['exif']['Date'] ?? 'Unknown';
-  
-    // Name Fix
-    $camera = str_replace('Canon Canon', 'Canon',$camera);
-
-    // **Aperture formatieren (f/28/10 → f/2.8)**
-    $aperture = "Unknown";
-    if (preg_match('/f\/(\d+)\/(\d+)/', $apertureRaw, $matches)) {
-        $apertureValue = round($matches[1] / $matches[2], 1); // 28/10 → 2.8
-        $aperture = "f/" . $apertureValue;
-    }else{
-      $aperture = $apertureRaw;
-    }
-  
-    // **Shutter Speed formatieren (4/1 → 4s oder 1/250 → 1/250s)**
-    $shutterSpeed = "Unknown";
-    if (preg_match('/(\d+)\/(\d+)/', $shutterSpeedRaw, $matches)) {
-        $numerator = (int)$matches[1];  // Zähler
-        $denominator = (int)$matches[2]; // Nenner
-        
-        if ($numerator >= $denominator) {
-            // Belichtungszeit ≥ 1 Sekunde → "4s"
-            $shutterSpeed = ($numerator / $denominator) . "s";
-        } else {
-            // Belichtungszeit < 1 Sekunde → "1/250s"
-            $shutterSpeed = "1/" . round($denominator / $numerator) . "s";
-        }
-    }
-  
-    // GPS-Daten für OpenStreetMap
-    $latitude = $imageData['exif']['GPS']['latitude'] ?? 0;
-    $longitude = $imageData['exif']['GPS']['longitude'] ?? 0;
-  
-    $hasGPS = !is_null($latitude) && !is_null($longitude);
-
-    // Tags auslesen
-
-    // ---- Tags vorbereiten ----
-    $tags = $imageData['tags'] ?? [];  // falls im YAML vorhanden
-    if (!is_array($tags)) {
-        // falls als String gespeichert → in Array umwandeln
-        $tags = array_map('trim', explode(',', $tags));
-    }
+  $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+  $direction = isset($_GET['dir']) ? $_GET['dir'] : null;
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="<?php echo get_language(); ?>">
-    <head>      
-        <meta charset="UTF-8">        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Images - <?php echo get_sitename(); ?></title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Images - <?php echo get_sitename(); ?></title>
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
+	</head>
+	<body class="bg-white dark:bg-black">
+		<!-- Sidebar -->
+		<el-dialog>
+			<dialog id="sidebar" class="backdrop:bg-transparent lg:hidden">
+				<el-dialog-backdrop class="fixed inset-0 bg-white/80 dark:bg-black/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"></el-dialog-backdrop>
+				<div tabindex="0" class="fixed inset-0 flex focus:outline-none">
+					<el-dialog-panel class="group/dialog-panel relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-closed:-translate-x-full">
+						<div class="absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out group-data-closed/dialog-panel:opacity-0">
+							<button type="button" command="close" commandfor="sidebar" class="-m-2.5 p-2.5">
+								<span class="sr-only">Close sidebar</span>
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-black dark:text-white">
+									<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</button>
+						</div>
+						<!-- Sidebar component, swap this element with another sidebar if you like -->
+						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
+							<div class="relative flex h-16 shrink-0 items-center">
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+							</div>
+							<nav class="relative flex flex-1 flex-col">
+								<?php include (__DIR__.'/layout/media_menu.php'); ?>
+							</nav>
+						</div>
+					</el-dialog-panel>
+				</div>
+			</dialog>
+		</el-dialog>
+		<!-- Static sidebar for desktop -->
+		<div class="hidden bg-white dark:bg-black ring-1 ring-black/10 dark:ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+			<!-- Sidebar component, swap this element with another sidebar if you like -->
+			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
+				<div class="flex h-16 shrink-0 items-center">
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+				</div>
+				<nav class="flex flex-1 flex-col">
+					<?php include (__DIR__.'/layout/media_menu.php'); ?>
+				</nav>
+			</div>
+		</div>
+		<div class="lg:pl-72">
+			<div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-black/10 dark:border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8  dark:border-white/10 bg-white dark:bg-black">
+				<button type="button" command="show-modal" commandfor="sidebar" class="-m-2.5 p-2.5 text-gray-700 hover:text-gray-900 lg:hidden dark:text-gray-400 dark:hover:text-white">
+					<span class="sr-only">Open sidebar</span>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+						<path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+				<!-- Separator -->
+				<div aria-hidden="true" class="h-6 w-px bg-black/10 lg:hidden dark:bg-white/10"></div>
+				<div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 text-black dark:text-white">
+					<div class="grid flex-1 grid-cols-1">
+						<div class="hidden md:flex justify-start gap-2">
+						    <a href="dashboard.php"
+								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.dashboard'); ?>
+							</a>
+							<a href="media.php"
+								class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.images'); ?>
+							</a>
+							<a href="blog.php"
+								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.blogposts'); ?>
+							</a>
+							<a href="pages.php"
+								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.pages'); ?>
+							</a>
+						</div>
+					</div>
+					<div class="flex items-center gap-x-4 lg:gap-x-6">
+						<button type="button"
+						id="uploadImageButton"
+						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
+							<?php echo languageString('image.upload_image'); ?>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+								<path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707z"/>
+  								<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+							</svg>
+							<span class="sr-only">Upload new Image</span>
+							</button>
+						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
+							<span class="sr-only">View notifications</span>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+								<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</button>
+						<!-- Separator -->
+						<div aria-hidden="true" class="hidden lg:block lg:h-6 lg:w-px lg:bg-white dark:bg-black/10 dark:lg:bg-gray-100/10"></div>
+						<!-- Profile dropdown -->
+						
+						<div data-dropdown class="relative">
+							<button type="button" class="relative flex items-center"
+									aria-haspopup="menu" aria-expanded="false" data-trigger>
+								<span class="absolute -inset-1.5"></span>
+								<span class="sr-only">Open user menu</span>
+								<img src="<?php echo get_userimage($_SESSION['username']); ?>" alt=""
+									class="size-8 rounded-full bg-gray-50 outline -outline-offset-1 outline-black/5 dark:bg-gray-800 dark:outline-white/10" />
+								<span class="hidden lg:flex lg:items-center">
+								<span aria-hidden="true" class="ml-4 text-sm/6 font-semibold text-gray-900 dark:text-white">
+									<?php echo $_SESSION['username']; ?>
+								</span>
+								<svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true"
+									class="ml-2 size-5 text-gray-400 dark:text-gray-500">
+									<path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+								</svg>
+								</span>
+							</button>
 
-        <!-- FAV Icon -->
-        <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
-        <!-- Tailwind CSS -->
-        <link rel="stylesheet" href="css/tailwind.css">
+							<!-- WICHTIG: kein popover/anchor; stattdessen hidden + role -->
+							<div data-menu hidden role="menu" aria-labelledby=""
+								class="w-32 origin-top-right rounded-md py-2 shadow-lg outline outline-gray-900/5 transition transition-discrete
+										[--anchor-gap:--spacing(2.5)]
+										data-closed:scale-95 data-closed:transform data-closed:opacity-0
+										data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in
+										bg-white dark:bg-black dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
 
-        <style>
-          :root {
-            --img-max-width: 250px;
-          }
+								<a href="dashboard-personal.php"
+								class="block px-3 py-1 text-sm/6 text-gray-900 hover:bg-gray-50 focus:outline-hidden dark:text-white dark:hover:bg-white/5"
+								role="menuitem">
+								<?php echo languageString('nav.your_profile'); ?>
+								</a>
+								<a href="login.php?logout=true"
+								class="block px-3 py-1 text-sm/6 text-gray-900 hover:bg-gray-50 focus:outline-hidden dark:text-white dark:hover:bg-white/5"
+								role="menuitem">
+								<?php echo languageString('nav.sign_out'); ?>
+								</a>
+							</div>
+							</div>
 
-          @media (min-width: 768px) {
-            .dynamic-image-width {
-              max-width: var(--img-max-width);
-            }
-          }
-
-          @media (max-width: 767px) {
-            .dynamic-image-width {
-              max-width: 100% !important;
-            }
-          }
-          .leaflet-container {
-            z-index: 0 !important;
-          }
-        </style>
-        <!-- Leaflet CSS -->
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        />
-
-        <!-- Leaflet JS -->
-        <script
-          src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        ></script>
-    </head>
-    <body class="min-h-screen flex flex-col">
-      <!-- Confirm AI Modal -->
-      <div id="confirmAiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
-        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
-          <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
-            <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
-              <h2 class="text-xl font-semibold text-gray-800">AI Text generation Confirmation</h2>
-              <p class="mt-4 text-gray-600">Do you really wan't to generate a AI description? The current text will be removed.</p>
-              <div class="flex justify-end mt-6 space-x-3">
-                <button id="confirmNo" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600"><?php echo languageString('general.cancel'); ?></button>
-                <a href="backend_api/ai_img_text.php?file=<?php echo $image_url; ?>" id="confirmYes" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600">Generate</a>                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ImageEdit Modal -->
-      <div id="imageEditorModal" class="fixed inset-0 z-60 bg-gray-500/75 transition-opacity hidden flex justify-center items-center">
-        <div class="bg-white w-full max-w-6xl h-[90vh] shadow-xl flex flex-col border border-gray-700">
-          
-          <!-- Header -->
-          <div class="bg-gray-800 text-white text-lg px-4 py-3 font-semibold border-b border-gray-700 flex justify-between">
-            <span>Modify Image</span>
-            <button onclick="closeModal()" class="text-white hover:text-red-400">✕</button>
-          </div>
-
-          <!-- Inhalt -->
-          <div class="flex-grow flex overflow-hidden">
-            
-            <!-- Bildvorschau -->
-            <div class="flex-1 bg-gray-100 flex justify-center items-center border-r border-gray-300">
-              <canvas id="editorCanvas" class="max-h-full max-w-full object-contain select-none"></canvas>
-            </div>
-            
-            <!-- Werkzeuge -->
-            <div class="w-64 bg-white p-4 space-y-6 text-sm border-l border-gray-300 overflow-y-auto">
-              <div>
-                <h2 class="font-bold text-gray-700 uppercase mb-2">Rotate</h2>
-                <div class="flex gap-2">
-                  <button onclick="rotateLeft()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↺ Left</button>
-                  <button onclick="rotateRight()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↻ Rîght</button>
-                </div>
-              </div>
-
-              <div>
-                <h2 class="font-bold text-gray-700 uppercase mb-2">Flip</h2>
-                <div class="flex gap-2">
-                  <button onclick="flipHorizontal()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↔ Horizontal</button>
-                  <button onclick="flipVertical()" class="w-full bg-gray-800 text-white px-3 py-2 hover:bg-gray-700">↕ Vertical</button>
-                </div>
-              </div>
-
-              <div>
-                <h2 class="font-bold text-gray-700 uppercase mb-2">Zuschneiden</h2>
-                <button onclick="startCrop()" class="w-full bg-yellow-500 text-white px-3 py-2 hover:bg-yellow-600">Bereich wählen</button>
-                <button onclick="applyCrop()" class="mt-2 w-full bg-green-600 text-white px-3 py-2 hover:bg-green-700">Zuschneiden</button>
-              </div>
-
-              <div class="pt-6 border-t border-gray-300">
-                <button onclick="saveChanges()" class="w-full bg-sky-600 text-white px-3 py-2 hover:bg-sky-500">Save changes</button>
-                <button onclick="resetEditor()" class="w-full mt-2 bg-gray-300 text-gray-700 px-3 py-2 hover:bg-gray-400">Reset</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <form id="transformForm" action="backend_api/modify_image.php" method="POST" class="hidden">
-          <input type="hidden" name="filename" value="<?php echo htmlspecialchars($fileName); ?>">
-          <input type="hidden" name="rotation" id="form-rotation" value="0">
-          <input type="hidden" name="flipX" id="form-flipX" value="1">
-          <input type="hidden" name="flipY" id="form-flipY" value="1">
-        </form>
-      </div>
-      <!-- delete Modal -->
-      <div id="deleteModal" class="hidden relative z-50 " role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
-        <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
-          <div class="relative w-full max-w-xl mx-auto shadow-lg bg-white p-6">
-            <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
-            <p class="mt-4 text-gray-600">Do you really want to delete this image?</p>
-            <div class="flex justify-end mt-6 space-x-3">
-              <button id="cancelDelete" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"><?php echo languageString('general.cancel'); ?></button>
-              <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-        <!-- Normal Layout -->      
-        <header>
-          <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
-                <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
-                  <div class="flex h-16 justify-between">
-                    <div class="flex">
-                      <div class="mr-2 -ml-2 flex items-center md:hidden">
-                        <!-- Mobile menu button -->
-                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
-                          <span class="absolute -inset-0.5"></span>
-                          <span class="sr-only">Open main menu</span>
-                          <!--
-                            Icon when menu is closed.
-              
-                            Menu open: "hidden", Menu closed: "block"
-                          -->
-                          <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                          </svg>
-                          <!--
-                            Icon when menu is open.
-              
-                            Menu open: "block", Menu closed: "hidden"
-                          -->
-                          <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="hidden md:ml-6 md:flex md:space-x-8">
-                        <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.dashboard'); ?></a>
-                        <a href="media.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-base font-medium text-sky-400"><?php echo languageString('nav.images'); ?></a>
-                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.blogposts'); ?></a>
-                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.pages'); ?></a>
-                      </div>
-                    </div>
-                    <div class="flex items-center">
-                      <div class="shrink-0 pr-5">
-                        <button type="button" onclick="openModal()" class="hidden relative md:inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
-                          <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                          </svg>
-                          <?php echo languageString('image.edit'); ?> &alpha;
-                        </button>
-                        <button type="button" id="delete-button" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
-                          <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                          </svg>
-                          <?php echo languageString('image.delete'); ?>
-                        </button>
-                      </div>
-                      
-                      <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
-                        <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
-                          <span class="absolute -inset-1.5"></span>
-                          <span class="sr-only">View notifications</span>
-                          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                          </svg>
-                        </button>
-              
-                        <!-- Profile dropdown -->
-                        <div class="relative ml-3">
-                          <div>
-                            <button type="button" class="relative flex rounded-full bg-white text-sm focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                              <span class="absolute -inset-1.5"></span>
-                              <span class="sr-only">Open user menu</span>
-                              <img class="size-8 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
-                            </button>
-                          </div>
-              
-                          <!--
-                            Dropdown menu, show/hide based on menu state.
-              
-                            Entering: "transition ease-out duration-200"
-                              From: "transform opacity-0 scale-95"
-                              To: "transform opacity-100 scale-100"
-                            Leaving: "transition ease-in duration-75"
-                              From: "transform opacity-100 scale-100"
-                              To: "transform opacity-0 scale-95"
-                          -->
-                          <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
-                            <a href="dashboard-personal.php" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0"><?php echo languageString('nav.your_profile'); ?></a>
-                            
-                            <a href="login.php?logout=true" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2"><?php echo languageString('nav.sign_out'); ?></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              
-                <!-- Mobile menu, show/hide based on menu state. -->
-                <div class="md:hidden" id="mobile-menu">
-                  <div class="space-y-1 pt-2 pb-3">
-                    <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
-                    <a href="dashboard.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.dashboard'); ?></a>
-                    <a href="media.php" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5"><?php echo languageString('nav.images'); ?></a>
-                    <a href="blog.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.blogposts'); ?></a>
-                    <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.pages'); ?></a>
-                  </div>
-                  <div class="border-t border-gray-500 pt-4 pb-3">
-                    <div class="mt-3 space-y-1">
-                     <!-- <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Modify Image</a>
-                      <div class="pl-5">
-                        <a href="backend_api/modify_image.php?file=<?php echo $fileName; ?>&rotate=270" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Rotate left</a>
-                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Rotate right</a>
-                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Flip Horizontal</a>
-                        <a href="?" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Flip Vertical</a>
-                      </div>-->
-                    </div>
-                  </div>
-                  <div class="border-t border-gray-500 pt-4 pb-3">
-                    <div class="flex items-center px-4 sm:px-6">
-                      <div class="shrink-0">
-                        <img class="size-10 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
-                      </div>
-                      <div class="ml-3">
-                        <div class="text-base font-medium text-gray-300"><?php echo get_username($_SESSION['username']); ?></div>
-                        <div class="text-sm font-medium text-gray-500"><?php echo get_usermail($_SESSION['username']); ?></div>
-                      </div>
-                      <button type="button" class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
-                        <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">View notifications</span>
-                        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                        </svg>
-                      </button>
-                    </div>
-                    <div class="mt-3 space-y-1">
-                      <a href="dashboard-personal.php" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('nav.your_profile'); ?></a>
-                      
-                      <a href="login.php?logout=true" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('nav.sign_out'); ?></a>
-                    </div>
-                  </div>
-                </div>
-              </nav>
-              
-        </header>
-        <div class="flex flex-1">
-          <!--<aside class="hidden md:block max-w-[280px] w-full bg-neutral-200 dark:bg-gray-950 overflow-auto flex-1 text-lg">
-            <nav class="flex flex-1 flex-col pt-5 px-15 text-gray-600 text-base font-medium" aria-label="Sidebar">
-              <ul role="list" class="-mx-2 space-y-1">
-                <li>Modify Image</li>
-                <ul class="px-5">
-                  <li><a href="backend_api/modify_image.php?file=<?php echo $fileName; ?>&rotate=270" class="text-gray-400 hover:text-sky-400">Rotate left</a></li>
-                  <li><a href="backend_api/modify_image.php?file=<?php echo $fileName; ?>&rotate=90" class="text-gray-400 hover:text-sky-400">Rotate right</a></li>
-                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Flip Horizontal</a></li>
-                  <li><a href="?" class="text-gray-400 hover:text-sky-400">Flip Vertical</a></li>
-                </ul>                 
-              </ul>
-            </nav>
-          </aside>-->
-          <main class="flex-1 bg-white dark:bg-neutral-900 overflow-auto">
-            <div class="px-4 sm:px-6 lg:px-8 mt-5 mb-5 flex flex-wrap">
-              <!-- IMAGE -->
-              <div class="max-w-full lg:max-w-[750px] xl:max-w-3/4 2xl:max-w-4/5 4xl:max-w-7/8 mx-auto">
-                <img src="<?php echo $imagePath; ?>" class="w-full 2xl:max-w-7xl h-auto border-2 border-gray-300">
-                <article class="w-full 2xl:max-w-7xl text-wrap text-gray-200 pt-2">
-                  <h2 class="text-xl font-semibold">
-                    <span id="image-title"><?php echo htmlspecialchars($title); ?></span>
-                    <input type="text" id="edit-title" class="hidden w-full mt-2 p-1 border rounded text-sm" value="<?php echo htmlspecialchars($title); ?>">
-                  </h2>
-
-                  <div id="text_container">
-                    <p id="editable_text"><?php echo nl2br(htmlspecialchars($description)); ?></p>
-                    <textarea id="edit-description" class="hidden w-full mt-2 p-1 border rounded text-sm"><?php echo htmlspecialchars($description); ?></textarea>
-                  </div>
-
-                  <div id="button_group" class="flex space-x-2 mt-2">
-                    <div id="editBtnDiv" class="">
-                      <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                        <?php echo languageString('general.edit'); ?>
-                      </button>
-                    </div>
-                    <div id="saveBtnDiv" class="hidden">
-                      <button type="button" id="save_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                        <?php echo languageString('general.save'); ?>
-                      </button>
-                    </div>
-                    <div id="cancelBtnDiv" class="hidden">
-                      <button type="button" id="cancel_edit" class="relative inline-flex items-center gap-x-1.5 bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">
-                        <?php echo languageString('general.cancel'); ?>
-                      </button>
-                    </div>
-                    <?php if(license_isActive() && isAI_active()) { ?>
-                    <div>
-                      <button type="button" id="generate_text" class="relative inline-flex items-center gap-x-1.5 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                        <?php echo languageString('image.generate_ai_text'); ?>
-                      </button>
-                    </div>
-                    <?php } ?>
-                  </div>
-                </article>
-              </div>
-              <!-- META INFO -->
-              <div class="max-w-full xl:max-w-1/5 xl:min-w-1/4 2xl:min-w-1/5 4xl:max-w-1/8 min-w-full pt-2 md:pt-0 pl-0 md:pl-2 ml-auto">
-                <div class="bg-white shadow-md p-6 space-y-4 min-h-full">
-                  <h2 class="text-xl font-semibold"><?php echo languageString('image.meta'); ?></h2>
-                  <ul class="divide-y divide-gray-200 text-sm text-gray-700">
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.camera'); ?></span>
-                      <span><?php echo $camera; ?></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.lens'); ?></span>
-                      <span><?php echo $lens; ?></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.aperture'); ?></span>
-                      <span><?php echo $aperture; ?></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.shutter_speed'); ?></span>
-                      <span><?php echo $shutterSpeed; ?></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.iso'); ?></span>
-                      <span><?php echo $iso; ?></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.focal_length'); ?></span>
-                      <span><?php echo $focallength; ?></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.date'); ?></span>
-                      <span><?php echo $dateTaken; ?></span>
-                    </li>
-                  </ul>
-                  <h2 class="text-xl font-semibold"><?php echo languageString('image.information'); ?></h2>
-                  <ul class="divide-y divide-gray-200 text-sm text-gray-700">
-                    <li class="flex justify-between items-center py-2">
-                      <span class="font-medium"><?php echo languageString('image.rating'); ?></span>
-                      <span id="rating-stars" class="flex space-x-1 text-yellow-400" data-rating="<?php echo htmlspecialchars($rating); ?>" data-filename="<?php echo htmlspecialchars($fileName); ?>">></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('general.tags'); ?></span>
-                      <div class="ml-2 flex flex-wrap gap-2">
-                        <?php foreach ($tags as $tag): ?>
-                          <span class="bg-sky-600 px-2 py-0.5 text-white border border-sky-600 rounded-lg">
-                            <?= htmlspecialchars($tag) ?>
-                            <a href="backend_api/remove_tags.php?type=image&file=<?= urlencode($image_url) ?>&tag=<?= urlencode($tag) ?>"
-                              class="ml-1 hover:text-red-500">&#x2715;</a>
-                          </span>
-                        <?php endforeach; ?>
-                      </div>
-                    </li>
-
-                    <li class="flex justify-between py-2">
-                      <form action="backend_api/add_tags.php?type=image&file=<?php echo $image_url;?>" method="post" class="w-full">
-                        <input type="text" name="tag" class="w-full border border-gray-200" placeholder="<?php echo languageString('general.tags_add'); ?>"/>
-                      </form>
-                    </li>
-                  </ul>
-                  <h2 class="text-xl font-semibold"><?php echo languageString('exif.gps.label'); ?></h2>
-                  <ul class="divide-y divide-gray-200 text-sm text-gray-700">
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.gps.lat'); ?>:</span>
-                      <span><?php echo $latitude; ?></span>
-                    </li>
-                    <li class="flex justify-between py-2">
-                      <span class="font-medium"><?php echo languageString('exif.gps.lon'); ?>:</span>
-                      <span><?php echo $longitude; ?></span>
-                    </li>
-                    <li>
-                      <div id="map" class="w-full h-48 border-2 border-gray-300"></div>
-                    </li>
-                  </ul>
-                  <div id="button_group_meta" class=" relative flex space-x-2 mt-2">
-                    <button type="button" id="edit_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      <?php echo languageString('image.meta_edit'); ?>
-                    </button>
-                    <button type="button" id="update-exif" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      <?php echo languageString('image.meta_sync'); ?>
-                    </button>
-                  </div>
-                  <div id="button_group_meta_manual" class="hidden relative flex space-x-2 mt-2">
-                    <button type="button" id="save_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
-                      <?php echo languageString('general.save'); ?>
-                    </button>
-                    <button type="button" id="cancel_metadata" class="inline-block align-bottom w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-rose-600">
-                      <?php echo languageString('general.cancel'); ?>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-        <script src="js/tailwind.js"></script>
-        <script src="js/image_rating.js"></script>
-        <script src="js/edit_text.js"></script>
-        <script src="js/sync_exifdata.js?<?=time()?>"></script>
-        <script src="js/edit_exifdata.js"></script>
-        <?php if(license_isActive() && isAI_active()) { ?>
-        <script src="js/ai_generate_imagetxt.js"></script>
-        <?php } ?>
+					</div>
+				</div>
+			</div>
+			<!-- Zweite Leiste: nur auf sm sichtbar -->
+			<div class="sm:block md:hidden border-b border-gray-600 dark:border-gray-200 bg-white bg-white dark:bg-black dark:border-black dark:border-white/10">
+				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+					<nav class="flex gap-2 justify-center">
+					<a href="dashboard.php"
+						class="inline-flex items-center  py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.dashboard'); ?>
+					</a>
+					<a href="media.php"
+						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.images'); ?>
+					</a>
+					<a href="blog.php"
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.blogposts'); ?>
+					</a>
+					<a href="pages.php"
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.pages'); ?>
+					</a>
+					</nav>
+				</div>
+			</div>
+			<main class="py-10 bg-white dark:bg-black">
+				<div class="px-4 sm:px-6 lg:px-8">
+					
+				</div>
+			</main>
+		</div>
+		<script src="js/album_collection.js"></script>
+		<script src="js/navbar.js"></script>
+		<script src="js/tailwind.js"></script>
+		<script src="js/profile_settings.js"></script>
         <script src="js/file_upload.js"></script>
-        <!--<script src="js/image_delete.js"></script>-->
         <script>
-          const map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 12); // Beispielkoordinaten (London)
+			(() => {
+			let pendingLink = null;
 
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          }).addTo(map);
+			const dlg     = document.getElementById('deleteImageModal');
+			const btnYes  = document.getElementById('confirmYes'); // Delete (rot)
+			const btnNo   = document.getElementById('confirmNo');  // Cancel
 
-          L.marker([<?php echo $latitude; ?>, <?php echo $longitude; ?>]).addTo(map)
-            //.bindPopup('Beispielstandort')
-            .openPopup();
-        </script>
-        <script>
-          // Delete-Button Klick öffnet Modal
-          document.getElementById('delete-button').addEventListener('click', function() {
-            document.getElementById('deleteModal').classList.remove('hidden');
+			if (!dlg || !btnYes || !btnNo) return;
+
+			// Delegation: Klick auf einen Delete-Link in der Bilderliste
+			const imageList = document.getElementById('image-list');
+			if (imageList) {
+				imageList.addEventListener('click', (e) => {
+				const a = e.target.closest('a.confirm-link, a[href*="backend_api/delete.php"]');
+				if (!a) return;
+				e.preventDefault();
+				pendingLink = a.href;
+
+				// Optional: Titel/Body im Modal anpassen (wenn du willst)
+				// document.getElementById('dialog-title').textContent = 'Bild löschen?';
+
+				// Neues Dialog öffnen
+				if (typeof dlg.showModal === 'function') {
+					dlg.showModal();
+				} else {
+					// Fallback (sollte selten nötig sein)
+					dlg.setAttribute('open', '');
+				}
+				});
+			}
+
+			// Bestätigen -> weiterleiten
+			btnYes.addEventListener('click', () => {
+				const href = pendingLink;
+				pendingLink = null;
+				if (dlg.open) dlg.close();
+				if (href) window.location.assign(href);
+			});
+
+			// Abbrechen -> schließen
+			btnNo.addEventListener('click', () => {
+				pendingLink = null;
+				if (dlg.open) dlg.close();
+			});
+
+			// Dialog wird anderweitig geschlossen (Esc etc.)
+			dlg.addEventListener('close', () => { pendingLink = null; });
+			})();
+		</script>
+		<script>
+          let pendingLink = null;
+
+          // Klick auf bestätigungspflichtige Links
+          document.querySelectorAll('.confirm-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+              e.preventDefault();
+              pendingLink = this.href;
+              document.getElementById('confirmModal').classList.remove('hidden');
+            });
           });
 
-          // Cancel-Button Klick schließt Modal
-          document.getElementById('cancelDelete').addEventListener('click', function() {
-            document.getElementById('deleteModal').classList.add('hidden');
+          // Abbrechen → Modal schließen
+          document.getElementById('confirmYes').addEventListener('click', () => {
+            document.getElementById('confirmModal').classList.add('hidden');
+            pendingLink = null;
           });
 
-          // Confirm-Button Klick ruft direkt dein PHP-Skript auf
-          document.getElementById('confirmDelete').addEventListener('click', function() {
-            const filename = "<?php echo htmlspecialchars($fileName); ?>";
-            window.location.href = `/dashboard/backend_api/delete.php?type=img&filename=${encodeURIComponent(filename)}`;
+          // Bestätigen → Weiterleitung
+          document.getElementById('confirmNo').addEventListener('click', () => {
+            if (pendingLink) {
+              window.location.href = pendingLink;
+            }
           });
-
         </script>
-        <!-- JavaScript -->
         <script>
-          let originalImage = null;
-          let canvas = document.getElementById("editorCanvas");
-          let ctx = canvas.getContext("2d");
-          let rotation = 0;
-          let flipX = 1;
-          let flipY = 1;
+          document.querySelectorAll('.assign-to-album-btn').forEach(button => {
+            button.addEventListener('click', () => {
+              const filename = button.getAttribute('data-filename');
+              document.getElementById('assignImageFilename').value = filename;
+              document.getElementById('assignToAlbumModal').classList.remove('hidden');
+            });
+          });
 
-          function openModal() {
-            document.getElementById("imageEditorModal").classList.remove("hidden");
-            loadImage("<?php echo $imagePath; ?>"); // Pfad anpassen
-          }
+          document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
+            document.getElementById('assignToAlbumModal').classList.add('hidden');
+          });
 
-          function closeModal() {
-            document.getElementById("imageEditorModal").classList.add("hidden");
-            resetEditor();
-          }
-
-          function loadImage(src) {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.onload = () => {
-              originalImage = img;
-              resetTransforms();
-              draw();
-            };
-            img.onerror = () => alert("Bild konnte nicht geladen werden!");
-            img.src = src;
-          }
-
-          function draw() {
-            if (!originalImage) return;
-            const w = originalImage.width;
-            const h = originalImage.height;
-            const rad = rotation * Math.PI / 180;
-
-            // Neue Canvas-Größe je nach Rotation
-            const rotatedWidth = Math.abs(Math.cos(rad)) * w + Math.abs(Math.sin(rad)) * h;
-            const rotatedHeight = Math.abs(Math.sin(rad)) * w + Math.abs(Math.cos(rad)) * h;
-
-            canvas.width = rotatedWidth;
-            canvas.height = rotatedHeight;
-
-            ctx.save();
-            ctx.translate(rotatedWidth / 2, rotatedHeight / 2);
-            ctx.rotate(rad);
-            ctx.scale(flipX, flipY);
-            ctx.drawImage(originalImage, -w / 2, -h / 2);
-            ctx.restore();
-          }
-
-          function rotateLeft() {
-            rotation = (rotation - 90 + 360) % 360;
-            draw();
-          }
-
-          function rotateRight() {
-            rotation = (rotation + 90) % 360;
-            draw();
-          }
-
-          function flipHorizontal() {
-            flipX *= -1;
-            draw();
-          }
-
-          function flipVertical() {
-            flipY *= -1;
-            draw();
-          }
-
-          function resetTransforms() {
-            rotation = 0;
-            flipX = 1;
-            flipY = 1;
-          }
-
-          function resetEditor() {
-            resetTransforms();
-            draw();
-          }
-
-          function startCrop() {
-            alert("Zuschneiden-Funktion muss noch ergänzt werden (z. B. mit Cropper.js)");
-          }
-
-          function applyCrop() {
-            alert("Zuschneiden ist noch nicht implementiert.");
-          }
-
-          function saveChanges() {
-            document.getElementById('form-rotation').value = rotation;
-            document.getElementById('form-flipX').value = flipX;
-            document.getElementById('form-flipY').value = flipY;
-
-            document.getElementById('transformForm').submit();
-          }
+          document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
+            document.getElementById('assignToAlbumModal').classList.add('hidden');
+          });
         </script>
-    </body>
+        <!--<script>
+        document.getElementById('location').addEventListener('change', function () {
+            const url = this.value;
+            window.location.href = url; // Weiterleitung zur gewählten URL
+        });
+      </script>-->
+
+	</body>
 </html>

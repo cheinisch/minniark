@@ -6,7 +6,7 @@
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
-    use OpenRouter\Client;
+    use cheinisch\OpenRouterClient;
 
     function getOpenRouterKey($key): ?string
     {
@@ -92,7 +92,7 @@
         $referer = 'https://minniark.app'; // optional
         $title   = 'Minniark';               // optional
 
-        $text = Client::OpenRouterChat($apiKey, $model, $prompt, $referer, $title);
+        $text = OpenRouterClient::OpenRouterChat($apiKey, $model, $prompt, $referer, $title);
 
         return $text;
     }

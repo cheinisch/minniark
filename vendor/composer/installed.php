@@ -3,11 +3,7 @@
         'name' => 'cheinisch/minniark',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-<<<<<<< Updated upstream
-        'reference' => 'e078137f14b36e1254f07f3b74def683b84b46eb',
-=======
-        'reference' => '1befa9dca9aaebcfa20d610b165e886c81919c19',
->>>>>>> Stashed changes
+        'reference' => '41d99fc94ffee792df09ba82fd9f2b9cd22e2699',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -17,20 +13,16 @@
         'cheinisch/minniark' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-<<<<<<< Updated upstream
-            'reference' => 'e078137f14b36e1254f07f3b74def683b84b46eb',
-=======
-            'reference' => '1befa9dca9aaebcfa20d610b165e886c81919c19',
->>>>>>> Stashed changes
+            'reference' => '41d99fc94ffee792df09ba82fd9f2b9cd22e2699',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'cheinisch/openrouter-php-client' => array(
-            'pretty_version' => 'v0.1.1',
-            'version' => '0.1.1.0',
-            'reference' => 'c54f8afea3a93169bc8a4e8bb08fe35b13c6075e',
+            'pretty_version' => 'v0.2.1',
+            'version' => '0.2.1.0',
+            'reference' => '9c0521b61b154e4ed8173b278443961e0ffec5fa',
             'type' => 'library',
             'install_path' => __DIR__ . '/../cheinisch/openrouter-php-client',
             'aliases' => array(),

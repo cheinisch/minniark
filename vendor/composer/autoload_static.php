@@ -20,6 +20,10 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
     );
 
     public static $prefixLengthsPsr4 = array (
+        'c' => 
+        array (
+            'cheinisch\\' => 10,
+        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -60,6 +64,10 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
     );
 
     public static $prefixDirsPsr4 = array (
+        'cheinisch\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cheinisch/openrouter-php-client/src',
+        ),
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
@@ -95,7 +103,7 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
         ),
         'OpenRouter\\' => 
         array (
-            0 => __DIR__ . '/..' . '/cheinisch/openrouter-php-client/src',
+            0 => __DIR__ . '/..' . '/cheinisch/openrouter-php-client/src-legacy',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

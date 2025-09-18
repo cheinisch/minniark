@@ -261,14 +261,14 @@
 							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.date'); ?></dt><dd id="exif-date"><?php echo $dateTaken; ?></dd></div>
 							<div class="py-2">
 							<div class="flex items-center justify-between">
-								<dt class="font-medium">GPS</dt>
+								<dt class="font-medium"><?php echo languageString('exif.gps.label'); ?></dt>
 								<div class="flex items-center gap-2">
 								<button id="copy-gps" class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10">Copy</button>
 								</div>
 							</div>
 							<dd class="mt-1 text-xs">
-								<span id="exif-lat">40.6065</span>,
-								<span id="exif-lon">-74.045</span>
+								<span id="exif-lat"><?php echo $latitude; ?></span>,
+								<span id="exif-lon"><?php echo $longitude; ?></span>
 							</dd>
 							<div id="map" class="mt-3 h-40 rounded border border-black/10 dark:border-white/10 flex items-center justify-center text-xs text-black/60 dark:text-gray-400">
 								Map placeholder (40.6065, -74.045)

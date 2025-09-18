@@ -1,19 +1,73 @@
 <?php
-
   require_once( __DIR__ . "/../functions/function_backend.php");
   security_checklogin();
 
-  // Prüfen, ob ein bestimmtes Jahr übergeben wurde
-  $filterYear = isset($_GET['year']) ? $_GET['year'] : null;
-  $filterRating = isset($_GET['rating']) ? $_GET['rating'] : null;
-  $filterTag = isset($_GET['tag']) ? $_GET['tag'] : null;
-  $filterCountry = isset($_GET['country']) ? $_GET['country'] : null;
+  $image_url = $_GET['image'];
 
-  $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
-  $direction = isset($_GET['dir']) ? $_GET['dir'] : null;
+  $imageData = getImage($image_url);
+
+    // Daten extrahieren
+    $fileName = $imageData['filename'];
+    $imagePath = "../userdata/content/images/" . $fileName."?v=".time();
+    $title = $imageData['title'];
+    $description = $imageData['description'];
+    $uploadDate = $imageData['upload_date'] ?? null;
+  
+    $rating = $imageData['rating'] ?? 0;
+
+    // Exif-Daten
+    $camera = $imageData['exif']['Camera'] ?? 'Unknown';
+    $lens = $imageData['exif']['Lens'] ?? 'Unknown';
+    $focallength = $imageData['exif']['Focal Length'] ?? 'Unknown';
+    $apertureRaw = $imageData['exif']['Aperture'] ?? 'Unknown';
+    $shutterSpeedRaw = $imageData['exif']['Shutter Speed'] ?? 'Unknown';
+    $iso = $imageData['exif']['ISO'] ?? 'Unknown';
+    $dateTaken = $imageData['exif']['Date'] ?? 'Unknown';
+  
+    // Name Fix
+    $camera = str_replace('Canon Canon', 'Canon',$camera);
+
+    // **Aperture formatieren (f/28/10 → f/2.8)**
+    $aperture = "Unknown";
+    if (preg_match('/f\/(\d+)\/(\d+)/', $apertureRaw, $matches)) {
+        $apertureValue = round($matches[1] / $matches[2], 1); // 28/10 → 2.8
+        $aperture = "f/" . $apertureValue;
+    }else{
+      $aperture = $apertureRaw;
+    }
+  
+    // **Shutter Speed formatieren (4/1 → 4s oder 1/250 → 1/250s)**
+    $shutterSpeed = "Unknown";
+    if (preg_match('/(\d+)\/(\d+)/', $shutterSpeedRaw, $matches)) {
+        $numerator = (int)$matches[1];  // Zähler
+        $denominator = (int)$matches[2]; // Nenner
+        
+        if ($numerator >= $denominator) {
+            // Belichtungszeit ≥ 1 Sekunde → "4s"
+            $shutterSpeed = ($numerator / $denominator) . "s";
+        } else {
+            // Belichtungszeit < 1 Sekunde → "1/250s"
+            $shutterSpeed = "1/" . round($denominator / $numerator) . "s";
+        }
+    }
+  
+    // GPS-Daten für OpenStreetMap
+    $latitude = $imageData['exif']['GPS']['latitude'] ?? 0;
+    $longitude = $imageData['exif']['GPS']['longitude'] ?? 0;
+  
+    $hasGPS = !is_null($latitude) && !is_null($longitude);
+
+    // Tags auslesen
+
+    // ---- Tags vorbereiten ----
+    $tags = $imageData['tags'] ?? [];  // falls im YAML vorhanden
+    if (!is_array($tags)) {
+        // falls als String gespeichert → in Array umwandeln
+        $tags = array_map('trim', explode(',', $tags));
+    }
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="<?php echo get_language(); ?>">
 	<head>
 		<meta charset="UTF-8" />
@@ -189,7 +243,41 @@
 			</div>
 			<main class="py-10 bg-white dark:bg-black">
 				<div class="px-4 sm:px-6 lg:px-8">
-					
+					<!-- IMAGE -->
+					<!-- META / EXIF -->
+					<div>
+						<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+						<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+						<h3 class="text-sm font-semibold">EXIF</h3>
+						</header>
+						<div class="p-4">
+						<dl class="text-sm text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Camera</dt><dd id="exif-camera"><?php echo $camera; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Lens</dt><dd id="exif-lens">Unknown</dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Aperture</dt><dd id="exif-aperture">Unknown</dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Shutter</dt><dd id="exif-shutter">Unknown</dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">ISO</dt><dd id="exif-iso">Unknown</dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Focal Length</dt><dd id="exif-focal">Unknown</dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Date Taken</dt><dd id="exif-date">Unknown</dd></div>
+							<div class="py-2">
+							<div class="flex items-center justify-between">
+								<dt class="font-medium">GPS</dt>
+								<div class="flex items-center gap-2">
+								<button id="copy-gps" class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10">Copy</button>
+								</div>
+							</div>
+							<dd class="mt-1 text-xs">
+								<span id="exif-lat">40.6065</span>,
+								<span id="exif-lon">-74.045</span>
+							</dd>
+							<div id="map" class="mt-3 h-40 rounded border border-black/10 dark:border-white/10 flex items-center justify-center text-xs text-black/60 dark:text-gray-400">
+								Map placeholder (40.6065, -74.045)
+							</div>
+							</div>
+						</dl>
+						</div>
+					</section>
+					</div>
 				</div>
 			</main>
 		</div>

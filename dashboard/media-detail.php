@@ -75,6 +75,13 @@
     <title>Images - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
+		<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 	</head>
 	<body class="bg-white dark:bg-black">
 		<!-- Sidebar -->
@@ -241,18 +248,99 @@
 					</nav>
 				</div>
 			</div>
-			<main class="py-10 bg-white dark:bg-black">
-				<div class="px-4 sm:px-6 lg:px-8">
+			<main class="bg-white dark:bg-black text-black dark:text-white">
+				<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_22rem] gap-8">
 					<!-- IMAGE -->
+					<article class="w-full max-w-7xl">
+						<!-- Bild -->
+						<figure class="w-full">
+							<img
+							id="image"
+							src=<?php echo $imagePath; ?>
+							alt="Verrazzano-Narrows Bridge, New York"
+							class="w-full h-auto rounded-sm border border-black/10 dark:border-white/10 shadow-xs"
+							/>
+							<figcaption class="mt-4">
+								<div class="flex items-center justify-between gap-2">
+									<h2 id="title" class="text-xl font-semibold">
+									<?php echo htmlspecialchars($title); ?>
+									</h2>
+
+									<div class="flex items-center gap-2 shrink-0">
+										<button type="button" id="edit_text"
+											class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10">
+											<?php echo languageString('general.edit'); ?>
+										</button>
+										<?php if(license_isActive() && isAI_active()) { ?>
+										<button type="button" id="generate_text"
+											class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 whitespace-nowrap">
+											<?php echo languageString('image.generate_ai_text'); ?>
+										</button>
+										<?php } ?>
+									</div>
+								</div>
+								<p id="description" class="mt-2 text-sm leading-6 text-black/80 dark:text-gray-300">
+									<?php echo nl2br(htmlspecialchars($description)); ?>
+								</p>
+							</figcaption>
+						</figure>
+					</article>
 					<!-- META / EXIF -->
 					<div class="w-92 text-black dark:text-white">
-						<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs mb-1">
+						<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs mb-2">
 							<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
 							<h3 class="text-sm font-semibold">Metadata</h3>
 							</header>
 							<div class="p-4">
 							<dl class="text-sm text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
-								<div class="py-2 flex justify-between gap-4"><dt class="font-medium">Tags</dt><dd id="meta-modified">Unknown</dd></div>
+								<div class="py-2">
+									<div class="flex items-start justify-between gap-4">
+									<dt class="font-medium shrink-0"><?php echo languageString('general.tags'); ?></dt>
+
+									<dd class="flex-1">
+										<?php if (!empty($tags)): ?>
+										<ul class="ml-0 flex flex-wrap gap-2" id="tag-list">
+											<?php foreach ($tags as $tag): ?>
+											<li>
+												<span class="group inline-flex items-center gap-1 rounded-full border border-sky-600/70 bg-sky-600 text-white px-2 py-0.5 text-xs">
+												<!-- Tag-Icon (dezent) -->
+												<svg viewBox="0 0 24 24" aria-hidden="true" class="size-3 opacity-80 fill-current">
+													<path d="M21 11.5 12.5 3a1.5 1.5 0 0 0-1.06-.44H5A2 2 0 0 0 3 4.5v6.44c0 .4.16.78.44 1.06L12 21a1.5 1.5 0 0 0 2.12 0l6.88-6.88a1.5 1.5 0 0 0 0-2.12ZM7.75 8.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"/>
+												</svg>
+												<span class="truncate max-w-[11rem]"><?= htmlspecialchars($tag) ?></span>
+
+												<!-- Entfernen -->
+												<a
+													href="backend_api/remove_tags.php?type=image&file=<?= urlencode($image_url) ?>&tag=<?= urlencode($tag) ?>"
+													class="-mr-1 inline-flex items-center rounded-full p-0.5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+													aria-label="Tag entfernen: <?= htmlspecialchars($tag) ?>"
+													title="Entfernen"
+												>
+													<svg viewBox="0 0 24 24" class="size-3 transition group-hover:text-red-200" fill="currentColor" aria-hidden="true">
+													<path d="M6 18 18 6m0 12L6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+													</svg>
+												</a>
+												</span>
+											</li>
+											<?php endforeach; ?>
+										</ul>
+										<?php else: ?>
+										<span class="text-black/60 dark:text-gray-400"><?php echo languageString('general.no_tags'); ?></span>
+										<?php endif; ?>
+									</dd>
+									</div>
+
+									<!-- Tag hinzufügen -->
+									<form action="backend_api/add_tags.php?type=image&file=<?= urlencode($image_url); ?>" method="post" class="mt-3 flex items-center gap-2">
+									<input
+										type="text"
+										name="tag"
+										required
+										class="flex-1 rounded border border-black/10 dark:border-white/10 bg-white dark:bg-black px-3 py-2 text-sm placeholder-black/50 dark:placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500"
+										placeholder="<?php echo languageString('general.tags_add'); ?>"
+									/>
+									</form>
+								</div>
 								<div class="py-2 flex items-center justify-between gap-4">
 								<dt class="font-medium"><?php echo languageString('image.rating'); ?></dt>
 								<dd>
@@ -265,7 +353,12 @@
 						</section>
 						<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
 						<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-						<h3 class="text-sm">EXIF</h3>
+						<div class="flex items-center justify-between">
+							<dt class="font-sm"><h3 class="text-sm font-semibold">EXIF</h3></dt>
+							<div class="flex items-center gap-2">
+							<button id="copy-gps" class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10">Edit</button>
+							</div>
+						</div>
 						</header>
 						<div class="p-4">
 						<dl class="text-sm text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
@@ -284,11 +377,12 @@
 								</div>
 							</div>
 							<dd class="mt-1 text-xs">
-								<span id="exif-lat"><?php echo $latitude; ?></span><br />
+								<span id="exif-lat"><?php echo $latitude; ?></span>
+								<span> // </span>
 								<span id="exif-lon"><?php echo $longitude; ?></span>
 							</dd>
 							<div id="map" class="mt-3 h-40 rounded border border-black/10 dark:border-white/10 flex items-center justify-center text-xs text-black/60 dark:text-gray-400">
-								Map placeholder (40.6065, -74.045)
+								Map placeholder (<?php echo $latitude; ?>, <?php echo $longitude; ?>)
 							</div>
 							</div>
 						</dl>
@@ -298,109 +392,22 @@
 				</div>
 			</main>
 		</div>
-		<script src="js/album_collection.js"></script>
+		
 		<script src="js/navbar.js"></script>
 		<script src="js/tailwind.js"></script>
 		<script src="js/profile_settings.js"></script>
-        <script src="js/file_upload.js"></script>
-        <script>
-			(() => {
-			let pendingLink = null;
-
-			const dlg     = document.getElementById('deleteImageModal');
-			const btnYes  = document.getElementById('confirmYes'); // Delete (rot)
-			const btnNo   = document.getElementById('confirmNo');  // Cancel
-
-			if (!dlg || !btnYes || !btnNo) return;
-
-			// Delegation: Klick auf einen Delete-Link in der Bilderliste
-			const imageList = document.getElementById('image-list');
-			if (imageList) {
-				imageList.addEventListener('click', (e) => {
-				const a = e.target.closest('a.confirm-link, a[href*="backend_api/delete.php"]');
-				if (!a) return;
-				e.preventDefault();
-				pendingLink = a.href;
-
-				// Optional: Titel/Body im Modal anpassen (wenn du willst)
-				// document.getElementById('dialog-title').textContent = 'Bild löschen?';
-
-				// Neues Dialog öffnen
-				if (typeof dlg.showModal === 'function') {
-					dlg.showModal();
-				} else {
-					// Fallback (sollte selten nötig sein)
-					dlg.setAttribute('open', '');
-				}
-				});
-			}
-
-			// Bestätigen -> weiterleiten
-			btnYes.addEventListener('click', () => {
-				const href = pendingLink;
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-				if (href) window.location.assign(href);
-			});
-
-			// Abbrechen -> schließen
-			btnNo.addEventListener('click', () => {
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-			});
-
-			// Dialog wird anderweitig geschlossen (Esc etc.)
-			dlg.addEventListener('close', () => { pendingLink = null; });
-			})();
-		</script>
-		<script>
-          let pendingLink = null;
-
-          // Klick auf bestätigungspflichtige Links
-          document.querySelectorAll('.confirm-link').forEach(link => {
-            link.addEventListener('click', function (e) {
-              e.preventDefault();
-              pendingLink = this.href;
-              document.getElementById('confirmModal').classList.remove('hidden');
-            });
-          });
-
-          // Abbrechen → Modal schließen
-          document.getElementById('confirmYes').addEventListener('click', () => {
-            document.getElementById('confirmModal').classList.add('hidden');
-            pendingLink = null;
-          });
-
-          // Bestätigen → Weiterleitung
-          document.getElementById('confirmNo').addEventListener('click', () => {
-            if (pendingLink) {
-              window.location.href = pendingLink;
-            }
-          });
-        </script>
-        <script>
-          document.querySelectorAll('.assign-to-album-btn').forEach(button => {
-            button.addEventListener('click', () => {
-              const filename = button.getAttribute('data-filename');
-              document.getElementById('assignImageFilename').value = filename;
-              document.getElementById('assignToAlbumModal').classList.remove('hidden');
-            });
-          });
-
-          document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-
-          document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-        </script>
-        <!--<script>
-        document.getElementById('location').addEventListener('change', function () {
-            const url = this.value;
-            window.location.href = url; // Weiterleitung zur gewählten URL
-        });
-      </script>-->
 		  <script src="js/image_rating.js"></script>
+		  <script>
+          const map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 12);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          }).addTo(map);
+
+          L.marker([<?php echo $latitude; ?>, <?php echo $longitude; ?>]).addTo(map)
+            //.bindPopup('Beispielstandort')
+            .openPopup();
+        </script>
 	</body>
 </html>

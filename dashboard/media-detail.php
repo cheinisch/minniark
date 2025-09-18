@@ -252,7 +252,7 @@
 						</header>
 						<div class="p-4">
 						<dl class="text-sm text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
-							<div class="py-2 flex justify-between gap-4"><dt class="font-medium">><?php echo languageString('exif.camera'); ?></dt><dd id="exif-camera"><?php echo $camera; ?></dd></div>
+							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.camera'); ?></dt><dd id="exif-camera"><?php echo $camera; ?></dd></div>
 							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.lens'); ?></dt><dd id="exif-lens"><?php echo $lens; ?></dd></div>
 							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.aperture'); ?></dt><dd id="exif-aperture"><?php echo $aperture; ?></dd></div>
 							<div class="py-2 flex justify-between gap-4"><dt class="font-medium"><?php echo languageString('exif.shutter_speed'); ?></dt><dd id="exif-shutter"><?php echo $shutterSpeed; ?></dd></div>

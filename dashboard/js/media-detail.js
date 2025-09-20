@@ -502,7 +502,8 @@ document.addEventListener("DOMContentLoaded", () => {
           fillInputsFromResponse(data);
           setBusy(false, "Synced");
           //  Modal direkt schließen (oder mit kurzer Verzögerung)
-          setTimeout(closeModal, 300);
+          setBusy(false, "Synced");
+          setTimeout(() => location.reload(), 300);
         } else {
           alert("Fehler: " + (data?.error || "Unbekannter Fehler"));
           setBusy(false);

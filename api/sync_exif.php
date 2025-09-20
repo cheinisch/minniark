@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 error_log("Starte EXIF-Update");
 
 require_once(__DIR__ . "/../functions/function_api.php");
-require_once(__DIR__ . "/../functions/backend/exifdata.php");
 require_once(__DIR__ . "/../vendor/autoload.php");
 
 use Symfony\Component\Yaml\Yaml;

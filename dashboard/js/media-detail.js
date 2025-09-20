@@ -386,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // SYNC: unverändert; optional Modal schließen, um konsistent zu sein
-  syncBtn.addEventListener("click", () => {
+  /*syncBtn.addEventListener("click", () => {
     fetch(`${window.location.origin}/backend_api/update_image.php?type=exif`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     if (isModalOpen()) closeModal();
     alert("EXIF-Sync gestartet.");
-  });
+  });*/
 
   // Falls dein Modal separat geöffnet wird, hier noch ESC/Backdrop schließt (optional; falls nicht schon vorhanden)
   if (modal && backdrop) {
@@ -406,6 +406,117 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+});
+
+/*
+ * --------------------------
+ * SYNC EXIF DATA
+ * --------------------------
+ */
+
+console.log("sync_exifdata.js geladen");
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Add Eventlistener");
+
+  const btn = document.getElementById("update-exif");
+  if (!btn) { console.warn("sync_exifdata: #update-exif nicht gefunden."); return; }
+  if (btn.dataset.bound === "true") return;
+  btn.dataset.bound = "true";
+
+  const ratingContainer = document.getElementById("rating-stars");
+  const fileName = ratingContainer?.dataset.filename || null;
+
+  // Inputs im Modal selektieren (nach data-key)
+  const modal = document.getElementById("editExifModal");
+  const q = (key) => modal?.querySelector(`input[data-key="${key}"]`);
+
+  // Hilfen
+  const setBusy = (busy, labelWhenDone) => {
+    if (busy) {
+      btn.dataset.label = btn.dataset.label || btn.textContent.trim();
+      btn.disabled = true;
+      btn.textContent = "Syncing…";
+    } else {
+      btn.disabled = false;
+      btn.textContent = labelWhenDone ?? btn.dataset.label ?? "Sync EXIF";
+      if (!labelWhenDone && btn.dataset.label) btn.textContent = btn.dataset.label;
+    }
+  };
+
+  // Mappt mögliche Serverkeys → unsere data-key Felder
+  const mapExifKey = (k) => {
+    if (!k) return null;
+    const n = k.toString().trim().toLowerCase().replace(/\s+/g, "_");
+    switch (n) {
+      case "camera": return "camera";
+      case "lens": return "lens";
+      case "aperture": return "aperture";
+      case "shutter_speed": return "shutter_speed";
+      case "iso": return "iso";
+      case "focal_length": return "focal_length";
+      case "date": return "date";
+      default: return null;
+    }
+  };
+
+  const fillInputsFromResponse = (data) => {
+    // EXIF (Server könnte Keys wie "Camera", "Shutter Speed" etc. schicken)
+    if (data?.exif && typeof data.exif === "object") {
+      Object.entries(data.exif).forEach(([k, v]) => {
+        const key = mapExifKey(k);
+        if (!key) return;
+        const input = q(key);
+        if (input) input.value = (v ?? "").toString();
+      });
+    }
+    // GPS
+    const lat = data?.gps?.latitude ?? data?.gps?.lat ?? data?.latitude ?? null;
+    const lon = data?.gps?.longitude ?? data?.gps?.lon ?? data?.longitude ?? null;
+    if (lat !== null && q("lat")) q("lat").value = lat;
+    if (lon !== null && q("lon")) q("lon").value = lon;
+  };
+
+  btn.addEventListener("click", () => {
+    if (!fileName) {
+      alert("Kein Dateiname gefunden.");
+      console.log("No File Name");
+      return;
+    }
+
+    setBusy(true);
+
+    fetch(`${window.location.origin}/api/sync_exif.php`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ filename: fileName })
+    })
+      .then(async (res) => {
+        const text = await res.text();
+        try {
+          return JSON.parse(text);
+        } catch {
+          console.error("Kein valides JSON:", text);
+          throw new Error("Ungültige Serverantwort");
+        }
+      })
+      .then((data) => {
+        if (data?.success) {
+          fillInputsFromResponse(data);
+          // Kein Alert bei Erfolg, nur kurzes Button-Feedback
+          setBusy(false, "Synced");
+          setTimeout(() => { if (btn.dataset.label) btn.textContent = btn.dataset.label; }, 800);
+        } else {
+          alert("Fehler: " + (data?.error || "Unbekannter Fehler"));
+          setBusy(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Netzwerkfehler:", err);
+        alert("Netzwerkfehler beim Laden der EXIF-Daten.");
+        setBusy(false);
+      });
+  });
 });
 
 /*

@@ -13,7 +13,8 @@
         "albums" : "Albums",
         "collections" : "Collections",
         "ratings" : "Ratings",
-        "close" : "Close"
+        "close" : "Close",
+        "copy" : "Copy"
     },
     "nav": {
         "dashboard": "Dashboard",

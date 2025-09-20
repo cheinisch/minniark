@@ -364,7 +364,7 @@
 							<div class="flex items-center justify-between">
 								<dt class="font-medium"><?php echo languageString('exif.gps.label'); ?></dt>
 								<div class="flex items-center gap-2">
-								<button id="copy-gps" class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10">Copy</button>
+								<button id="copy-gps" type="button" class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10"><?php echo languageString('general.copy'); ?></button>
 								</div>
 							</div>
 							<dd class="mt-1 text-xs">
@@ -387,8 +387,9 @@
 		<script src="js/navbar.js"></script>
 		<script src="js/tailwind.js"></script>
 		<script src="js/profile_settings.js"></script>
-		  <script src="js/image_rating.js"></script>
-		  <script>
+		<script src="js/image_rating.js"></script>
+		<script src="js/media-detail.js"></script>
+		<script>
           const map = L.map('map').setView([<?php echo $latitude; ?>, <?php echo $longitude; ?>], 12);
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

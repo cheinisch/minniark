@@ -240,9 +240,9 @@
 				</div>
 			</div>
 			<main class="bg-white dark:bg-black text-black dark:text-white">
-				<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_22rem] gap-8">
+				<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_22rem] gap-8">
 					<!-- IMAGE -->
-					<article class="w-full">
+					<article class="lg:w-full">
 						<!-- Bild -->
 						<figure class="w-full mx-auto max-w-6xl">
 							<img
@@ -277,7 +277,7 @@
 						</figure>
 					</article>
 					<!-- META / EXIF -->
-					<div class="w-92 text-black dark:text-white">
+					<div class="w-full md:w-92 text-black dark:text-white">
 						<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs mb-2">
 							<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
 							<h3 class="text-sm font-semibold">Metadata</h3>

@@ -413,9 +413,6 @@ document.addEventListener("DOMContentLoaded", () => {
  * SYNC EXIF DATA
  * --------------------------
  */
-
-console.log("sync_exifdata.js geladen");
-
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Add Eventlistener");
 
@@ -427,11 +424,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const ratingContainer = document.getElementById("rating-stars");
   const fileName = ratingContainer?.dataset.filename || null;
 
-  // Inputs im Modal selektieren (nach data-key)
+  // Modal & Inputs
   const modal = document.getElementById("editExifModal");
   const q = (key) => modal?.querySelector(`input[data-key="${key}"]`);
 
-  // Hilfen
+  // 🔧 Modal schließen + Scroll entsperren
+  const closeModal = () => {
+    if (!modal) return;
+    modal.classList.add("hidden");
+    document.documentElement.classList.remove("overflow-hidden");
+    document.body.classList.remove("overflow-hidden");
+  };
+
   const setBusy = (busy, labelWhenDone) => {
     if (busy) {
       btn.dataset.label = btn.dataset.label || btn.textContent.trim();
@@ -444,7 +448,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Mappt mögliche Serverkeys → unsere data-key Felder
   const mapExifKey = (k) => {
     if (!k) return null;
     const n = k.toString().trim().toLowerCase().replace(/\s+/g, "_");
@@ -461,7 +464,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const fillInputsFromResponse = (data) => {
-    // EXIF (Server könnte Keys wie "Camera", "Shutter Speed" etc. schicken)
     if (data?.exif && typeof data.exif === "object") {
       Object.entries(data.exif).forEach(([k, v]) => {
         const key = mapExifKey(k);
@@ -470,7 +472,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (input) input.value = (v ?? "").toString();
       });
     }
-    // GPS
     const lat = data?.gps?.latitude ?? data?.gps?.lat ?? data?.latitude ?? null;
     const lon = data?.gps?.longitude ?? data?.gps?.lon ?? data?.longitude ?? null;
     if (lat !== null && q("lat")) q("lat").value = lat;
@@ -493,19 +494,15 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then(async (res) => {
         const text = await res.text();
-        try {
-          return JSON.parse(text);
-        } catch {
-          console.error("Kein valides JSON:", text);
-          throw new Error("Ungültige Serverantwort");
-        }
+        try { return JSON.parse(text); }
+        catch { console.error("Kein valides JSON:", text); throw new Error("Ungültige Serverantwort"); }
       })
       .then((data) => {
         if (data?.success) {
           fillInputsFromResponse(data);
-          // Kein Alert bei Erfolg, nur kurzes Button-Feedback
           setBusy(false, "Synced");
-          setTimeout(() => { if (btn.dataset.label) btn.textContent = btn.dataset.label; }, 800);
+          //  Modal direkt schließen (oder mit kurzer Verzögerung)
+          setTimeout(closeModal, 300);
         } else {
           alert("Fehler: " + (data?.error || "Unbekannter Fehler"));
           setBusy(false);

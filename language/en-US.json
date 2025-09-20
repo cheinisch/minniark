@@ -63,7 +63,12 @@
         "reset_filter" : "All Images (Reset Filter)",
         "drop_or_click" : "Drop file here or click here",
         "choose_files" : "Choose Files",
-        "upload_hint" : "Image Uploader"
+        "upload_hint" : "Image Uploader",
+        "generate" : {
+            "btn": "Generate AI Text",
+            "title": "Generate AI Text",
+            "text": "Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
+        }
     },
     "exif" :{
         "camera":"Camera",

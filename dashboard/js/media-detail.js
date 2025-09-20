@@ -94,3 +94,80 @@ console.log('[gps-copy] script tag parsed');
     attach();
   }
 })();
+
+/*
+ * --------------------------
+ * OPEN GENERATE AI TEXT MODAL
+ * --------------------------
+ */
+
+(function () {
+  const modal   = document.getElementById('confirmAiModal');
+  const openBtn = document.getElementById('generate_text');
+  const closeBtn= document.getElementById('aiTextClose');
+  const cancel  = document.getElementById('confirmNo');
+  if (!modal || !openBtn) return;
+
+  // Backdrop-Element (das mit fixed inset-0)
+  const backdrop = modal.querySelector('.fixed.inset-0');
+
+  // Z-Index sicherstellen (falls im HTML nicht gesetzt)
+  modal.classList.add('z-50');
+
+  let prevActive = null;
+
+  function lockScroll() {
+    document.documentElement.classList.add('overflow-hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+  function unlockScroll() {
+    document.documentElement.classList.remove('overflow-hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function openModal() {
+    prevActive = document.activeElement;
+    modal.classList.remove('hidden');
+    modal.removeAttribute('aria-hidden');
+    modal.setAttribute('aria-modal', 'true');
+    lockScroll();
+
+    // Fokus in den Dialog setzen (Titel oder erster Button)
+    const firstFocusable = modal.querySelector('button, [href], [tabindex]:not([tabindex="-1"])');
+    (firstFocusable || modal).focus();
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.removeAttribute('aria-modal');
+    unlockScroll();
+
+    // Fokus zurück
+    if (prevActive && typeof prevActive.focus === 'function') prevActive.focus();
+  }
+
+  // Öffnen
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal();
+  });
+
+  // Schließen: Close-Icon & Cancel-Button
+  closeBtn?.addEventListener('click', (e) => { e.preventDefault(); closeModal(); });
+  cancel?.addEventListener('click', (e) => { e.preventDefault(); closeModal(); });
+
+  // Schließen: Klick auf Backdrop (außerhalb des Panels)
+  modal.addEventListener('click', (e) => {
+    // Wenn man direkt auf den äußeren Wrapper (modal) ODER den Backdrop klickt, schließen
+    if (e.target === modal || e.target === backdrop) closeModal();
+  });
+
+  // ESC schließt
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      e.preventDefault();
+      closeModal();
+    }
+  });
+})();

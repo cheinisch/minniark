@@ -171,3 +171,239 @@ console.log('[gps-copy] script tag parsed');
     }
   });
 })();
+
+/*
+ * --------------------------
+ * OPEN EDIT EXIF MODAL
+ * --------------------------
+ */
+(function () {
+  const modal   = document.getElementById('editExifModal');
+  if (!modal) return;
+
+  const cancel  = modal.querySelector('#cancel_metadata');
+  const backdrop= modal.querySelector('.fixed.inset-0');
+  const closeX  = modal.querySelector('#editExifClose');
+
+  function lockScroll(){ document.documentElement.classList.add('overflow-hidden'); document.body.classList.add('overflow-hidden'); }
+  function unlockScroll(){ document.documentElement.classList.remove('overflow-hidden'); document.body.classList.remove('overflow-hidden'); }
+
+  function openModal() {
+    modal.classList.remove('hidden');
+    lockScroll();
+  }
+  function closeModal() {
+    modal.classList.add('hidden');
+    unlockScroll();
+  }
+
+  // Falls du es noch nicht hast: Öffnen über den EXIF-"Edit"-Button
+  const trigger = document.getElementById('edit-exif');
+  trigger?.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+
+  // X und Backdrop schließen
+  closeX?.addEventListener('click', (e) => { e.preventDefault(); closeModal(); });
+  backdrop?.addEventListener('click', (e) => { e.preventDefault(); closeModal(); });
+
+  // 👉 Cancel schließt nur das Modal (unterbindet andere Handler)
+  cancel?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    closeModal();
+  });
+
+  // ESC schließt
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      e.preventDefault();
+      closeModal();
+    }
+  });
+})();
+
+/*
+ * --------------------------
+ * SAVE NEW EXIF DATA
+ * --------------------------
+ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Modal-Handling
+  const modal = document.getElementById("editExifModal");
+  const backdrop = modal?.querySelector(".fixed.inset-0");
+
+  const lockScroll = () => {
+    document.documentElement.classList.add("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+  };
+  const unlockScroll = () => {
+    document.documentElement.classList.remove("overflow-hidden");
+    document.body.classList.remove("overflow-hidden");
+  };
+  const isModalOpen = () => modal && !modal.classList.contains("hidden");
+  const closeModal = () => {
+    if (!modal) return;
+    modal.classList.add("hidden");
+    unlockScroll();
+  };
+
+  // Buttons (einige existieren nur im Modal)
+  const editBtn   = document.getElementById("edit_metadata");   // kann fehlen (Inline-Flow)
+  const syncBtn   = document.getElementById("update-exif");
+  const saveBtn   = document.getElementById("save_metadata");
+  const cancelBtn = document.getElementById("cancel_metadata");
+
+  // Dateiname aus vorhandenem Container
+  const ratingContainer = document.getElementById("rating-stars");
+  const fileName = ratingContainer?.dataset.filename;
+
+  // Guard: editBtn NICHT mehr zwingend erforderlich
+  if (!syncBtn || !saveBtn || !cancelBtn || !fileName) {
+    console.warn("Buttons oder Dateiname fehlen.");
+    return;
+  }
+
+  let editing = false;
+  const originalValues = {};
+
+  // Nur für Inline-Edit benötigt:
+  const makeInput = (text, key) => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = text;
+    input.dataset.key = key;
+    input.className = "text-sm text-gray-700 border border-gray-300 rounded px-2 py-1 w-48";
+    return input;
+  };
+
+  const toggleEditMode = (enable) => {
+    if (!editBtn) return; // im Modal nicht nötig
+    const wrapper = editBtn.closest(".space-y-4");
+    if (!wrapper) return;
+    const sections = wrapper.querySelectorAll("ul");
+
+    sections.forEach(section => {
+      section.querySelectorAll("li").forEach(li => {
+        const label = li.querySelector("span:first-child");
+        const value = li.querySelector("span:last-child");
+
+        if (!label || !value || li.querySelector("div") || li.querySelector("#rating-stars")) return;
+
+        const key = label.textContent.replace(":", "").trim().toLowerCase().replace(/\s+/g, '_');
+
+        if (enable) {
+          originalValues[key] = value.textContent.trim();
+          const input = makeInput(value.textContent.trim(), key);
+          value.innerHTML = "";
+          value.appendChild(input);
+        } else {
+          const input = value.querySelector("input");
+          value.innerHTML = input?.value || originalValues[key] || "";
+        }
+      });
+    });
+
+    document.getElementById("button_group_meta")?.classList.toggle("hidden", enable);
+    document.getElementById("button_group_meta_manual")?.classList.toggle("hidden", !enable);
+
+    cancelBtn.classList.toggle("invisible", !enable);
+    editing = enable;
+  };
+
+  // Inline-Edit nur, wenn es den Button gibt
+  editBtn?.addEventListener("click", () => {
+    toggleEditMode(true);
+  });
+
+  // Cancel: im Modal => nur schließen; sonst (Inline) ursprüngliche Werte wiederherstellen und Edit-Ende
+  cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isModalOpen()) {
+      closeModal();
+      return;
+    }
+
+    // Inline-Flow
+    const inputs = document.querySelectorAll("input[data-key]");
+    inputs.forEach(input => {
+      const key = input.dataset.key;
+      const original = originalValues[key] || "";
+      const span = input.parentElement;
+      if (span) span.innerHTML = original;
+    });
+    toggleEditMode(false);
+  });
+
+  // SAVE: Payload bauen, Formular abschicken, Modal schließen
+  saveBtn.addEventListener("click", () => {
+    const inputs = document.querySelectorAll("input[data-key]");
+    const exifKeys = [
+      "camera", "lens", "aperture", "shutter_speed",
+      "iso", "focal_length", "date"
+    ];
+
+    const payload = {
+      filename: fileName,
+      exif: {},
+      gps: {}
+    };
+
+    inputs.forEach(input => {
+      const key = input.dataset.key;
+      const value = input.value.trim();
+
+      if (key === "lat") {
+        payload.gps.latitude = value;
+      } else if (key === "lon") {
+        payload.gps.longitude = value;
+      } else if (exifKeys.includes(key)) {
+        const formattedKey = key.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        payload.exif[formattedKey] = value;
+      }
+    });
+
+    // Modal sofort schließen (UI-Feedback), bevor die Seite evtl. navigiert
+    if (isModalOpen()) closeModal();
+
+    // Unsichtbares Formular im gleichen Fenster öffnen
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = `backend_api/update_image.php?type=exif`;
+    form.style.display = "none";
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "data";
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  });
+
+  // SYNC: unverändert; optional Modal schließen, um konsistent zu sein
+  syncBtn.addEventListener("click", () => {
+    fetch(`${window.location.origin}/backend_api/update_image.php?type=exif`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ filename: fileName })
+    });
+    if (isModalOpen()) closeModal();
+    alert("EXIF-Sync gestartet.");
+  });
+
+  // Falls dein Modal separat geöffnet wird, hier noch ESC/Backdrop schließt (optional; falls nicht schon vorhanden)
+  if (modal && backdrop) {
+    backdrop.addEventListener("click", (e) => { e.preventDefault(); closeModal(); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isModalOpen()) {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+  }
+});

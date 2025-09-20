@@ -85,6 +85,153 @@
 	</head>
 	<body class="bg-white dark:bg-black">
 		<!-- Modale -->
+		 <!-- EXIF Edit Modal (Labels oben) -->
+<div id="editExifModal" aria-labelledby="exif-edit-dialog"
+     class="hidden fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent z-50">
+
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-gray-900/50"></div>
+
+  <!-- Panel -->
+  <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+    <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
+                data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in
+                sm:my-8 sm:w-full sm:max-w-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+
+      <!-- Close (X) -->
+      <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+        <button type="button" id="editExifClose"
+                class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+          <span class="sr-only">Close</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">
+            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Header -->
+      <div class="sm:flex sm:items-start">
+        <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10 dark:bg-blue-500/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 text-blue-600 dark:text-blue-400">
+            <path d="M3 7h18M5 7l1.5 12.5a2 2 0 0 0 2 1.5h7a2 2 0 0 0 2-1.5L19 7M9 7V5a3 3 0 0 1 6 0v2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+          <h3 id="exif-edit-dialog" class="text-base font-semibold text-gray-900 dark:text-white">
+            <?php echo languageString('exif.edit.title') ?: 'Edit EXIF'; ?>
+          </h3>
+          <div class="mt-2">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              <?php echo languageString('exif.edit.subtitle') ?: 'Adjust metadata and save.'; ?>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content: Labels oben + Inputs -->
+      <div class="mt-4">
+        <form class="space-y-4" id="exif-edit-form" onsubmit="return false;">
+          <!-- EXIF -->
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label for="exif-camera-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Camera</label>
+              <input id="exif-camera-input" data-key="camera" type="text"
+                     value="<?php echo htmlspecialchars($camera); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30" />
+            </div>
+
+            <div>
+              <label for="exif-lens-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Lens</label>
+              <input id="exif-lens-input" data-key="lens" type="text"
+                     value="<?php echo htmlspecialchars($lens); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+
+            <div>
+              <label for="exif-aperture-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Aperture</label>
+              <input id="exif-aperture-input" data-key="aperture" type="text"
+                     value="<?php echo htmlspecialchars($aperture); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+
+            <div>
+              <label for="exif-shutter-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Shutter Speed</label>
+              <input id="exif-shutter-input" data-key="shutter_speed" type="text"
+                     value="<?php echo htmlspecialchars($shutterSpeed); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+
+            <div>
+              <label for="exif-iso-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">ISO</label>
+              <input id="exif-iso-input" data-key="iso" type="text"
+                     value="<?php echo htmlspecialchars($iso); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+
+            <div>
+              <label for="exif-focal-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Focal Length</label>
+              <input id="exif-focal-input" data-key="focal_length" type="text"
+                     value="<?php echo htmlspecialchars($focallength); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+
+            <div>
+              <label for="exif-date-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Date</label>
+              <input id="exif-date-input" data-key="date" type="text"
+                     value="<?php echo htmlspecialchars($dateTaken); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+          </div>
+
+          <!-- GPS -->
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label for="exif-lat-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Lat</label>
+              <input id="exif-lat-input" data-key="lat" type="text"
+                     value="<?php echo htmlspecialchars($latitude); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+            <div>
+              <label for="exif-lon-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Lon</label>
+              <input id="exif-lon-input" data-key="lon" type="text"
+                     value="<?php echo htmlspecialchars($longitude); ?>"
+                     class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            dark:bg-black dark:text-white dark:border-white/10" />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Footer: Buttons -->
+	  <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+		<button type="button" id="save_metadata" command="close" commandfor="deleteImageModal" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">Save</button>		
+		<button type="button" id="update-exif" command="close" commandfor="deleteImageModal" class="mx-2 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">Sync</button>
+		<button type="button" id="cancel_metadata" command="close" commandfor="deleteImageModal" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto dark:bg-red-500 dark:shadow-none dark:hover:bg-red-400"><?php echo languageString('general.cancel'); ?></button>
+	</div>
+
+    </div>
+  </div>
+</div>
+<!-- /EXIF Edit Modal -->
+
+
 		<!-- ai text modal -->
 		<div id="confirmAiModal" aria-labelledby="ai-dialog" class="hidden fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent z-50">
 			<div class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-gray-900/50"></div>

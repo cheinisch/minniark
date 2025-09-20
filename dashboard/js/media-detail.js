@@ -407,3 +407,102 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/*
+ * --------------------------
+ * SAVE NEW TEXT
+ * --------------------------
+ */
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Modal & UI
+  const modal        = document.getElementById("editImageTextModal");
+  const backdrop     = modal?.querySelector(".fixed.inset-0");
+  const trigger      = document.getElementById("edit_text");
+  const closeX       = document.getElementById("close_edit_image_text");
+  const saveBtn      = document.getElementById("save_image_text");
+  const cancelBtn    = document.getElementById("cancel_image_text");
+
+  const titleView    = document.getElementById("title");        // sichtbarer Titel
+  const descView     = document.getElementById("description");  // sichtbare Beschreibung
+  const titleInput   = document.getElementById("image-title-input");
+  const descInput    = document.getElementById("image-description-input");
+
+  const ratingContainer = document.getElementById("rating-stars");
+  const fileName    = ratingContainer?.dataset.filename || null;
+
+  if (!modal || !trigger || !saveBtn || !cancelBtn || !titleInput || !descInput) {
+    console.warn("Edit-Text: erforderliche UI-Elemente nicht gefunden.");
+    return;
+  }
+
+  const lockScroll   = () => { document.documentElement.classList.add("overflow-hidden"); document.body.classList.add("overflow-hidden"); };
+  const unlockScroll = () => { document.documentElement.classList.remove("overflow-hidden"); document.body.classList.remove("overflow-hidden"); };
+  const isOpen       = () => !modal.classList.contains("hidden");
+  const openModal    = () => { 
+    // Felder vorbefüllen
+    titleInput.value = (titleView?.textContent || "").trim();
+    // description wurde serverseitig via nl2br gerendert → textContent holt reine Zeilenumbrüche
+    descInput.value  = (descView?.textContent || "").trim();
+    modal.classList.remove("hidden"); lockScroll();
+    titleInput.focus();
+    // Cursor ans Ende
+    const L = titleInput.value.length; titleInput.setSelectionRange(L, L);
+    autoResize(descInput);
+  };
+  const closeModal   = () => { modal.classList.add("hidden"); unlockScroll(); trigger?.focus?.(); };
+
+  // Auto-Resize für Textarea
+  const autoResize = (ta) => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; };
+  descInput.addEventListener("input", () => autoResize(descInput));
+
+  // Öffnen
+  trigger.addEventListener("click", (e) => { e.preventDefault(); openModal(); });
+
+  // Schließen
+  closeX?.addEventListener("click", (e) => { e.preventDefault(); closeModal(); });
+  backdrop?.addEventListener("click", (e) => { e.preventDefault(); closeModal(); });
+  cancelBtn.addEventListener("click", (e) => { e.preventDefault(); closeModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) { e.preventDefault(); closeModal(); } });
+
+  // SAVE → wie in deinem Beispiel via fetch(JSON) an /api/update_text.php
+  saveBtn.addEventListener("click", async () => {
+    const newTitle = titleInput.value.trim();
+    const newDescription = descInput.value.trim();
+
+    if (!fileName) {
+      console.warn("Kein Dateiname (data-filename in #rating-stars fehlt) – Abbruch.");
+      closeModal();
+      return;
+    }
+
+    // Button sperren gegen Doppelklick
+    saveBtn.disabled = true;
+
+    try {
+      const res = await fetch("/api/update_text.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: fileName, title: newTitle, description: newDescription })
+      });
+
+      const data = await res.json().catch(() => ({ success: false, error: "Invalid JSON" }));
+
+      if (data?.success) {
+        // UI aktualisieren (Description mit <br>, damit es wie nl2br aussieht)
+        if (titleView) titleView.textContent = newTitle;
+        if (descView)  descView.innerHTML   = newDescription.replace(/\n/g, "<br>");
+
+        closeModal();
+      } else {
+        alert("Fehler beim Speichern: " + (data?.error || "Unbekannter Fehler"));
+      }
+    } catch (err) {
+      console.error("Netzwerkfehler:", err);
+      alert("Netzwerkfehler beim Speichern.");
+    } finally {
+      saveBtn.disabled = false;
+    }
+  });
+});

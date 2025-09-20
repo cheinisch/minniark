@@ -85,94 +85,94 @@
 	</head>
 	<body class="bg-white dark:bg-black">
 		<!-- Modale -->
-		 <!-- Image Text Edit Modal -->
-<div id="editImageTextModal" aria-labelledby="image-text-dialog"
-     class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent z-50">
+		<!-- Image Text Edit Modal -->
+		<div id="editImageTextModal" aria-labelledby="image-text-dialog"
+			class="hidden fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent z-50">
 
-  <!-- Backdrop -->
-  <div class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-gray-900/50"></div>
+		<!-- Backdrop -->
+		<div class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-gray-900/50"></div>
 
-  <!-- Panel -->
-  <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-    <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
-                data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in
-                sm:my-8 sm:w-full sm:max-w-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+		<!-- Panel -->
+		<div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+			<div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
+						data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in
+						sm:my-8 sm:w-full sm:max-w-xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
 
-      <!-- Close (X) -->
-      <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
-        <button type="button" id="close_edit_image_text"
-                class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
-          <span class="sr-only">Close</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">
-            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
-      </div>
+			<!-- Close (X) -->
+			<div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+				<button type="button" id="close_edit_image_text"
+						class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+				<span class="sr-only">Close</span>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">
+					<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+				</button>
+			</div>
 
-      <!-- Header -->
-      <div class="sm:flex sm:items-start">
-        <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-amber-100 sm:mx-0 sm:size-10 dark:bg-amber-500/10">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 text-amber-600 dark:text-amber-400">
-            <path d="M4 6h16M4 10h16M4 14h10" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-          <h3 id="image-text-dialog" class="text-base font-semibold text-gray-900 dark:text-white">
-            <?php echo languageString('image.text.edit.title') ?: 'Edit image text'; ?>
-          </h3>
-          <div class="mt-2">
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              <?php echo languageString('image.text.edit.subtitle') ?: 'Change title and description.'; ?>
-            </p>
-          </div>
-        </div>
-      </div>
+			<!-- Header -->
+			<div class="sm:flex sm:items-start">
+				<div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-amber-100 sm:mx-0 sm:size-10 dark:bg-amber-500/10">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6 text-amber-600 dark:text-amber-400">
+					<path d="M4 6h16M4 10h16M4 14h10" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				</div>
+				<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+				<h3 id="image-text-dialog" class="text-base font-semibold text-gray-900 dark:text-white">
+					<?php echo languageString('image.text.edit.title') ?: 'Edit image text'; ?>
+				</h3>
+				<div class="mt-2">
+					<p class="text-sm text-gray-500 dark:text-gray-400">
+					<?php echo languageString('image.text.edit.subtitle') ?: 'Change title and description.'; ?>
+					</p>
+				</div>
+				</div>
+			</div>
 
-      <!-- Content: Labels oben -->
-      <div class="mt-4">
-        <form class="space-y-4" id="image-text-form" onsubmit="return false;">
-          <div>
-            <label for="image-title-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">
-              <?php echo languageString('image.title') ?: 'Title'; ?>
-            </label>
-            <input id="image-title-input" data-key="title" type="text"
-                   value="<?php echo nl2br(htmlspecialchars($title)); ?>"
-                   class="mt-1 block w-full rounded border border-black/10 px-2 py-2 text-sm
-                          text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
-                          dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30" />
-          </div>
+			<!-- Content: Labels oben -->
+			<div class="mt-4">
+				<form class="space-y-4" id="image-text-form" onsubmit="return false;">
+				<div>
+					<label for="image-title-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">
+					<?php echo languageString('image.title') ?: 'Title'; ?>
+					</label>
+					<input id="image-title-input" data-key="title" type="text"
+						value="<?php echo nl2br(htmlspecialchars($title)); ?>"
+						class="mt-1 block w-full rounded border border-black/10 px-2 py-2 text-sm
+								text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+								dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30" />
+				</div>
 
-          <div>
-            <label for="image-description-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">
-              <?php echo languageString('image.description') ?: 'Description'; ?>
-            </label>
-            <textarea id="image-description-input" data-key="description" rows="6"
-                      class="mt-1 block w-full rounded border border-black/10 px-2 py-2 text-sm leading-6
-                             text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
-                             dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30"><?php echo nl2br(htmlspecialchars($description)); ?></textarea>
-          </div>
-        </form>
-      </div>
+				<div>
+					<label for="image-description-input" class="block text-xs font-medium text-gray-700 dark:text-gray-300">
+					<?php echo languageString('image.description') ?: 'Description'; ?>
+					</label>
+					<textarea id="image-description-input" data-key="description" rows="6"
+							class="mt-1 block w-full rounded border border-black/10 px-2 py-2 text-sm leading-6
+									text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+									dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30"><?php echo nl2br(htmlspecialchars($description)); ?></textarea>
+				</div>
+				</form>
+			</div>
 
-      <!-- Footer: Buttons -->
-      <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-        <!-- Save -->
-        <button type="button" id="save_image_text"
-                class="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-black/90 sm:ml-3 sm:w-auto dark:bg-white dark:text-black dark:hover:bg-white/90">
-          <?php echo languageString('general.save') ?: 'Save'; ?>
-        </button>
+			<!-- Footer: Buttons -->
+			<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+				<!-- Save -->
+				<button type="button" id="save_image_text"
+						class="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-black/90 sm:ml-3 sm:w-auto dark:bg-white dark:text-black dark:hover:bg-white/90">
+				<?php echo languageString('general.save') ?: 'Save'; ?>
+				</button>
 
-        <!-- Cancel -->
-        <button type="button" id="cancel_image_text"
-                class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
-          <?php echo languageString('general.cancel') ?: 'Cancel'; ?>
-        </button>
-      </div>
+				<!-- Cancel -->
+				<button type="button" id="cancel_image_text"
+						class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
+				<?php echo languageString('general.cancel') ?: 'Cancel'; ?>
+				</button>
+			</div>
 
-    </div>
-  </div>
-</div>
-<!-- /Image Text Edit Modal -->
+			</div>
+		</div>
+		</div>
+		<!-- /Image Text Edit Modal -->
 
 		 <!-- EXIF Edit Modal (Labels oben) -->
 <div id="editExifModal" aria-labelledby="exif-edit-dialog"

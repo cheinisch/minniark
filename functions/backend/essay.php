@@ -269,13 +269,13 @@
     ksort($yearCounts);
 
     foreach ($yearCounts as $year => $count) {
-        if ($mobile) {
-            echo "<div class=\"pl-5\">
-                <a href=\"blog.php?year=$year\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">$year ($count)</a>
-            </div>\n";
-        } else {
-            echo "<li><a href=\"blog.php?year=$year\" class=\"text-gray-400 hover:text-sky-400\">$year ($count)</a></li>\n";
-        }
+            echo "
+            <li>
+            <a href=\"blog.php?year=$year\"
+                class=\"group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
+                $year ($count)
+            </a>
+            </li>\n";
     }
 
     if ($debug) error_log("Finale Jahresverteilung: " . print_r($yearCounts, true));
@@ -394,12 +394,13 @@
 
     foreach ($tagCounts as $tag => $count) {
         $safeTag = urlencode($tag);
-        if ($mobile) {
-            echo "<div class=\"pl-5\">
-                <a href=\"blog.php?tag=$safeTag\" class=\"block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6\">#$tag ($count)</a>
-            </div>\n";
-        } else {
-            echo "<li><a href=\"blog.php?tag=$safeTag\" class=\"text-gray-400 hover:text-sky-400\">#$tag ($count)</a></li>\n";
-        }
+        
+            echo "
+            <li>
+            <a href=\"blog.php?tag=$safeTag\"
+                class=\"group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white\">
+                $tag ($count)
+            </a>
+            </li>\n";
     }
 }

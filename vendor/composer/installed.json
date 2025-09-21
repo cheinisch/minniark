@@ -1,6 +1,48 @@
 {
     "packages": [
         {
+            "name": "cheinisch/markdown-editor",
+            "version": "v0.0.01",
+            "version_normalized": "0.0.01.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cheinisch/Markdown-Editor.git",
+                "reference": "3d9d6f5c244e79e90200d84a5bffb4247c22653f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cheinisch/Markdown-Editor/zipball/3d9d6f5c244e79e90200d84a5bffb4247c22653f",
+                "reference": "3d9d6f5c244e79e90200d84a5bffb4247c22653f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "time": "2025-09-21T12:57:45+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "cheinisch\\MarkdownEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Einfacher Markdown-Editor (HTML+JS+CSS) als Composer-Paket",
+            "support": {
+                "issues": "https://github.com/cheinisch/Markdown-Editor/issues",
+                "source": "https://github.com/cheinisch/Markdown-Editor/tree/v0.0.01"
+            },
+            "install-path": "../cheinisch/markdown-editor"
+        },
+        {
             "name": "cheinisch/openrouter-php-client",
             "version": "v0.2.1",
             "version_normalized": "0.2.1.0",

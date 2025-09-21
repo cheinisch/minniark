@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'cheinisch\\MarkdownEditor\\' => array($vendorDir . '/cheinisch/markdown-editor/src'),
     'cheinisch\\' => array($vendorDir . '/cheinisch/openrouter-php-client/src'),
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),

@@ -22,6 +22,7 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
     public static $prefixLengthsPsr4 = array (
         'c' => 
         array (
+            'cheinisch\\MarkdownEditor\\' => 25,
             'cheinisch\\' => 10,
         ),
         'T' => 
@@ -64,6 +65,10 @@ class ComposerStaticInit84b39151b40a88b16ede12b3b508735f
     );
 
     public static $prefixDirsPsr4 = array (
+        'cheinisch\\MarkdownEditor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cheinisch/markdown-editor/src',
+        ),
         'cheinisch\\' => 
         array (
             0 => __DIR__ . '/..' . '/cheinisch/openrouter-php-client/src',

@@ -1,0 +1,19 @@
+{
+  "name": "cheinisch/markdown-editor",
+  "description": "Einfacher Markdown-Editor (HTML+JS+CSS) als Composer-Paket",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "cheinisch\\MarkdownEditor\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.x-dev"
+    }
+  }
+}

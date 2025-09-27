@@ -187,74 +187,112 @@
 				</div>
 			</div>
 			<main class="py-10 bg-white dark:bg-black">
-				<div class="px-4 sm:px-6 lg:px-8">
-					<!-- Your content -->
-					<!-- Blogliste – Admin Dashboard -->
-					<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-					<!--<header class="px-4 py-3 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
-						<h3 class="text-sm font-semibold text-black dark:text-white">Blog Posts</h3>
-						<a href="blog_new.php"
-						class="text-xs px-2 py-1 rounded bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90">
-						New Post
-						</a>
-					</header>-->
+  <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+    <!-- Toolbar -->
+    <div class="mb-4 flex items-center justify-end">
+      <a href="backend_api/cache.php"
+         class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+        Clear Cache
+      </a>
+    </div>
 
-					<div class="divide-y divide-black/10 dark:divide-white/10">
-						<?php
-							$posts = get_posts($filterYear,$filterTag);
-							foreach($posts as $post)
-							{
-							if($post['cover'] == "" || $post['cover'] == null)
-							{
-								$post['cover'] = "img/placeholder.png";
-							}else{
-								$post['cover'] = get_cached_image_dashboard($post['cover'], 'M');
-							}
-						?>
-						<article class="p-4 flex gap-4">
-						<img src="<?php echo $post['cover']; ?>" alt="" class="size-24 object-cover rounded border border-black/10 dark:border-white/10 hidden sm:block" />
-						<div class="flex-1 min-w-0">
-							<div class="flex items-start justify-between gap-4">
-							<a href="blog-detail.php?edit=<?php echo $post['slug']; ?>" class="text-base font-semibold text-black hover:underline dark:text-white">
-								<?php echo $post['title']; ?>
-							</a>
-							<span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300">
-								Published
-							</span>
-							</div>
-							<div class="mt-1 text-xs text-black/60 dark:text-gray-400">
-							<span>by <strong>alex</strong></span>
-							<span class="mx-2">•</span>
-							<time><?php echo $post['published_at']; ?></time>
-							<span class="mx-2">•</span>
-							<span>5 min read</span>
-							</div>
+    <!-- System + News: gleiche Card-Optik wie Blogliste -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <!-- System Information -->
+      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+          <h3 class="text-sm font-semibold">System Information</h3>
+        </header>
 
-							<p class="mt-2 line-clamp-2 text-sm text-black/80 dark:text-gray-300">
-							<?php echo $post['content']; ?>
-							</p>
+        <div class="p-4 space-y-6">
+          <!-- Storage -->
+          <div>
+            <h4 class="text-sm font-semibold">Storage usage</h4>
+            <ul class="mt-2 text-sm text-black/80 dark:text-gray-300">
+              <li class="mb-1">
+                <?php echo "Used storage: ".$storage['used']; ?> MB
+                <ul class="list-disc ml-5 mt-1 space-y-0.5">
+                  <li><?php echo "Image storage: ".$storage['images']; ?> MB</li>
+                  <li><?php echo "Cache storage: ".$storage['cache']; ?> MB</li>
+                  <li><?php echo "System and Backup: ".$storage['rest']; ?> MB</li>
+                </ul>
+              </li>
+              <li><?php echo "Free storage: ".$storage['free']; ?> MB</li>
+            </ul>
+          </div>
 
-							<ul class="mt-2 flex flex-wrap gap-2 text-xs">
-							<?php 
-							if (isset($post['tags']) && is_array($post['tags'])) {
-								foreach ($post['tags'] as $tag) {	
-									echo "<li class=\"px-2 py-0.5 rounded-full bg-sky-600 text-white\">$tag</li>";
-								}
-							} ?>							
-							</ul>
-						</div>
-						<div class="shrink-0 flex flex-col gap-2">
-							<a href="blog-detail.php?edit=<?php echo $post['slug']; ?>"
-							class="text-xs text-black dark:text-white px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">Edit</a>
-							<a href="backend_api/delete_post.php?id=1"
-							class="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-400"><?php echo languageString('nav.blogposts'); ?></a>
-						</div>
-						</article>
-					</div>
-					</section>
-					<?php } ?>
-				</div>
-			</main>
+          <!-- Versions -->
+          <div>
+            <h4 class="text-sm font-semibold">Versionen</h4>
+            <div class="mt-2 overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="text-left text-black/60 dark:text-gray-400">
+                  <tr class="border-b border-black/10 dark:border-white/10">
+                    <th class="py-2 pr-4">Component</th>
+                    <th class="py-2">Version / Type</th>
+                  </tr>
+                </thead>
+                <tbody class="text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
+                  <tr>
+                    <td class="py-2 pr-4"><?php echo $version['Application']; ?></td>
+                    <td class="py-2"><?php echo $version['App Version']; ?></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 pr-4">Operation System</td>
+                    <td class="py-2"><?php echo $version['Operating System']; ?></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 pr-4">PHP</td>
+                    <td class="py-2"><?php echo $version['PHP Version']; ?></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 pr-4">Webserver</td>
+                    <td class="py-2"><?php echo $version['Webserver']; ?></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- News / Updates -->
+      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+          <h3 class="text-sm font-semibold">News / Updates</h3>
+        </header>
+
+        <div class="divide-y divide-black/10 dark:divide-white/10">
+          <?php foreach ($news as $item): ?>
+            <article class="p-4">
+              <div class="flex items-start justify-between gap-4">
+                <a href="<?= htmlspecialchars($item['link']) ?>"
+                   class="text-base font-semibold hover:underline">
+                   <?= htmlspecialchars($item['title']) ?>
+                </a>
+              </div>
+              <div class="mt-1 text-xs text-black/60 dark:text-gray-400">
+                <time><?= htmlspecialchars($item['pubDate']) ?></time>
+              </div>
+              <p class="mt-2 text-sm text-black/80 dark:text-gray-300">
+                <?= htmlspecialchars($item['description']) ?>
+              </p>
+            </article>
+          <?php endforeach; ?>
+        </div>
+      </section>
+    </div>
+
+    <!-- Hinweis -->
+    <div class="mt-4">
+      <div class="rounded-sm border border-black/10 dark:border-white/10 bg-sky-700 text-white px-3 py-2 shadow-xs">
+        Please report bugs on
+        <a href="https://github.com/cheinisch/minniark/issues" class="underline">Github</a>.
+      </div>
+    </div>
+  </div>
+</main>
+
 		</div>
 		<script src="js/album_collection.js"></script>
 		<script src="js/navbar.js"></script>

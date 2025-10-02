@@ -23,7 +23,7 @@
 									<!-- Unterpunkte -->
 									<ul id="submenu-albums" class="mt-1 space-y-1 hidden">
 										<li>
-										<a href="#"
+										<a href="dashboard.php"
 											id="add-album"
 											class="group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
 											<?php echo languageString('dashboard.nav.overview'); ?>

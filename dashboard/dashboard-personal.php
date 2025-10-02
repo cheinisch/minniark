@@ -1,327 +1,491 @@
 <?php
 
   require_once( __DIR__ . "/../functions/function_backend.php");
-  $settingspage = "personal";
+  require_once '../vendor/autoload.php';
+  $settingspage = "dashboard";
   security_checklogin();
+
+  $news = getNewsFeed();
+
+  $storage = getStorage();
+
+  $version = getVersion();
 
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="<?php echo get_language(); ?>">
-    <head>      
-        <meta charset="UTF-8">        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard - <?php echo get_sitename(); ?></title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Posts - <?php echo get_sitename(); ?></title>
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
+	</head>
+	<body class="bg-white dark:bg-black">
+		<el-dialog>
+			<dialog id="sidebar" class="backdrop:bg-transparent lg:hidden">
+				<el-dialog-backdrop class="fixed inset-0 bg-white/80 dark:bg-black/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"></el-dialog-backdrop>
+				<div tabindex="0" class="fixed inset-0 flex focus:outline-none">
+					<el-dialog-panel class="group/dialog-panel relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-closed:-translate-x-full">
+						<div class="absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out group-data-closed/dialog-panel:opacity-0">
+							<button type="button" command="close" commandfor="sidebar" class="-m-2.5 p-2.5">
+								<span class="sr-only">Close sidebar</span>
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-black dark:text-white">
+									<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</button>
+						</div>
+						<!-- Sidebar component, swap this element with another sidebar if you like -->
+						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
+							<div class="relative flex h-16 shrink-0 items-center">
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+							</div>
+							<nav class="relative flex flex-1 flex-col">
+								<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
+							</nav>
+						</div>
+					</el-dialog-panel>
+				</div>
+			</dialog>
+		</el-dialog>
+		<!-- Static sidebar for desktop -->
+		<div class="hidden bg-white dark:bg-black ring-1 ring-black/10 dark:ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+			<!-- Sidebar component, swap this element with another sidebar if you like -->
+			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
+				<div class="flex h-16 shrink-0 items-center">
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+				</div>
+				<nav class="flex flex-1 flex-col">
+					<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
+				</nav>
+			</div>
+		</div>
+		<div class="lg:pl-72">
+			<div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-black/10 dark:border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8  dark:border-white/10 bg-white dark:bg-black">
+				<button type="button" command="show-modal" commandfor="sidebar" class="-m-2.5 p-2.5 text-gray-700 hover:text-gray-900 lg:hidden dark:text-gray-400 dark:hover:text-white">
+					<span class="sr-only">Open sidebar</span>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+						<path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+				<!-- Separator -->
+				<div aria-hidden="true" class="h-6 w-px bg-black/10 lg:hidden dark:bg-white/10"></div>
+				<div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 text-black dark:text-white">
+					<div class="grid flex-1 grid-cols-1">
+						<div class="hidden md:flex justify-start gap-2">
+						    <a href="dashboard.php"
+								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.dashboard'); ?>
+							</a>
+							<a href="media.php"
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.images'); ?>
+							</a>
+							<a href="blog.php"
+								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.blogposts'); ?>
+							</a>
+							<a href="pages.php"
+								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
+								<?php echo languageString('nav.pages'); ?>
+							</a>
+						</div>
+					</div>
+					<div class="flex items-center gap-x-4 lg:gap-x-6">
+						<a href="blog-detail.php?post=new"
+						id="newPageBtn"
+						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
+							<?php echo languageString('blog.new_post'); ?>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+								<path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
+  								<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+							</svg>
+							<span class="sr-only">New Post</span>
+						</a>
+						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
+							<span class="sr-only">View notifications</span>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+								<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</button>
+						<!-- Separator -->
+						<div aria-hidden="true" class="hidden lg:block lg:h-6 lg:w-px lg:bg-white dark:bg-black/10 dark:lg:bg-gray-100/10"></div>
+						<!-- Profile dropdown -->
+						
+						<div data-dropdown class="relative">
+							<button type="button" class="relative flex items-center"
+									aria-haspopup="menu" aria-expanded="false" data-trigger>
+								<span class="absolute -inset-1.5"></span>
+								<span class="sr-only">Open user menu</span>
+								<img src="<?php echo get_userimage($_SESSION['username']); ?>" alt=""
+									class="size-8 rounded-full bg-gray-50 outline -outline-offset-1 outline-black/5 dark:bg-gray-800 dark:outline-white/10" />
+								<span class="hidden lg:flex lg:items-center">
+								<span aria-hidden="true" class="ml-4 text-sm/6 font-semibold text-gray-900 dark:text-white">
+									<?php echo $_SESSION['username']; ?>
+								</span>
+								<svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true"
+									class="ml-2 size-5 text-gray-400 dark:text-gray-500">
+									<path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+								</svg>
+								</span>
+							</button>
 
-        <!-- FAV Icon -->
-        <link rel="icon" type="image/png" href="../lib/img/favicon.png" />
-        <!-- Tailwind CSS -->
-        <link rel="stylesheet" href="css/tailwind.css">
-    </head>
-    <body class="min-h-screen flex flex-col">
-        <header>
-            <nav class="bg-neutral-200 dark:bg-gray-950 shadow-sm">
-                <div class="mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
-                  <div class="flex h-16 justify-between">
-                    <div class="flex">
-                      <div class="mr-2 -ml-2 flex items-center md:hidden">
-                        <!-- Mobile menu button -->
-                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
-                          <span class="absolute -inset-0.5"></span>
-                          <span class="sr-only">Open main menu</span>
-                          <!--
-                            Icon when menu is closed.
-              
-                            Menu open: "hidden", Menu closed: "block"
-                          -->
-                          <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                          </svg>
-                          <!--
-                            Icon when menu is open.
-              
-                            Menu open: "block", Menu closed: "hidden"
-                          -->
-                          <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div class="hidden md:ml-6 md:flex md:space-x-8">
-                        <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-base font-medium text-sky-400"><?php echo languageString('nav.dashboard'); ?></a>
-                        <a href="media.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.images'); ?></a>
-                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.blogposts'); ?></a>
-                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.pages'); ?></a>
-                      </div>
-                    </div>
-                    <div class="flex items-center">
-                      <?php echo create_update_button(); ?>
-                      <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
-                        <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
-                          <span class="absolute -inset-1.5"></span>
-                          <span class="sr-only">View notifications</span>
-                          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                          </svg>
-                        </button>
-              
-                        <!-- Profile dropdown -->
-                        <div class="relative ml-3">
-                          <div>
-                            <button type="button" class="relative flex rounded-full bg-white text-sm focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                              <span class="absolute -inset-1.5"></span>
-                              <span class="sr-only">Open user menu</span>
-                              <img class="size-8 rounded-full border border-gray-400" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
-                            </button>
-                          </div>
-              
-                          <!--
-                            Dropdown menu, show/hide based on menu state.
-              
-                            Entering: "transition ease-out duration-200"
-                              From: "transform opacity-0 scale-95"
-                              To: "transform opacity-100 scale-100"
-                            Leaving: "transition ease-in duration-75"
-                              From: "transform opacity-100 scale-100"
-                              To: "transform opacity-0 scale-95"
-                          -->
-                          <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right  bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
-                            <a href="dashboard-personal.php" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0"><?php echo languageString('nav.your_profile'); ?></a>
-                            
-                            <a href="login.php?logout=true" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2"><?php echo languageString('nav.sign_out'); ?></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              
-                <!-- Mobile menu, show/hide based on menu state. -->
-                <div class="md:hidden" id="mobile-menu">
-                  <div class="space-y-1 pt-2 pb-3">
-                    <!-- Current: "bg-sky-50 border-sky-500 text-sky-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
-                    <a href="dashboard.php" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5"><?php echo languageString('nav.dashboard'); ?></a>
-                    <a href="media.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.images'); ?></a>
-                    <a href="blog.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.blogposts'); ?></a>
-                    <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.pages'); ?></a>
-                  </div>
-                  <div class="border-t border-gray-500 pt-4 pb-3">
-                    <div class="mt-3 space-y-1">
-                      <span class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Overview</span>
-                      <div class="pl-5">
-                        <a href="dashboard.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('nav.dashboard'); ?></a>
-                      </div>
-                      <span class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</span>
-                      <div class="pl-5">
-                        <?php include('inc/dashboard-mainnav.php'); ?>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="border-t border-gray-200 pt-4 pb-3">
-                    <div class="flex items-center px-4 sm:px-6">
-                      <div class="shrink-0">
-                        <img class="size-10 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
-                      </div>
-                      <div class="ml-3">
-                        <div class="text-base font-medium text-gray-300"><?php echo get_username($_SESSION['username']); ?></div>
-                        <div class="text-sm font-medium text-gray-500"><?php echo get_usermail($_SESSION['username']); ?></div>
-                      </div>
-                      <button type="button" class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
-                        <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">View notifications</span>
-                        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                        </svg>
-                      </button>
-                    </div>
-                    <div class="mt-3 space-y-1">
-                      <a href="dashboard-personal.php" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('nav.your_profile'); ?></a>
-                      
-                      <a href="login.php?logout=true" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('nav.sign_out'); ?></a>
-                    </div>
-                  </div>
-                </div>
-              </nav>
-              
+							<!-- WICHTIG: kein popover/anchor; stattdessen hidden + role -->
+							<div data-menu hidden role="menu" aria-labelledby=""
+								class="w-32 origin-top-right rounded-md py-2 shadow-lg outline outline-gray-900/5 transition transition-discrete
+										[--anchor-gap:--spacing(2.5)]
+										data-closed:scale-95 data-closed:transform data-closed:opacity-0
+										data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in
+										bg-white dark:bg-black dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+
+								<a href="dashboard-personal.php"
+								class="block px-3 py-1 text-sm/6 text-gray-900 hover:bg-gray-50 focus:outline-hidden dark:text-white dark:hover:bg-white/5"
+								role="menuitem">
+								<?php echo languageString('nav.your_profile'); ?>
+								</a>
+								<a href="login.php?logout=true"
+								class="block px-3 py-1 text-sm/6 text-gray-900 hover:bg-gray-50 focus:outline-hidden dark:text-white dark:hover:bg-white/5"
+								role="menuitem">
+								<?php echo languageString('nav.sign_out'); ?>
+								</a>
+							</div>
+							</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- Zweite Leiste: nur auf sm sichtbar -->
+			<div class="sm:block md:hidden border-b border-gray-600 dark:border-gray-200 bg-white bg-white dark:bg-black dark:border-black dark:border-white/10">
+				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+					<nav class="flex gap-2 justify-center">
+					<a href="dashboard.php"
+						class="inline-flex items-center  py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.dashboard'); ?>
+					</a>
+					<a href="media.php"
+						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.images'); ?>
+					</a>
+					<a href="blog.php"
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.blogposts'); ?>
+					</a>
+					<a href="pages.php"
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.pages'); ?>
+					</a>
+					</nav>
+				</div>
+			</div>
+			<main class="py-10 bg-white dark:bg-black">
+  <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+    <div class="space-y-4">
+
+      <!-- Personal Information -->
+      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+          <h2 class="text-sm font-semibold">Personal Information</h2>
+          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+            Use a permanent address where you can receive mail.
+          </p>
         </header>
-        <div class="flex flex-1">
-          <aside class="hidden md:block max-w-[280px] w-full bg-neutral-200 dark:bg-gray-950 overflow-auto flex-1">
-            <?php include('inc/dashboard-sidenav.php'); ?>
-          </aside>
-          <main class="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
-            <!-- Settings forms -->
-            <div class="divide-y divide-gray-400 dark:divide-white/5">
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-                <div>
-                  <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Personal Information</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Use a permanent address where you can receive mail.</p>
-                </div>
 
-                <form class="md:col-span-2" action="backend_api/save_user_data.php?userdata" method="post" id="change-data-form">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Notifications für Benutzerdaten -->
-                    <div id="notification-success-user" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Success!</strong>
-                      <span class="block sm:inline">Userdata has been saved.</span>
-                    </div>
+        <div class="px-4 py-4">
+          <form class="md:col-span-2" action="backend_api/save_user_data.php?userdata" method="post" id="change-data-form">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
 
-                    <div id="notification-error-user" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Error!</strong>
-                      <span class="block sm:inline">Something is wrong.</span>
-                    </div>
-                    <div class="col-span-3 md:col-span-full flex items-center gap-x-8">
-                      <img src="<?php echo get_userimage($_SESSION['username']); ?>" alt="" class="size-24 flex-none bg-gray-800 border-gray-400 border object-cover">
-                      <!--<div>
-                        <button type="button" class=" bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Change avatar</button>
-                        <p class="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
-                      </div>-->
-                    </div>
-
-                    <div class="col-span-3">
-                      <label for="first-name" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Display name</label>
-                      <div class="mt-2">
-                        <input type="text" name="display-name" id="display-name" value="<?php echo get_displayname($_SESSION['username']); ?>" autocomplete="given-name" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                    <div class="col-span-3">
-                      <label for="username" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Username</label>
-                      <div class="mt-2">
-                        <div class="flex items-center">
-                          <input type="text" name="username" id="username" value="<?php echo get_username($_SESSION['username']); ?>" class="block min-w-0 grow bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                          <input type="hidden" name="old_username" id="old_username" value="<?php echo get_username($_SESSION['username']); ?>" >
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-span-3 md:col-span-full">
-                      <label for="email" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Email address</label>
-                      <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email" value="<?php echo get_usermail($_SESSION['username']); ?>" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
-                  </div>
-                </form>
+              <!-- Notifications -->
+              <div id="notification-success-user"
+                   class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs"
+                   role="alert">
+                <strong class="font-semibold">Success!</strong>
+                <span class="ml-1">Userdata has been saved.</span>
               </div>
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-                <div>
-                  <h2 class="text-base/7 font-semibold text-gray-700 dark:text-white">Login Type</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Select between password and One Time Code via Mail</p>
-                </div>
-
-                <form class="md:col-span-2" action="backend_api/save_user_data.php?auth_type=<?php echo $_SESSION['username']; ?>" method="post" id="change-login-type-form">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-logintype-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Success!</strong>
-                      <span class="block sm:inline">Login has been changed</span>
-                    </div>
-
-                    <!-- Fehlermeldung (rot) -->
-                    <div id="notification-logintype-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Error!</strong>
-                      <span class="block sm:inline">Login has not been changed!</span>
-                    </div>
-                    <!-- Select Image Size -->
-                    <div class="sm:col-span-full">
-                      <label id="listbox-logintype-label" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Default Login Type</label>
-                      <div class="relative mt-2">
-                        <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6" aria-haspopup="listbox-logintype" aria-expanded="true" aria-labelledby="listbox-image-label">
-                          <span class="col-start-1 row-start-1 truncate pr-6"><?php echo get_logintype_select($_SESSION['username']); ?></span>
-                          <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="hidden absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-logintype-label" aria-activedescendant="listbox-option-1">
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-0" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">password</span>
-                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                          <li class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none" id="listbox-image-option-1" role="option">
-                            <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                            <span class="block truncate font-normal">mail</span>
-                            <span class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-sky-600">
-                              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <input type="hidden" name="login_type" id="login_type" value="<?php echo get_logintype_select($_SESSION['username']); ?>">
-                    <!-- Select ende -->
-
-                  </div>
-
-                  <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 mr-5"><?php echo languageString('general.save'); ?></button>                    
-                  </div>
-                </form>
+              <div id="notification-error-user"
+                   class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs"
+                   role="alert">
+                <strong class="font-semibold">Error!</strong>
+                <span class="ml-1">Something is wrong.</span>
               </div>
 
-              <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-                <div>
-                  <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Change password</h2>
-                  <p class="mt-1 text-sm/6 text-gray-400">Update your password associated with your account.</p>
+              <div class="col-span-full flex items-center gap-4">
+                <img src="<?php echo get_userimage($_SESSION['username']); ?>"
+                     alt=""
+                     class="size-16 sm:size-20 md:size-24 flex-none bg-gray-800 border border-black/10 dark:border-white/10 object-cover">
+              </div>
+
+              <div class="sm:col-span-3">
+                <label for="display-name" class="block text-xs font-medium">Display name</label>
+                <input type="text" name="display-name" id="display-name"
+                       value="<?php echo get_displayname($_SESSION['username']); ?>"
+                       autocomplete="given-name"
+                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+              </div>
+
+              <div class="sm:col-span-3">
+                <label for="username" class="block text-xs font-medium">Username</label>
+                <div class="mt-1">
+                  <input type="text" name="username" id="username"
+                         value="<?php echo get_username($_SESSION['username']); ?>"
+                         class="block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                  <input type="hidden" name="old_username" id="old_username" value="<?php echo get_username($_SESSION['username']); ?>">
                 </div>
+              </div>
 
-                <form class="md:col-span-2" action="backend_api/save_user_data.php?password=<?php echo $_SESSION['username']; ?>" method="post" id="change-password-form">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                    <!-- Erfolgsmeldung (grün) -->
-                    <div id="notification-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Success!</strong>
-                      <span class="block sm:inline">Password has been changed.</span>
-                    </div>
-
-                    <!-- Fehlermeldung (rot) -->
-                    <div id="notification-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 col-span-full relative mb-4" role="alert">
-                      <strong class="font-bold">Error!</strong>
-                      <span class="block sm:inline">The current password is wrong.</span>
-                    </div>
-                    
-                    <div class="col-span-full">
-                      <label for="current-password" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Current password</label>
-                      <div class="mt-2">
-                        <input id="current-password" name="current_password" type="password" autocomplete="current-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div> 
-
-                    <div class="col-span-full">
-                      <label for="new-password" class="block text-sm/6 font-medium text-gray-700 dark:text-white">New password</label>
-                      <div class="mt-2">
-                        <input id="new-password" name="new_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-
-                    <div class="col-span-full">
-                      <label for="confirm-password" class="block text-sm/6 font-medium text-gray-700 dark:text-white">Confirm password</label>
-                      <div class="mt-2">
-                        <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" class="block w-full  bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-8 flex">
-                    <button type="submit" class=" bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><?php echo languageString('general.save'); ?></button>
-                  </div>
-                </form>
+              <div class="col-span-full">
+                <label for="email" class="block text-xs font-medium">Email address</label>
+                <input id="email" name="email" type="email" autocomplete="email"
+                       value="<?php echo get_usermail($_SESSION['username']); ?>"
+                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
               </div>
             </div>
-          </main>
+
+            <div class="mt-4 flex">
+              <button type="submit"
+                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                <?php echo languageString('general.save'); ?>
+              </button>
+            </div>
+          </form>
         </div>
-        <script src="js/tailwind.js"></script>
-        <script src="js/change_password.js"></script>
-        <script src="js/select_settings.js"></script>
-    </body>
+      </section>
+
+      <!-- Login Type -->
+      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+          <h2 class="text-sm font-semibold">Login Type</h2>
+          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+            Select between password and One Time Code via Mail
+          </p>
+        </header>
+
+        <div class="px-4 py-4">
+          <form class="md:col-span-2" action="backend_api/save_user_data.php?auth_type=<?php echo $_SESSION['username']; ?>" method="post" id="change-login-type-form">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+
+              <div id="notification-logintype-success"
+                   class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs"
+                   role="alert">
+                <strong class="font-semibold">Success!</strong>
+                <span class="ml-1">Login has been changed</span>
+              </div>
+              <div id="notification-logintype-error"
+                   class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs"
+                   role="alert">
+                <strong class="font-semibold">Error!</strong>
+                <span class="ml-1">Login has not been changed!</span>
+              </div>
+
+              <!-- Normaler Select statt Custom-Dropdown -->
+              <div class="sm:col-span-full">
+                <label for="login-type-select" class="block text-xs font-medium">Default Login Type</label>
+                <select id="login-type-select"
+                        class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
+                  <option value="password">password</option>
+                  <option value="mail">mail</option>
+                </select>
+
+                <!-- bleibt für JS-Kompatibilität bestehen -->
+                <input type="hidden" name="login_type" id="login_type" value="<?php echo get_logintype_select($_SESSION['username']); ?>">
+              </div>
+            </div>
+
+            <div class="mt-4 flex">
+              <button type="submit"
+                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10 mr-5">
+                <?php echo languageString('general.save'); ?>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Change password -->
+      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+          <h2 class="text-sm font-semibold">Change password</h2>
+          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+            Update your password associated with your account.
+          </p>
+        </header>
+
+        <div class="px-4 py-4">
+          <form class="md:col-span-2" action="backend_api/save_user_data.php?password=<?php echo $_SESSION['username']; ?>" method="post" id="change-password-form">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+
+              <div id="notification-success"
+                   class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs"
+                   role="alert">
+                <strong class="font-semibold">Success!</strong>
+                <span class="ml-1">Password has been changed.</span>
+              </div>
+              <div id="notification-error"
+                   class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs"
+                   role="alert">
+                <strong class="font-semibold">Error!</strong>
+                <span class="ml-1">The current password is wrong.</span>
+              </div>
+
+              <div class="col-span-full">
+                <label for="current-password" class="block text-xs font-medium">Current password</label>
+                <input id="current-password" name="current_password" type="password" autocomplete="current-password"
+                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+              </div>
+
+              <div class="col-span-full">
+                <label for="new-password" class="block text-xs font-medium">New password</label>
+                <input id="new-password" name="new_password" type="password" autocomplete="new-password"
+                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+              </div>
+
+              <div class="col-span-full">
+                <label for="confirm-password" class="block text-xs font-medium">Confirm password</label>
+                <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password"
+                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+              </div>
+            </div>
+
+            <div class="mt-4 flex">
+              <button type="submit"
+                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                <?php echo languageString('general.save'); ?>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Sync-Script für den Login-Type-Select -->
+  <script>
+    (function () {
+      const hidden = document.getElementById('login_type');
+      const select = document.getElementById('login-type-select');
+      if (!hidden || !select) return;
+      // initial setzen
+      select.value = hidden.value;
+      // sync on change
+      select.addEventListener('change', () => hidden.value = select.value);
+    })();
+  </script>
+</main>
+
+
+		</div>
+		<script src="js/album_collection.js"></script>
+		<script src="js/navbar.js"></script>
+		<script src="js/tailwind.js"></script>
+		<script src="js/profile_settings.js"></script>
+        <script src="js/file_upload.js"></script>
+        <script>
+			(() => {
+			let pendingLink = null;
+
+			const dlg     = document.getElementById('deleteImageModal');
+			const btnYes  = document.getElementById('confirmYes'); // Delete (rot)
+			const btnNo   = document.getElementById('confirmNo');  // Cancel
+
+			if (!dlg || !btnYes || !btnNo) return;
+
+			// Delegation: Klick auf einen Delete-Link in der Bilderliste
+			const imageList = document.getElementById('image-list');
+			if (imageList) {
+				imageList.addEventListener('click', (e) => {
+				const a = e.target.closest('a.confirm-link, a[href*="backend_api/delete.php"]');
+				if (!a) return;
+				e.preventDefault();
+				pendingLink = a.href;
+
+				// Optional: Titel/Body im Modal anpassen (wenn du willst)
+				// document.getElementById('dialog-title').textContent = 'Bild löschen?';
+
+				// Neues Dialog öffnen
+				if (typeof dlg.showModal === 'function') {
+					dlg.showModal();
+				} else {
+					// Fallback (sollte selten nötig sein)
+					dlg.setAttribute('open', '');
+				}
+				});
+			}
+
+			// Bestätigen -> weiterleiten
+			btnYes.addEventListener('click', () => {
+				const href = pendingLink;
+				pendingLink = null;
+				if (dlg.open) dlg.close();
+				if (href) window.location.assign(href);
+			});
+
+			// Abbrechen -> schließen
+			btnNo.addEventListener('click', () => {
+				pendingLink = null;
+				if (dlg.open) dlg.close();
+			});
+
+			// Dialog wird anderweitig geschlossen (Esc etc.)
+			dlg.addEventListener('close', () => { pendingLink = null; });
+			})();
+		</script>
+		<script>
+          let pendingLink = null;
+
+          // Klick auf bestätigungspflichtige Links
+          document.querySelectorAll('.confirm-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+              e.preventDefault();
+              pendingLink = this.href;
+              document.getElementById('confirmModal').classList.remove('hidden');
+            });
+          });
+
+          // Abbrechen → Modal schließen
+          document.getElementById('confirmYes').addEventListener('click', () => {
+            document.getElementById('confirmModal').classList.add('hidden');
+            pendingLink = null;
+          });
+
+          // Bestätigen → Weiterleitung
+          document.getElementById('confirmNo').addEventListener('click', () => {
+            if (pendingLink) {
+              window.location.href = pendingLink;
+            }
+          });
+        </script>
+        <script>
+          document.querySelectorAll('.assign-to-album-btn').forEach(button => {
+            button.addEventListener('click', () => {
+              const filename = button.getAttribute('data-filename');
+              document.getElementById('assignImageFilename').value = filename;
+              document.getElementById('assignToAlbumModal').classList.remove('hidden');
+            });
+          });
+
+          document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
+            document.getElementById('assignToAlbumModal').classList.add('hidden');
+          });
+
+          document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
+            document.getElementById('assignToAlbumModal').classList.add('hidden');
+          });
+        </script>
+        <!--<script>
+        document.getElementById('location').addEventListener('change', function () {
+            const url = this.value;
+            window.location.href = url; // Weiterleitung zur gewählten URL
+        });
+      </script>-->
+
+	</body>
 </html>

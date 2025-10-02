@@ -48,6 +48,16 @@
             "export_import":"Export / Import",
             "ai":"AI",
             "additionalmenu":"Additional Functions"
+        },
+        "theme" : {
+            "title":"Theme Selection",
+            "subtitle":"Choose, update, or remove installed themes.",
+            "search":"Search a Theme",
+            "version":"Version",
+            "author":"Author",
+            "activate":"Activate",
+            "active":"Active",
+            "remove":"Remove"
         }
     },
     "image" : {

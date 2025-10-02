@@ -33,19 +33,22 @@
         "username":"Username",
         "username_wrong":"Username is wrong"
     },
-    "dashboard_nav": {
-        "overview":"Overview",
-        "dashboard":"Dashboard",
-        "settings":"Settings",
-        "personalsettings":"Personal Settings",
-        "usersettings":"User Settings",
-        "systemsettings":"System Settings",
-        "themesettings":"Theme Settings",
-        "startpage":"Start Page",
-        "navigation":"Navigation",
-        "plugins":"Plugins",
-        "import_export":"Export / Import",
-        "ai":"AI"
+    "dashboard": {
+        "nav": {
+            "overview":"Overview",
+            "dashboard":"Dashboard",
+            "settings":"Settings",
+            "personal":"Personal Settings",
+            "user":"User Settings",
+            "system":"System Settings",
+            "theme":"Theme Settings",
+            "welcome":"Start Page",
+            "nav":"Navigation",
+            "plugin":"Plugins",
+            "export_import":"Export / Import",
+            "ai":"AI",
+            "additionalmenu":"Additional Functions"
+        }
     },
     "image" : {
         "generate_ai_text":"Generate AI Text",

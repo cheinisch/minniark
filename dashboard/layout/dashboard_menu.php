@@ -128,7 +128,7 @@
 										<a href="dashboard-personal.php"
 											id="add-collection"
 											class="group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
-											<?php echo languageString('dasboard.nav.personal'); ?>
+											<?php echo languageString('dashboard.nav.personal'); ?>
 										</a>
 										</li>
 									</ul>

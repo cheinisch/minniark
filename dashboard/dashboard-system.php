@@ -1,15 +1,8 @@
 <?php
 
-  require_once( __DIR__ . "/../functions/function_backend.php");
-  require_once '../vendor/autoload.php';
-  $settingspage = "dashboard";
-  security_checklogin();
-
-  $news = getNewsFeed();
-
-  $storage = getStorage();
-
-  $version = getVersion();
+    require_once( __DIR__ . "/../functions/function_backend.php");
+	$settingspage = "system";
+	security_checklogin();
 
 ?>
 
@@ -225,23 +218,21 @@
               <!-- Language (normales select) -->
               <div class="sm:col-span-full">
                 <label for="language-select" class="block text-xs font-medium">Language</label>
-                <select id="language-select"
-                        class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
-                  <?php 
-                    $langs = getLangFiles();
-                    $current = get_language();
-                    if (!empty($langs)):
-                      foreach ($langs as $lang):
-                        $sel = strcasecmp($lang, $current) === 0 ? 'selected' : '';
-                        echo '<option value="'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'" '.$sel.'>'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'</option>';
-                      endforeach;
-                    else:
-                      echo '<option value="">No languages found</option>';
-                    endif;
-                  ?>
-                </select>
-                <!-- Hidden bleibt wegen JS/Backend-Kompatibilität -->
-                <input type="hidden" name="language" id="selected-language" value="<?php echo get_language(); ?>">
+                  <select id="language-select" name="language"
+          				class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
+						<?php 
+						$langs = getLangFiles();
+						$current = get_language();
+						if (!empty($langs)):
+							foreach ($langs as $lang):
+							$sel = strcasecmp($lang, $current) === 0 ? 'selected' : '';
+							echo '<option value="'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'" '.$sel.'>'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'</option>';
+							endforeach;
+						else:
+							echo '<option value="">No languages found</option>';
+						endif;
+						?>
+					</select>
               </div>
             </div>
 
@@ -547,109 +538,10 @@
 
 
 		</div>
-		<script src="js/album_collection.js"></script>
 		<script src="js/navbar.js"></script>
 		<script src="js/tailwind.js"></script>
-		<script src="js/profile_settings.js"></script>
-        <script src="js/file_upload.js"></script>
-        <script>
-			(() => {
-			let pendingLink = null;
-
-			const dlg     = document.getElementById('deleteImageModal');
-			const btnYes  = document.getElementById('confirmYes'); // Delete (rot)
-			const btnNo   = document.getElementById('confirmNo');  // Cancel
-
-			if (!dlg || !btnYes || !btnNo) return;
-
-			// Delegation: Klick auf einen Delete-Link in der Bilderliste
-			const imageList = document.getElementById('image-list');
-			if (imageList) {
-				imageList.addEventListener('click', (e) => {
-				const a = e.target.closest('a.confirm-link, a[href*="backend_api/delete.php"]');
-				if (!a) return;
-				e.preventDefault();
-				pendingLink = a.href;
-
-				// Optional: Titel/Body im Modal anpassen (wenn du willst)
-				// document.getElementById('dialog-title').textContent = 'Bild löschen?';
-
-				// Neues Dialog öffnen
-				if (typeof dlg.showModal === 'function') {
-					dlg.showModal();
-				} else {
-					// Fallback (sollte selten nötig sein)
-					dlg.setAttribute('open', '');
-				}
-				});
-			}
-
-			// Bestätigen -> weiterleiten
-			btnYes.addEventListener('click', () => {
-				const href = pendingLink;
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-				if (href) window.location.assign(href);
-			});
-
-			// Abbrechen -> schließen
-			btnNo.addEventListener('click', () => {
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-			});
-
-			// Dialog wird anderweitig geschlossen (Esc etc.)
-			dlg.addEventListener('close', () => { pendingLink = null; });
-			})();
-		</script>
-		<script>
-          let pendingLink = null;
-
-          // Klick auf bestätigungspflichtige Links
-          document.querySelectorAll('.confirm-link').forEach(link => {
-            link.addEventListener('click', function (e) {
-              e.preventDefault();
-              pendingLink = this.href;
-              document.getElementById('confirmModal').classList.remove('hidden');
-            });
-          });
-
-          // Abbrechen → Modal schließen
-          document.getElementById('confirmYes').addEventListener('click', () => {
-            document.getElementById('confirmModal').classList.add('hidden');
-            pendingLink = null;
-          });
-
-          // Bestätigen → Weiterleitung
-          document.getElementById('confirmNo').addEventListener('click', () => {
-            if (pendingLink) {
-              window.location.href = pendingLink;
-            }
-          });
-        </script>
-        <script>
-          document.querySelectorAll('.assign-to-album-btn').forEach(button => {
-            button.addEventListener('click', () => {
-              const filename = button.getAttribute('data-filename');
-              document.getElementById('assignImageFilename').value = filename;
-              document.getElementById('assignToAlbumModal').classList.remove('hidden');
-            });
-          });
-
-          document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-
-          document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-        </script>
-        <!--<script>
-        document.getElementById('location').addEventListener('change', function () {
-            const url = this.value;
-            window.location.href = url; // Weiterleitung zur gewählten URL
-        });
-      </script>-->
+		<script src="js/select_settings.js"></script>
+        <script src="js/save_settings.js"></script>
 
 	</body>
 </html>

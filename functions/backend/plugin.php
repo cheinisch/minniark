@@ -25,6 +25,7 @@ function renderPluginSettings(string $pluginDir): void
     $note = htmlspecialchars($meta['note'] ?? '');
     $enabled = !empty($settings['enabled']) ? 'true' : 'false';
     $isSaved = isset($_GET['saved'], $_GET['plugin']) && $_GET['saved'] === '1' && $_GET['plugin'] === $pluginKey;
+    $save = languageString('general.save');
 
     echo <<<HTML
         <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
@@ -143,7 +144,7 @@ HTML;
 
     echo <<<HTML
     <div class="mt-8 flex">
-      <button type="submit" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus:outline-sky-500"><?php echo languageString('general.save'); ?></button>
+      <button type="submit" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus:outline-sky-500">{$save}</button>
     </div>
     </div>
   </form>

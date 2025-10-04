@@ -624,7 +624,7 @@ if ($uri === 'home' || $uri === '') {
             $imgStyle = $home['default_image_style'] ?? null;
             $imgRef   = $home['default_image'] ?? null;
             $imgDir   = realpath(__DIR__ . '/../../userdata/content/images/');
-            $size     = $settings['default_image_size'] ?? 'M';
+            $size     = $settings['default_image_size'] ?? 'L';
 
             if ($imgStyle === 'album' && $imgRef) {
                 $album = readGalleryAlbum($imgRef, $settings);

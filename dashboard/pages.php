@@ -230,7 +230,7 @@
 							</p>
 						</div>
 						<div class="shrink-0 flex flex-col gap-2">
-							<a href="<a href="page-detail.php?edit=<?php echo $page['slug']; ?>"
+							<a href="page-detail.php?edit=<?php echo $page['slug']; ?>"
 							class="text-xs text-black dark:text-white px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">Edit</a>
 							<a href="backend_api/delete_post.php?id=1"
 							class="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-400">Delete</a>

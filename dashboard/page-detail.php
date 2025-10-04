@@ -1,39 +1,37 @@
 <?php
-  require_once( __DIR__ . "/../functions/function_backend.php");
+  require_once(__DIR__ . "/../functions/function_backend.php");
   security_checklogin();
 
-  // Prüfen, ob ein bestimmtes Jahr übergeben wurde
-  $new = isset($_GET['new']) ? $_GET['new'] : null;
-  $edit = isset($_GET['edit']) ? $_GET['edit'] : null;
+  $new  = $_GET['new']  ?? null;
+  $edit = $_GET['edit'] ?? null;
 
-  if($edit != null)
-  {
+  if ($edit !== null) {
     $page = GetPageData($edit);
-  }else{
-    $page['title'] = null;
-    $page['slug'] = null;
-    $page['content'] = null;
-    $page['is_published'] = "false";
-    $page['cover'] = "";
+  } else {
+    $page = [
+      'title'        => null,
+      'slug'         => null,
+      'content'      => null,
+      'is_published' => "false",
+      'cover'        => "",
+    ];
   }
-
 ?>
-
 <!doctype html>
 <html lang="<?php echo get_language(); ?>">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pages - <?php echo get_sitename(); ?></title>
-		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
-    <!-- EasyMDE CSS -->
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-      <!-- EasyMDE JS -->
-      <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
-	</head>
-	<body class="bg-white dark:bg-black">
+    <!-- EasyMDE -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  </head>
+  <body class="bg-white dark:bg-black text-black dark:text-white">
+
+    <!-- ==================== Sidebar (mobile) ==================== -->
 		<el-dialog>
 			<dialog id="sidebar" class="backdrop:bg-transparent lg:hidden">
 				<el-dialog-backdrop class="fixed inset-0 bg-white/80 dark:bg-black/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"></el-dialog-backdrop>
@@ -53,7 +51,7 @@
 								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
-								<?php include (__DIR__.'/layout/pages_menu.php'); ?>
+								<?php include (__DIR__.'/layout/page_menu.php'); ?>
 							</nav>
 						</div>
 					</el-dialog-panel>
@@ -68,7 +66,7 @@
 					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
-					<?php include (__DIR__.'/layout/pages_menu.php'); ?>
+					<?php include (__DIR__.'/layout/page_menu.php'); ?>
 				</nav>
 			</div>
 		</div>
@@ -96,28 +94,26 @@
 								<?php echo languageString('nav.images'); ?>
 							</a>
 							<a href="blog.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.blogposts'); ?>
 							</a>
 							<a href="pages.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.pages'); ?>
 							</a>
 						</div>
 					</div>
 					<div class="flex items-center gap-x-4 lg:gap-x-6">
-						<a href="page-detail.php?post=new"
-						id="newPageBtn"
-						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<?php echo languageString('page.new_page'); ?>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-								<path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-  								<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-							</svg>
-							<span class="sr-only">New Page</span>
-						</a>
+						<button type="button" id="delete-button"
+                    class="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold border border-black/20 rounded hover:bg-black/5
+                          dark:border-white/20 dark:hover:bg-white/10">
+              <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+              </svg>
+              Delete Page
+            </button>
 						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
 							<span class="sr-only">View notifications</span>
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
@@ -196,75 +192,62 @@
 					</a>
 					</nav>
 				</div>
-			</div>
-			<main class="py-10 bg-white dark:bg-black">
-				<div class="px-4 sm:px-6 lg:px-8">
+			</div>            
+
+      <!-- ==================== Main ==================== -->
+      <main class="py-10 bg-white dark:bg-black">
+        <div class="px-4 sm:px-6 lg:px-8">
           <form id="pageForm" action="backend_api/page_save.php" method="post" class="space-y-8 max-w-5xl mx-auto">
 
             <!-- Main Content -->
             <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-
               <div class="p-4 grid grid-cols-1 gap-6 sm:grid-cols-6">
                 <!-- Title -->
                 <div class="sm:col-span-4">
-                  <label for="title" class="block text-xs font-medium text-gray-700 dark:text-gray-300">Title</label>
+                  <label for="title" class="block text-xs font-medium">Title</label>
                   <div class="mt-1">
-                    <input
-                      type="text" name="title" id="title" placeholder="title"
-                      value="<?php echo $page['title']; ?>"
-                      class="block w-full rounded bg-white dark:bg-black px-3 py-2 text-sm text-gray-900 dark:text-white
-                            outline outline-1 -outline-offset-1 outline-gray-300 dark:outline-white/10
-                            placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600" />
+                    <input type="text" name="title" id="title" placeholder="title" value="<?php echo $page['title']; ?>"
+                           class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600" />
                   </div>
                 </div>
 
                 <!-- Foldername -->
                 <div class="sm:col-span-4">
-                  <label for="foldername" class="block text-xs font-medium text-gray-700 dark:text-gray-300"><?php echo languageString('page.foldername'); ?></label>
-                  <div class="mt-1 flex items-stretch rounded overflow-hidden outline outline-1 -outline-offset-1 outline-gray-300 dark:outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
-                    <span class="shrink-0 px-3 py-2 text-xs text-gray-600 dark:text-gray-400 bg-black/5 dark:bg-white/5 select-none">
-                      /userdata/content/pages/
-                    </span>
-                    <input
-                      type="text" name="foldername" id="foldername" readonly
-                      value="<?php echo $page['slug']; ?>"
-                      class="min-w-0 grow bg-white dark:bg-black px-3 py-2 text-sm text-gray-900 dark:text-white focus:outline-none" />
+                  <label for="foldername" class="block text-xs font-medium"><?php echo languageString('page.foldername'); ?></label>
+                  <div class="mt-1 flex items-stretch overflow-hidden outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
+                    <span class="shrink-0 px-3 py-2 text-xs text-black/60 dark:text-gray-400 bg-black/5 dark:bg-white/5 select-none">/userdata/content/pages/</span>
+                    <input type="text" name="foldername" id="foldername" readonly value="<?php echo $page['slug']; ?>"
+                           class="min-w-0 grow bg-white dark:bg-black px-3 py-2 text-sm focus:outline-none" />
                     <input type="hidden" id="original_foldername" name="original_foldername" value="<?php echo $page['slug']; ?>">
                   </div>
                 </div>
 
                 <!-- Content -->
                 <div class="col-span-full">
-                  <label for="content" class="block text-xs font-medium text-gray-700 dark:text-gray-300"><?php echo languageString('page.content'); ?></label>
-                  <div class="mt-1 bg-white">
-                    <textarea
-                      name="content" id="content" rows="10"
-                      class="block w-full rounded bg-white dark:bg-white px-3 py-2 text-sm text-gray-900 dark:text-white
-                            outline outline-1 -outline-offset-1 outline-gray-300 dark:outline-white/10
-                            placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600"><?php echo $page['content']; ?></textarea>
+                  <label for="content" class="block text-xs font-medium"><?php echo languageString('page.content'); ?></label>
+                  <div class="mt-1">
+                    <textarea name="content" id="content" rows="10"
+                              class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600"><?php echo $page['content']; ?></textarea>
                   </div>
                 </div>
 
                 <!-- Hero Image -->
                 <div class="col-span-full">
                   <input type="hidden" name="cover" id="cover" value="<?php echo $page['cover']; ?>">
-                  <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">Hero Image</label>
+                  <label class="block text-xs font-medium mb-2">Hero Image</label>
 
                   <div class="w-full max-w-xl rounded border border-black/10 dark:border-white/10 overflow-hidden bg-black/5 dark:bg-white/5">
-                    <img
-                      id="coverPreview"
-                      src="<?php echo get_cached_image_dashboard($page['cover'], 'M'); ?>"
-                      alt="Cover Preview"
-                      class="w-full h-56 object-cover" />
+                    <img id="coverPreview" src="<?php echo get_cached_image_dashboard($page['cover'], 'M'); ?>" alt="Cover Preview" class="w-full h-56 object-cover" />
                   </div>
 
                   <div class="mt-2 flex gap-2">
+                    <!-- Outline Buttons statt sky -->
                     <button type="button" id="openCoverModalBtn"
-                            class="text-xs px-3 py-1.5 rounded bg-sky-600 text-white hover:bg-sky-500">
+                            class="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
                       Select Hero Image
                     </button>
                     <button type="button" id="removeHeroImg"
-                            class="text-xs px-3 py-1.5 rounded bg-rose-600 text-white hover:bg-rose-500">
+                            class="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
                       Remove Hero Image
                     </button>
                   </div>
@@ -275,10 +258,8 @@
             <!-- Page Settings -->
             <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
               <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-                <h2 class="text-sm font-semibold text-black dark:text-white">Page Settings</h2>
-                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-                  Control visibility and save changes.
-                </p>
+                <h2 class="text-sm font-semibold">Page Settings</h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Control visibility and save changes.</p>
               </header>
 
               <div class="p-4 grid grid-cols-1 gap-6 sm:grid-cols-6">
@@ -286,211 +267,153 @@
                 <div class="col-span-full">
                   <div class="flex items-center justify-between">
                     <span class="flex grow flex-col">
-                      <span class="text-sm font-medium text-black dark:text-white" id="availability-label">Is published</span>
+                      <span class="text-sm font-medium" id="availability-label">Is published</span>
                       <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description">Change between visible and invisible</span>
                     </span>
 
                     <button type="button" id="is_published"
                             class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
                             role="switch"
-                            aria-checked="<?php echo $page['is_published'] === true ? "true" : "false"; ?>"
+                            aria-checked="<?php echo ($page['is_published'] === true || $page['is_published'] === 'true') ? "true" : "false"; ?>"
                             aria-labelledby="availability-label" aria-describedby="availability-description">
-                      <span aria-hidden="true"
-                            class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                      <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                     </button>
-                    <input type="hidden" name="is_published" id="is_published_input" value="<?php echo $page['is_published'] === true ? "true" : "false"; ?>">
+                    <input type="hidden" name="is_published" id="is_published_input" value="<?php echo ($page['is_published'] === true || $page['is_published'] === 'true') ? "true" : "false"; ?>">
                   </div>
                 </div>
 
                 <!-- Actions -->
                 <div class="col-span-full flex items-center justify-end gap-3">
                   <a href="pages.php"
-                    class="text-xs px-3 py-2 rounded bg-rose-600 text-white hover:bg-rose-500">
+                     class="text-xs px-3 py-2 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
                     <?php echo languageString('general.cancel'); ?>
                   </a>
                   <button type="submit"
-                          class="text-xs px-3 py-2 rounded bg-sky-600 text-white shadow-xs hover:bg-sky-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                          class="text-xs px-3 py-2 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
                     <?php echo languageString('general.save'); ?>
                   </button>
                 </div>
               </div>
             </section>
           </form>
+        </div>
+      </main>
+    </div>
 
-				</div>
-			</main>
-		</div>
-		
-		<script src="js/navbar.js"></script>
-		<script src="js/tailwind.js"></script>
-		<script src="js/profile_settings.js"></script>
+    <!-- ========== Cover Picker Modal (el-dialog) ========== -->
+    <el-dialog>
+      <dialog id="coverModal" class="backdrop:bg-transparent">
+        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
+        <div tabindex="0" class="fixed inset-0 flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <el-dialog-panel
+            class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all
+                   sm:my-8 sm:w-full sm:max-w-2xl sm:p-6 p-4 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+
+            <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+              <button type="button" command="close" commandfor="coverModal" class="rounded-md bg-white text-gray-400 hover:text-gray-500 dark:bg-black">
+                <span class="sr-only">Close</span>
+                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <h2 class="text-sm font-semibold">Select Hero Image</h2>
+            <div class="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto">
+              <?php
+                $imageDir = realpath(__DIR__ . '/../userdata/content/images');
+                $images = [];
+                if ($imageDir && is_dir($imageDir)) {
+                  foreach (glob($imageDir.'/*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE) as $imgFile) {
+                    $images[] = basename($imgFile);
+                  }
+                }
+                foreach ($images as $img):
+                  $path = "/userdata/content/images/" . urlencode($img);
+                  echo "<img src='$path' class='w-full h-28 object-cover rounded border border-black/10 dark:border-white/10 cursor-pointer hover:opacity-80' onclick=\"selectCover('$path')\">";
+                endforeach;
+              ?>
+            </div>
+
+            <div class="mt-6 sm:flex sm:flex-row-reverse">
+              <button type="button" command="close" commandfor="coverModal"
+                      class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold border border-black/20 hover:bg-black/5 sm:ml-3 sm:w-auto dark:border-white/20 dark:hover:bg-white/10">
+                Close
+              </button>
+            </div>
+          </el-dialog-panel>
+        </div>
+      </dialog>
+    </el-dialog>
+
+    <!-- Scripts -->
+    <script src="js/navbar.js"></script>
+    <script src="js/tailwind.js"></script>
     <script>
+      // EasyMDE
       document.addEventListener("DOMContentLoaded", function () {
         window.easyMDE = new EasyMDE({
           element: document.getElementById("content"),
           spellChecker: false,
           autosave: { enabled: false },
           placeholder: "Please enter your content",
-          toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview", "guide"]
+          toolbar: ["bold","italic","heading","|","quote","unordered-list","ordered-list","|","preview","guide"]
         });
       });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          console.log("Hero Image Script geladen");
-        // Tabs wechseln (Upload vs. Galerie)
-        function switchCoverTab(tab) {
-          const uploadTab = document.getElementById('cover-upload');
-          const chooseTab = document.getElementById('cover-choose');
-          const tabUploadBtn = document.getElementById('tab-upload');
-          const tabChooseBtn = document.getElementById('tab-choose');
 
-          if (!uploadTab || !chooseTab || !tabUploadBtn || !tabChooseBtn) {
-            console.warn("Ein oder mehrere Tab-Elemente wurden nicht gefunden.");
-            return;
-          }
-
-          uploadTab.classList.toggle('hidden', tab !== 'upload');
-          chooseTab.classList.toggle('hidden', tab !== 'choose');
-          tabUploadBtn.classList.toggle('border-b-2', tab === 'upload');
-          tabChooseBtn.classList.toggle('border-b-2', tab === 'choose');
-          tabUploadBtn.classList.toggle('text-sky-600', tab === 'upload');
-          tabChooseBtn.classList.toggle('text-sky-600', tab === 'choose');
-        }
-
-        // Modal öffnen
-        const openModalBtn = document.getElementById("openCoverModalBtn");
-        const coverModal = document.getElementById("coverModal");
-
-        if (openModalBtn && coverModal) {
-          openModalBtn.addEventListener("click", () => {
-            console.log("Hero Image btn pressed");
-            coverModal.classList.remove("hidden");
-          });
-        } else {
-          console.warn("Modal oder Button zum Öffnen nicht gefunden.");
-        }
-
-        // Modal schließen
-        window.closeCoverModal = () => {
-          if (coverModal) {
-            coverModal.classList.add("hidden");
-          }
-        };
-
-        // Bild auswählen
-        window.selectCover = (path) => {
-          const coverInput = document.getElementById('cover');
-          const previewImg = document.getElementById('coverPreview');
-
-          if (coverInput && previewImg) {
-            coverInput.value = path.split('/').pop(); // ✅ nur der Dateiname
-            previewImg.src = path; // für Vorschau aber weiterhin der ganze Pfad
-            closeCoverModal();
-          }
-        };
-
-        // Expose `switchCoverTab` to global scope if needed
-        window.switchCoverTab = switchCoverTab;
-      });
-    </script>
-    <script>
+      // Slug-Autofill
       document.addEventListener("DOMContentLoaded", function () {
         const titleInput = document.getElementById("title");
         const folderInput = document.getElementById("foldername");
-
-        function slugify(text) {
-
-          const map = {
-          'ä': 'ae',
-          'ö': 'oe',
-          'ü': 'ue',
-          'ß': 'ss',
-          'à': 'a',
-          'á': 'a',
-          'è': 'e',
-          'é': 'e',
-          'ì': 'i',
-          'í': 'i',
-          'ò': 'o',
-          'ó': 'o',
-          'ù': 'u',
-          'ú': 'u',
-          'ñ': 'n'
-        };
-
-          return text
-            .toString()
-            .toLowerCase()
-            .trim()
-            .replace(/[äöüßàáèéìíòóùúñ]/g, m => map[m]) // ersetze Umlaute
-            .replace(/[^a-z0-9]+/g, '-')   // ersetze Sonderzeichen durch -
-            .replace(/^-+|-+$/g, '');      // entferne führende/trailing Bindestriche
+        function slugify(text){
+          const map={'ä':'ae','ö':'oe','ü':'ue','ß':'ss','à':'a','á':'a','è':'e','é':'e','ì':'i','í':'i','ò':'o','ó':'o','ù':'u','ú':'u','ñ':'n'};
+          return text.toString().toLowerCase().trim()
+            .replace(/[äöüßàáèéìíòóùúñ]/g,m=>map[m]).replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
         }
-
-        async function checkAndGenerateFolder(slug) {
-          const response = await fetch('backend_api/check_foldername.php?base=' + encodeURIComponent(slug));
+        async function checkAndGenerateFolder(slug){
+          const response = await fetch('backend_api/check_foldername.php?base='+encodeURIComponent(slug));
           const data = await response.json();
           folderInput.value = data.suggested;
         }
-
         titleInput.addEventListener("input", () => {
-          const baseSlug = slugify(titleInput.value);
-          if (baseSlug.length > 0) {
-            checkAndGenerateFolder(baseSlug);
-          } else {
-            folderInput.value = '';
-          }
+          const base = slugify(titleInput.value);
+          if (base) checkAndGenerateFolder(base); else folderInput.value = '';
         });
       });
-    </script>
-    <script>
+
+      // Publish Toggle
       document.addEventListener("DOMContentLoaded", function () {
         const toggleBtn = document.getElementById("is_published");
         const knob = toggleBtn.querySelector("span");
         const hiddenInput = document.getElementById("is_published_input");
-
-        function updateToggleUI(enabled) {
+        function updateToggleUI(enabled){
           toggleBtn.setAttribute("aria-checked", enabled ? "true" : "false");
-          toggleBtn.classList.toggle("bg-sky-600", enabled);
           toggleBtn.classList.toggle("bg-gray-400", !enabled);
+          toggleBtn.classList.toggle("bg-sky-600", enabled);
           knob.classList.toggle("translate-x-5", enabled);
           knob.classList.toggle("translate-x-0", !enabled);
-
-          // Update hidden input so form submission works
           hiddenInput.value = enabled ? "true" : "false";
         }
-
-        // Initialstatus setzen
-        const isEnabled = toggleBtn.getAttribute("aria-checked") === "true";
-        updateToggleUI(isEnabled);
-
-        // Klickverhalten
+        updateToggleUI(toggleBtn.getAttribute("aria-checked")==="true");
         toggleBtn.addEventListener("click", () => {
-          const current = toggleBtn.getAttribute("aria-checked") === "true";
-          updateToggleUI(!current);
+          updateToggleUI(!(toggleBtn.getAttribute("aria-checked")==="true"));
         });
       });
-      </script>
-      <script src="js/remove_hero_image.js"></script>
-      <script>
-          // Delete-Button Klick öffnet Modal
-          document.getElementById('delete-button').addEventListener('click', function() {
-            document.getElementById('deleteModal').classList.remove('hidden');
-          });
 
-          // Cancel-Button Klick schließt Modal
-          document.getElementById('cancelDelete').addEventListener('click', function() {
-            document.getElementById('deleteModal').classList.add('hidden');
-          });
-
-          // Confirm-Button Klick ruft direkt dein PHP-Skript auf
-          document.getElementById('confirmDelete').addEventListener('click', function() {
-            const filename = "<?php echo page['source_path']; ?>";
-            window.location.href = `/dashboard/backend_api/delete.php?type=page&filename=${encodeURIComponent(filename)}`;
-          });
-
-      </script>
-
-	</body>
+      // Cover Modal + Auswahl
+      const openCoverModalBtn = document.getElementById("openCoverModalBtn");
+      if (openCoverModalBtn) {
+        openCoverModalBtn.addEventListener("click", () => {
+          document.getElementById('coverModal').setAttribute('open','');
+        });
+      }
+      function closeCoverModal(){ document.getElementById('coverModal').removeAttribute('open'); }
+      function selectCover(path){
+        const filename = path.split('/').pop();
+        document.getElementById('cover').value = filename;
+        document.getElementById('coverPreview').src = path;
+        closeCoverModal();
+      }
+      window.selectCover = selectCover;
+    </script>
+    <script src="js/remove_hero_image.js"></script>
+  </body>
 </html>

@@ -102,13 +102,18 @@
           </div>
 
           <div class="flex items-center gap-x-4 lg:gap-x-6">
+            <?php
+            if ($edit !== null) {
+            ?>
             <button type="button" id="delete-button" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold border border-black/20 rounded hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
               <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
               </svg>
               <?php echo languageString('blog.delete'); ?>
             </button>
-
+            <?php
+            }
+            ?>
             <button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
               <span class="sr-only">View notifications</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">

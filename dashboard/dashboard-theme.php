@@ -55,8 +55,8 @@
             <svg class="size-6 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"/></svg>
           </div>
           <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h2 id="search-themes-title" class="text-base font-semibold text-gray-900 dark:text-white">Search and install Themes</h2>
-            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Find themes from the catalog and install them.</p>
+            <h2 id="search-themes-title" class="text-base font-semibold text-gray-900 dark:text-white"><?php echo languageString('dashboard.theme.install.title'); ?></h2>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400"><?php echo languageString('dashboard.theme.install.subtitle'); ?></p>
           </div>
         </div>
 
@@ -73,17 +73,33 @@
           <div id="theme-search-grid" class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <?php $packagistThemes = getTemplatesPackagist(); ?>
             <?php foreach ($packagistThemes as $theme): ?>
-              <div class="rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-black/30 shadow-xs overflow-hidden">
+              <div class="rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-black/30 shadow-xs overflow-hidden"
+                data-theme="<?= htmlspecialchars($theme['name']) ?>"
+                data-author="<?= htmlspecialchars($theme['author']) ?>"
+                data-version="<?= htmlspecialchars($theme['version']) ?>">
                 <!--<img src="<?= htmlspecialchars($theme['image']) ?>" alt="" class="w-full h-auto">-->
                 <div class="p-4">
                   <h3 class="text-sm font-semibold dark:text-white"><?= htmlspecialchars($theme['name']) ?></h3>
                   <p class="text-xs text-black/60 dark:text-gray-400">Version: <?= htmlspecialchars($theme['version']) ?></p>
                   <p class="text-xs text-black/60 dark:text-gray-400">Author: <?= htmlspecialchars($theme['author']) ?></p>
-                  <a href="backend_api/theme_install.php?install=<?= htmlspecialchars($theme['name']) ?>"
-                     class="mt-2 inline-block rounded-md px-2 py-1 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-500
-                            dark:bg-indigo-500 dark:hover:bg-indigo-400">
-                    Install Template
-                  </a>
+                  <?php
+                  // $theme['name'] kommt aus deiner Themes-Liste (z. B. getTemplatesPackagist()).
+                  $installed = isThemeExist($theme['name'], false); // false = kein Debug-Output
+                  ?>
+
+                  <?php if (!$installed): ?>
+                    <a href="backend_api/theme_install.php?install=<?= urlencode($theme['name']) ?>"
+                      class="mt-2 inline-block rounded-md px-2 py-1 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-500
+                              dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                      aria-label="Installiere <?= htmlspecialchars($theme['name'], ENT_QUOTES) ?>">
+                      <?php echo languageString('dashboard.theme.install.install'); ?>
+                    </a>
+                  <?php else: ?>
+                    <span class="mt-2 inline-block rounded-md px-2 py-1 text-xs font-medium bg-green-100 text-green-800
+                                dark:bg-green-900 dark:text-green-200">
+                      <?php echo languageString('dashboard.theme.install.is_installed'); ?>
+                    </span>
+                  <?php endif; ?>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -93,7 +109,7 @@
         <!-- Footer -->
         <div class="mt-6 sm:flex sm:flex-row-reverse">
           <a href="?" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:ml-3 sm:w-auto
-                            dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">Close</a>
+                            dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"><?php echo languageString('general.close'); ?></a>
         </div>
       </el-dialog-panel>
     </div>
@@ -136,11 +152,11 @@
           <a href="backend_api/settheme.php?name=<?= htmlspecialchars($folder) ?>"
              class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto
                     dark:bg-indigo-500 dark:hover:bg-indigo-400">
-            OK
+            <?php echo languageString('general.ok'); ?>
           </a>
           <a href="?" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto
                            dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
-            Cancel
+            <?php echo languageString('general.cancel'); ?>
           </a>
         </div>
       </el-dialog-panel>
@@ -183,11 +199,11 @@
         <div class="mt-6 sm:flex sm:flex-row-reverse">
           <a href="backend_api/thememodify.php?remove=<?= htmlspecialchars($folder) ?>"
              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">
-            OK
+            <?php echo languageString('general.ok'); ?>
           </a>
           <a href="?" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto
                            dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
-            Cancel
+            <?php echo languageString('general.cancel'); ?>
           </a>
         </div>
       </el-dialog-panel>
@@ -365,8 +381,8 @@
       <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
         <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
           <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-            <h2 class="text-sm font-semibold">Theme Selection</h2>
-            <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Choose, update, or remove installed themes.</p>
+            <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.theme.title'); ?></h2>
+            <p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.theme.subtitle'); ?></p>
           </header>
 
           <div class="px-4 py-6">

@@ -1,5 +1,6 @@
 {
     "general" : {
+        "ok" : "Ok",
         "save" : "Save",
         "cancel" : "Cancel",
         "edit" : "Edit",
@@ -57,7 +58,13 @@
             "author":"Author",
             "activate":"Activate",
             "active":"Active",
-            "remove":"Remove"
+            "remove":"Remove",
+            "install": {
+                "install" : "Install",
+                "is_installed" :"Is Installed",
+                "title" : "Search and install Themes",
+                "subtitle" : "Find themes from the catalog and install them."
+            }
         }
     },
     "image" : {

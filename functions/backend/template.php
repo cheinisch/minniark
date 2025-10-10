@@ -205,76 +205,164 @@
             </a>';
     }
 
-    function installTemplate($packagistName)
+    function installTemplate($packagistName, $debug = true)
     {
+        $say = function ($msg) use ($debug) {
+            if ($debug) {
+                echo "[installTemplate] $msg\n";
+                // Sofort ausgeben, auch wenn Output-Buffer aktiv ist
+                if (function_exists('ob_get_level') && ob_get_level() > 0) {
+                    @ob_flush();
+                }
+                @flush();
+            }
+        };
+
+        $say("Start mit Packagist-Name: {$packagistName}");
+
         $templateDir = __DIR__ . '/../../userdata/template';
         $normalizedFolder = normalizeThemeFolder($packagistName);
         $themePath = $templateDir . '/' . $normalizedFolder;
 
+        $say("Template-Verzeichnis: {$templateDir}");
+        $say("Normalisierter Ordner: {$normalizedFolder}");
+        $say("Zielpfad (themePath): {$themePath}");
+
         if (is_dir($themePath)) {
-            // Bereits installiert
-            return false;
+            $say("Abbruch: Zielpfad existiert bereits (bereits installiert).");
+            return false; // Bereits installiert
         }
 
         $url = 'https://repo.packagist.org/p2/' . urlencode($packagistName) . '.json';
+        $say("Hole Paket-Metadaten von: {$url}");
+
         $context = stream_context_create([
-            'http' => ['method' => 'GET', 'header' => "User-Agent: Minniark-Installer\r\n"]
+            'http' => [
+                'method'  => 'GET',
+                'header'  => "User-Agent: Minniark-Installer\r\n",
+                'timeout' => 30,
+            ]
         ]);
 
         $json = @file_get_contents($url, false, $context);
-        if (!$json) return false;
+        if (!$json) {
+            $status = isset($http_response_header[0]) ? $http_response_header[0] : 'kein HTTP-Header';
+            $say("Fehler: Konnte JSON nicht laden. Status: {$status}");
+            return false;
+        }
+        $say("Metadaten geladen. Länge: " . strlen($json) . " Bytes");
 
         $data = json_decode($json, true);
-        if (json_last_error() !== JSON_ERROR_NONE || empty($data['packages'][$packagistName])) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $say("Fehler: JSON ungültig – " . json_last_error_msg());
+            return false;
+        }
+
+        if (empty($data['packages'][$packagistName])) {
+            $say("Fehler: 'packages[{$packagistName}]' leer oder nicht vorhanden.");
             return false;
         }
 
         $versions = $data['packages'][$packagistName];
+        $say("Gefundene Version-Objekte: " . count($versions));
 
         // Finde die neueste stabile Version
-        $stableVersions = array_filter($versions, fn($v) => preg_match('/^\d+\.\d+(\.\d+)?$/', $v['version']));
-        if (empty($stableVersions)) return false;
+        $stableVersions = array_filter($versions, function ($v) {
+            return isset($v['version']) && preg_match('/^\d+\.\d+(\.\d+)?$/', $v['version']);
+        });
+        $say("Stabile Versionen gefiltert: " . count($stableVersions));
 
-        usort($stableVersions, fn($a, $b) => version_compare($a['version'], $b['version']));
-        $latest = end($stableVersions);
-        $zipUrl = $latest['dist']['url'] ?? null;
-        if (!$zipUrl) return false;
-
-        $zipData = @file_get_contents($zipUrl, false, $context);
-        if (!$zipData) return false;
-
-        // Temporäres ZIP speichern
-        $tempZip = tempnam(sys_get_temp_dir(), 'minniark_install_') . '.zip';
-        file_put_contents($tempZip, $zipData);
-
-        // Entpacken
-        $tempExtract = sys_get_temp_dir() . '/minniark_extract_' . uniqid();
-        mkdir($tempExtract, 0777, true);
-
-        $zip = new ZipArchive();
-        if ($zip->open($tempZip) !== true) return false;
-        $zip->extractTo($tempExtract);
-        $zip->close();
-        unlink($tempZip);
-
-        // Finde das entpackte Root-Verzeichnis
-        $subdirs = array_filter(glob($tempExtract . '/*'), 'is_dir');
-        $sourcePath = reset($subdirs);
-        if (!is_dir($sourcePath)) return false;
-
-        // Zielverzeichnis anlegen und kopieren
-        mkdir($themePath, 0777, true);
-        if (!copyDir($sourcePath, $themePath)) {
-            deleteDir($themePath);
+        if (empty($stableVersions)) {
+            $say("Fehler: Keine stabile Version gefunden.");
             return false;
         }
 
+        usort($stableVersions, fn($a, $b) => version_compare($a['version'], $b['version']));
+        $latest = end($stableVersions);
+        $say("Neueste stabile Version gewählt: " . ($latest['version'] ?? '(unbekannt)'));
+
+        $zipUrl = $latest['dist']['url'] ?? null;
+        if (!$zipUrl) {
+            $say("Fehler: Kein dist.url für die gewählte Version vorhanden.");
+            return false;
+        }
+        $say("ZIP-URL: {$zipUrl}");
+
+        $zipData = @file_get_contents($zipUrl, false, $context);
+        if (!$zipData) {
+            $status = isset($http_response_header[0]) ? $http_response_header[0] : 'kein HTTP-Header';
+            $say("Fehler: Konnte ZIP nicht laden. Status: {$status}");
+            return false;
+        }
+        $say("ZIP geladen. Größe: " . strlen($zipData) . " Bytes");
+
+        // Temporäres ZIP speichern
+        $tempZip = tempnam(sys_get_temp_dir(), 'minniark_install_') . '.zip';
+        $okWrite = @file_put_contents($tempZip, $zipData);
+        if ($okWrite === false) {
+            $say("Fehler: Konnte temporäre ZIP nicht schreiben: {$tempZip}");
+            return false;
+        }
+        $say("ZIP gespeichert unter: {$tempZip}");
+
+        // Entpacken
+        $tempExtract = sys_get_temp_dir() . '/minniark_extract_' . uniqid('', true);
+        if (!@mkdir($tempExtract, 0777, true)) {
+            @unlink($tempZip);
+            $say("Fehler: Konnte temporäres Entpack-Verzeichnis nicht erstellen: {$tempExtract}");
+            return false;
+        }
+        $say("Entpack-Verzeichnis erstellt: {$tempExtract}");
+
+        $zip = new ZipArchive();
+        $openRes = $zip->open($tempZip);
+        if ($openRes !== true) {
+            @unlink($tempZip);
+            deleteDir($tempExtract);
+            $say("Fehler: ZipArchive->open schlug fehl, Code: {$openRes}");
+            return false;
+        }
+        $say("ZIP geöffnet, entpacke …");
+        $zip->extractTo($tempExtract);
+        $zip->close();
+        @unlink($tempZip);
+        $say("ZIP entpackt und temporäre ZIP gelöscht.");
+
+        // Finde das entpackte Root-Verzeichnis
+        $subdirs = array_filter(glob($tempExtract . '/*'), 'is_dir');
+        $say("Gefundene Unterordner im Entpack-Verzeichnis: " . count($subdirs));
+
+        $sourcePath = reset($subdirs);
+        if (!$sourcePath || !is_dir($sourcePath)) {
+            deleteDir($tempExtract);
+            $say("Fehler: Konnte Source-Path im entpackten Archiv nicht bestimmen.");
+            return false;
+        }
+        $say("Source-Path: {$sourcePath}");
+
+        // Zielverzeichnis anlegen und kopieren
+        if (!@mkdir($themePath, 0777, true)) {
+            deleteDir($tempExtract);
+            $say("Fehler: Konnte Zielverzeichnis nicht erstellen: {$themePath}");
+            return false;
+        }
+        $say("Zielverzeichnis erstellt: {$themePath}");
+        $say("Kopiere Dateien …");
+
+        if (!copyDir($sourcePath, $themePath)) {
+            deleteDir($themePath);
+            deleteDir($tempExtract);
+            $say("Fehler: copyDir() schlug fehl. Ziel wurde bereinigt.");
+            return false;
+        }
+        $say("Dateien kopiert.");
+
         // Aufräumen
         deleteDir($tempExtract);
+        $say("Temporäres Entpack-Verzeichnis bereinigt. Installation erfolgreich.");
 
         return true;
     }
-
 
     function getTemplatesPackagist():array
     {
@@ -353,4 +441,56 @@
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    function isThemeExist(string $packagistName, bool $debug = true): bool
+    {
+        $say = function ($msg) use ($debug) {
+            if ($debug) {
+                echo "[isThemeExist] $msg\n";
+                if (function_exists('ob_get_level') && ob_get_level() > 0) { @ob_flush(); }
+                @flush();
+            }
+        };
+
+        $templateDir = __DIR__ . '/../../userdata/template';
+        $normalized  = normalizeThemeFolder($packagistName);
+        $themePath   = $templateDir . '/' . $normalized;
+
+        $say("Prüfe normalisierten Ordner: {$themePath}");
+        if (is_dir($themePath)) {
+            $say("Gefunden (Ordner existiert).");
+            return true;
+        }
+
+        // Fallback: durchsucht vorhandene Themes nach composer.json->name == $packagistName
+        if (!is_dir($templateDir)) {
+            $say("Template-Verzeichnis existiert nicht: {$templateDir}");
+            return false;
+        }
+
+        $say("Ordner nicht gefunden. Fallback: scan nach composer.json-Namen …");
+        foreach (scandir($templateDir) as $dir) {
+            if ($dir === '.' || $dir === '..') continue;
+
+            $fullPath     = $templateDir . '/' . $dir;
+            $composerPath = $fullPath . '/composer.json';
+
+            if (!is_dir($fullPath) || !is_file($composerPath)) continue;
+
+            $json = @file_get_contents($composerPath);
+            if ($json === false) continue;
+
+            $data = json_decode($json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) continue;
+
+            $name = $data['name'] ?? null;
+            if ($name && strtolower(trim($name)) === strtolower(trim($packagistName))) {
+                $say("Gefunden über composer.json in: {$fullPath} (name: {$name})");
+                return true;
+            }
+        }
+
+        $say("Nicht installiert.");
+        return false;
     }

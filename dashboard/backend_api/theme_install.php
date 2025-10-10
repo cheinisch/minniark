@@ -5,9 +5,11 @@
 
     $package = $_GET['install'];
 
-    $result = installTemplate($package);
+    $result = installTemplate($package, false);
 
     if($result)
     {
         header("Location: ../dashboard-theme.php");
+    }else{
+        echo "Error loading theme";
     }

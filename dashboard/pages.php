@@ -213,9 +213,14 @@
 							<a href="page-detail.php?edit=<?php echo $page['slug']; ?>" class="text-base font-semibold text-black hover:underline dark:text-white">
 								<?php echo $page['title']; ?>
 							</a>
-							<span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300">
-								Published
-							</span>
+								<?php
+									if($page['is_published'])
+									{
+										echo '<span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300">';
+										echo languageString('general.published');
+										echo '</span>';
+									}
+								?>
 							</div>
 							<div class="mt-1 text-xs text-black/60 dark:text-gray-400">
 							<span>by <strong>alex</strong></span>
@@ -231,9 +236,9 @@
 						</div>
 						<div class="shrink-0 flex flex-col gap-2">
 							<a href="page-detail.php?edit=<?php echo $page['slug']; ?>"
-							class="text-xs text-black dark:text-white px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">Edit</a>
+							class="text-xs text-black dark:text-white px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10"><?php echo languageString('general.edit'); ?></a>
 							<a href="backend_api/delete_post.php?id=1"
-							class="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-400">Delete</a>
+							class="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-400"><?php echo languageString('general.delete'); ?></a>
 						</div>
 						</article>
 						<?php } ?>

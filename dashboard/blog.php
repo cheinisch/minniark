@@ -191,19 +191,12 @@
 					<!-- Your content -->
 					<!-- Blogliste – Admin Dashboard -->
 					<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-					<!--<header class="px-4 py-3 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
-						<h3 class="text-sm font-semibold text-black dark:text-white">Blog Posts</h3>
-						<a href="blog_new.php"
-						class="text-xs px-2 py-1 rounded bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90">
-						New Post
-						</a>
-					</header>-->
 
 					<div class="divide-y divide-black/10 dark:divide-white/10">
 						<?php
-							$posts = get_posts($filterYear,$filterTag);
-							foreach($posts as $post)
-							{
+						$posts = get_posts($filterYear,$filterTag);
+						foreach($posts as $post)
+						{
 							if($post['cover'] == "" || $post['cover'] == null)
 							{
 								$post['cover'] = "img/placeholder.png";
@@ -256,9 +249,10 @@
 							class="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-400"><?php echo languageString('general.delete'); ?></a>
 						</div>
 						</article>
+						<?php } ?>
 					</div>
 					</section>
-					<?php } ?>
+					
 				</div>
 			</main>
 		</div>

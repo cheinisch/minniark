@@ -338,6 +338,7 @@
 
             $data['slug'] = $folder;
             $data['content'] = $excerpt;
+            $data['published'] = true;
             $posts[] = $data;
         }
 

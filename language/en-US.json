@@ -38,6 +38,16 @@
         "username_wrong":"Username is wrong"
     },
     "dashboard": {
+        "clear_cache" : "Clear Cache",
+        "systeminformation" : {
+            "title" : "System Information",
+            "storage" : "Storage usage",
+            "version" : "Version",
+            "operation_system" : "Operation System",
+            "webserver" : "Webserver",
+            "bugreport": "Please report bugs on {{url}}.",
+            "news" : "News / Updates"
+        },
         "nav": {
             "overview":"Overview",
             "dashboard":"Dashboard",

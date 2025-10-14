@@ -75,7 +75,7 @@
 					<div class="grid flex-1 grid-cols-1">
 						<div class="hidden md:flex justify-start gap-2">
 						    <a href="dashboard.php"
-								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.dashboard'); ?>
 							</a>
@@ -85,12 +85,12 @@
 								<?php echo languageString('nav.images'); ?>
 							</a>
 							<a href="blog.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.blogposts'); ?>
 							</a>
 							<a href="pages.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.pages'); ?>
 							</a>
@@ -164,12 +164,12 @@
 				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
 					<nav class="flex gap-2 justify-center">
 					<a href="dashboard.php"
-						class="inline-flex items-center  py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center  py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.dashboard'); ?>
 					</a>
 					<a href="media.php"
-						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.images'); ?>
 					</a>
@@ -192,7 +192,7 @@
     <div class="mb-4 flex items-center justify-end">
       <a href="backend_api/cache.php"
          class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-        Clear Cache
+        <?php echo languageString('dashboard.clear_cache'); ?>
       </a>
     </div>
 
@@ -201,13 +201,13 @@
       <!-- System Information -->
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h3 class="text-sm font-semibold">System Information</h3>
+          <h3 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.title'); ?></h3>
         </header>
 
         <div class="p-4 space-y-6">
           <!-- Storage -->
           <div>
-            <h4 class="text-sm font-semibold">Storage usage</h4>
+            <h4 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.storage'); ?></h4>
             <ul class="mt-2 text-sm text-black/80 dark:text-gray-300">
               <li class="mb-1">
                 <?php echo "Used storage: ".$storage['used']; ?> MB
@@ -223,13 +223,13 @@
 
           <!-- Versions -->
           <div>
-            <h4 class="text-sm font-semibold">Versionen</h4>
+            <h4 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.version'); ?></h4>
             <div class="mt-2 overflow-x-auto">
               <table class="w-full text-sm">
                 <thead class="text-left text-black/60 dark:text-gray-400">
                   <tr class="border-b border-black/10 dark:border-white/10">
-                    <th class="py-2 pr-4">Component</th>
-                    <th class="py-2">Version / Type</th>
+                    <th class="py-2 pr-4"><?php echo languageString('dashboard.systeminformation.component'); ?></th>
+                    <th class="py-2"><?php echo languageString('dashboard.systeminformation.component-version'); ?></th>
                   </tr>
                 </thead>
                 <tbody class="text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
@@ -238,7 +238,7 @@
                     <td class="py-2"><?php echo $version['App Version']; ?></td>
                   </tr>
                   <tr>
-                    <td class="py-2 pr-4">Operation System</td>
+                    <td class="py-2 pr-4"><?php echo languageString('dashboard.systeminformation.operation_system'); ?></td>
                     <td class="py-2"><?php echo $version['Operating System']; ?></td>
                   </tr>
                   <tr>
@@ -246,7 +246,7 @@
                     <td class="py-2"><?php echo $version['PHP Version']; ?></td>
                   </tr>
                   <tr>
-                    <td class="py-2 pr-4">Webserver</td>
+                    <td class="py-2 pr-4"><?php echo languageString('dashboard.systeminformation.webserver'); ?></td>
                     <td class="py-2"><?php echo $version['Webserver']; ?></td>
                   </tr>
                 </tbody>
@@ -257,9 +257,10 @@
       </section>
 
       <!-- News / Updates -->
+
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h3 class="text-sm font-semibold">News / Updates</h3>
+          <h3 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.news'); ?></h3>
         </header>
 
         <div class="divide-y divide-black/10 dark:divide-white/10">
@@ -286,8 +287,8 @@
     <!-- Hinweis -->
     <div class="mt-4">
       <div class="rounded-sm border border-black/10 dark:border-white/10 bg-sky-700 text-white px-3 py-2 shadow-xs">
-        Please report bugs on
-        <a href="https://github.com/cheinisch/minniark/issues" class="underline">Github</a>.
+        <?php echo languageString('dashboard.systeminformation.bugreport',  ['url' => '<a href="https://github.com/cheinisch/minniark/issues" class="underline">Github</a>']); ?>
+        
       </div>
     </div>
   </div>

@@ -1,9 +1,44 @@
 <?php
 
-    function check_update()
+
+    function check_update(): bool
     {
-        $docker = is_docker();
-        $isNewer = is_newer();
+        $tempFile = __DIR__ . '/../../temp/version.json';
+
+        // Bevorzugt Cache verwenden (max. 24h alt)
+        if (is_file($tempFile) && (time() - filemtime($tempFile) < 86400)) {
+            $data = json_decode(@file_get_contents($tempFile), true);
+            return !empty($data['new_version_available']);
+        }
+
+        // Fallback: Live-Prüfung (legt auch version.json neu an)
+        return is_newer();
+    }
+
+    /**
+     * Gibt die Versionsnummer der neuesten verfügbaren Version zurück
+     * (z. B. "1.5.2"). Leerer String, wenn keine ermittelbar.
+     */
+    function updateNewVersionNumber(): string
+    {
+        $tempFile = __DIR__ . '/../../temp/version.json';
+
+        // Bevorzugt Cache (max. 24h alt)
+        if (is_file($tempFile) && (time() - filemtime($tempFile) < 86400)) {
+            $data = json_decode(@file_get_contents($tempFile), true);
+            return isset($data['new_version_number']) ? (string)$data['new_version_number'] : '';
+        }
+
+        // Fallback: Live-Prüfung triggern
+        @is_newer();
+
+        // Danach erneut lesen
+        if (is_file($tempFile)) {
+            $data = json_decode(@file_get_contents($tempFile), true);
+            return isset($data['new_version_number']) ? (string)$data['new_version_number'] : '';
+        }
+
+        return '';
     }
 
     function create_update_button()

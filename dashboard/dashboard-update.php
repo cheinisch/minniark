@@ -1,13 +1,30 @@
 <?php
-
-	require_once( __DIR__ . "/../functions/function_backend.php");
+  require_once( __DIR__ . "/../functions/function_backend.php");
   require_once '../vendor/autoload.php';
   security_checklogin();
 
-  // Erwartet: $currentVersion (string), $latestVersion (string)
-  // NICHTS wird hier geladen/geprüft – nur Anzeige.
-  $currentVersion = isset($currentVersion) ? (string)$currentVersion : '';
-  $latestVersion  = isset($latestVersion)  ? (string)$latestVersion  : '';
+  // Projektroot ermitteln (admin/.. = root)
+  $rootDir = dirname(__DIR__);
+
+  // Aktuelle Version (aus VERSION-Datei)
+  $versionFile = $rootDir . '/VERSION';
+  $currentVersion = is_file($versionFile) ? trim(@file_get_contents($versionFile)) : '';
+
+  // Neueste verfügbare Version:
+  // 1) Wenn Helper existiert, verwenden (kann Cache/Live prüfen)
+  // 2) Sonst nur aus temp/version.json lesen (ohne Netz)
+  $latestVersion = '';
+  if (function_exists('updateNewVersionNumber')) {
+      $latestVersion = (string) @updateNewVersionNumber();
+  } else {
+      $tempJson = $rootDir . '/temp/version.json';
+      if (is_file($tempJson)) {
+          $data = json_decode(@file_get_contents($tempJson), true);
+          if (!empty($data['new_version_number'])) {
+              $latestVersion = (string) $data['new_version_number'];
+          }
+      }
+  }
 ?>
 <!doctype html>
 <html lang="<?php echo get_language(); ?>">

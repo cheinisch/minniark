@@ -3,6 +3,18 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
+## [2025.10.1]
+2025-10-14
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.10.0...v2025.10.1
+
+### New Features
+
+### Changes
+
+### Bug Fixes
+- Missing en Text
+
 ## [2025.10.0]
 2025-10-14
 

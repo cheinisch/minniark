@@ -90,7 +90,7 @@
 								<?php echo languageString('nav.blogposts'); ?>
 							</a>
 							<a href="pages.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.pages'); ?>
 							</a>

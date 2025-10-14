@@ -86,16 +86,22 @@
         <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 text-black dark:text-white">
           <div class="grid flex-1 grid-cols-1">
             <div class="hidden md:flex justify-start gap-2">
-              <a href="dashboard.php" class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
+              <a href="dashboard.php"
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
                 <?php echo languageString('nav.dashboard'); ?>
               </a>
-              <a href="media.php" class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
+              <a href="media.php"
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
                 <?php echo languageString('nav.images'); ?>
               </a>
-              <a href="blog.php" class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
+              <a href="blog.php" class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
                 <?php echo languageString('nav.blogposts'); ?>
               </a>
-              <a href="pages.php" class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
+              <a href="pages.php" 
+              class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+										no-underline text-base font-normal leading-tight appearance-none">
                 <?php echo languageString('nav.pages'); ?>
               </a>
             </div>
@@ -151,6 +157,34 @@
           </div>
         </div>
       </div>
+      
+			<!-- Zweite Leiste: nur auf sm sichtbar -->
+			<div class="sm:block md:hidden border-b border-gray-600 dark:border-gray-200 bg-white bg-white dark:bg-black dark:border-black dark:border-white/10">
+				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+					<nav class="flex gap-2 justify-center">
+					<a href="dashboard.php"
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.dashboard'); ?>
+					</a>
+					<a href="media.php"
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.images'); ?>
+					</a>
+					<a href="blog.php"
+						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.blogposts'); ?>
+					</a>
+					<a href="pages.php"
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								no-underline text-base font-normal leading-tight appearance-none">
+						<?php echo languageString('nav.pages'); ?>
+					</a>
+					</nav>
+				</div>
+			</div>
 
       <!-- ==================== Main ==================== -->
       <main class="py-10 bg-white dark:bg-black">
@@ -162,7 +196,7 @@
               <div class="p-4 grid grid-cols-1 gap-6 sm:grid-cols-6">
                 <!-- Title -->
                 <div class="sm:col-span-4">
-                  <label for="title" class="block text-xs font-medium">Title</label>
+                  <label for="title" class="block text-xs font-medium"><?php echo languageString('general.title'); ?></label>
                   <div class="mt-1">
                     <input type="text" name="title" id="title" placeholder="Title" value="<?php echo $essay['title']; ?>"
                            class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600" />
@@ -171,7 +205,7 @@
 
                 <!-- Foldername -->
                 <div class="sm:col-span-4">
-                  <label for="foldername" class="block text-xs font-medium">Foldername</label>
+                  <label for="foldername" class="block text-xs font-medium"><?php echo languageString('blog.foldername'); ?></label>
                   <div class="mt-1 flex items-stretch overflow-hidden outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
                     <span class="shrink-0 px-3 py-2 text-xs text-black/60 dark:text-gray-400 bg-black/5 dark:bg-white/5 select-none">/userdata/content/essays/</span>
                     <input type="text" name="foldername" id="foldername" readonly value="<?php echo $essay['slug']; ?>"
@@ -182,7 +216,7 @@
 
                 <!-- Content -->
                 <div class="col-span-full">
-                  <label for="content" class="block text-xs font-medium">Content</label>
+                  <label for="content" class="block text-xs font-medium"><?php echo languageString('blog.content'); ?></label>
                   <div class="mt-1">
                     <textarea name="content" id="content" rows="12"
                               class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600"><?php echo $essay['content']; ?></textarea>
@@ -191,7 +225,7 @@
 
                 <!-- Tags -->
                 <div class="sm:col-span-4">
-                  <label for="tags" class="block text-xs font-medium">Tags</label>
+                  <label for="tags" class="block text-xs font-medium"><?php echo languageString('general.tags'); ?></label>
                   <div class="mt-1">
                     <input type="text" name="tags" id="tags" placeholder="tag1, tag2"
                            value="<?php echo isset($essay['tags']) ? htmlspecialchars(implode(', ', $essay['tags']), ENT_QUOTES, 'UTF-8') : ''; ?>"
@@ -202,7 +236,7 @@
                 <!-- Hero Image -->
                 <div class="col-span-full">
                   <input type="hidden" name="cover" id="cover" value="<?php echo $essay['cover']; ?>">
-                  <label class="block text-xs font-medium mb-2">Hero Image</label>
+                  <label class="block text-xs font-medium mb-2"><?php echo languageString('blog.heroimage'); ?></label>
 
                   <div class="w-full max-w-xl rounded border border-black/10 dark:border-white/10 overflow-hidden bg-black/5 dark:bg-white/5">
                     <img id="coverPreview" src="<?php echo get_cached_image_dashboard($essay['cover'], 'M'); ?>" alt="Cover Preview" class="w-full h-56 object-cover" />
@@ -211,11 +245,11 @@
                   <div class="mt-2 flex gap-2">
                     <button type="button" id="openCoverModalBtn"
                             class="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
-                      Select Hero Image
+                      <?php echo languageString('blog.select-heroimage'); ?>
                     </button>
                     <button type="button" id="removeHeroImg"
                             class="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
-                      Remove Hero Image
+                      <?php echo languageString('blog.remove-heroimage'); ?>
                     </button>
                   </div>
                 </div>
@@ -225,8 +259,8 @@
             <!-- Post Settings -->
             <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
               <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-                <h2 class="text-sm font-semibold">Post Settings</h2>
-                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Visibility &amp; publishing date.</p>
+                <h2 class="text-sm font-semibold"><?php echo languageString('blog.settings.title'); ?></h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('blog.settings.description'); ?></p>
               </header>
 
               <div class="p-4 grid grid-cols-1 gap-6 sm:grid-cols-6">
@@ -234,8 +268,8 @@
                 <div class="col-span-full">
                   <div class="flex items-center justify-between">
                     <span class="flex grow flex-col">
-                      <span class="text-sm font-medium" id="availability-label">Is published</span>
-                      <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description">Toggle visibility</span>
+                      <span class="text-sm font-medium" id="availability-label"><?php echo languageString('blog.settings.published'); ?></span>
+                      <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description"><?php echo languageString('blog.settings.published-description'); ?></span>
                     </span>
 
                     <button type="button" id="is_published"
@@ -252,7 +286,7 @@
 
                 <!-- Publishing Date -->
                 <div class="sm:col-span-3">
-                  <label for="published_at" class="block text-xs font-medium mb-1">Publishing Date</label>
+                  <label for="published_at" class="block text-xs font-medium mb-1"><?php echo languageString('blog.settings.published-date'); ?></label>
                   <input type="date" id="published_at" name="published_at"
                          class="w-full border border-black/10 dark:border-white/10 px-3 py-2 text-sm bg-white dark:bg-neutral-900"
                          value="<?php echo $essay['published_at']; ?>"/>

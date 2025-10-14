@@ -75,7 +75,7 @@
 					<div class="grid flex-1 grid-cols-1">
 						<div class="hidden md:flex justify-start gap-2">
 						    <a href="dashboard.php"
-								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.dashboard'); ?>
 							</a>
@@ -85,12 +85,12 @@
 								<?php echo languageString('nav.images'); ?>
 							</a>
 							<a href="blog.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.blogposts'); ?>
 							</a>
 							<a href="pages.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.pages'); ?>
 							</a>
@@ -164,17 +164,17 @@
 				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
 					<nav class="flex gap-2 justify-center">
 					<a href="dashboard.php"
-						class="inline-flex items-center  py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.dashboard'); ?>
 					</a>
 					<a href="media.php"
-						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.images'); ?>
 					</a>
 					<a href="blog.php"
-						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.blogposts'); ?>
 					</a>

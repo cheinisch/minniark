@@ -4,13 +4,6 @@
   require_once '../vendor/autoload.php';
   $settingspage = "dashboard";
   security_checklogin();
-
-  $news = getNewsFeed();
-
-  $storage = getStorage();
-
-  $version = getVersion();
-
 ?>
 
 <!doctype html>
@@ -18,7 +11,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog Posts - <?php echo get_sitename(); ?></title>
+    <title>Dashboard - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
 	</head>
@@ -75,7 +68,7 @@
 					<div class="grid flex-1 grid-cols-1">
 						<div class="hidden md:flex justify-start gap-2">
 						    <a href="dashboard.php"
-								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.dashboard'); ?>
 							</a>
@@ -85,34 +78,34 @@
 								<?php echo languageString('nav.images'); ?>
 							</a>
 							<a href="blog.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.blogposts'); ?>
 							</a>
 							<a href="pages.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.pages'); ?>
 							</a>
 						</div>
 					</div>
 					<div class="flex items-center gap-x-4 lg:gap-x-6">
-						<a href="blog-detail.php?post=new"
-						id="newPageBtn"
-						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<?php echo languageString('blog.new_post'); ?>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-								<path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-  								<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-							</svg>
-							<span class="sr-only">New Post</span>
-						</a>
-						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<span class="sr-only">View notifications</span>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
-								<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</button>
+						<div class="relative" id="notif-wrap">
+    						<button type="button" id="notifBtn"
+            					class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
+            					aria-haspopup="menu" aria-expanded="false" aria-controls="notifMenu">
+      							<span class="sr-only">View notifications</span>
+      							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+           							aria-hidden="true" class="w-6 h-6 shrink-0 block">
+        							<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              							stroke-linecap="round" stroke-linejoin="round" />
+      								</svg>
+      								<!-- Badge wird per JS dynamisch eingefügt -->
+    							</button>
+
+								<!-- Dropdown wird per JS eingefügt -->
+								<div id="notifMenu" hidden></div>
+							</div>
 						<!-- Separator -->
 						<div aria-hidden="true" class="hidden lg:block lg:h-6 lg:w-px lg:bg-white dark:bg-black/10 dark:lg:bg-gray-100/10"></div>
 						<!-- Profile dropdown -->
@@ -164,12 +157,12 @@
 				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
 					<nav class="flex gap-2 justify-center">
 					<a href="dashboard.php"
-						class="inline-flex items-center  py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center  py-2 border-b-2 hover:border-t border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.dashboard'); ?>
 					</a>
 					<a href="media.php"
-						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.images'); ?>
 					</a>
@@ -193,9 +186,9 @@
       <!-- Personal Information -->
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Personal Information</h2>
+          <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.personal.title'); ?></h2>
           <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-            Use a permanent address where you can receive mail.
+            <?php echo languageString('dashboard.personal.description'); ?>
           </p>
         </header>
 
@@ -224,7 +217,7 @@
               </div>
 
               <div class="sm:col-span-3">
-                <label for="display-name" class="block text-xs font-medium">Display name</label>
+                <label for="display-name" class="block text-xs font-medium"><?php echo languageString('dashboard.personal.display_name'); ?></label>
                 <input type="text" name="display-name" id="display-name"
                        value="<?php echo get_displayname($_SESSION['username']); ?>"
                        autocomplete="given-name"
@@ -232,7 +225,7 @@
               </div>
 
               <div class="sm:col-span-3">
-                <label for="username" class="block text-xs font-medium">Username</label>
+                <label for="username" class="block text-xs font-medium"><?php echo languageString('dashboard.personal.username'); ?></label>
                 <div class="mt-1">
                   <input type="text" name="username" id="username"
                          value="<?php echo get_username($_SESSION['username']); ?>"
@@ -242,7 +235,7 @@
               </div>
 
               <div class="col-span-full">
-                <label for="email" class="block text-xs font-medium">Email address</label>
+                <label for="email" class="block text-xs font-medium"><?php echo languageString('dashboard.personal.mail'); ?></label>
                 <input id="email" name="email" type="email" autocomplete="email"
                        value="<?php echo get_usermail($_SESSION['username']); ?>"
                        class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
@@ -262,9 +255,9 @@
       <!-- Login Type -->
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Login Type</h2>
+          <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.personal.login_title'); ?></h2>
           <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-            Select between password and One Time Code via Mail
+            <?php echo languageString('dashboard.personal.login_description'); ?>
           </p>
         </header>
 
@@ -287,7 +280,7 @@
 
               <!-- Normaler Select statt Custom-Dropdown -->
               <div class="sm:col-span-full">
-                <label for="login-type-select" class="block text-xs font-medium">Default Login Type</label>
+                <label for="login-type-select" class="block text-xs font-medium"><?php echo languageString('dashboard.personal.login_type'); ?></label>
                 <select id="login-type-select"
                         class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
                   <option value="password">password</option>
@@ -312,9 +305,9 @@
       <!-- Change password -->
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Change password</h2>
+          <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.personal.password_title'); ?></h2>
           <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-            Update your password associated with your account.
+            <?php echo languageString('dashboard.personal.password_description'); ?>
           </p>
         </header>
 
@@ -336,19 +329,19 @@
               </div>
 
               <div class="col-span-full">
-                <label for="current-password" class="block text-xs font-medium">Current password</label>
+                <label for="current-password" class="block text-xs font-medium"><?php echo languageString('dashboard.personal.current_password'); ?></label>
                 <input id="current-password" name="current_password" type="password" autocomplete="current-password"
                        class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
               </div>
 
               <div class="col-span-full">
-                <label for="new-password" class="block text-xs font-medium">New password</label>
+                <label for="new-password" class="block text-xs font-medium"><?php echo languageString('dashboard.personal.new_password'); ?></label>
                 <input id="new-password" name="new_password" type="password" autocomplete="new-password"
                        class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
               </div>
 
               <div class="col-span-full">
-                <label for="confirm-password" class="block text-xs font-medium">Confirm password</label>
+                <label for="confirm-password" class="block text-xs font-medium"><?php echo languageString('dashboard.personal.confirm_password'); ?></label>
                 <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password"
                        class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
               </div>
@@ -383,109 +376,9 @@
 
 
 		</div>
-		<script src="js/album_collection.js"></script>
 		<script src="js/navbar.js"></script>
 		<script src="js/tailwind.js"></script>
+    <script src="js/notify.js"></script>
 		<script src="js/profile_settings.js"></script>
-        <script src="js/file_upload.js"></script>
-        <script>
-			(() => {
-			let pendingLink = null;
-
-			const dlg     = document.getElementById('deleteImageModal');
-			const btnYes  = document.getElementById('confirmYes'); // Delete (rot)
-			const btnNo   = document.getElementById('confirmNo');  // Cancel
-
-			if (!dlg || !btnYes || !btnNo) return;
-
-			// Delegation: Klick auf einen Delete-Link in der Bilderliste
-			const imageList = document.getElementById('image-list');
-			if (imageList) {
-				imageList.addEventListener('click', (e) => {
-				const a = e.target.closest('a.confirm-link, a[href*="backend_api/delete.php"]');
-				if (!a) return;
-				e.preventDefault();
-				pendingLink = a.href;
-
-				// Optional: Titel/Body im Modal anpassen (wenn du willst)
-				// document.getElementById('dialog-title').textContent = 'Bild löschen?';
-
-				// Neues Dialog öffnen
-				if (typeof dlg.showModal === 'function') {
-					dlg.showModal();
-				} else {
-					// Fallback (sollte selten nötig sein)
-					dlg.setAttribute('open', '');
-				}
-				});
-			}
-
-			// Bestätigen -> weiterleiten
-			btnYes.addEventListener('click', () => {
-				const href = pendingLink;
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-				if (href) window.location.assign(href);
-			});
-
-			// Abbrechen -> schließen
-			btnNo.addEventListener('click', () => {
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-			});
-
-			// Dialog wird anderweitig geschlossen (Esc etc.)
-			dlg.addEventListener('close', () => { pendingLink = null; });
-			})();
-		</script>
-		<script>
-          let pendingLink = null;
-
-          // Klick auf bestätigungspflichtige Links
-          document.querySelectorAll('.confirm-link').forEach(link => {
-            link.addEventListener('click', function (e) {
-              e.preventDefault();
-              pendingLink = this.href;
-              document.getElementById('confirmModal').classList.remove('hidden');
-            });
-          });
-
-          // Abbrechen → Modal schließen
-          document.getElementById('confirmYes').addEventListener('click', () => {
-            document.getElementById('confirmModal').classList.add('hidden');
-            pendingLink = null;
-          });
-
-          // Bestätigen → Weiterleitung
-          document.getElementById('confirmNo').addEventListener('click', () => {
-            if (pendingLink) {
-              window.location.href = pendingLink;
-            }
-          });
-        </script>
-        <script>
-          document.querySelectorAll('.assign-to-album-btn').forEach(button => {
-            button.addEventListener('click', () => {
-              const filename = button.getAttribute('data-filename');
-              document.getElementById('assignImageFilename').value = filename;
-              document.getElementById('assignToAlbumModal').classList.remove('hidden');
-            });
-          });
-
-          document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-
-          document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-        </script>
-        <!--<script>
-        document.getElementById('location').addEventListener('change', function () {
-            const url = this.value;
-            window.location.href = url; // Weiterleitung zur gewählten URL
-        });
-      </script>-->
-
 	</body>
 </html>

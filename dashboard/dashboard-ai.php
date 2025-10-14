@@ -18,7 +18,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog Posts - <?php echo get_sitename(); ?></title>
+    <title>Dashboard - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
 	</head>
@@ -75,7 +75,7 @@
 					<div class="grid flex-1 grid-cols-1">
 						<div class="hidden md:flex justify-start gap-2">
 						    <a href="dashboard.php"
-								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.dashboard'); ?>
 							</a>
@@ -85,34 +85,34 @@
 								<?php echo languageString('nav.images'); ?>
 							</a>
 							<a href="blog.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.blogposts'); ?>
 							</a>
 							<a href="pages.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.pages'); ?>
 							</a>
 						</div>
 					</div>
 					<div class="flex items-center gap-x-4 lg:gap-x-6">
-						<a href="blog-detail.php?post=new"
-						id="newPageBtn"
-						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<?php echo languageString('blog.new_post'); ?>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-								<path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-  								<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-							</svg>
-							<span class="sr-only">New Post</span>
-						</a>
-						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<span class="sr-only">View notifications</span>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
-								<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</button>
+						<div class="relative" id="notif-wrap">
+    						<button type="button" id="notifBtn"
+            					class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
+            					aria-haspopup="menu" aria-expanded="false" aria-controls="notifMenu">
+      							<span class="sr-only">View notifications</span>
+      							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+           							aria-hidden="true" class="w-6 h-6 shrink-0 block">
+        							<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              							stroke-linecap="round" stroke-linejoin="round" />
+      								</svg>
+      								<!-- Badge wird per JS dynamisch eingefügt -->
+    							</button>
+
+								<!-- Dropdown wird per JS eingefügt -->
+								<div id="notifMenu" hidden></div>
+							</div>
 						<!-- Separator -->
 						<div aria-hidden="true" class="hidden lg:block lg:h-6 lg:w-px lg:bg-white dark:bg-black/10 dark:lg:bg-gray-100/10"></div>
 						<!-- Profile dropdown -->
@@ -164,12 +164,12 @@
 				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
 					<nav class="flex gap-2 justify-center">
 					<a href="dashboard.php"
-						class="inline-flex items-center  py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.dashboard'); ?>
 					</a>
 					<a href="media.php"
-						class="inline-flex items-center py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+						class="inline-flex items-center py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 								no-underline text-base font-normal leading-tight appearance-none">
 						<?php echo languageString('nav.images'); ?>
 					</a>
@@ -193,9 +193,9 @@
       <!-- AI Information -->
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">AI Information</h2>
+          <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.ai.title'); ?></h2>
           <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-            Some AI Information
+            <?php echo languageString('dashboard.ai.description'); ?>
           </p>
         </header>
 
@@ -205,7 +205,7 @@
 
               <!-- Provider -->
               <div class="sm:col-span-full">
-                <label for="ai-provider" class="block text-xs font-medium">Select AI</label>
+                <label for="ai-provider" class="block text-xs font-medium"><?php echo languageString('dashboard.ai.select'); ?></label>
                 <select id="ai-provider" name="ai-provider"
                         class="mt-1 block w-full rounded-md bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
                   <!-- <option>DeepAI</option>
@@ -216,8 +216,8 @@
 
               <!-- Beschreibung (belassen wie gewünscht) -->
               <div class="sm:col-span-full">
-                <label for="site-decription" class="block text-xs font-medium">Site Description</label>
-                <input type="text" name="site-decription" id="site-decription"
+                <label for="site-decription" class="block text-xs font-medium hidden">Dummy Text</label>
+                <input type="hidden" name="site-decription" id="site-decription"
                        value="<?php echo get_sitedescription(); ?>"
                        class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
               </div>
@@ -247,6 +247,6 @@
 		<script src="js/tailwind.js"></script>
 		<script src="js/select_settings.js"></script>
         <script src="js/save_settings.js"></script>
-
+		<script src="js/notify.js"></script>
 	</body>
 </html>

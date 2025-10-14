@@ -95,22 +95,22 @@
                   </div>
                </div>
                <div class="flex items-center gap-x-4 lg:gap-x-6">
-                  <a href="blog-detail.php?post=new"
-                     id="newPageBtn"
-                     class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-                     <?php echo languageString('blog.new_post'); ?>
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                        <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-                     </svg>
-                     <span class="sr-only">New Post</span>
-                  </a>
-                  <button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-                     <span class="sr-only">View notifications</span>
-                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
-                        <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
-                     </svg>
-                  </button>
+						<div class="relative" id="notif-wrap">
+    						<button type="button" id="notifBtn"
+            					class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
+            					aria-haspopup="menu" aria-expanded="false" aria-controls="notifMenu">
+      							<span class="sr-only">View notifications</span>
+      							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+           							aria-hidden="true" class="w-6 h-6 shrink-0 block">
+        							<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              							stroke-linecap="round" stroke-linejoin="round" />
+      								</svg>
+      								<!-- Badge wird per JS dynamisch eingefügt -->
+    							</button>
+
+								<!-- Dropdown wird per JS eingefügt -->
+								<div id="notifMenu" hidden></div>
+							</div>
                   <!-- Separator -->
                   <div aria-hidden="true" class="hidden lg:block lg:h-6 lg:w-px lg:bg-white dark:bg-black/10 dark:lg:bg-gray-100/10"></div>
                   <!-- Profile dropdown -->
@@ -282,6 +282,7 @@
       </div>
       <script src="js/navbar.js"></script>
       <script src="js/tailwind.js"></script>
+      <script src="js/notify.js"></script>
       <!--<script>
          document.getElementById('location').addEventListener('change', function () {
              const url = this.value;

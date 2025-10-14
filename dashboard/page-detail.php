@@ -84,7 +84,7 @@
 					<div class="grid flex-1 grid-cols-1">
 						<div class="hidden md:flex justify-start gap-2">
 						    <a href="dashboard.php"
-								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.dashboard'); ?>
 							</a>
@@ -94,12 +94,12 @@
 								<?php echo languageString('nav.images'); ?>
 							</a>
 							<a href="blog.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.blogposts'); ?>
 							</a>
 							<a href="pages.php"
-								class="inline-flex items-center justify-start mx-4 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-4 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.pages'); ?>
 							</a>
@@ -210,7 +210,7 @@
               <div class="p-4 grid grid-cols-1 gap-6 sm:grid-cols-6">
                 <!-- Title -->
                 <div class="sm:col-span-4">
-                  <label for="title" class="block text-xs font-medium">Title</label>
+                  <label for="title" class="block text-xs font-medium"><?php echo languageString('general.title'); ?></label>
                   <div class="mt-1">
                     <input type="text" name="title" id="title" placeholder="title" value="<?php echo $page['title']; ?>"
                            class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600" />
@@ -240,7 +240,7 @@
                 <!-- Hero Image -->
                 <div class="col-span-full">
                   <input type="hidden" name="cover" id="cover" value="<?php echo $page['cover']; ?>">
-                  <label class="block text-xs font-medium mb-2">Hero Image</label>
+                  <label class="block text-xs font-medium mb-2"><?php echo languageString('page.heroimage'); ?></label>
 
                   <div class="w-full max-w-xl rounded border border-black/10 dark:border-white/10 overflow-hidden bg-black/5 dark:bg-white/5">
                     <img id="coverPreview" src="<?php echo get_cached_image_dashboard($page['cover'], 'M'); ?>" alt="Cover Preview" class="w-full h-56 object-cover" />
@@ -250,11 +250,11 @@
                     <!-- Outline Buttons statt sky -->
                     <button type="button" id="openCoverModalBtn"
                             class="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
-                      Select Hero Image
+                      <?php echo languageString('page.select-heroimage'); ?>
                     </button>
                     <button type="button" id="removeHeroImg"
                             class="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
-                      Remove Hero Image
+                      <?php echo languageString('page.remove-heroimage'); ?>
                     </button>
                   </div>
                 </div>
@@ -264,8 +264,8 @@
             <!-- Page Settings -->
             <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
               <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-                <h2 class="text-sm font-semibold">Page Settings</h2>
-                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Control visibility and save changes.</p>
+                <h2 class="text-sm font-semibold"><?php echo languageString('page.settings.title'); ?></h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('page.settings.description'); ?>Control visibility and save changes.</p>
               </header>
 
               <div class="p-4 grid grid-cols-1 gap-6 sm:grid-cols-6">
@@ -273,8 +273,8 @@
                 <div class="col-span-full">
                   <div class="flex items-center justify-between">
                     <span class="flex grow flex-col">
-                      <span class="text-sm font-medium" id="availability-label">Is published</span>
-                      <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description">Change between visible and invisible</span>
+                      <span class="text-sm font-medium" id="availability-label"><?php echo languageString('page.settings.published'); ?>Is published</span>
+                      <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description"><?php echo languageString('page.settings.published-description'); ?>Change between visible and invisible</span>
                     </span>
 
                     <button type="button" id="is_published"
@@ -322,7 +322,7 @@
               </button>
             </div>
 
-            <h2 class="text-sm font-semibold">Select Hero Image</h2>
+            <h2 class="text-sm font-semibold"><?php echo languageString('page.select-heroimage'); ?>Select Hero Image</h2>
             <div class="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto">
               <?php
                 $imageDir = realpath(__DIR__ . '/../userdata/content/images');
@@ -342,7 +342,7 @@
             <div class="mt-6 sm:flex sm:flex-row-reverse">
               <button type="button" command="close" commandfor="coverModal"
                       class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold border border-black/20 hover:bg-black/5 sm:ml-3 sm:w-auto dark:border-white/20 dark:hover:bg-white/10">
-                Close
+                <?php echo languageString('general.close'); ?>
               </button>
             </div>
           </el-dialog-panel>

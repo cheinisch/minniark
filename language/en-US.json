@@ -64,7 +64,8 @@
             "plugin":"Plugins",
             "export_import":"Export / Import",
             "ai":"AI",
-            "additionalmenu":"Additional Functions"
+            "additionalmenu":"Additional Functions",
+            "update" : "Update"
         },
         "theme" : {
             "title":"Theme Selection",

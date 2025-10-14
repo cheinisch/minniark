@@ -1,18 +1,14 @@
 <?php
 
-  require_once( __DIR__ . "/../functions/function_backend.php");
+	require_once( __DIR__ . "/../functions/function_backend.php");
   require_once '../vendor/autoload.php';
-  $settingspage = "dashboard";
   security_checklogin();
 
-  $news = getNewsFeed();
-
-  $storage = getStorage();
-
-  $version = getVersion();
-
+  // Erwartet: $currentVersion (string), $latestVersion (string)
+  // NICHTS wird hier geladen/geprüft – nur Anzeige.
+  $currentVersion = isset($currentVersion) ? (string)$currentVersion : '';
+  $latestVersion  = isset($latestVersion)  ? (string)$latestVersion  : '';
 ?>
-
 <!doctype html>
 <html lang="<?php echo get_language(); ?>">
 	<head>
@@ -186,218 +182,70 @@
 					</nav>
 				</div>
 			</div>
-			<main class="py-10 bg-white dark:bg-black">
-  <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
-    <!-- Toolbar -->
-    <div class="mb-4 flex items-center justify-end">
-      <a href="backend_api/cache.php"
-         class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-        <?php echo languageString('dashboard.clear_cache'); ?>
-      </a>
-    </div>
+  <main class="min-h-screen py-10 text-black dark:text-white">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
 
-    <!-- System + News: gleiche Card-Optik wie Blogliste -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <!-- System Information -->
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h3 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.title'); ?></h3>
+        <header class="px-4 py-4 border-b border-black/10 dark:border-white/10">
+          <h1 class="text-base font-semibold">MinniArk – Versionen</h1>
+          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+            Hier werden die aktuell installierte Version sowie eine verfügbare neue Version angezeigt.
+          </p>
         </header>
 
-        <div class="p-4 space-y-6">
-          <!-- Storage -->
-          <div>
-            <h4 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.storage'); ?></h4>
-            <ul class="mt-2 text-sm text-black/80 dark:text-gray-300">
-              <li class="mb-1">
-                <?php echo "Used storage: ".$storage['used']; ?> MB
-                <ul class="list-disc ml-5 mt-1 space-y-0.5">
-                  <li><?php echo "Image storage: ".$storage['images']; ?> MB</li>
-                  <li><?php echo "Cache storage: ".$storage['cache']; ?> MB</li>
-                  <li><?php echo "System and Backup: ".$storage['rest']; ?> MB</li>
-                </ul>
-              </li>
-              <li><?php echo "Free storage: ".$storage['free']; ?> MB</li>
-            </ul>
-          </div>
-
-          <!-- Versions -->
-          <div>
-            <h4 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.version'); ?></h4>
-            <div class="mt-2 overflow-x-auto">
-              <table class="w-full text-sm">
-                <thead class="text-left text-black/60 dark:text-gray-400">
-                  <tr class="border-b border-black/10 dark:border-white/10">
-                    <th class="py-2 pr-4"><?php echo languageString('dashboard.systeminformation.component'); ?></th>
-                    <th class="py-2"><?php echo languageString('dashboard.systeminformation.component-version'); ?></th>
-                  </tr>
-                </thead>
-                <tbody class="text-black/80 dark:text-gray-300 divide-y divide-black/10 dark:divide-white/10">
-                  <tr>
-                    <td class="py-2 pr-4"><?php echo $version['Application']; ?></td>
-                    <td class="py-2"><?php echo $version['App Version']; ?></td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 pr-4"><?php echo languageString('dashboard.systeminformation.operation_system'); ?></td>
-                    <td class="py-2"><?php echo $version['Operating System']; ?></td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 pr-4">PHP</td>
-                    <td class="py-2"><?php echo $version['PHP Version']; ?></td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 pr-4"><?php echo languageString('dashboard.systeminformation.webserver'); ?></td>
-                    <td class="py-2"><?php echo $version['Webserver']; ?></td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="p-4 grid gap-4 sm:grid-cols-2">
+          <!-- Aktuell installiert -->
+          <div class="rounded-sm border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-semibold">Installierte Version</h2>
+              <span class="inline-flex items-center rounded-sm px-2 py-0.5 text-[11px] font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-gray-200">
+                Local
+              </span>
             </div>
+            <p class="mt-3 text-xl font-mono tracking-tight">
+              <?= $currentVersion !== '' ? htmlspecialchars($currentVersion) : '—' ?>
+            </p>
+            <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+              Die Version, die aktuell auf diesem System läuft.
+            </p>
+          </div>
+
+          <!-- Verfügbare neue Version -->
+          <div class="rounded-sm border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-semibold">Verfügbare neue Version</h2>
+              <span class="inline-flex items-center rounded-sm px-2 py-0.5 text-[11px] font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-300">
+                Remote
+              </span>
+            </div>
+            <p class="mt-3 text-xl font-mono tracking-tight">
+              <?= $latestVersion !== '' ? htmlspecialchars($latestVersion) : '—' ?>
+            </p>
+            <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+              Eine neuere Version, die zum Update bereitsteht.
+            </p>
           </div>
         </div>
-      </section>
 
-      <!-- News / Updates -->
-
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h3 class="text-sm font-semibold"><?php echo languageString('dashboard.systeminformation.news'); ?></h3>
-        </header>
-
-        <div class="divide-y divide-black/10 dark:divide-white/10">
-          <?php foreach ($news as $item): ?>
-            <article class="p-4">
-              <div class="flex items-start justify-between gap-4">
-                <a href="<?= htmlspecialchars($item['link']) ?>"
-                   class="text-base font-semibold hover:underline">
-                   <?= htmlspecialchars($item['title']) ?>
-                </a>
-              </div>
-              <div class="mt-1 text-xs text-black/60 dark:text-gray-400">
-                <time><?= htmlspecialchars($item['pubDate']) ?></time>
-              </div>
-              <p class="mt-2 text-sm text-black/80 dark:text-gray-300">
-                <?= htmlspecialchars($item['description']) ?>
-              </p>
-            </article>
-          <?php endforeach; ?>
+        <!-- Status/Info-Zeile -->
+        <div class="px-4 pb-4">
+          <?php if ($currentVersion !== '' && $latestVersion !== '' && version_compare($latestVersion, $currentVersion, '>')): ?>
+            <div class="mt-2 rounded-sm border border-emerald-600/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 px-3 py-2 text-sm">
+              Eine neuere Version ist verfügbar.
+            </div>
+          <?php elseif ($currentVersion !== '' && $latestVersion !== '' && version_compare($latestVersion, $currentVersion, '<=')): ?>
+            <div class="mt-2 rounded-sm border border-gray-400/30 bg-gray-400/10 text-gray-800 dark:text-gray-300 px-3 py-2 text-sm">
+              Du bist auf dem neuesten Stand.
+            </div>
+          <?php else: ?>
+            <div class="mt-2 rounded-sm border border-yellow-600/30 bg-yellow-500/10 text-yellow-800 dark:text-yellow-300 px-3 py-2 text-sm">
+              Versionsinformationen unvollständig. Werte werden nur angezeigt, es findet keine Prüfung statt.
+            </div>
+          <?php endif; ?>
         </div>
       </section>
+
     </div>
-
-    <!-- Hinweis -->
-    <div class="mt-4">
-      <div class="rounded-sm border border-black/10 dark:border-white/10 bg-sky-700 text-white px-3 py-2 shadow-xs">
-        <?php echo languageString('dashboard.systeminformation.bugreport',  ['url' => '<a href="https://github.com/cheinisch/minniark/issues" class="underline">Github</a>']); ?>
-        
-      </div>
-    </div>
-  </div>
-</main>
-
-		</div>
-		<script src="js/album_collection.js"></script>
-		<script src="js/navbar.js"></script>
-		<script src="js/tailwind.js"></script>
-		<script src="js/profile_settings.js"></script>
-        <script src="js/file_upload.js"></script>
-        <script>
-			(() => {
-			let pendingLink = null;
-
-			const dlg     = document.getElementById('deleteImageModal');
-			const btnYes  = document.getElementById('confirmYes'); // Delete (rot)
-			const btnNo   = document.getElementById('confirmNo');  // Cancel
-
-			if (!dlg || !btnYes || !btnNo) return;
-
-			// Delegation: Klick auf einen Delete-Link in der Bilderliste
-			const imageList = document.getElementById('image-list');
-			if (imageList) {
-				imageList.addEventListener('click', (e) => {
-				const a = e.target.closest('a.confirm-link, a[href*="backend_api/delete.php"]');
-				if (!a) return;
-				e.preventDefault();
-				pendingLink = a.href;
-
-				// Optional: Titel/Body im Modal anpassen (wenn du willst)
-				// document.getElementById('dialog-title').textContent = 'Bild löschen?';
-
-				// Neues Dialog öffnen
-				if (typeof dlg.showModal === 'function') {
-					dlg.showModal();
-				} else {
-					// Fallback (sollte selten nötig sein)
-					dlg.setAttribute('open', '');
-				}
-				});
-			}
-
-			// Bestätigen -> weiterleiten
-			btnYes.addEventListener('click', () => {
-				const href = pendingLink;
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-				if (href) window.location.assign(href);
-			});
-
-			// Abbrechen -> schließen
-			btnNo.addEventListener('click', () => {
-				pendingLink = null;
-				if (dlg.open) dlg.close();
-			});
-
-			// Dialog wird anderweitig geschlossen (Esc etc.)
-			dlg.addEventListener('close', () => { pendingLink = null; });
-			})();
-		</script>
-		<script>
-          let pendingLink = null;
-
-          // Klick auf bestätigungspflichtige Links
-          document.querySelectorAll('.confirm-link').forEach(link => {
-            link.addEventListener('click', function (e) {
-              e.preventDefault();
-              pendingLink = this.href;
-              document.getElementById('confirmModal').classList.remove('hidden');
-            });
-          });
-
-          // Abbrechen → Modal schließen
-          document.getElementById('confirmYes').addEventListener('click', () => {
-            document.getElementById('confirmModal').classList.add('hidden');
-            pendingLink = null;
-          });
-
-          // Bestätigen → Weiterleitung
-          document.getElementById('confirmNo').addEventListener('click', () => {
-            if (pendingLink) {
-              window.location.href = pendingLink;
-            }
-          });
-        </script>
-        <script>
-          document.querySelectorAll('.assign-to-album-btn').forEach(button => {
-            button.addEventListener('click', () => {
-              const filename = button.getAttribute('data-filename');
-              document.getElementById('assignImageFilename').value = filename;
-              document.getElementById('assignToAlbumModal').classList.remove('hidden');
-            });
-          });
-
-          document.getElementById('cancelAssignAlbum').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-
-          document.getElementById('closeAssignToAlbumModal').addEventListener('click', () => {
-            document.getElementById('assignToAlbumModal').classList.add('hidden');
-          });
-        </script>
-        <!--<script>
-        document.getElementById('location').addEventListener('change', function () {
-            const url = this.value;
-            window.location.href = url; // Weiterleitung zur gewählten URL
-        });
-      </script>-->
-
-	</body>
+  </main>
+</body>
 </html>

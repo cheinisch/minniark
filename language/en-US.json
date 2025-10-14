@@ -47,7 +47,9 @@
             "operation_system" : "Operation System",
             "webserver" : "Webserver",
             "bugreport": "Please report bugs on {{url}}.",
-            "news" : "News / Updates"
+            "news" : "News / Updates",
+            "component" : "Component",
+            "component-version" : "Version / Type"
         },
         "nav": {
             "overview":"Overview",

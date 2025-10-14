@@ -101,6 +101,13 @@
 											<?php echo languageString('dashboard.nav.export_import'); ?>
 										</a>
 										</li>
+										<li>
+										<a href="dashboard-update.php"
+											id="add-collection"
+											class="group flex items-center rounded-md px-1 pl-11 text-sm/6 text-gray-400 hover:bg-white/5 hover:text-white">
+											<?php echo languageString('dashboard.nav.update'); ?>
+										</a>
+										</li>
 									</ul>
 								</li>
 								<!-- Dashboard 2 mit Dropdown -->

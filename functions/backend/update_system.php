@@ -1,5 +1,11 @@
 <?php
 
+    function check_update()
+    {
+        $docker = is_docker();
+        $isNewer = is_newer();
+    }
+
     function create_update_button()
     {
         $docker = is_docker();

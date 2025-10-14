@@ -15,7 +15,9 @@
         "collections" : "Collections",
         "ratings" : "Ratings",
         "close" : "Close",
-        "copy" : "Copy"
+        "copy" : "Copy",
+        "title" : "Title",
+        "reset_filter": "Reset Filter"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -106,6 +108,22 @@
     },
     "album" : {
         "addToAlbum" : "Add to Album"
+    },
+    "page" : {
+        "foldername" : "Foldername",
+        "content" : "Content",
+        "heroimage" : "Heroimage",
+        "select-heroimage" : "Select Heroimage",
+        "remove-heroimage" : "Remove Heroimage",
+        "delete" : "Delete Page",
+        "new_page" : "New Page",
+        "filter_posts" : "Filter pages",
+        "settings" : {
+            "title" : "Page Settings",
+            "description" : "Control visibility and save changes.",
+            "published" : "Is published",
+            "published-description" : "Change between visible and invisible"
+        }
     },
     "greet.user": "Hi {{name}}",
     "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }

@@ -22,7 +22,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pages - <?php echo get_sitename(); ?></title>
+    <title><?php echo languageString('general.edit'); ?>: <?php echo $page['title']; ?> - <?php echo get_sitename(); ?></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!-- EasyMDE -->
@@ -51,7 +51,7 @@
 								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
-								<?php include (__DIR__.'/layout/page_menu.php'); ?>
+								<?php include (__DIR__.'/layout/pages_menu.php'); ?>
 							</nav>
 						</div>
 					</el-dialog-panel>
@@ -66,7 +66,7 @@
 					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
-					<?php include (__DIR__.'/layout/page_menu.php'); ?>
+					<?php include (__DIR__.'/layout/pages_menu.php'); ?>
 				</nav>
 			</div>
 		</div>
@@ -265,7 +265,7 @@
             <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
               <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
                 <h2 class="text-sm font-semibold"><?php echo languageString('page.settings.title'); ?></h2>
-                <p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('page.settings.description'); ?>Control visibility and save changes.</p>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('page.settings.description'); ?></p>
               </header>
 
               <div class="p-4 grid grid-cols-1 gap-6 sm:grid-cols-6">
@@ -273,8 +273,8 @@
                 <div class="col-span-full">
                   <div class="flex items-center justify-between">
                     <span class="flex grow flex-col">
-                      <span class="text-sm font-medium" id="availability-label"><?php echo languageString('page.settings.published'); ?>Is published</span>
-                      <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description"><?php echo languageString('page.settings.published-description'); ?>Change between visible and invisible</span>
+                      <span class="text-sm font-medium" id="availability-label"><?php echo languageString('page.settings.published'); ?></span>
+                      <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description"><?php echo languageString('page.settings.published-description'); ?></span>
                     </span>
 
                     <button type="button" id="is_published"

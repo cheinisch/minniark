@@ -3,6 +3,20 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
+## [2025.10.0]
+2025-10-14
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.8.0...v2025.10.0
+
+### New Features
+- Add Language Support
+
+### Changes
+- Change Layout from Dashboard
+
+### Bug Fixes
+
+
 ## [2025.8.0]
 2025-08-18
 

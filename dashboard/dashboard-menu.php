@@ -182,186 +182,186 @@
 				</div>
 			</div>
 			<main class="py-10 bg-white dark:bg-black">
-  <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
-    <div class="space-y-4">
+				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+					<div class="space-y-4">
 
-      <?php
-        // Sichere 1/0-Ausgabe für aria-checked + Klassen
-        $navEnabledBool = is_nav_enabled();
-        $navAria        = $navEnabledBool ? '1' : '0';
-        $toggleBgClass  = $navEnabledBool ? 'bg-sky-600' : 'bg-gray-400';
-        $knobShiftClass = $navEnabledBool ? 'translate-x-5' : 'translate-x-0';
-      ?>
+					<?php
+						// Sichere 1/0-Ausgabe für aria-checked + Klassen
+						$navEnabledBool = is_nav_enabled();
+						$navAria        = $navEnabledBool ? '1' : '0';
+						$toggleBgClass  = $navEnabledBool ? 'bg-sky-600' : 'bg-gray-400';
+						$knobShiftClass = $navEnabledBool ? 'translate-x-5' : 'translate-x-0';
+					?>
 
-      <!-- Main Navigation Settings -->
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Main Navigation Settings</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-            Select some settings for the navigation
-          </p>
-        </header>
+					<!-- Main Navigation Settings -->
+					<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+						<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+						<h2 class="text-sm font-semibold">Main Navigation Settings</h2>
+						<p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+							Select some settings for the navigation
+						</p>
+						</header>
 
-        <div class="px-4 py-4">
-          <form class="md:col-span-2" action="backend_api/nav_change.php?save=active" method="post" id="change-map-form">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+						<div class="px-4 py-4">
+						<form class="md:col-span-2" action="backend_api/nav_change.php?save=active" method="post" id="change-map-form">
+							<div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
 
-              <div id="notification-map-success"
-                   class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs"
-                   role="alert">
-                <strong class="font-semibold">Success!</strong>
-                <span class="ml-1">Settings are saved.</span>
-              </div>
-              <div id="notification-map-error"
-                   class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs"
-                   role="alert">
-                <strong class="font-semibold">Error!</strong>
-                <span class="ml-1">Settings not changed.</span>
-              </div>
+							<div id="notification-map-success"
+								class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs"
+								role="alert">
+								<strong class="font-semibold">Success!</strong>
+								<span class="ml-1">Settings are saved.</span>
+							</div>
+							<div id="notification-map-error"
+								class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs"
+								role="alert">
+								<strong class="font-semibold">Error!</strong>
+								<span class="ml-1">Settings not changed.</span>
+							</div>
 
-              <!-- Toggle -->
-              <div class="col-span-full">
-                <div class="flex items-center justify-between">
-                  <span class="flex grow flex-col">
-                    <span class="text-sm font-medium" id="availability-label">Custom Navigation</span>
-                    <span class="text-xs text-black/60 dark:text-gray-400" id="availability-description">Enables the custom navigation.</span>
-                  </span>
+							<!-- Toggle -->
+							<div class="col-span-full">
+								<div class="flex items-center justify-between">
+								<span class="flex grow flex-col">
+									<span class="text-sm font-medium" id="availability-label">Custom Navigation</span>
+									<span class="text-xs text-black/60 dark:text-gray-400" id="availability-description">Enables the custom navigation.</span>
+								</span>
 
-                  <!-- EXAKT ein <span> im Button für JS: knob -->
-                  <button type="button"
-                          id="nav_enable"
-                          class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden <?php echo $toggleBgClass; ?>"
-                          role="switch"
-                          aria-checked="<?php echo $navAria; ?>"
-                          aria-labelledby="availability-label"
-                          aria-describedby="availability-description">
-                    <span aria-hidden="true"
-                          class="pointer-events-none inline-block size-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out <?php echo $knobShiftClass; ?>"></span>
-                  </button>
+								<!-- EXAKT ein <span> im Button für JS: knob -->
+								<button type="button"
+										id="nav_enable"
+										class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden <?php echo $toggleBgClass; ?>"
+										role="switch"
+										aria-checked="<?php echo $navAria; ?>"
+										aria-labelledby="availability-label"
+										aria-describedby="availability-description">
+									<span aria-hidden="true"
+										class="pointer-events-none inline-block size-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out <?php echo $knobShiftClass; ?>"></span>
+								</button>
 
-                  <!-- Hidden input, wird vom JS auf 1/0 gesetzt -->
-                  <input type="hidden" name="nav_enabled" id="nav_enabled" value="<?php echo $navAria; ?>">
-                </div>
-              </div>
-            </div>
+								<!-- Hidden input, wird vom JS auf 1/0 gesetzt -->
+								<input type="hidden" name="nav_enabled" id="nav_enabled" value="<?php echo $navAria; ?>">
+								</div>
+							</div>
+							</div>
 
-            <div class="mt-4 flex">
-              <button type="submit" id="btn_map"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                <?php echo languageString('general.save'); ?>
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
+							<div class="mt-4 flex">
+							<button type="submit" id="btn_map"
+									class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+								<?php echo languageString('general.save'); ?>
+							</button>
+							</div>
+						</form>
+						</div>
+					</section>
 
-      <!-- Custom Navigation Builder -->
-      <section id="custom_nav" class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Custom Navigation</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Create your own nav menu</p>
-        </header>
+					<!-- Custom Navigation Builder -->
+					<section id="custom_nav" class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+						<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+						<h2 class="text-sm font-semibold">Custom Navigation</h2>
+						<p class="mt-1 text-xs text-black/60 dark:text-gray-400">Create your own nav menu</p>
+						</header>
 
-        <div class="px-4 py-4">
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <!-- Available Items -->
-            <div>
-              <h3 class="text-xs font-semibold mb-2">Available Items</h3>
-              <ul id="available_items"
-                  class="space-y-2 rounded-sm border border-dashed border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-2 min-h-[150px]">
-                <!-- Home -->
-                <li draggable="true" data-label="Home" data-link="/home"
-                    class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
-                  Home
-                </li>
+						<div class="px-4 py-4">
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+							<!-- Available Items -->
+							<div>
+							<h3 class="text-xs font-semibold mb-2">Available Items</h3>
+							<ul id="available_items"
+								class="space-y-2 rounded-sm border border-dashed border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-2 min-h-[150px]">
+								<!-- Home -->
+								<li draggable="true" data-label="Home" data-link="/home"
+									class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
+								Home
+								</li>
 
-                <!-- Pages -->
-                <?php
-                  $pages = get_pages();
-                  foreach ($pages as $page) {
-                    $title = htmlspecialchars($page['title']);
-                    $slug  = generateSlug($page['title']);
-                    echo '<li draggable="true" data-label="'.$title.'" data-link="/p/'.$slug.'" class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">Page: '.$title.'</li>';
-                  }
-                ?>
+								<!-- Pages -->
+								<?php
+								$pages = get_pages();
+								foreach ($pages as $page) {
+									$title = htmlspecialchars($page['title']);
+									$slug  = generateSlug($page['title']);
+									echo '<li draggable="true" data-label="'.$title.'" data-link="/p/'.$slug.'" class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">Page: '.$title.'</li>';
+								}
+								?>
 
-                <!-- Collections -->
-                <?php
-                  $collections = getCollectionList();
-                  foreach ($collections as $collection) {
-                    $title = htmlspecialchars($collection['title']);
-                    $slug  = $collection['slug'];
-                    echo '<li draggable="true" data-label="'.$title.'" data-link="/collection/'.$slug.'" class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">Collection: '.$title.'</li>';
-                  }
-                ?>
+								<!-- Collections -->
+								<?php
+								$collections = getCollectionList();
+								foreach ($collections as $collection) {
+									$title = htmlspecialchars($collection['title']);
+									$slug  = $collection['slug'];
+									echo '<li draggable="true" data-label="'.$title.'" data-link="/collection/'.$slug.'" class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">Collection: '.$title.'</li>';
+								}
+								?>
 
-                <!-- Albums -->
-                <?php
-                  $albums = getAlbumList();
-                  foreach ($albums as $album) {
-                    $title = htmlspecialchars($album['title']);
-                    $slug  = $album['slug'];
-                    echo '<li draggable="true" data-label="'.$title.'" data-link="/gallery/'.$slug.'" class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">Album: '.$title.'</li>';
-                  }
-                ?>
+								<!-- Albums -->
+								<?php
+								$albums = getAlbumList();
+								foreach ($albums as $album) {
+									$title = htmlspecialchars($album['title']);
+									$slug  = $album['slug'];
+									echo '<li draggable="true" data-label="'.$title.'" data-link="/gallery/'.$slug.'" class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">Album: '.$title.'</li>';
+								}
+								?>
 
-                <!-- General -->
-                <li draggable="true" data-label="Blog" data-link="/blog"
-                    class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
-                  Blog
-                </li>
-                <li draggable="true" data-label="Timeline" data-link="/timeline"
-                    class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
-                  Timeline
-                </li>
-                <li draggable="true" data-label="Map" data-link="/map"
-                    class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
-                  Map
-                </li>
-              </ul>
-            </div>
+								<!-- General -->
+								<li draggable="true" data-label="Blog" data-link="/blog"
+									class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
+								Blog
+								</li>
+								<li draggable="true" data-label="Timeline" data-link="/timeline"
+									class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
+								Timeline
+								</li>
+								<li draggable="true" data-label="Map" data-link="/map"
+									class="cursor-move p-2 bg-white dark:bg-gray-950 border border-black/10 dark:border-white/10 shadow-xs text-sm">
+								Map
+								</li>
+							</ul>
+							</div>
 
-            <!-- Custom Menu -->
-            <div>
-              <h3 class="text-xs font-semibold mb-2">Custom Menu</h3>
-              <ul id="menu_list"
-                  class="space-y-2 rounded-sm border border-dashed border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-2 min-h-[150px]">
-                <!-- wird per JS befüllt -->
-              </ul>
-            </div>
-          </div>
+							<!-- Custom Menu -->
+							<div>
+							<h3 class="text-xs font-semibold mb-2">Custom Menu</h3>
+							<ul id="menu_list"
+								class="space-y-2 rounded-sm border border-dashed border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-2 min-h-[150px]">
+								<!-- wird per JS befüllt -->
+							</ul>
+							</div>
+						</div>
 
-          <!-- Add Custom Link -->
-          <div class="mt-6">
-            <h3 class="text-xs font-semibold mb-2">Add Custom Link</h3>
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <input type="text" id="custom_label" placeholder="Label (e.g. Blog)"
-                     class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
-              <input type="text" id="custom_link" placeholder="URL (e.g. /blog)"
-                     class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
-              <button id="add_custom" type="button"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                Add
-              </button>
-            </div>
-          </div>
+						<!-- Add Custom Link -->
+						<div class="mt-6">
+							<h3 class="text-xs font-semibold mb-2">Add Custom Link</h3>
+							<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+							<input type="text" id="custom_label" placeholder="Label (e.g. Blog)"
+									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
+							<input type="text" id="custom_link" placeholder="URL (e.g. /blog)"
+									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
+							<button id="add_custom" type="button"
+									class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+								Add
+							</button>
+							</div>
+						</div>
 
-          <div class="mt-4 flex">
-            <!-- unterhalb deines "Custom Navigation" Abschnitts -->
-			<form id="save-menu-form" action="backend_api/nav_change.php?save=menu" method="POST" class="mt-4">
-			<input type="hidden" name="menu_json" id="menu_json" value="">
-			<button id="btn_nav" type="submit"
-					class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-				<?php echo languageString('general.save'); ?>
-			</button>
-			</form>
-          </div>
-        </div>
-      </section>
+						<div class="mt-4 flex">
+							<!-- unterhalb deines "Custom Navigation" Abschnitts -->
+							<form id="save-menu-form" action="backend_api/nav_change.php?save=menu" method="POST" class="mt-4">
+							<input type="hidden" name="menu_json" id="menu_json" value="">
+							<button id="btn_nav" type="submit"
+									class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+								<?php echo languageString('general.save'); ?>
+							</button>
+							</form>
+						</div>
+						</div>
+					</section>
 
-    </div>
-  </div>
-</main>
+					</div>
+				</div>
+			</main>
 
 
 
@@ -372,6 +372,7 @@
 		<script src="js/navbar.js"></script>
 		<script src="js/tailwind.js"></script>
 		<script src="js/update.js"></script>
+		
         <script src="js/custom_nav.js"></script>  
 
 	</body>

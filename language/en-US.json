@@ -35,7 +35,8 @@
         "passowrd_wrong":"Password is wrong",
         "enter_otp":"Enter OTP",
         "username":"Username",
-        "username_wrong":"Username is wrong"
+        "username_wrong":"Username is wrong",
+        "change_user" : "Select different User"
     },
     "dashboard": {
         "clear_cache" : "Clear Cache",

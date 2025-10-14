@@ -19,7 +19,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Theme Settings - <?php echo get_sitename(); ?></title>
+  <title>Dashboard - <?php echo get_sitename(); ?></title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-white dark:bg-black">
@@ -296,12 +296,22 @@
 							</svg>
 							<span class="sr-only"><?php echo languageString('dashboard.theme.search'); ?></span>
 						</a>
-						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<span class="sr-only">View notifications</span>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
-								<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</button>
+              <div class="relative" id="notif-wrap">
+    						<button type="button" id="notifBtn"
+            					class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
+            					aria-haspopup="menu" aria-expanded="false" aria-controls="notifMenu">
+      							<span class="sr-only">View notifications</span>
+      							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+           							aria-hidden="true" class="w-6 h-6 shrink-0 block">
+        							<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              							stroke-linecap="round" stroke-linejoin="round" />
+      								</svg>
+      								<!-- Badge wird per JS dynamisch eingefügt -->
+    							</button>
+
+								<!-- Dropdown wird per JS eingefügt -->
+								<div id="notifMenu" hidden></div>
+							</div>
 						<!-- Separator -->
 						<div aria-hidden="true" class="hidden lg:block lg:h-6 lg:w-px lg:bg-white dark:bg-black/10 dark:lg:bg-gray-100/10"></div>
 						<!-- Profile dropdown -->
@@ -427,5 +437,6 @@
   <script src="js/navbar.js"></script>
   <script src="js/tailwind.js"></script>
   <script src="js/search_theme.js"></script>
+  <script src="js/notify.js"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 name: Nightly nginx Docker Image
 
 on:
-  #schedule:
-    # * is a special character in YAML so you have to quote this string
-    #- cron:  '35 2 * * *'
+  schedule:
+    #* is a special character in YAML so you have to quote this string
+    - cron:  '35 2 * * *'
   workflow_dispatch:  # manuell starten möglich
 
 jobs:

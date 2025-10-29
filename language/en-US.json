@@ -18,7 +18,11 @@
         "copy" : "Copy",
         "title" : "Title",
         "reset_filter": "Reset Filter",
-        "published" : "Published"
+        "published" : "Published",
+        "success" : "Success",
+        "success_save" : "Settings are saved!",
+        "error" : "Error",
+        "error_message" : "Something gone wrong!"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -102,6 +106,13 @@
             "current_password" : "Current Password",
             "new_password" : "New Password",
             "confirm_password" : "Confirm Password"
+        },
+        "system" : {
+            "name" : "Site Name",
+            "description" : "Site Description",
+            "language" : "Language",
+            "sitemap" :"Enable Sitemap",
+            "sitemap_description" : "Enables the sitemap.xml in the root directory"
         }
     },
     "image" : {

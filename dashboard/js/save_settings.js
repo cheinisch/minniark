@@ -56,6 +56,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const result = await postJSON("../api/change_sitesettings.php", data);
     showResult(!!result.success, successEl, errorEl);
+    if (result.success) {
+      setTimeout(() => {
+        location.reload();
+      }, 5000);
+    }
   });
 });
 

@@ -90,16 +90,6 @@
 						</div>
 					</div>
 					<div class="flex items-center gap-x-4 lg:gap-x-6">
-						<a href="blog-detail.php?post=new"
-						id="newPageBtn"
-						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<?php echo languageString('blog.new_post'); ?>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-								<path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-  								<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-							</svg>
-							<span class="sr-only">New Post</span>
-						</a>
 						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
 							<span class="sr-only">View notifications</span>
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
@@ -195,29 +185,29 @@
             <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
               <!-- Notifications -->
               <div id="notification-success-user" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Erfolg!</strong>
-                <span class="ml-1">Daten wurden gespeichert.</span>
+                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
               </div>
               <div id="notification-error-user" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Fehler!</strong>
-                <span class="ml-1">Etwas ist schiefgelaufen.</span>
+                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.errormessage'); ?></span>
               </div>
 
               <div class="sm:col-span-full">
-                <label for="site-name" class="block text-xs font-medium">Site name</label>
+                <label for="site-name" class="block text-xs font-medium"><?php echo languageString('dashboard.system.name'); ?></label>
                 <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>"
                        class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
               </div>
 
               <div class="sm:col-span-full">
-                <label for="site-decription" class="block text-xs font-medium">Site Description</label>
+                <label for="site-decription" class="block text-xs font-medium"><?php echo languageString('dashboard.system.description'); ?></label>
                 <input type="text" name="site-decription" id="site-decription" value="<?php echo get_sitedescription(); ?>"
                        class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
               </div>
 
               <!-- Language (normales select) -->
               <div class="sm:col-span-full">
-                <label for="language-select" class="block text-xs font-medium">Language</label>
+                <label for="language-select" class="block text-xs font-medium"><?php echo languageString('dashboard.system.language'); ?></label>
                   <select id="language-select" name="language"
           				class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
 						<?php 
@@ -249,19 +239,19 @@
       <!-- Image Settings -->
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Image Settings</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Select some Settings for the Images</p>
+          <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.system.image_title'); ?>Image Settings</h2>
+          <p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.system.image_description'); ?>Select some Settings for the Images</p>
         </header>
 
         <div class="px-4 py-4">
           <form class="md:col-span-2" id="change-image-size">
             <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
               <div id="notification-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Erfolg!</strong>
+                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
                 <span class="ml-1">Bildgröße geändert!</span>
               </div>
               <div id="notification-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Fehler!</strong>
+                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
                 <span class="ml-1">Bildgröße nicht geändert!</span>
               </div>
 
@@ -306,12 +296,12 @@
           <form class="md:col-span-2" id="change-timeline-form">
             <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
               <div id="notification-timeline-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Success!</strong>
-                <span class="ml-1">Settings are saved.</span>
+                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
               </div>
               <div id="notification-timeline-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Error!</strong>
-                <span class="ml-1">Settings not changed.</span>
+                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
               </div>
 
               <div class="col-span-full">
@@ -364,12 +354,12 @@
           <form class="md:col-span-2" id="change-map-form">
             <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
               <div id="notification-map-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Success!</strong>
-                <span class="ml-1">Settings are saved.</span>
+                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
               </div>
               <div id="notification-map-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Error!</strong>
-                <span class="ml-1">Settings not changed.</span>
+                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
               </div>
 
               <div class="col-span-full">
@@ -407,19 +397,19 @@
           <form class="md:col-span-2" id="change-sitemap-form">
             <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
               <div id="notification-sitemap-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Success!</strong>
-                <span class="ml-1">Settings are saved.</span>
+                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
               </div>
               <div id="notification-sitemap-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold">Error!</strong>
-                <span class="ml-1">Settings not changed.</span>
+                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
               </div>
 
               <div class="col-span-full">
                 <div class="flex items-center justify-between">
                   <span class="flex grow flex-col">
-                    <span class="text-sm font-medium">Enable Sitemap</span>
-                    <span class="text-xs text-black/60 dark:text-gray-400">Enables the sitemap.xml in the root directory</span>
+                    <span class="text-sm font-medium"><?php echo languageString('dashboard.system.sitemap'); ?></span>
+                    <span class="text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.system.sitemap_description'); ?></span>
                   </span>
                   <button type="button" id="sitemap_enable"
                           class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"

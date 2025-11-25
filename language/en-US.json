@@ -186,7 +186,7 @@
             "export_description" : "Export your data as a ZIP file.",
             "generate_backup" : "Generate Backup",
             "import" : "Import Data",
-            "import_description" : "",
+            "import_description" : "If your backup is larger than {{ fileupload_size }} MB, please upload it via FTP. ",
             "import_file" : "Backup file (ZIP)",
             "import_upload" : "Upload Backup",
             "files" : "Backup Files",

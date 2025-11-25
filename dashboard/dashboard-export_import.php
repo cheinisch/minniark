@@ -274,8 +274,8 @@
           <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs mb-6">
             <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
               <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.export.import'); ?></h2>
-              <p class="text-xs text-black/60 dark:text-gray-400">
-                If your backup is larger than <?php echo get_uploadsize(); ?>, please upload it via FTP.
+              <p class="text-xs text-black/60 dark:text-gray-400">                
+                <?php echo languageString('dashboard.export.import_description',  ['fileupload_size' => get_uploadsize() ]); ?>
               </p>
             </header>
             <div class="p-4">

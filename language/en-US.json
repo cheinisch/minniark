@@ -113,6 +113,20 @@
             "language" : "Language",
             "sitemap" :"Enable Sitemap",
             "sitemap_description" : "Enables the sitemap.xml in the root directory"
+        },
+        "update" : {
+            "name" : "MinniArk - Versionen",
+            "description" : "The currently installed version and any available new versions are displayed here.",
+            "local" : "Local",
+            "local_description" : "The version currently running on this system.",
+            "remote" : "Remote",
+            "remote_description" : "A newer version that is available for update.",
+            "installed_vers" : "Installed version",
+            "remote_vers" : "Remote version",
+            "no_update": "You are up to date.",
+            "update_avail" : "",
+            "version_error" : "Version information incomplete. Values are only displayed; no verification takes place."
+
         }
     },
     "image" : {

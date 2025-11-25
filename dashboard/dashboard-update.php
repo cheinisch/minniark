@@ -204,9 +204,9 @@
 
       <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
         <header class="px-4 py-4 border-b border-black/10 dark:border-white/10">
-          <h1 class="text-base font-semibold">MinniArk – Versionen</h1>
+          <h1 class="text-base font-semibold"><?php echo languageString('dashboard.update.title'); ?></h1>
           <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-            Hier werden die aktuell installierte Version sowie eine verfügbare neue Version angezeigt.
+            <?php echo languageString('dashboard.update.description'); ?>
           </p>
         </header>
 
@@ -214,32 +214,32 @@
           <!-- Aktuell installiert -->
           <div class="rounded-sm border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
             <div class="flex items-center justify-between">
-              <h2 class="text-sm font-semibold">Installierte Version</h2>
+              <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.update.installed_vers'); ?></h2>
               <span class="inline-flex items-center rounded-sm px-2 py-0.5 text-[11px] font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-gray-200">
-                Local
+                <?php echo languageString('dashboard.update.local'); ?>
               </span>
             </div>
             <p class="mt-3 text-xl font-mono tracking-tight">
               <?= $currentVersion !== '' ? htmlspecialchars($currentVersion) : '—' ?>
             </p>
             <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-              Die Version, die aktuell auf diesem System läuft.
+              <?php echo languageString('dashboard.update.local_description'); ?>
             </p>
           </div>
 
           <!-- Verfügbare neue Version -->
           <div class="rounded-sm border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
             <div class="flex items-center justify-between">
-              <h2 class="text-sm font-semibold">Verfügbare neue Version</h2>
+              <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.update.remote_vers'); ?></h2>
               <span class="inline-flex items-center rounded-sm px-2 py-0.5 text-[11px] font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-300">
-                Remote
+                <?php echo languageString('dashboard.update.remote'); ?>
               </span>
             </div>
             <p class="mt-3 text-xl font-mono tracking-tight">
               <?= $latestVersion !== '' ? htmlspecialchars($latestVersion) : '—' ?>
             </p>
             <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-              Eine neuere Version, die zum Update bereitsteht.
+              <?php echo languageString('dashboard.update.remote_description'); ?>
             </p>
           </div>
         </div>
@@ -248,16 +248,16 @@
 		<div class="px-4 pb-4">
 		<?php if ($currentVersion !== '' && $latestVersion !== '' && version_compare($latestVersion, $currentVersion, '>')): ?>
 			<div class="mt-2 rounded-sm border border-emerald-600/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 px-3 py-2 text-sm flex items-center justify-between gap-3">
-			<span>Eine neuere Version ist verfügbar.</span>
+			<span><?php echo languageString('dashboard.update.update_available'); ?></span>
 			<?= function_exists('create_update_button') ? create_update_button() : '' ?>
 			</div>
 		<?php elseif ($currentVersion !== '' && $latestVersion !== '' && version_compare($latestVersion, $currentVersion, '<=')): ?>
 			<div class="mt-2 rounded-sm border border-gray-400/30 bg-gray-400/10 text-gray-800 dark:text-gray-300 px-3 py-2 text-sm">
-			Du bist auf dem neuesten Stand.
+			<?php echo languageString('dashboard.update.no_update'); ?>
 			</div>
 		<?php else: ?>
 			<div class="mt-2 rounded-sm border border-yellow-600/30 bg-yellow-500/10 text-yellow-800 dark:text-yellow-300 px-3 py-2 text-sm">
-			Versionsinformationen unvollständig. Werte werden nur angezeigt, es findet keine Prüfung statt.
+			<?php echo languageString('dashboard.update.version_error'); ?>
 			</div>
 		<?php endif; ?>
 		</div>

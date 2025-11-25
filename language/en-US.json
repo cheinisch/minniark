@@ -4,6 +4,7 @@
         "save" : "Save",
         "cancel" : "Cancel",
         "edit" : "Edit",
+        "add" : "Add",
         "tags" : "Tags",
         "tags_add" : "Add Tags",
         "delete" : "Delete",
@@ -149,6 +150,16 @@
                 "restore_error" : "Restore Failed",
                 "restore_error_description" : "Please restore the data manually."
             }
+        },
+        "menu" : {
+            "title" : "Main Navigation Settings",
+            "description" : "Select some settings for the navigation ",
+            "custommenu" : "Custom Navigation",
+            "custommenu_description" : "Enables the custom navigation.",
+            "custommenu_config" : "Create your own nav menu",
+            "avail_items" : "Available Items",
+            "custommenu_items" : "Custom Menu",
+            "custommenu_link" : "Add Custom Link"
         }
     },
     "image" : {

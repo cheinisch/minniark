@@ -13,7 +13,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    	<title>Dashboard - <?php echo get_sitename(); ?></title>
+    	<title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 	</head>
@@ -92,16 +92,6 @@
 						</div>
 					</div>
 					<div class="flex items-center gap-x-4 lg:gap-x-6">
-						<a href="blog-detail.php?post=new"
-						id="newPageBtn"
-						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-							<?php echo languageString('blog.new_post'); ?>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-								<path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-  								<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-							</svg>
-							<span class="sr-only">New Post</span>
-						</a>
 						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
 							<span class="sr-only">View notifications</span>
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
@@ -196,9 +186,9 @@
 					<!-- Main Navigation Settings -->
 					<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
 						<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-						<h2 class="text-sm font-semibold">Main Navigation Settings</h2>
+						<h2 class="text-sm font-semibold"><?php echo languageString('dashboard.menu.title'); ?></h2>
 						<p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-							Select some settings for the navigation
+							<?php echo languageString('dashboard.menu.description'); ?>
 						</p>
 						</header>
 
@@ -209,22 +199,22 @@
 							<div id="notification-map-success"
 								class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs"
 								role="alert">
-								<strong class="font-semibold">Success!</strong>
-								<span class="ml-1">Settings are saved.</span>
+								<strong class="font-semibold"><?php echo languageString('general.success'); ?>!</strong>
+								<span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
 							</div>
 							<div id="notification-map-error"
 								class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs"
 								role="alert">
-								<strong class="font-semibold">Error!</strong>
-								<span class="ml-1">Settings not changed.</span>
+								<strong class="font-semibold"><?php echo languageString('general.error'); ?>!</strong>
+								<span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
 							</div>
 
 							<!-- Toggle -->
 							<div class="col-span-full">
 								<div class="flex items-center justify-between">
 								<span class="flex grow flex-col">
-									<span class="text-sm font-medium" id="availability-label">Custom Navigation</span>
-									<span class="text-xs text-black/60 dark:text-gray-400" id="availability-description">Enables the custom navigation.</span>
+									<span class="text-sm font-medium" id="availability-label"><?php echo languageString('dashboard.menu.custommenu'); ?></span>
+									<span class="text-xs text-black/60 dark:text-gray-400" id="availability-description"><?php echo languageString('dashboard.menu.custommenu_description'); ?></span>
 								</span>
 
 								<!-- EXAKT ein <span> im Button für JS: knob -->
@@ -258,15 +248,15 @@
 					<!-- Custom Navigation Builder -->
 					<section id="custom_nav" class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
 						<header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-						<h2 class="text-sm font-semibold">Custom Navigation</h2>
-						<p class="mt-1 text-xs text-black/60 dark:text-gray-400">Create your own nav menu</p>
+						<h2 class="text-sm font-semibold"><?php echo languageString('dashboard.menu.custommenu'); ?></h2>
+						<p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.menu.custommenu_config'); ?></p>
 						</header>
 
 						<div class="px-4 py-4">
 						<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 							<!-- Available Items -->
 							<div>
-							<h3 class="text-xs font-semibold mb-2">Available Items</h3>
+							<h3 class="text-xs font-semibold mb-2"><?php echo languageString('dashboard.menu.avail_items'); ?></h3>
 							<ul id="available_items"
 								class="space-y-2 rounded-sm border border-dashed border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-2 min-h-[150px]">
 								<!-- Home -->
@@ -323,7 +313,7 @@
 
 							<!-- Custom Menu -->
 							<div>
-							<h3 class="text-xs font-semibold mb-2">Custom Menu</h3>
+							<h3 class="text-xs font-semibold mb-2"><?php echo languageString('dashboard.menucustommenu_items'); ?></h3>
 							<ul id="menu_list"
 								class="space-y-2 rounded-sm border border-dashed border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-2 min-h-[150px]">
 								<!-- wird per JS befüllt -->
@@ -333,7 +323,7 @@
 
 						<!-- Add Custom Link -->
 						<div class="mt-6">
-							<h3 class="text-xs font-semibold mb-2">Add Custom Link</h3>
+							<h3 class="text-xs font-semibold mb-2"><?php echo languageString('dashboard.menu.custommenu_link'); ?></h3>
 							<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
 							<input type="text" id="custom_label" placeholder="Label (e.g. Blog)"
 									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
@@ -341,7 +331,7 @@
 									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
 							<button id="add_custom" type="button"
 									class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-								Add
+								<?php echo languageString('general.add'); ?>
 							</button>
 							</div>
 						</div>

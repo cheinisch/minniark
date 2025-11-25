@@ -11,7 +11,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog Posts - <?php echo get_sitename(); ?></title>
+    <title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
 	</head>
@@ -169,361 +169,447 @@
 					</nav>
 				</div>
 			</div>
-<main class="py-10 bg-white dark:bg-black">
-  <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
-    <div class="space-y-4">
+			<main class="py-10 bg-white dark:bg-black">
+        <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+          <div class="space-y-4">
 
-      <!-- Site Information -->
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Site Information</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Some Site Information</p>
-        </header>
+            <!-- Site Information -->
+            <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+              <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+                <h2 class="text-sm font-semibold">
+                  <?php echo languageString('dashboard.system.site_title'); ?>
+                </h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+                  <?php echo languageString('dashboard.system.site_description'); ?>
+                </p>
+              </header>
 
-        <div class="px-4 py-4">
-          <form class="md:col-span-2" id="change-sitedata-form">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
-              <!-- Notifications -->
-              <div id="notification-success-user" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
+              <div class="px-4 py-4">
+                <form class="md:col-span-2" id="change-sitedata-form">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+                    <!-- Notifications -->
+                    <div id="notification-success-user" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
+                    </div>
+                    <div id="notification-error-user" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
+                    </div>
+
+                    <div class="sm:col-span-full">
+                      <label for="site-name" class="block text-xs font-medium">
+                        <?php echo languageString('dashboard.system.name'); ?>
+                      </label>
+                      <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>"
+                            class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                    </div>
+
+                    <div class="sm:col-span-full">
+                      <label for="site-decription" class="block text-xs font-medium">
+                        <?php echo languageString('dashboard.system.description'); ?>
+                      </label>
+                      <input type="text" name="site-decription" id="site-decription" value="<?php echo get_sitedescription(); ?>"
+                            class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                    </div>
+
+                    <!-- Language -->
+                    <div class="sm:col-span-full">
+                      <label for="language-select" class="block text-xs font-medium">
+                        <?php echo languageString('dashboard.system.language'); ?>
+                      </label>
+                      <select id="language-select" name="language"
+                              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
+                        <?php 
+                        $langs = getLangFiles();
+                        $current = get_language();
+                        if (!empty($langs)):
+                          foreach ($langs as $lang):
+                            $sel = strcasecmp($lang, $current) === 0 ? 'selected' : '';
+                            echo '<option value="'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'" '.$sel.'>'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'</option>';
+                          endforeach;
+                        else:
+                          echo '<option value="">' . languageString('dashboard.system.no_languages') . '</option>';
+                        endif;
+                        ?>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mt-4 flex">
+                    <button type="submit" id="btnSiteSettings"
+                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                      <?php echo languageString('general.save'); ?>
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div id="notification-error-user" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.errormessage'); ?></span>
+            </section>
+
+            <!-- Image Settings -->
+            <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+              <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+                <h2 class="text-sm font-semibold">
+                  <?php echo languageString('dashboard.system.image_title'); ?>
+                </h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+                  <?php echo languageString('dashboard.system.image_description'); ?>
+                </p>
+              </header>
+
+              <div class="px-4 py-4">
+                <form class="md:col-span-2" id="change-image-size">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+                    <div id="notification-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
+                    </div>
+                    <div id="notification-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
+                    </div>
+
+                    <!-- Image size -->
+                    <div class="sm:col-span-full">
+                      <label for="image-size-select" class="block text-xs font-medium">
+                        <?php echo languageString('dashboard.system.image_size_label'); ?>
+                      </label>
+                      <?php $imgSize = get_imagesize(); ?>
+                      <select id="image-size-select"
+                              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
+                        <option value="L"   <?php echo $imgSize==='L'   ? 'selected' : ''; ?>>L</option>
+                        <option value="XL"  <?php echo $imgSize==='XL'  ? 'selected' : ''; ?>>XL</option>
+                        <option value="XXL" <?php echo $imgSize==='XXL' ? 'selected' : ''; ?>>XXL</option>
+                        <option value="Original" <?php echo $imgSize==='Original' ? 'selected' : ''; ?>>Original</option>
+                      </select>
+                      <input type="hidden" name="image_size" id="image_size" value="<?php echo get_imagesize(); ?>">
+                    </div>
+                  </div>
+
+                  <div class="mt-4 flex gap-2">
+                    <button type="submit"
+                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                      <?php echo languageString('general.save'); ?>
+                    </button>
+                    <button id="recreate-cache-button"
+                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                      <?php echo languageString('dashboard.system.recreate_cache'); ?>
+                    </button>
+                  </div>
+                </form>
               </div>
+            </section>
 
-              <div class="sm:col-span-full">
-                <label for="site-name" class="block text-xs font-medium"><?php echo languageString('dashboard.system.name'); ?></label>
-                <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>"
-                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+            <!-- Timeline Settings -->
+            <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+              <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+                <h2 class="text-sm font-semibold">
+                  <?php echo languageString('dashboard.system.timeline_title'); ?>
+                </h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+                  <?php echo languageString('dashboard.system.timeline_description'); ?>
+                </p>
+              </header>
+
+              <div class="px-4 py-4">
+                <form class="md:col-span-2" id="change-timeline-form">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+                    <div id="notification-timeline-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
+                    </div>
+                    <div id="notification-timeline-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
+                    </div>
+
+                    <div class="col-span-full">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm font-medium">
+                            <?php echo languageString('dashboard.system.timeline_enable'); ?>
+                          </span>
+                          <span class="text-xs text-black/60 dark:text-gray-400">
+                            <?php echo languageString('dashboard.system.timeline_enable_description'); ?>
+                          </span>
+                        </span>
+                        <button type="button" id="timline_enable"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                role="switch" aria-checked="<?php echo is_timeline_enabled(); ?>">
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="col-span-full">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm font-medium">
+                            <?php echo languageString('dashboard.system.timeline_group'); ?>
+                          </span>
+                          <span class="text-xs text-black/60 dark:text-gray-400">
+                            <?php echo languageString('dashboard.system.timeline_group_description'); ?>
+                          </span>
+                        </span>
+                        <button type="button" id="timline_group"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                role="switch" aria-checked="<?php echo is_timeline_grouped(); ?>">
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-4 flex">
+                    <button type="submit" id="btn_timeline"
+                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                      <?php echo languageString('general.save'); ?>
+                    </button>
+                  </div>
+                </form>
               </div>
+            </section>
 
-              <div class="sm:col-span-full">
-                <label for="site-decription" class="block text-xs font-medium"><?php echo languageString('dashboard.system.description'); ?></label>
-                <input type="text" name="site-decription" id="site-decription" value="<?php echo get_sitedescription(); ?>"
-                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+            <!-- Map Settings -->
+            <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+              <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+                <h2 class="text-sm font-semibold">
+                  <?php echo languageString('dashboard.system.map_title'); ?>
+                </h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+                  <?php echo languageString('dashboard.system.map_description'); ?>
+                </p>
+              </header>
+
+              <div class="px-4 py-4">
+                <form class="md:col-span-2" id="change-map-form">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+                    <div id="notification-map-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
+                    </div>
+                    <div id="notification-map-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
+                    </div>
+
+                    <div class="col-span-full">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm font-medium">
+                            <?php echo languageString('dashboard.system.map_enable'); ?>
+                          </span>
+                          <span class="text-xs text-black/60 dark:text-gray-400">
+                            <?php echo languageString('dashboard.system.map_enable_description'); ?>
+                          </span>
+                        </span>
+                        <button type="button" id="map_enable"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                role="switch" aria-checked="<?php echo is_map_enabled(); ?>">
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-4 flex">
+                    <button type="submit" id="btn_map"
+                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                      <?php echo languageString('general.save'); ?>
+                    </button>
+                  </div>
+                </form>
               </div>
+            </section>
 
-              <!-- Language (normales select) -->
-              <div class="sm:col-span-full">
-                <label for="language-select" class="block text-xs font-medium"><?php echo languageString('dashboard.system.language'); ?></label>
-                  <select id="language-select" name="language"
-          				class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
-						<?php 
-						$langs = getLangFiles();
-						$current = get_language();
-						if (!empty($langs)):
-							foreach ($langs as $lang):
-							$sel = strcasecmp($lang, $current) === 0 ? 'selected' : '';
-							echo '<option value="'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'" '.$sel.'>'.htmlspecialchars($lang, ENT_QUOTES, 'UTF-8').'</option>';
-							endforeach;
-						else:
-							echo '<option value="">No languages found</option>';
-						endif;
-						?>
-					</select>
+            <!-- Sitemap Settings -->
+            <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+              <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+                <h2 class="text-sm font-semibold">
+                  <?php echo languageString('dashboard.system.sitemap_title'); ?>
+                </h2>
+              </header>
+
+              <div class="px-4 py-4">
+                <form class="md:col-span-2" id="change-sitemap-form">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+                    <div id="notification-sitemap-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
+                    </div>
+                    <div id="notification-sitemap-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
+                      <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
+                      <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
+                    </div>
+
+                    <div class="col-span-full">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm font-medium">
+                            <?php echo languageString('dashboard.system.sitemap'); ?>
+                          </span>
+                          <span class="text-xs text-black/60 dark:text-gray-400">
+                            <?php echo languageString('dashboard.system.sitemap_description'); ?>
+                          </span>
+                        </span>
+                        <button type="button" id="sitemap_enable"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                role="switch" aria-checked="<?php echo is_sitemap_enabled(); ?>">
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="col-span-full">
+                      <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <span class="text-sm font-medium">
+                            <?php echo languageString('dashboard.system.sitemap_images'); ?>
+                          </span>
+                          <span class="text-xs text-black/60 dark:text-gray-400">
+                            <?php echo languageString('dashboard.system.sitemap_images_description'); ?>
+                          </span>
+                        </span>
+                        <button type="button" id="sitemap_images_enable"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                role="switch" aria-checked="<?php echo is_sitemap_images_enabled(); ?>">
+                          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-4 flex">
+                    <button type="submit" id="btn_sitemap"
+                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                      <?php echo languageString('general.save'); ?>
+                    </button>
+                  </div>
+                </form>
               </div>
-            </div>
+            </section>
 
-            <div class="mt-4 flex">
-              <button type="submit" id="btnSiteSettings"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                <?php echo languageString('general.save'); ?>
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
+            <!-- Supporter License -->
+            <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+              <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+                <h2 class="text-sm font-semibold">
+                  <?php echo languageString('dashboard.system.license_title'); ?>
+                </h2>
+                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+                  <?php echo languageString('dashboard.system.license_description'); ?>
+                </p>
+              </header>
 
-      <!-- Image Settings -->
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.system.image_title'); ?>Image Settings</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.system.image_description'); ?>Select some Settings for the Images</p>
-        </header>
+              <div class="px-4 py-4">
+                <form class="md:col-span-2" id="change-sitelicense-form" action="backend_api/settings_save.php" method="post">
+                  <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+                    <div class="sm:col-span-full">
+                      <label for="site-license" class="block text-xs font-medium">
+                        <?php echo languageString('dashboard.system.license_field'); ?>
+                      </label>
 
-        <div class="px-4 py-4">
-          <form class="md:col-span-2" id="change-image-size">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
-              <div id="notification-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
-                <span class="ml-1">Bildgröße geändert!</span>
-              </div>
-              <div id="notification-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
-                <span class="ml-1">Bildgröße nicht geändert!</span>
-              </div>
-
-              <!-- Image size (normales select) -->
-              <div class="sm:col-span-full">
-                <label for="image-size-select" class="block text-xs font-medium">Default Image size (for cached images)</label>
-                <?php $imgSize = get_imagesize(); ?>
-                <select id="image-size-select"
-                        class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
-                  <option value="L"   <?php echo $imgSize==='L'   ? 'selected' : ''; ?>>L</option>
-                  <option value="XL"  <?php echo $imgSize==='XL'  ? 'selected' : ''; ?>>XL</option>
-                  <option value="XXL" <?php echo $imgSize==='XXL' ? 'selected' : ''; ?>>XXL</option>
-                  <option value="Original" <?php echo $imgSize==='Original' ? 'selected' : ''; ?>>Original</option>
-                </select>
-                <!-- Hidden bleibt bestehen -->
-                <input type="hidden" name="image_size" id="image_size" value="<?php echo get_imagesize(); ?>">
-              </div>
-            </div>
-
-            <div class="mt-4 flex gap-2">
-              <button type="submit"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                <?php echo languageString('general.save'); ?>
-              </button>
-              <button id="recreate-cache-button"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                Recreate Cache
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Timeline Settings -->
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Timeline Settings</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Select some Settings for the Timeline</p>
-        </header>
-
-        <div class="px-4 py-4">
-          <form class="md:col-span-2" id="change-timeline-form">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
-              <div id="notification-timeline-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
-              </div>
-              <div id="notification-timeline-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
-              </div>
-
-              <div class="col-span-full">
-                <div class="flex items-center justify-between">
-                  <span class="flex grow flex-col">
-                    <span class="text-sm font-medium">Enable Timeline</span>
-                    <span class="text-xs text-black/60 dark:text-gray-400">Enable the timeline in the main navigation</span>
-                  </span>
-                  <button type="button" id="timline_enable"
-                          class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
-                          role="switch" aria-checked="<?php echo is_timeline_enabled(); ?>">
-                    <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
-                  </button>
-                </div>
-              </div>
-
-              <div class="col-span-full">
-                <div class="flex items-center justify-between">
-                  <span class="flex grow flex-col">
-                    <span class="text-sm font-medium">Group by month</span>
-                    <span class="text-xs text-black/60 dark:text-gray-400">Group the images by month</span>
-                  </span>
-                  <button type="button" id="timline_group"
-                          class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
-                          role="switch" aria-checked="<?php echo is_timeline_grouped(); ?>">
-                    <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4 flex">
-              <button type="submit" id="btn_timeline"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                <?php echo languageString('general.save'); ?>
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Map Settings -->
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Map Settings</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">Select some Settings for the Mapview</p>
-        </header>
-
-        <div class="px-4 py-4">
-          <form class="md:col-span-2" id="change-map-form">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
-              <div id="notification-map-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.success'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
-              </div>
-              <div id="notification-map-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
-              </div>
-
-              <div class="col-span-full">
-                <div class="flex items-center justify-between">
-                  <span class="flex grow flex-col">
-                    <span class="text-sm font-medium">Enable Map</span>
-                    <span class="text-xs text-black/60 dark:text-gray-400">Enables the map in the main navigation</span>
-                  </span>
-                  <button type="button" id="map_enable"
-                          class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
-                          role="switch" aria-checked="<?php echo is_map_enabled(); ?>">
-                    <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4 flex">
-              <button type="submit" id="btn_map"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                <?php echo languageString('general.save'); ?>
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Sitemap Settings -->
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Sitemap Settings</h2>
-        </header>
-
-        <div class="px-4 py-4">
-          <form class="md:col-span-2" id="change-sitemap-form">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
-              <div id="notification-sitemap-success" class="hidden col-span-full rounded-sm border border-emerald-700/30 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.success_save'); ?></span>
-              </div>
-              <div id="notification-sitemap-error" class="hidden col-span-full rounded-sm border border-red-700/30 bg-red-500/10 text-red-300 px-3 py-2 text-xs" role="alert">
-                <strong class="font-semibold"><?php echo languageString('general.error'); ?></strong>
-                <span class="ml-1"><?php echo languageString('general.error_message'); ?></span>
-              </div>
-
-              <div class="col-span-full">
-                <div class="flex items-center justify-between">
-                  <span class="flex grow flex-col">
-                    <span class="text-sm font-medium"><?php echo languageString('dashboard.system.sitemap'); ?></span>
-                    <span class="text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.system.sitemap_description'); ?></span>
-                  </span>
-                  <button type="button" id="sitemap_enable"
-                          class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
-                          role="switch" aria-checked="<?php echo is_sitemap_enabled(); ?>">
-                    <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
-                  </button>
-                </div>
-              </div>
-
-              <div class="col-span-full">
-                <div class="flex items-center justify-between">
-                  <span class="flex grow flex-col">
-                    <span class="text-sm font-medium">Enable Images in Sitemap</span>
-                    <span class="text-xs text-black/60 dark:text-gray-400">Include images in the sitemap.xml</span>
-                  </span>
-                  <button type="button" id="sitemap_images_enable"
-                          class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
-                          role="switch" aria-checked="<?php echo is_sitemap_images_enabled(); ?>">
-                    <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4 flex">
-              <button type="submit" id="btn_sitemap"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                <?php echo languageString('general.save'); ?>
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Supporter License -->
-      <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-        <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-          <h2 class="text-sm font-semibold">Supporter License</h2>
-          <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-            Add the additional supporter License Key. Required for some Plugins.
-            You can buy the license <a href="https://store.minniark.com" class="underline">here</a>.
-          </p>
-        </header>
-
-        <div class="px-4 py-4">
-          <form class="md:col-span-2" id="change-sitelicense-form" action="backend_api/settings_save.php" method="post">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
-              <div class="sm:col-span-full">
-                <label for="site-license" class="block text-xs font-medium">License Key</label>
-
-                <?php if(!empty(get_license())): $info = getLicenseInformation(); ?>
-                  <ul class="mt-2 text-sm text-black/80 dark:text-gray-300">
-                    <?php if (!$info['valid']): ?>
-                      <li>License is not valid<?php if (!empty($info['message'])) echo ': ' . htmlspecialchars($info['message']); ?>.</li>
-                      <?php if (!empty($info['expired_date'])): ?>
-                        <li>Expired at: <?php echo htmlspecialchars($info['expired_date']); ?></li>
+                      <?php if(!empty(get_license())): $info = getLicenseInformation(); ?>
+                        <ul class="mt-2 text-sm text-black/80 dark:text-gray-300">
+                          <?php if (!$info['valid']): ?>
+                            <li>
+                              <?php
+                                echo languageString('dashboard.system.license_invalid');
+                                if (!empty($info['message'])) {
+                                  echo ': ' . htmlspecialchars($info['message']);
+                                }
+                              ?>.
+                            </li>
+                            <?php if (!empty($info['expired_date'])): ?>
+                              <li>
+                                <?php echo languageString('dashboard.system.license_expired_label'); ?>:
+                                <?php echo htmlspecialchars($info['expired_date']); ?>
+                              </li>
+                            <?php endif; ?>
+                          <?php else: ?>
+                            <li><?php echo languageString('dashboard.system.license_valid'); ?></li>
+                            <?php if (empty($info['expired_date'])): ?>
+                              <li>
+                                <?php echo languageString('dashboard.system.license_status'); ?>:
+                                <span class="text-emerald-600">
+                                  <?php echo languageString('dashboard.system.license_status_active'); ?>
+                                </span>
+                              </li>
+                              <li>
+                                <?php echo languageString('dashboard.system.license_type'); ?>:
+                                <?php echo languageString('dashboard.system.license_type_unlimited'); ?>
+                              </li>
+                            <?php else: ?>
+                              <li>
+                                <?php echo languageString('dashboard.system.license_status'); ?>:
+                                <?php if ($info['expired']): ?>
+                                  <span class="text-red-600">
+                                    <?php echo languageString('dashboard.system.license_status_expired'); ?>
+                                  </span>
+                                <?php else: ?>
+                                  <span class="text-emerald-600">
+                                    <?php echo languageString('dashboard.system.license_status_active'); ?>
+                                  </span>
+                                <?php endif; ?>
+                              </li>
+                              <?php if (!$info['expired']): ?>
+                                <li>
+                                  <?php echo languageString('dashboard.system.license_remaining_days'); ?>:
+                                  <?php echo (int)$info['days']; ?>
+                                </li>
+                              <?php endif; ?>
+                              <li>
+                                <?php echo languageString('dashboard.system.license_expire_date'); ?>:
+                                <?php echo htmlspecialchars($info['expired_date']); ?>
+                              </li>
+                            <?php endif; ?>
+                            <li>
+                              <?php echo languageString('dashboard.system.license_activation'); ?>:
+                              <?php echo (int)$info['timesActivated'] . ' / ' . (int)$info['timesActivatedMax']; ?>
+                            </li>
+                          <?php endif; ?>
+                        </ul>
                       <?php endif; ?>
-                    <?php else: ?>
-                      <li>License is valid</li>
-                      <?php if (empty($info['expired_date'])): ?>
-                        <li>Status: <span class="text-emerald-600">active</span></li>
-                        <li>Type: unlimited</li>
-                      <?php else: ?>
-                        <li>Status: <?php echo $info['expired'] ? '<span class="text-red-600">expired</span>' : '<span class="text-emerald-600">active</span>'; ?></li>
-                        <?php if (!$info['expired']): ?>
-                          <li>Remaining days: <?php echo $info['days']; ?></li>
-                        <?php endif; ?>
-                        <li>Expire date: <?php echo htmlspecialchars($info['expired_date']); ?></li>
-                      <?php endif; ?>
-                      <li>Activation: <?php echo (int)$info['timesActivated'] . ' / ' . (int)$info['timesActivatedMax']; ?></li>
-                    <?php endif; ?>
-                  </ul>
-                <?php endif; ?>
 
-                <input type="text" name="site-license" id="site-license" value="<?php echo get_license(); ?>"
-                       class="mt-2 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                      <input type="text" name="site-license" id="site-license" value="<?php echo get_license(); ?>"
+                            class="mt-2 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                    </div>
+                  </div>
+
+                  <div class="mt-4 flex">
+                    <button type="submit" id="btnSiteLicense"
+                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+                      <?php echo languageString('general.save'); ?>
+                    </button>
+                  </div>
+                </form>
               </div>
-            </div>
+            </section>
 
-            <div class="mt-4 flex">
-              <button type="submit" id="btnSiteLicense"
-                      class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                <?php echo languageString('general.save'); ?>
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </section>
 
-    </div>
-  </div>
+        <!-- Sync-Skripte für Language & Image Size -->
+        <script>
+          (function () {
+            // Language (falls es ein hidden Feld selected-language gibt)
+            const langHidden = document.getElementById('selected-language');
+            const langSelect = document.getElementById('language-select');
+            if (langHidden && langSelect) {
+              if (langHidden.value) langSelect.value = langHidden.value;
+              langSelect.addEventListener('change', () => { langHidden.value = langSelect.value; });
+            }
 
-  <!-- Sync-Skripte für Language & Image Size (halten Hidden-Felder kompatibel) -->
-  <script>
-    (function () {
-      // Language
-      const langHidden = document.getElementById('selected-language');
-      const langSelect = document.getElementById('language-select');
-      if (langHidden && langSelect) {
-        // initial sicherstellen
-        if (langHidden.value) langSelect.value = langHidden.value;
-        langSelect.addEventListener('change', () => { langHidden.value = langSelect.value; });
-      }
+            // Image size
+            const imgHidden = document.getElementById('image_size');
+            const imgSelect = document.getElementById('image-size-select');
+            if (imgHidden && imgSelect) {
+              if (imgHidden.value) imgSelect.value = imgHidden.value;
+              imgSelect.addEventListener('change', () => { imgHidden.value = imgSelect.value; });
+            }
+          })();
+        </script>
+      </main>
 
-      // Image size
-      const imgHidden = document.getElementById('image_size');
-      const imgSelect = document.getElementById('image-size-select');
-      if (imgHidden && imgSelect) {
-        if (imgHidden.value) imgSelect.value = imgHidden.value;
-        imgSelect.addEventListener('change', () => { imgHidden.value = imgSelect.value; });
-      }
-    })();
-  </script>
-</main>
 			
 
 

@@ -72,20 +72,33 @@
             "additionalmenu":"Additional Functions",
             "update" : "Update"
         },
-        "theme" : {
-            "title":"Theme Selection",
-            "subtitle":"Choose, update, or remove installed themes.",
-            "search":"Search a Theme",
-            "version":"Version",
-            "author":"Author",
-            "activate":"Activate",
-            "active":"Active",
-            "remove":"Remove",
+        "theme": {
+            "title": "Theme Management",
+            "subtitle": "Manage, activate, update or remove installed themes.",
+            
+            "version": "Version",
+            "author": "Author",
+
+            "active": "Active",
+            "activate": "Activate",
+            "update": "Update",
+            "remove": "Remove",
+            "search": "Search Theme",
+
+            "dialog_activate_title": "Activate Theme",
+            "dialog_activate_text": "Do you really want to set %s as the active theme?",
+
+            "dialog_remove_title": "Remove Theme",
+            "dialog_remove_text": "Do you really want to remove %s from the system?",
+
             "install": {
-                "install" : "Install",
-                "is_installed" :"Is Installed",
-                "title" : "Search and install Themes",
-                "subtitle" : "Find themes from the catalog and install them."
+                "title": "Search and Install Themes",
+                "subtitle": "Browse themes from the catalog and install them.",
+
+                "search_placeholder": "Search themes…",
+
+                "install": "Install",
+                "is_installed": "Installed"
             }
         },
         "ai" : {
@@ -108,12 +121,51 @@
             "new_password" : "New Password",
             "confirm_password" : "Confirm Password"
         },
-        "system" : {
-            "name" : "Site Name",
-            "description" : "Site Description",
-            "language" : "Language",
-            "sitemap" :"Enable Sitemap",
-            "sitemap_description" : "Enables the sitemap.xml in the root directory"
+        "system": {
+            "site_title": "Site Information",
+            "site_description": "Basic information about your website.",
+            "name": "Site Name",
+            "description": "Site Description",
+            "language": "Language",
+            "no_languages": "No languages found",
+
+            "image_title": "Image Settings",
+            "image_description": "Choose default settings for image processing and cached images.",
+            "image_size_label": "Default image size (for cached images)",
+            "recreate_cache": "Recreate Cache",
+
+            "timeline_title": "Timeline Settings",
+            "timeline_description": "Configure how the timeline is displayed in the frontend.",
+            "timeline_enable": "Enable Timeline",
+            "timeline_enable_description": "Enable the timeline in the main navigation.",
+            "timeline_group": "Group by month",
+            "timeline_group_description": "Group images in the timeline by month.",
+
+            "map_title": "Map Settings",
+            "map_description": "Configure the map view and its availability.",
+            "map_enable": "Enable Map",
+            "map_enable_description": "Enable the map in the main navigation.",
+
+            "sitemap_title": "Sitemap Settings",
+            "sitemap": "Enable Sitemap",
+            "sitemap_description": "Enables the sitemap.xml in the root directory.",
+            "sitemap_images": "Enable Images in Sitemap",
+            "sitemap_images_description": "Include images in the sitemap.xml.",
+
+            "license_title": "Supporter License",
+            "license_description": "Add an additional supporter license key. Required for some plugins. You can buy the license at store.minniark.com.",
+            "license_field": "License Key",
+            "license_invalid": "License is not valid",
+            "license_expired_label": "Expired at",
+            "license_valid": "License is valid",
+            "license_status": "Status",
+            "license_status_active": "active",
+            "license_status_expired": "expired",
+            "license_type": "Type",
+            "license_type_unlimited": "unlimited",
+            "license_remaining_days": "Remaining days",
+            "license_expire_date": "Expire date",
+            "license_activation": "Activation"
         },
         "update" : {
             "name" : "MinniArk - Versionen",
@@ -196,6 +248,40 @@
         "plugin" : {
             "title" : "Plugins",
             "description" : "Manage installed plugins and their settings."
+        },
+        "welcome": {
+            "title": "Start Page Settings",
+            "subtitle": "Choose what visitors will see on the start page.",
+
+            "type_title": "Start Page Type",
+            "type_description": "Select the content type for your start page.",
+            "type_default_label": "Default Page Type",
+            "type_start": "Welcome Page",
+            "type_page": "Page",
+            "type_album": "Album",
+
+            "select_page": "Select Page",
+            "select_album": "Select Album",
+
+            "content_title": "Welcome Page Content",
+            "content_subtitle": "Edit the content of the welcome page.",
+            "headline": "Headline",
+            "subheadline": "Sub Headline",
+            "content": "Content",
+
+            "cover_title": "Background",
+            "cover_subtitle": "Select an image or album to use as background cover.",
+            "cover_button_select": "Select Image / Album",
+            "cover_button_save": "Save Background",
+            "cover_preview_album_prefix": "Album:",
+
+            "modal_title": "Select Background Image or Album",
+            "modal_description": "Choose an album or a single image for the background.",
+            "modal_album_label": "Select Album",
+            "modal_album_none": "-- None --",
+            "modal_image_label": "Or select a single image",
+            "modal_button_use": "Use Selection",
+            "modal_button_cancel": "Cancel"
         }
     },
     "image" : {

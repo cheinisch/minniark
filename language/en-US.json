@@ -160,6 +160,38 @@
             "avail_items" : "Available Items",
             "custommenu_items" : "Custom Menu",
             "custommenu_link" : "Add Custom Link"
+        },
+        "user" : {
+            "title": "User Management",
+            "description": "Create, edit and delete users that can access the backend.",
+            "table": {
+                "username": "Username",
+                "mail": "E-Mail",
+                "role": "Role"
+            },
+            "form": {
+                "edit_title": "Edit User",
+                "new_title": "Create new User",
+                "username": "Username",
+                "mail": "E-Mail",
+                "password": "Password",
+                "password_placeholder": "Leave blank for no change",
+                "userrole": "User Role",
+                "userrole_user": "User",
+                "userrole_admin": "Admin",
+                "submit": "Save"
+            },
+            "actions": {
+                "create": "Create new User",
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "delete": {
+                "title": "Delete Confirmation",
+                "text": "Do you really want to delete the user {{username}}?",
+                "self_title": "Delete Error",
+                "self_text": "You can’t delete your own user."
+            }
         }
     },
     "image" : {

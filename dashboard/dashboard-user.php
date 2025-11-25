@@ -36,7 +36,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - <?php echo get_sitename(); ?></title>
+    	<title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
 	</head>
@@ -78,10 +78,10 @@
         <div class="mt-6 sm:flex sm:flex-row-reverse">
           <a href="backend_api/user_edit_user.php?delete=<?php echo urlencode($_GET['delete'] ?? ''); ?>"
              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">
-            Delete
+            <?php echo languageString('general.delete'); ?>
           </a>
           <a href="?" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
-            Cancel
+            <?php echo languageString('general.cancel'); ?>
           </a>
         </div>
       </el-dialog-panel>
@@ -121,7 +121,7 @@
 
         <div class="mt-6 sm:flex sm:flex-row-reverse">
           <a href="?" class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto dark:bg-indigo-500 dark:hover:bg-indigo-400">
-            Okay
+            <?php echo languageString('general.ok'); ?>
           </a>
         </div>
       </el-dialog-panel>
@@ -296,109 +296,192 @@
 			</div>
 			<main class="py-10 bg-white dark:bg-black">
   				<div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
+
+					<!-- Titel + Beschreibung aus dashboard.user.* -->
+					<div class="mb-6">
+						<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+							<?php echo languageString('dashboard.user.title'); ?>
+						</h1>
+						<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+							<?php echo languageString('dashboard.user.description'); ?>
+						</p>
+					</div>
+
 					<div class="mt-6">
 						<div class="mb-5">
 							<?php if (isset($_GET['edit'])): ?>
 							<form class="md:col-span-2 grid grid-cols-1 sm:grid-cols-4 gap-4"
 								action="backend_api/user_edit_user.php?edit" method="post">
-							<div>
-								<label for="username" class="block text-xs font-medium text-gray-900 dark:text-gray-200">Username</label>
-								<input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>"
-									class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-								<input type="hidden" name="username_old" value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>">
-							</div>
 
-							<div>
-								<label for="mail" class="block text-xs font-medium text-gray-900 dark:text-gray-200">E-Mail</label>
-								<input type="email" id="mail" name="mail" value="<?php echo htmlspecialchars($mail, ENT_QUOTES, 'UTF-8'); ?>"
-									class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-							</div>
+								<div>
+									<label for="username" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.username'); ?>
+									</label>
+									<input
+										type="text"
+										id="username"
+										name="username"
+										value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+									<input type="hidden" name="username_old" value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>">
+								</div>
 
-							<div>
-								<label for="password" class="block text-xs font-medium text-gray-900 dark:text-gray-200">Password</label>
-								<input type="password" id="password" name="password" placeholder="leave blank for no change"
-									class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-							</div>
+								<div>
+									<label for="mail" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.mail'); ?>
+									</label>
+									<input
+										type="email"
+										id="mail"
+										name="mail"
+										value="<?php echo htmlspecialchars($mail, ENT_QUOTES, 'UTF-8'); ?>"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+								</div>
 
-							<div>
-								<label for="userrole" class="block text-xs font-medium text-gray-900 dark:text-gray-200">User Role</label>
-								<select id="userrole" name="userrole"
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-								<option value="user"  <?php echo $role==='user'  ? 'selected' : ''; ?>>User</option>
-								<option value="admin" <?php echo $role==='admin' ? 'selected' : ''; ?>>Admin</option>
-								</select>
-							</div>
+								<div>
+									<label for="password" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.password'); ?>
+									</label>
+									<input
+										type="password"
+										id="password"
+										name="password"
+										placeholder="<?php echo languageString('dashboard.user.form.password_placeholder'); ?>"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+								</div>
 
-							<div class="sm:col-span-2">
-								<button type="submit"
-										class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-								Save
-								</button>
-							</div>
+								<div>
+									<label for="userrole" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.userrole'); ?>
+									</label>
+									<select
+										id="userrole"
+										name="userrole"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+										<option value="user"  <?php echo $role === 'user'  ? 'selected' : ''; ?>>
+											<?php echo languageString('dashboard.user.form.userrole_user'); ?>
+										</option>
+										<option value="admin" <?php echo $role === 'admin' ? 'selected' : ''; ?>>
+											<?php echo languageString('dashboard.user.form.userrole_admin'); ?>
+										</option>
+									</select>
+								</div>
+
+								<div class="sm:col-span-2">
+									<button
+										type="submit"
+										class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500"
+									>
+										<?php echo languageString('dashboard.user.form.submit'); ?>
+									</button>
+								</div>
 							</form>
 							<?php endif; ?>
 
 							<?php if (isset($_GET['new'])): ?>
 							<form class="md:col-span-2 grid grid-cols-1 sm:grid-cols-4 gap-4"
 								action="backend_api/user_edit_user.php?new" method="post">
-							<div>
-								<label for="username" class="block text-xs font-medium text-gray-900 dark:text-gray-200">Username</label>
-								<input type="text" id="username" name="username" required
-									class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-							</div>
 
-							<div>
-								<label for="mail" class="block text-xs font-medium text-gray-900 dark:text-gray-200">E-Mail</label>
-								<input type="email" id="mail" name="mail" required
-									class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-							</div>
+								<div>
+									<label for="username" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.username'); ?>
+									</label>
+									<input
+										type="text"
+										id="username"
+										name="username"
+										required
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+								</div>
 
-							<div>
-								<label for="password" class="block text-xs font-medium text-gray-900 dark:text-gray-200">Password</label>
-								<input type="password" id="password" name="password" required
-									class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-							</div>
+								<div>
+									<label for="mail" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.mail'); ?>
+									</label>
+									<input
+										type="email"
+										id="mail"
+										name="mail"
+										required
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+								</div>
 
-							<div>
-								<label for="userrole" class="block text-xs font-medium text-gray-900 dark:text-gray-200">User Role</label>
-								<select id="userrole" name="userrole"
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
-								<option value="user" selected>User</option>
-								<option value="admin">Admin</option>
-								</select>
-							</div>
+								<div>
+									<label for="password" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.password'); ?>
+									</label>
+									<input
+										type="password"
+										id="password"
+										name="password"
+										required
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+								</div>
 
-							<div class="sm:col-span-2">
-								<button type="submit"
-										class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-								Save
-								</button>
-							</div>
+								<div>
+									<label for="userrole" class="block text-xs font-medium text-gray-900 dark:text-gray-200">
+										<?php echo languageString('dashboard.user.form.userrole'); ?>
+									</label>
+									<select
+										id="userrole"
+										name="userrole"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+									>
+										<option value="user" selected>
+											<?php echo languageString('dashboard.user.form.userrole_user'); ?>
+										</option>
+										<option value="admin">
+											<?php echo languageString('dashboard.user.form.userrole_admin'); ?>
+										</option>
+									</select>
+								</div>
+
+								<div class="sm:col-span-2">
+									<button
+										type="submit"
+										class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500"
+									>
+										<?php echo languageString('dashboard.user.form.submit'); ?>
+									</button>
+								</div>
 							</form>
 							<?php endif; ?>
 
 						</div>
+
 						<div class="overflow-hidden rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-							
 							<table class="min-w-full divide-y divide-black/10 dark:divide-white/10 text-sm text-gray-900 dark:text-gray-100">
-							<thead class="bg-black/5 dark:bg-white/5">
-								<tr>
-								<th class="px-4 py-2 text-left font-semibold">Username</th>
-								<th class="px-4 py-2 text-left font-semibold">Mail</th>
-								<th class="px-4 py-2 text-left font-semibold">Role</th>
-								<th class="px-4 py-2"></th>
-								</tr>
-							</thead>
-							<tbody class="divide-y divide-black/10 dark:divide-white/10">
-								<?= getAllUser(); ?>
-							</tbody>
+								<thead class="bg-black/5 dark:bg-white/5">
+									<tr>
+										<th class="px-4 py-2 text-left font-semibold">
+											<?php echo languageString('dashboard.user.table.username'); ?>
+										</th>
+										<th class="px-4 py-2 text-left font-semibold">
+											<?php echo languageString('dashboard.user.table.mail'); ?>
+										</th>
+										<th class="px-4 py-2 text-left font-semibold">
+											<?php echo languageString('dashboard.user.table.role'); ?>
+										</th>
+										<th class="px-4 py-2"></th>
+									</tr>
+								</thead>
+								<tbody class="divide-y divide-black/10 dark:divide-white/10">
+									<?= getAllUser(); ?>
+								</tbody>
 							</table>
 						</div>
 
 						<div class="mt-4">
 							<a href="?new"
-							class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-							Create new User
+							   class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+								<?php echo languageString('dashboard.user.actions.create'); ?>
 							</a>
 						</div>
 					</div>

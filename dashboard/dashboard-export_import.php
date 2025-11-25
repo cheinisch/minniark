@@ -14,10 +14,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Export / Import · <?php echo get_sitename(); ?></title>
+    <title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body class="bg-white dark:bg-black text-black dark:text-white">
+<!--==================== Modals (neuer Stil via el-dialog) ====================-->
+    <el-dialog>
+      <!-- Backup success -->
+      <dialog id="backupSuccess" <?php if($success) echo 'open'; ?> class="backdrop:bg-transparent">
+        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
+        <div tabindex="0" class="fixed inset-0 flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
+                               sm:my-8 sm:w-full sm:max-w-md sm:p-6 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+            <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+              <button type="button" command="close" commandfor="backupSuccess" class="rounded-md bg-white text-gray-400 hover:text-gray-500 dark:bg-black">
+                <span class="sr-only"><?php echo languageString('general.close'); ?></span>
+                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+            <div class="sm:flex sm:items-start">
+              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:size-10 dark:bg-emerald-500/10">
+                <svg class="size-6 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="mt-3 text-left sm:mt-0 sm:ml-4">
+                <h2 class="text-base font-semibold text-gray-600 dark:text-gray-400"><?php echo languageString('dashboard.export.popup.success_title'); ?></h2>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><?php echo languageString('dashboard.export.popup.success_description'); ?></p>
+              </div>
+            </div>
+            <div class="mt-6 sm:flex sm:flex-row-reverse">
+              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
+              <button type="button" command="close" commandfor="backupSuccess" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20"><?php echo languageString('general.close'); ?></button>
+            </div>
+          </el-dialog-panel>
+        </div>
+      </dialog>
+
+      <!-- Restore success -->
+      <dialog id="restoreSuccess" <?php if($restore_success) echo 'open'; ?> class="backdrop:bg-transparent">
+        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
+        <div tabindex="0" class="fixed inset-0 flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
+                               sm:my-8 sm:w-full sm:max-w-md sm:p-6 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+            <div class="sm:flex sm:items-start">
+              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:size-10 dark:bg-emerald-500/10">
+                <svg class="size-6 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="mt-3 text-left sm:mt-0 sm:ml-4">
+                <h2 class="text-base font-semibold text-gray-600 dark:text-gray-400"><?php echo languageString('dashboard.export.popup.restore_title'); ?></h2>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><?php echo languageString('dashboard.export.popup.restore_description'); ?></p>
+              </div>
+            </div>
+            <div class="mt-6 sm:flex sm:flex-row-reverse">
+              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
+              <button type="button" command="close" commandfor="restoreSuccess" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20"><?php echo languageString('general.close'); ?></button>
+            </div>
+          </el-dialog-panel>
+        </div>
+      </dialog>
+
+      <!-- Restore error -->
+      <dialog id="restoreError" <?php if($restore_error) echo 'open'; ?> class="backdrop:bg-transparent">
+        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
+        <div tabindex="0" class="fixed inset-0 flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
+                               sm:my-8 sm:w-full sm:max-w-md sm:p-6 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+            <div class="sm:flex sm:items-start">
+              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10 dark:bg-red-500/10">
+                <svg class="size-6 text-red-600 dark:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="mt-3 text-left sm:mt-0 sm:ml-4">
+                <h2 class="text-base font-semibold text-gray-600 dark:text-gray-400"><?php echo languageString('dashboard.export.popup.restore_error'); ?></h2>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><?php echo languageString('dashboard.export.popup.restore_error_description'); ?></p>
+              </div>
+            </div>
+            <div class="mt-6 sm:flex sm:flex-row-reverse">
+              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
+              <button type="button" command="close" commandfor="restoreError" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg:white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20"><?php echo languageString('general.close'); ?></button>
+            </div>
+          </el-dialog-panel>
+        </div>
+      </dialog>
+    </el-dialog>
+
+    <!--================SIDEBAR / NAV ===============================-->
+
 		<el-dialog>
 			<dialog id="sidebar" class="backdrop:bg-transparent lg:hidden">
 				<el-dialog-backdrop class="fixed inset-0 bg-white/80 dark:bg-black/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"></el-dialog-backdrop>
@@ -25,7 +105,7 @@
 					<el-dialog-panel class="group/dialog-panel relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-closed:-translate-x-full">
 						<div class="absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out group-data-closed/dialog-panel:opacity-0">
 							<button type="button" command="close" commandfor="sidebar" class="-m-2.5 p-2.5">
-								<span class="sr-only">Close sidebar</span>
+								<span class="sr-only"><?php echo languageString('general.close'); ?> sidebar</span>
 								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-black dark:text-white">
 									<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
 								</svg>
@@ -178,14 +258,14 @@
           <!-- Export -->
           <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs mb-6">
             <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-              <h2 class="text-sm font-semibold">Export Data</h2>
-              <p class="text-xs text-black/60 dark:text-gray-400">Export your data as a ZIP file.</p>
+              <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.export.export'); ?></h2>
+              <p class="text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.export.export_description'); ?></p>
             </header>
             <div class="p-4">
               <a href="backend_api/backup.php"
                  id="backup-btn-new"
                  class="inline-flex items-center gap-2 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                Generate Backup
+                <?php echo languageString('dashboard.export.generate_backup'); ?>
               </a>
             </div>
           </section>
@@ -193,7 +273,7 @@
           <!-- Import -->
           <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs mb-6">
             <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-              <h2 class="text-sm font-semibold">Import Data</h2>
+              <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.export.import'); ?></h2>
               <p class="text-xs text-black/60 dark:text-gray-400">
                 If your backup is larger than <?php echo get_uploadsize(); ?>, please upload it via FTP.
               </p>
@@ -209,13 +289,13 @@
 
               <form id="upload-backup-form" class="space-y-3">
                 <div>
-                  <label for="backup-file" class="block text-sm font-medium">Backup file (ZIP)</label>
+                  <label for="backup-file" class="block text-sm font-medium"><?php echo languageString('dashboard.export.import_file'); ?></label>
                   <input id="backup-file" name="backup_file" type="file" accept=".zip" required
                          class="mt-2 block w-full text-black dark:text-white file:bg-sky-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded file:cursor-pointer bg-white/5 px-3 py-2 text-sm outline -outline-offset-1 outline-black/10 focus:outline-2 focus:outline-sky-600 dark:outline-white/10">
                 </div>
                 <button type="submit"
                         class="bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
-                  Upload Backup
+                  <?php echo languageString('dashboard.export.import_upload'); ?>
                 </button>
               </form>
             </div>
@@ -224,16 +304,16 @@
           <!-- Backup Files -->
           <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
             <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-              <h2 class="text-sm font-semibold">Backup Files</h2>
-              <p class="text-xs text-black/60 dark:text-gray-400">Download, restore or delete backups.</p>
+              <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.export.file'); ?></h2>
+              <p class="text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.export.file_description'); ?></p>
             </header>
             <div class="p-4 overflow-x-auto">
               <table class="w-full text-sm">
                 <thead class="text-left text-black/60 dark:text-gray-400">
                   <tr class="border-b border-black/10 dark:border-white/10">
-                    <th class="py-2 pr-4">Date</th>
-                    <th class="py-2 pr-4">File</th>
-                    <th class="py-2 pr-4">Filesize</th>
+                    <th class="py-2 pr-4"><?php echo languageString('dashboard.export.file_date'); ?></th>
+                    <th class="py-2 pr-4"><?php echo languageString('dashboard.export.file_name'); ?></th>
+                    <th class="py-2 pr-4"><?php echo languageString('dashboard.export.file_size'); ?></th>
                     <th class="py-2 pr-4"></th>
                     <th class="py-2"></th>
                   </tr>
@@ -278,83 +358,7 @@
       </main>
     </div>
 
-    <!--==================== Modals (neuer Stil via el-dialog) ====================-->
-    <el-dialog>
-      <!-- Backup success -->
-      <dialog id="backupSuccess" <?php if($success) echo 'open'; ?> class="backdrop:bg-transparent">
-        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
-        <div tabindex="0" class="fixed inset-0 flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
-                               sm:my-8 sm:w-full sm:max-w-md sm:p-6 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
-            <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
-              <button type="button" command="close" commandfor="backupSuccess" class="rounded-md bg-white text-gray-400 hover:text-gray-500 dark:bg-black">
-                <span class="sr-only">Close</span>
-                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
-            <div class="sm:flex sm:items-start">
-              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:size-10 dark:bg-emerald-500/10">
-                <svg class="size-6 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div class="mt-3 text-left sm:mt-0 sm:ml-4">
-                <h2 class="text-base font-semibold">Backup Finished</h2>
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Backup successfully created.</p>
-              </div>
-            </div>
-            <div class="mt-6 sm:flex sm:flex-row-reverse">
-              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto">OK</a>
-              <button type="button" command="close" commandfor="backupSuccess" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">Close</button>
-            </div>
-          </el-dialog-panel>
-        </div>
-      </dialog>
-
-      <!-- Restore success -->
-      <dialog id="restoreSuccess" <?php if($restore_success) echo 'open'; ?> class="backdrop:bg-transparent">
-        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
-        <div tabindex="0" class="fixed inset-0 flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
-                               sm:my-8 sm:w-full sm:max-w-md sm:p-6 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
-            <div class="sm:flex sm:items-start">
-              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:size-10 dark:bg-emerald-500/10">
-                <svg class="size-6 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div class="mt-3 text-left sm:mt-0 sm:ml-4">
-                <h2 class="text-base font-semibold">Restore Complete</h2>
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Backup restored successfully.</p>
-              </div>
-            </div>
-            <div class="mt-6 sm:flex sm:flex-row-reverse">
-              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto">OK</a>
-              <button type="button" command="close" commandfor="restoreSuccess" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">Close</button>
-            </div>
-          </el-dialog-panel>
-        </div>
-      </dialog>
-
-      <!-- Restore error -->
-      <dialog id="restoreError" <?php if($restore_error) echo 'open'; ?> class="backdrop:bg-transparent">
-        <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-gray-900/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
-        <div tabindex="0" class="fixed inset-0 flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
-                               sm:my-8 sm:w-full sm:max-w-md sm:p-6 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
-            <div class="sm:flex sm:items-start">
-              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10 dark:bg-red-500/10">
-                <svg class="size-6 text-red-600 dark:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div class="mt-3 text-left sm:mt-0 sm:ml-4">
-                <h2 class="text-base font-semibold">Restore Failed</h2>
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Please restore the data manually.</p>
-              </div>
-            </div>
-            <div class="mt-6 sm:flex sm:flex-row-reverse">
-              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto">OK</a>
-              <button type="button" command="close" commandfor="restoreError" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg:white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">Close</button>
-            </div>
-          </el-dialog-panel>
-        </div>
-      </dialog>
-    </el-dialog>
+    
 
     <script src="js/navbar.js"></script>
     <script src="js/tailwind.js"></script>

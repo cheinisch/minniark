@@ -127,6 +127,28 @@
             "update_avail" : "",
             "version_error" : "Version information incomplete. Values are only displayed; no verification takes place."
 
+        },
+        "export" : {
+            "export" : "Export Data",
+            "export_description" : "Export your data as a ZIP file.",
+            "generate_backup" : "Generate Backup",
+            "import" : "Import Data",
+            "import_description" : "",
+            "import_file" : "Backup file (ZIP)",
+            "import_upload" : "Upload Backup",
+            "files" : "Backup Files",
+            "files_description" : "Download, restore or delete backups.",
+            "file_date" : "Date",
+            "file_name" : "File",
+            "file_size" : "File size",
+            "popup" : {
+                "success_title" : "Backup Finished",
+                "success_description" : "Backup successfully created.",
+                "restore_title" : "Restore Complete",
+                "restore_description" : "Backup restored successfully.",
+                "restore_error" : "Restore Failed",
+                "restore_error_description" : "Please restore the data manually."
+            }
         }
     },
     "image" : {

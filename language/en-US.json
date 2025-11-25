@@ -192,6 +192,10 @@
                 "self_title": "Delete Error",
                 "self_text": "You can’t delete your own user."
             }
+        },
+        "plugin" : {
+            "title" : "Plugins",
+            "description" : "Manage installed plugins and their settings."
         }
     },
     "image" : {

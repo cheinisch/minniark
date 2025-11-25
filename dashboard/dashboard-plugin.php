@@ -8,7 +8,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plugins · <?php echo get_sitename(); ?></title>
+    <title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body class="bg-white dark:bg-black">
@@ -170,8 +170,8 @@
       <main class="py-10 bg-white dark:bg-black">
         <div class="px-4 sm:px-6 lg:px-8 text-black dark:text-white">
           <header class="mb-4">
-            <h1 class="text-lg font-semibold">Plugins</h1>
-            <p class="text-sm text-black/60 dark:text-gray-400">Manage installed plugins and their settings.</p>
+            <h1 class="text-lg font-semibold"><?php echo languageString('dashboard.plugin.title'); ?></h1>
+            <p class="text-sm text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.plugin.description'); ?></p>
           </header>
 
           <!-- Plugin-Liste im Card-Stil -->

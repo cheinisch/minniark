@@ -3,6 +3,19 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
+## [2025.11.2]
+2025-11-27
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.11.1...v2025.11.2
+
+### New Features
+- fr & de language file
+
+### Changes
+- add language fallback
+
+### Bug Fixes
+
 ## [2025.11.1]
 2025-11.27
 

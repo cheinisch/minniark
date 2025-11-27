@@ -30,7 +30,7 @@ if (!saveNewUser($username, $email, $password,$userrole)) {
 $settingsPath = __DIR__ . '/../../userdata/config/settings.yml';
 $settings = [
     'site_title' => $sitename,
-    'theme' => 'basic',
+    'theme' => 'minniark_basic',
     'language' => 'en-US',
     'show_upload_dates' => false,
     'default_image_size' => 'L',

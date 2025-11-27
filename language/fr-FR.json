@@ -1,0 +1,361 @@
+{
+    "general" : {
+        "ok" : "Ok",
+        "save" : "Enregistrer",
+        "cancel" : "Annuler",
+        "edit" : "Éditer",
+        "add" : "Ajouter",
+        "tags" : "Tags",
+        "tags_add" : "Ajouter des tags",
+        "delete" : "Supprimer",
+        "add_new" : "Ajouter nouveau",
+        "countries" : "Pays",
+        "year" : "Année",
+        "content" : "Contenu",
+        "albums" : "Albums",
+        "collections" : "Collections",
+        "ratings" : "Notes",
+        "close" : "Fermer",
+        "copy" : "Copier",
+        "title" : "Titre",
+        "reset_filter": "Réinitialiser le filtre",
+        "published" : "Publié",
+        "success" : "Succès",
+        "success_save" : "Paramètres enregistrés !",
+        "error" : "Erreur",
+        "error_message" : "Une erreur est survenue !"
+    },
+    "nav": {
+        "dashboard": "Tableau de bord",
+        "images": "Images",
+        "blogposts":"Articles de blog",
+        "pages":"Pages",
+        "your_profile":"Votre profil",
+        "sign_out":"Déconnexion"
+    },
+    "login": {
+        "login":"Connexion",
+        "login_at":"Connexion sur",
+        "password":"Mot de passe",
+        "passowrd_wrong":"Mot de passe incorrect",
+        "enter_otp":"Entrer le code OTP",
+        "username":"Nom d’utilisateur",
+        "username_wrong":"Nom d’utilisateur incorrect",
+        "change_user" : "Changer d’utilisateur"
+    },
+    "dashboard": {
+        "clear_cache" : "Vider le cache",
+        "systeminformation" : {
+            "title" : "Informations système",
+            "storage" : "Utilisation du stockage",
+            "version" : "Version",
+            "operation_system" : "Système d’exploitation",
+            "webserver" : "Serveur web",
+            "bugreport": "Veuillez signaler les bugs sur {{url}}.",
+            "news" : "Actualités / Mises à jour",
+            "component" : "Composant",
+            "component-version" : "Version / Type"
+        },
+        "nav": {
+            "overview":"Aperçu",
+            "dashboard":"Tableau de bord",
+            "settings":"Paramètres",
+            "personal":"Paramètres personnels",
+            "user":"Paramètres utilisateur",
+            "system":"Paramètres système",
+            "theme":"Paramètres du thème",
+            "welcome":"Page d’accueil",
+            "nav":"Navigation",
+            "plugin":"Plugins",
+            "export_import":"Exporter / Importer",
+            "ai":"IA",
+            "additionalmenu":"Fonctions supplémentaires",
+            "update" : "Mise à jour"
+        },
+        "theme": {
+            "title": "Gestion des thèmes",
+            "subtitle": "Gérer, activer, mettre à jour ou supprimer les thèmes installés.",
+            
+            "version": "Version",
+            "author": "Auteur",
+
+            "active": "Actif",
+            "activate": "Activer",
+            "update": "Mettre à jour",
+            "remove": "Supprimer",
+            "search": "Rechercher un thème",
+
+            "dialog_activate_title": "Activer le thème",
+            "dialog_activate_text": "Voulez-vous vraiment définir %s comme thème actif ?",
+
+            "dialog_remove_title": "Supprimer le thème",
+            "dialog_remove_text": "Voulez-vous vraiment supprimer %s du système ?",
+
+            "install": {
+                "title": "Rechercher et installer des thèmes",
+                "subtitle": "Parcourir le catalogue et installer des thèmes.",
+
+                "search_placeholder": "Rechercher des thèmes…",
+
+                "install": "Installer",
+                "is_installed": "Installé"
+            }
+        },
+        "ai" : {
+            "title" : "Informations IA",
+            "description" : "Quelques informations sur l’IA",
+            "select" : "Sélectionner une IA"
+        },
+        "personal" : {
+            "title" : "Informations personnelles",
+            "description" : "Utilisez une adresse permanente où vous pouvez recevoir du courrier",
+            "display_name" : "Nom affiché",
+            "username": "Nom d’utilisateur",
+            "mail" : "Adresse e-mail",
+            "login_title" : "Type de connexion",
+            "login_description" : "Choisir entre mot de passe et code à usage unique via e-mail",
+            "login_type" : "Type de connexion par défaut",
+            "password_title" : "Changer le mot de passe",
+            "password_description" : "Mettre à jour votre mot de passe",
+            "current_password" : "Mot de passe actuel",
+            "new_password" : "Nouveau mot de passe",
+            "confirm_password" : "Confirmer le mot de passe"
+        },
+        "system": {
+            "site_title": "Informations sur le site",
+            "site_description": "Informations de base sur votre site web.",
+            "name": "Nom du site",
+            "description": "Description du site",
+            "language": "Langue",
+            "no_languages": "Aucune langue trouvée",
+
+            "image_title": "Paramètres d’image",
+            "image_description": "Choisir les paramètres par défaut pour le traitement et le cache d’images.",
+            "image_size_label": "Taille d’image par défaut (pour les images mises en cache)",
+            "recreate_cache": "Recréer le cache",
+
+            "timeline_title": "Paramètres de la frise chronologique",
+            "timeline_description": "Configurer l’affichage de la timeline.",
+            "timeline_enable": "Activer la timeline",
+            "timeline_enable_description": "Afficher la timeline dans la navigation principale.",
+            "timeline_group": "Grouper par mois",
+            "timeline_group_description": "Grouper les images par mois.",
+
+            "map_title": "Paramètres de la carte",
+            "map_description": "Configurer l’affichage et la disponibilité de la carte.",
+            "map_enable": "Activer la carte",
+            "map_enable_description": "Afficher la carte dans la navigation.",
+
+            "sitemap_title": "Paramètres du sitemap",
+            "sitemap": "Activer le sitemap",
+            "sitemap_description": "Active le fichier sitemap.xml à la racine.",
+            "sitemap_images": "Inclure les images",
+            "sitemap_images_description": "Ajouter les images au sitemap.xml.",
+
+            "license_title": "Licence Supporter",
+            "license_description": "Ajouter une clé de licence supporter supplémentaire. Requise pour certains plugins. À acheter sur store.minniark.com.",
+            "license_field": "Clé de licence",
+            "license_invalid": "Licence invalide",
+            "license_expired_label": "Expire le",
+            "license_valid": "Licence valide",
+            "license_status": "Statut",
+            "license_status_active": "actif",
+            "license_status_expired": "expiré",
+            "license_type": "Type",
+            "license_type_unlimited": "illimitée",
+            "license_remaining_days": "Jours restants",
+            "license_expire_date": "Date d’expiration",
+            "license_activation": "Activation"
+        },
+        "update" : {
+            "name" : "MinniArk - Versions",
+            "description" : "La version installée et les versions disponibles sont affichées ici.",
+            "local" : "Locale",
+            "local_description" : "Version actuellement installée sur ce système.",
+            "remote" : "Distant",
+            "remote_description" : "Une version plus récente est disponible.",
+            "installed_vers" : "Version installée",
+            "remote_vers" : "Version distante",
+            "no_update": "Vous êtes à jour.",
+            "update_avail" : "",
+            "version_error" : "Informations de version incomplètes. Les valeurs sont affichées sans vérification."
+        },
+        "export" : {
+            "export" : "Exporter les données",
+            "export_description" : "Exporter vos données en fichier ZIP.",
+            "generate_backup" : "Générer une sauvegarde",
+            "import" : "Importer des données",
+            "import_description" : "Si votre sauvegarde dépasse {{ fileupload_size }} Mo, veuillez l’envoyer par FTP.",
+            "import_file" : "Fichier de sauvegarde (ZIP)",
+            "import_upload" : "Téléverser la sauvegarde",
+            "files" : "Fichiers de sauvegarde",
+            "files_description" : "Télécharger, restaurer ou supprimer des sauvegardes.",
+            "file_date" : "Date",
+            "file_name" : "Fichier",
+            "file_size" : "Taille du fichier",
+            "popup" : {
+                "success_title" : "Sauvegarde terminée",
+                "success_description" : "Sauvegarde créée avec succès.",
+                "restore_title" : "Restauration terminée",
+                "restore_description" : "La sauvegarde a été restaurée avec succès.",
+                "restore_error" : "Échec de la restauration",
+                "restore_error_description" : "Veuillez restaurer les données manuellement."
+            }
+        },
+        "menu" : {
+            "title" : "Paramètres de navigation principale",
+            "description" : "Sélectionnez des paramètres pour la navigation",
+            "custommenu" : "Navigation personnalisée",
+            "custommenu_description" : "Active la navigation personnalisée.",
+            "custommenu_config" : "Créer votre propre menu",
+            "avail_items" : "Éléments disponibles",
+            "custommenu_items" : "Menu personnalisé",
+            "custommenu_link" : "Ajouter un lien personnalisé"
+        },
+        "user" : {
+            "title": "Gestion des utilisateurs",
+            "description": "Créer, modifier et supprimer des utilisateurs ayant accès au backend.",
+            "table": {
+                "username": "Nom d’utilisateur",
+                "mail": "E-mail",
+                "role": "Rôle"
+            },
+            "form": {
+                "edit_title": "Modifier l’utilisateur",
+                "new_title": "Créer un nouvel utilisateur",
+                "username": "Nom d’utilisateur",
+                "mail": "E-mail",
+                "password": "Mot de passe",
+                "password_placeholder": "Laisser vide pour ne pas modifier",
+                "userrole": "Rôle utilisateur",
+                "userrole_user": "Utilisateur",
+                "userrole_admin": "Administrateur",
+                "submit": "Enregistrer"
+            },
+            "actions": {
+                "create": "Créer un nouvel utilisateur",
+                "edit": "Modifier",
+                "delete": "Supprimer"
+            },
+            "delete": {
+                "title": "Confirmation de suppression",
+                "text": "Voulez-vous vraiment supprimer l’utilisateur {{username}} ?",
+                "self_title": "Erreur de suppression",
+                "self_text": "Vous ne pouvez pas supprimer votre propre compte."
+            }
+        },
+        "plugin" : {
+            "title" : "Plugins",
+            "description" : "Gérer les plugins installés et leurs paramètres."
+        },
+        "welcome": {
+            "title": "Paramètres de la page d’accueil",
+            "subtitle": "Choisissez ce que les visiteurs verront sur la page d’accueil.",
+
+            "type_title": "Type de page d’accueil",
+            "type_description": "Sélectionnez le type de contenu pour la page d’accueil.",
+            "type_default_label": "Type par défaut",
+            "type_start": "Page d’accueil",
+            "type_page": "Page",
+            "type_album": "Album",
+
+            "select_page": "Sélectionner une page",
+            "select_album": "Sélectionner un album",
+
+            "content_title": "Contenu de la page d’accueil",
+            "content_subtitle": "Modifier le contenu de la page d’accueil.",
+            "headline": "Titre",
+            "subheadline": "Sous-titre",
+            "content": "Contenu",
+
+            "cover_title": "Arrière-plan",
+            "cover_subtitle": "Sélectionnez une image ou un album comme couverture.",
+            "cover_button_select": "Sélectionner image / album",
+            "cover_button_save": "Enregistrer l’arrière-plan",
+            "cover_preview_album_prefix": "Album :",
+
+            "modal_title": "Sélectionner une image ou un album",
+            "modal_description": "Choisissez un album ou une image pour l’arrière-plan.",
+            "modal_album_label": "Sélectionner un album",
+            "modal_album_none": "-- Aucun --",
+            "modal_image_label": "Ou sélectionner une image",
+            "modal_button_use": "Utiliser la sélection",
+            "modal_button_cancel": "Annuler"
+        }
+    },
+    "image" : {
+        "generate_ai_text":"Générer un texte IA",
+        "rating" : "Note de l’image",
+        "edit" : "Modifier l’image",
+        "delete" : "Supprimer l’image",
+        "meta_edit" : "Modifier les métadonnées",
+        "meta_sync" : "Synchroniser les métadonnées",
+        "meta" : "Métadonnées",
+        "information" : "Informations",
+        "upload_image" : "Téléverser une nouvelle image",
+        "all_photos" : "Toutes les photos",
+        "sync_images" : "Synchroniser les images",
+        "filter_images" : "Filtrer les images",
+        "reset_filter" : "Toutes les images (réinitialiser)",
+        "drop_or_click" : "Déposer un fichier ici ou cliquer",
+        "choose_files" : "Choisir les fichiers",
+        "upload_hint" : "Téléverseur d’images",
+        "generate" : {
+            "btn": "Générer un texte IA",
+            "title": "Générer un texte IA",
+            "text": "Êtes-vous sûr de vouloir désactiver votre compte ? Toutes vos données seront supprimées définitivement. Cette action est irréversible."
+        }
+    },
+    "exif" :{
+        "camera":"Appareil photo",
+        "iso" : "ISO",
+        "lens" : "Objectif",
+        "aperture" : "Ouverture",
+        "shutter_speed" : "Vitesse d’obturation",
+        "focal_length" : "Longueur focale",
+        "date" : "Date",
+        "gps" : {
+            "label" : "Données GPS",
+            "lat" : "Lat",
+            "lon" : "Lon"
+        }
+    },
+    "album" : {
+        "addToAlbum" : "Ajouter à l’album"
+    },
+    "blog" : {
+        "foldername" : "Nom du dossier",
+        "content" : "Contenu",
+        "heroimage" : "Image principale",
+        "select-heroimage" : "Sélectionner l’image principale",
+        "remove-heroimage" : "Supprimer l’image principale",
+        "delete" : "Supprimer l’article",
+        "new_post" : "Nouvel article",
+        "filter_posts" : "Filtrer les articles",
+        "settings" : {
+            "title" : "Paramètres de l’article",
+            "description" : "Visibilité et date de publication.",
+            "published" : "Publié",
+            "published-description" : "Changer entre visible et invisible",
+            "published-date" : "Date de publication"
+        }
+    },
+    "page" : {
+        "foldername" : "Nom du dossier",
+        "content" : "Contenu",
+        "heroimage" : "Image principale",
+        "select-heroimage" : "Sélectionner l’image principale",
+        "remove-heroimage" : "Supprimer l’image principale",
+        "delete" : "Supprimer la page",
+        "new_page" : "Nouvelle page",
+        "filter_posts" : "Filtrer les pages",
+        "settings" : {
+            "title" : "Paramètres de la page",
+            "description" : "Contrôler la visibilité et enregistrer les modifications.",
+            "published" : "Publié",
+            "published-description" : "Changer entre visible et invisible"
+        }
+    },
+    "greet.user": "Salut {{name}}",
+    "stats.items": { "_0": "Aucun élément", "_1": "1 élément", "_n": "{{count}} éléments" }
+}

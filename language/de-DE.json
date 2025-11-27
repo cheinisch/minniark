@@ -1,35 +1,361 @@
 {
+    "general" : {
+        "ok" : "Ok",
+        "save" : "Speichern",
+        "cancel" : "Abbrechen",
+        "edit" : "Bearbeiten",
+        "add" : "Hinzufügen",
+        "tags" : "Tags",
+        "tags_add" : "Tags hinzufügen",
+        "delete" : "Löschen",
+        "add_new" : "Neu hinzufügen",
+        "countries" : "Länder",
+        "year" : "Jahr",
+        "content" : "Inhalt",
+        "albums" : "Alben",
+        "collections" : "Sammlungen",
+        "ratings" : "Bewertungen",
+        "close" : "Schließen",
+        "copy" : "Kopieren",
+        "title" : "Titel",
+        "reset_filter": "Filter zurücksetzen",
+        "published" : "Veröffentlicht",
+        "success" : "Erfolg",
+        "success_save" : "Einstellungen gespeichert!",
+        "error" : "Fehler",
+        "error_message" : "Etwas ist schiefgelaufen!"
+    },
     "nav": {
         "dashboard": "Dashboard",
         "images": "Bilder",
-        "blogposts":"Blog Beiträge",
+        "blogposts":"Blogbeiträge",
         "pages":"Seiten",
         "your_profile":"Dein Profil",
         "sign_out":"Abmelden"
     },
     "login": {
-        "login":"Anmelden",
-        "login_at":"Anmelden an",
+        "login":"Login",
+        "login_at":"Anmelden bei",
         "password":"Passwort",
         "passowrd_wrong":"Passwort ist falsch",
-        "enter_otp":"OTP eingeben",
+        "enter_otp":"Einmalcode eingeben",
         "username":"Benutzername",
-        "username_wrong":"Benutzername ist falsch"
+        "username_wrong":"Benutzername ist falsch",
+        "change_user" : "Anderen Benutzer auswählen"
     },
-    "dashboard_nav": {
-        "overview":"Übersicht",
-        "dashboard":"Dashboard",
-        "settings":"Einstellungen",
-        "personalsettings":"Benutzer Einstellungen",
-        "usersettings":"Benutzer Übersicht",
-        "systemsettings":"System Einstellungen",
-        "themesettings":"Theme Einstellungen",
-        "startpage":"Start Seite",
-        "navigation":"Navigation",
-        "plugins":"Plugins",
-        "import_export":"Export / Import",
-        "ai":"KI"
-    },    
-    "greet.user": "Hi {{name}}",
-    "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }
+    "dashboard": {
+        "clear_cache" : "Cache leeren",
+        "systeminformation" : {
+            "title" : "Systeminformationen",
+            "storage" : "Speichernutzung",
+            "version" : "Version",
+            "operation_system" : "Betriebssystem",
+            "webserver" : "Webserver",
+            "bugreport": "Bitte melde Fehler unter {{url}}.",
+            "news" : "Neuigkeiten / Updates",
+            "component" : "Komponente",
+            "component-version" : "Version / Typ"
+        },
+        "nav": {
+            "overview":"Übersicht",
+            "dashboard":"Dashboard",
+            "settings":"Einstellungen",
+            "personal":"Persönliche Einstellungen",
+            "user":"Benutzereinstellungen",
+            "system":"Systemeinstellungen",
+            "theme":"Theme-Einstellungen",
+            "welcome":"Startseite",
+            "nav":"Navigation",
+            "plugin":"Plugins",
+            "export_import":"Export / Import",
+            "ai":"KI",
+            "additionalmenu":"Zusätzliche Funktionen",
+            "update" : "Update"
+        },
+        "theme": {
+            "title": "Theme-Verwaltung",
+            "subtitle": "Installierte Themes verwalten, aktivieren, aktualisieren oder entfernen.",
+            
+            "version": "Version",
+            "author": "Autor",
+
+            "active": "Aktiv",
+            "activate": "Aktivieren",
+            "update": "Aktualisieren",
+            "remove": "Entfernen",
+            "search": "Theme suchen",
+
+            "dialog_activate_title": "Theme aktivieren",
+            "dialog_activate_text": "Möchtest du %s wirklich als aktives Theme setzen?",
+
+            "dialog_remove_title": "Theme entfernen",
+            "dialog_remove_text": "Möchtest du %s wirklich aus dem System entfernen?",
+
+            "install": {
+                "title": "Themes suchen und installieren",
+                "subtitle": "Durchsuche den Katalog und installiere Themes.",
+
+                "search_placeholder": "Themes suchen…",
+
+                "install": "Installieren",
+                "is_installed": "Installiert"
+            }
+        },
+        "ai" : {
+            "title" : "KI-Informationen",
+            "description" : "Einige KI-Informationen",
+            "select" : "KI auswählen"
+        },
+        "personal" : {
+            "title" : "Persönliche Informationen",
+            "description" : "Nutze eine permanente Adresse, unter der du Post empfangen kannst",
+            "display_name" : "Anzeigename",
+            "username": "Benutzername",
+            "mail" : "E-Mail-Adresse",
+            "login_title" : "Login-Typ",
+            "login_description" : "Wähle zwischen Passwort und Einmalcode per E-Mail",
+            "login_type" : "Standard-Login-Typ",
+            "password_title" : "Passwort ändern",
+            "password_description" : "Aktualisiere dein Passwort",
+            "current_password" : "Aktuelles Passwort",
+            "new_password" : "Neues Passwort",
+            "confirm_password" : "Passwort bestätigen"
+        },
+        "system": {
+            "site_title": "Seiteninformationen",
+            "site_description": "Grundlegende Informationen über deine Website.",
+            "name": "Seitenname",
+            "description": "Seitenbeschreibung",
+            "language": "Sprache",
+            "no_languages": "Keine Sprachen gefunden",
+
+            "image_title": "Bildeinstellungen",
+            "image_description": "Standardwerte für Bildverarbeitung und Cache-Bilder festlegen.",
+            "image_size_label": "Standard-Bildgröße (für Cache-Bilder)",
+            "recreate_cache": "Cache neu erstellen",
+
+            "timeline_title": "Timeline-Einstellungen",
+            "timeline_description": "Konfiguriere, wie die Timeline im Frontend angezeigt wird.",
+            "timeline_enable": "Timeline aktivieren",
+            "timeline_enable_description": "Timeline in der Hauptnavigation anzeigen.",
+            "timeline_group": "Nach Monaten gruppieren",
+            "timeline_group_description": "Bilder nach Monaten gruppieren.",
+
+            "map_title": "Karten-Einstellungen",
+            "map_description": "Kartenansicht und Verfügbarkeit konfigurieren.",
+            "map_enable": "Karte aktivieren",
+            "map_enable_description": "Karte in der Hauptnavigation anzeigen.",
+
+            "sitemap_title": "Sitemap-Einstellungen",
+            "sitemap": "Sitemap aktivieren",
+            "sitemap_description": "Aktiviert die sitemap.xml im Root-Verzeichnis.",
+            "sitemap_images": "Bilder in Sitemap aktivieren",
+            "sitemap_images_description": "Bilder in der sitemap.xml einbeziehen.",
+
+            "license_title": "Supporter-Lizenz",
+            "license_description": "Lizenzschlüssel hinzufügen. Wird für bestimmte Plugins benötigt. Kaufbar unter store.minniark.com.",
+            "license_field": "Lizenzschlüssel",
+            "license_invalid": "Lizenz ist ungültig",
+            "license_expired_label": "Abgelaufen am",
+            "license_valid": "Lizenz ist gültig",
+            "license_status": "Status",
+            "license_status_active": "aktiv",
+            "license_status_expired": "abgelaufen",
+            "license_type": "Typ",
+            "license_type_unlimited": "unbegrenzt",
+            "license_remaining_days": "Verbleibende Tage",
+            "license_expire_date": "Ablaufdatum",
+            "license_activation": "Aktivierung"
+        },
+        "update" : {
+            "name" : "MinniArk – Versionen",
+            "description" : "Die installierte Version und verfügbare Updates werden hier angezeigt.",
+            "local" : "Lokal",
+            "local_description" : "Die momentan auf diesem System laufende Version.",
+            "remote" : "Remote",
+            "remote_description" : "Eine neuere Version, die verfügbar ist.",
+            "installed_vers" : "Installierte Version",
+            "remote_vers" : "Remote-Version",
+            "no_update": "Du bist auf dem neuesten Stand.",
+            "update_avail" : "",
+            "version_error" : "Versionsdaten unvollständig. Werte werden angezeigt, aber nicht verifiziert."
+        },
+        "export" : {
+            "export" : "Daten exportieren",
+            "export_description" : "Exportiere deine Daten als ZIP-Datei.",
+            "generate_backup" : "Backup erstellen",
+            "import" : "Daten importieren",
+            "import_description" : "Wenn dein Backup größer als {{ fileupload_size }} MB ist, bitte per FTP hochladen.",
+            "import_file" : "Backup-Datei (ZIP)",
+            "import_upload" : "Backup hochladen",
+            "files" : "Backup-Dateien",
+            "files_description" : "Backups herunterladen, wiederherstellen oder löschen.",
+            "file_date" : "Datum",
+            "file_name" : "Datei",
+            "file_size" : "Dateigröße",
+            "popup" : {
+                "success_title" : "Backup abgeschlossen",
+                "success_description" : "Backup erfolgreich erstellt.",
+                "restore_title" : "Wiederherstellung abgeschlossen",
+                "restore_description" : "Backup erfolgreich wiederhergestellt.",
+                "restore_error" : "Wiederherstellung fehlgeschlagen",
+                "restore_error_description" : "Bitte stelle die Daten manuell wieder her."
+            }
+        },
+        "menu" : {
+            "title" : "Navigationseinstellungen",
+            "description" : "Einstellungen für die Hauptnavigation auswählen",
+            "custommenu" : "Benutzerdefinierte Navigation",
+            "custommenu_description" : "Aktiviert die benutzerdefinierte Navigation.",
+            "custommenu_config" : "Eigenes Menü erstellen",
+            "avail_items" : "Verfügbare Elemente",
+            "custommenu_items" : "Benutzerdefiniertes Menü",
+            "custommenu_link" : "Benutzerdefinierten Link hinzufügen"
+        },
+        "user" : {
+            "title": "Benutzerverwaltung",
+            "description": "Benutzer erstellen, bearbeiten und löschen, die Zugriff auf das Backend haben.",
+            "table": {
+                "username": "Benutzername",
+                "mail": "E-Mail",
+                "role": "Rolle"
+            },
+            "form": {
+                "edit_title": "Benutzer bearbeiten",
+                "new_title": "Neuen Benutzer erstellen",
+                "username": "Benutzername",
+                "mail": "E-Mail",
+                "password": "Passwort",
+                "password_placeholder": "Leer lassen, um es nicht zu ändern",
+                "userrole": "Benutzerrolle",
+                "userrole_user": "Benutzer",
+                "userrole_admin": "Administrator",
+                "submit": "Speichern"
+            },
+            "actions": {
+                "create": "Neuen Benutzer erstellen",
+                "edit": "Bearbeiten",
+                "delete": "Löschen"
+            },
+            "delete": {
+                "title": "Löschen bestätigen",
+                "text": "Möchtest du den Benutzer {{username}} wirklich löschen?",
+                "self_title": "Fehler beim Löschen",
+                "self_text": "Du kannst deinen eigenen Benutzer nicht löschen."
+            }
+        },
+        "plugin" : {
+            "title" : "Plugins",
+            "description" : "Installierte Plugins und deren Einstellungen verwalten."
+        },
+        "welcome": {
+            "title": "Startseiten-Einstellungen",
+            "subtitle": "Wähle, was Besucher auf der Startseite sehen sollen.",
+
+            "type_title": "Startseiten-Typ",
+            "type_description": "Wähle den Inhaltstyp für die Startseite.",
+            "type_default_label": "Standard-Typ",
+            "type_start": "Willkommensseite",
+            "type_page": "Seite",
+            "type_album": "Album",
+
+            "select_page": "Seite auswählen",
+            "select_album": "Album auswählen",
+
+            "content_title": "Startseiten-Inhalt",
+            "content_subtitle": "Inhalt der Startseite bearbeiten.",
+            "headline": "Überschrift",
+            "subheadline": "Unterüberschrift",
+            "content": "Inhalt",
+
+            "cover_title": "Hintergrund",
+            "cover_subtitle": "Bild oder Album als Hintergrund auswählen.",
+            "cover_button_select": "Bild / Album auswählen",
+            "cover_button_save": "Hintergrund speichern",
+            "cover_preview_album_prefix": "Album:",
+
+            "modal_title": "Hintergrundbild oder Album auswählen",
+            "modal_description": "Wähle ein Album oder ein Einzelbild für den Hintergrund.",
+            "modal_album_label": "Album auswählen",
+            "modal_album_none": "-- Kein --",
+            "modal_image_label": "Oder einzelnes Bild auswählen",
+            "modal_button_use": "Auswahl übernehmen",
+            "modal_button_cancel": "Abbrechen"
+        }
+    },
+    "image" : {
+        "generate_ai_text":"KI-Text generieren",
+        "rating" : "Bildbewertung",
+        "edit" : "Bild bearbeiten",
+        "delete" : "Bild löschen",
+        "meta_edit" : "Metadaten bearbeiten",
+        "meta_sync" : "Metadaten synchronisieren",
+        "meta" : "Metadaten",
+        "information" : "Informationen",
+        "upload_image" : "Neues Bild hochladen",
+        "all_photos" : "Alle Fotos",
+        "sync_images" : "Bilder synchronisieren",
+        "filter_images" : "Bilder filtern",
+        "reset_filter" : "Alle Bilder (Filter zurücksetzen)",
+        "drop_or_click" : "Datei hier ablegen oder klicken",
+        "choose_files" : "Dateien auswählen",
+        "upload_hint" : "Bilduploader",
+        "generate" : {
+            "btn": "KI-Text generieren",
+            "title": "KI-Text generieren",
+            "text": "Bist du sicher, dass du deinen Account deaktivieren möchtest? Alle Daten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden."
+        }
+    },
+    "exif" :{
+        "camera":"Kamera",
+        "iso" : "ISO",
+        "lens" : "Objektiv",
+        "aperture" : "Blende",
+        "shutter_speed" : "Verschlusszeit",
+        "focal_length" : "Brennweite",
+        "date" : "Datum",
+        "gps" : {
+            "label" : "GPS-Daten",
+            "lat" : "Breite",
+            "lon" : "Länge"
+        }
+    },
+    "album" : {
+        "addToAlbum" : "Zum Album hinzufügen"
+    },
+    "blog" : {
+        "foldername" : "Ordnername",
+        "content" : "Inhalt",
+        "heroimage" : "Hero-Bild",
+        "select-heroimage" : "Hero-Bild auswählen",
+        "remove-heroimage" : "Hero-Bild entfernen",
+        "delete" : "Beitrag löschen",
+        "new_post" : "Neuer Beitrag",
+        "filter_posts" : "Beiträge filtern",
+        "settings" : {
+            "title" : "Beitragseinstellungen",
+            "description" : "Sichtbarkeit & Veröffentlichungsdatum.",
+            "published" : "Veröffentlicht",
+            "published-description" : "Zwischen sichtbar und unsichtbar wechseln",
+            "published-date" : "Veröffentlichungsdatum"
+        }
+    },
+    "page" : {
+        "foldername" : "Ordnername",
+        "content" : "Inhalt",
+        "heroimage" : "Hero-Bild",
+        "select-heroimage" : "Hero-Bild auswählen",
+        "remove-heroimage" : "Hero-Bild entfernen",
+        "delete" : "Seite löschen",
+        "new_page" : "Neue Seite",
+        "filter_posts" : "Seiten filtern",
+        "settings" : {
+            "title" : "Seiteneinstellungen",
+            "description" : "Sichtbarkeit steuern und Änderungen speichern.",
+            "published" : "Veröffentlicht",
+            "published-description" : "Zwischen sichtbar und unsichtbar wechseln"
+        }
+    },
+    "greet.user": "Hallo {{name}}",
+    "stats.items": { "_0": "Keine Elemente", "_1": "1 Element", "_n": "{{count}} Elemente" }
 }

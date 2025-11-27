@@ -31,7 +31,12 @@
         }
 
         // 2) Katalog laden (mit Fallback-Kette, z.B. de-DE -> de -> en)
-        $fallbacks = array_unique([$lang, substr($lang, 0, 2), 'en']);
+        $fallbacks = array_unique([
+            $lang,                     // z.B. de-DE
+            substr($lang, 0, 2),       // z.B. de
+            'en-US',                   // harter Fallback
+            'en'                       // ganz zum Schluss generisches en
+        ]);
         $catalog = [];
         foreach ($fallbacks as $lc) {
             if (!isset($cache[$lc])) {

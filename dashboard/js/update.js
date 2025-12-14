@@ -112,8 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateProgress(30, 'Wechsle in den Update-Modus…');
                 setTimeout(() => { callUpdate(data.redirect); }, 500);
               } else {
-                updateProgress(100, 'Update abgeschlossen. Seite wird neu geladen…');
-                setTimeout(() => location.reload(), 2000);
+                updateProgress(100, 'Update abgeschlossen. Release Notes werden geöffnet…');
+                setTimeout(() => {
+                  // gleiche Seite neu laden, aber mit ?releasenotes=show
+                  location.href = location.pathname + '?releasenotes=show';
+                }, 1200);
               }
             } else {
               updateProgress(0, 'Update-Fehler: ' + (data.message || 'Unbekannter Fehler'), 'error');

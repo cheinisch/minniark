@@ -178,7 +178,9 @@
             "installed_vers" : "Installed version",
             "remote_vers" : "Remote version",
             "no_update": "You are up to date.",
-            "update_avail" : "",
+            "update_available" : "A new version is available for update",
+            "update_now" : "Update now",
+            "update_docker" : "New Docker Image available",
             "version_error" : "Version information incomplete. Values are only displayed; no verification takes place.",
             "local_releasenotes" : {
                 "url" : "Open the releasenotes",

@@ -282,7 +282,7 @@
 		<?php if ($currentVersion !== '' && $latestVersion !== '' && version_compare($latestVersion, $currentVersion, '>')): ?>
 			<div class="mt-2 rounded-sm border border-emerald-600/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 px-3 py-2 text-sm flex items-center justify-between gap-3">
 			<span><?php echo languageString('dashboard.update.update_available'); ?></span>
-			<?= function_exists('create_update_button') ? create_update_button() : '' ?>
+			<?= function_exists('create_update_button') ? create_update_button(languageString('dashboard.update.update_now'), languageString('dashboard.update.update_docker')) : '' ?>
 			</div>
 		<?php elseif ($currentVersion !== '' && $latestVersion !== '' && version_compare($latestVersion, $currentVersion, '<=')): ?>
 			<div class="mt-2 rounded-sm border border-gray-400/30 bg-gray-400/10 text-gray-800 dark:text-gray-300 px-3 py-2 text-sm">

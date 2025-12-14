@@ -41,7 +41,7 @@
         return '';
     }
 
-function create_update_button(): string
+function create_update_button($update_text, $update_text_docker): string
 {
     $docker  = function_exists('is_docker') ? is_docker() : false;
     $isNewer = function_exists('is_newer')  ? is_newer()  : false;
@@ -57,11 +57,11 @@ function create_update_button(): string
 
     if ($docker) {
         return '<button type="button" id="update-btn-docker" class="' . $baseClasses . ' bg-sky-500 hover:bg-sky-600 focus-visible:outline-sky-600" aria-label="Docker Update starten">'
-             . $btnIcon . '<span>New Docker Image available</span></button>';
+             . $btnIcon . '<span>'.$update_text_docker.'</span></button>';
     }
 
     return '<button type="button" id="update-btn" class="' . $baseClasses . ' bg-sky-600 hover:bg-sky-500 focus-visible:outline-sky-600" aria-label="System-Update starten">'
-         . $btnIcon . '<span>Update available</span></button>';
+         . $btnIcon . '<span>'.$update_text.'</span></button>';
 }
 
 

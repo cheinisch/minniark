@@ -6,6 +6,14 @@
 ## [2025.12.0]
 2025-12-14
 
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.11.2...v2025.12.1
+
+### Bugfixes
+- add language missing language strings
+
+## [2025.12.0]
+2025-12-14
+
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.11.2...v2025.12.0
 
 ### New Features

@@ -169,6 +169,7 @@
         },
         "update" : {
             "name" : "MinniArk - Versions",
+            "title" : "MinniArk - Versions",
             "description" : "La version installée et les versions disponibles sont affichées ici.",
             "local" : "Locale",
             "local_description" : "Version actuellement installée sur ce système.",

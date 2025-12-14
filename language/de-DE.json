@@ -168,7 +168,8 @@
             "license_activation": "Aktivierung"
         },
         "update" : {
-            "name" : "MinniArk – Versionen",
+            "name" : "MinniArk - Versionen",
+            "title" : "MinniArk - Versionen",
             "description" : "Die installierte Version und verfügbare Updates werden hier angezeigt.",
             "local" : "Lokal",
             "local_description" : "Die momentan auf diesem System laufende Version.",
@@ -178,7 +179,12 @@
             "remote_vers" : "Remote-Version",
             "no_update": "Du bist auf dem neuesten Stand.",
             "update_avail" : "",
-            "version_error" : "Versionsdaten unvollständig. Werte werden angezeigt, aber nicht verifiziert."
+            "version_error" : "Versionsdaten unvollständig. Werte werden angezeigt, aber nicht verifiziert.",
+            "local_releasenotes" : {
+                "url" : "Zeige die aktuellen Releasenotes",
+                "dialog_title" : "Release Notes - Version",
+                "dialog_text": "Was ist neu in dieser Version"
+            }
         },
         "export" : {
             "export" : "Daten exportieren",

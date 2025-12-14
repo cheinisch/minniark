@@ -169,6 +169,7 @@
         },
         "update" : {
             "name" : "MinniArk - Versionen",
+            "title" : "MinniArk - Versionen",
             "description" : "The currently installed version and any available new versions are displayed here.",
             "local" : "Local",
             "local_description" : "The version currently running on this system.",
@@ -178,7 +179,12 @@
             "remote_vers" : "Remote version",
             "no_update": "You are up to date.",
             "update_avail" : "",
-            "version_error" : "Version information incomplete. Values are only displayed; no verification takes place."
+            "version_error" : "Version information incomplete. Values are only displayed; no verification takes place.",
+            "local_releasenotes" : {
+                "url" : "Open the releasenotes",
+                "dialog_title" : "Release Notes - Version",
+                "dialog_text": "What's new in this version"
+            }
 
         },
         "export" : {

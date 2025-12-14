@@ -1,6 +1,8 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
   require_once '../vendor/autoload.php';
+  require_once __DIR__ . '/../app/autoload.php';
+
   security_checklogin();
 
   // Projektroot ermitteln (admin/.. = root)
@@ -25,13 +27,41 @@
           }
       }
   }
+
+  $showReleaseNotes = ($_GET['releasenotes'] ?? '') === 'show';
+  if ($showReleaseNotes)
+  {
+	$releasenotedialog = '';
+  }else{
+	$releasenotedialog = 'hidden';
+  }
+
+  $rnBody = 'bg-gray-50 dark:bg-white/5 border-black/10 dark:border-white/10';
+	$rnProse = 'prose-slate dark:prose-invert';
+
+	if ($currentVersion !== '' && $latestVersion !== '') {
+		if (version_compare($latestVersion, $currentVersion, '>')) {
+			// Update verfügbar
+			$rnBody  = 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-600/20 dark:border-emerald-500/20';
+			$rnProse = 'prose-emerald dark:prose-invert';
+		} else {
+			// Up to date
+			$rnBody  = 'bg-gray-50 dark:bg-white/5 border-black/10 dark:border-white/10';
+			$rnProse = 'prose-slate dark:prose-invert';
+		}
+	} else {
+		// unklar/Fehler
+		$rnBody  = 'bg-yellow-50/70 dark:bg-yellow-500/10 border-yellow-600/20 dark:border-yellow-500/20';
+		$rnProse = 'prose-yellow dark:prose-invert';
+	}
+
 ?>
 <!doctype html>
 <html lang="<?php echo get_language(); ?>">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
+    	<title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
 	</head>
@@ -225,6 +255,9 @@
             <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
               <?php echo languageString('dashboard.update.local_description'); ?>
             </p>
+			<p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+				<a href="?releasenotes=show"><?php echo languageString('dashboard.update.local_releasenotes.url'); ?></a>
+			</p>
           </div>
 
           <!-- Verfügbare neue Version -->
@@ -265,9 +298,77 @@
 
     </div>
   </main>
-  <script src="js/navbar.js"></script>
+		</div>
+		
+		<!-- RELEASE NOTES MODAL -->
+		<el-dialog>
+			<div id="releasenotes-modal" class="<?php echo $releasenotedialog; ?> fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="releasenotes-title">
+				<el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-black/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
+
+				<div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+					<el-dialog-panel
+						class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
+						sm:my-8 sm:w-full sm:max-w-3xl sm:p-6
+						dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+
+						<!-- Close (X) -->
+						<div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+							<button type="button"
+								id="close-releasenotes-modal"
+								onclick="window.location='?';"
+								class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-sky-600
+								dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+								<span class="sr-only">Close</span>
+								<svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+									<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</button>
+						</div>
+
+						<!-- Header -->
+						<div class="sm:flex sm:items-start">
+							<div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-sky-100 sm:mx-0 sm:size-10 dark:bg-sky-500/10">
+								<svg class="size-6 text-sky-600 dark:text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M8 6h8M8 10h8M8 14h6M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+								</svg>
+							</div>
+
+							<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+								<h2 id="releasenotes-title" class="text-base font-semibold text-gray-900 dark:text-white">
+									<?php echo languageString('dashboard.update.local_releasenotes.dialog_title'); ?> <?php echo htmlspecialchars(Releasenotes::version(), ENT_QUOTES, 'UTF-8'); ?>
+								</h2>
+								<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+									<?php echo languageString('dashboard.update.local_releasenotes.dialog_text'); ?>
+								</p>
+							</div>
+						</div>
+
+						<!-- Body -->
+						<div class="mt-4">
+						<div class="rounded-sm border border-black/10 dark:border-white/10
+									bg-white/70 dark:bg-white/5 p-4
+									max-h-[60vh] overflow-y-auto text-left">
+
+							<!-- Inhalt der Release Notes -->
+							<div class="text-sm leading-relaxed text-black dark:text-gray-200
+										whitespace-pre-wrap break-words">
+							<?php echo Releasenotes::text(); ?>
+							</div>
+
+						</div>
+						</div>
+
+					</el-dialog-panel>
+				</div>
+			</div>
+		</el-dialog>
+
+
+
+
+  		<script src="js/navbar.js"></script>
 		<script src="js/tailwind.js"></script>
 		<script src="js/update.js"></script>
-<script src="js/notify.js"></script>
-</body>
+		<script src="js/notify.js"></script>
+	</body>
 </html>

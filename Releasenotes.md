@@ -1,5 +1,8 @@
-# 2025.12.0
+## [2025.12.0]
+2025-12-14
 
-## New
+### New Features
+- Add releasenotes under update
 
-- Add Releasenotes
+### Changes
+- add language missing language strings

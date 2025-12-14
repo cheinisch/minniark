@@ -448,7 +448,7 @@
     </el-dialog>
 
     <!-- Scripts -->
-    <script src="js/navbar.js"></script>
+    <!-- <script src="js/navbar.js"></script> -->
     <script src="js/tailwind.js"></script>
     <script src="js/remove_hero_image.js"></script>
 

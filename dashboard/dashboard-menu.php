@@ -359,7 +359,7 @@
 		<script>
             window.existingNav = <?php echo json_encode($nav_items, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>;
         </script>
-		<script src="js/navbar.js"></script>
+		<!-- <script src="js/navbar.js"></script> -->
 		<script src="js/tailwind.js"></script>
 		<script src="js/update.js"></script>
 		

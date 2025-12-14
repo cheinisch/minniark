@@ -1,130 +1,83 @@
-// Neue Sidebar
-
 (() => {
-    // --- Scopes ---------------------------------------------------------------
-    const desktopSidebar = document.querySelector('div.lg\\:fixed.lg\\:inset-y-0');
-    const mobileSidebar  = document.getElementById('sidebar'); // <dialog> mobil
-    const imageList      = document.getElementById('image-list');
+  // --- Sidebars (Desktop + Mobile <dialog>) ---------------------------------
+  const desktopSidebar = document.querySelector('.lg\\:fixed.lg\\:inset-y-0');
+  const mobileSidebar  = document.getElementById('sidebar'); // <dialog>
 
-    const scopes = [desktopSidebar, mobileSidebar, imageList].filter(Boolean);
+  const sidebars = [desktopSidebar, mobileSidebar].filter(Boolean);
 
-    // --- Utils ----------------------------------------------------------------
-    function getPanel(btn) {
-        const sel = btn.getAttribute('data-collapse-target');
-        if (sel && sel !== 'next') return document.querySelector(sel);
-        let n = btn.nextElementSibling;
-        while (n && n.nodeType !== 1) n = n.nextElementSibling;
-        return n;
+  // --- helpers ---------------------------------------------------------------
+  function isInSidebar(el) {
+    return sidebars.some(sb => sb.contains(el));
+  }
+
+  function getPanel(btn) {
+    // data-collapse-target="next" => next element sibling (UL)
+    let n = btn.nextElementSibling;
+    while (n && n.nodeType === 1) {
+      if (n.tagName === 'UL') return n;
+      n = n.nextElementSibling;
     }
+    return null;
+  }
 
-    function closeBtn(btn) {
-        btn.setAttribute('aria-expanded', 'false');
-        const p = getPanel(btn);
-        if (p) p.classList.add('hidden');
-        btn.querySelector('[data-chevron]')?.classList.remove('rotate-180');
-    }
+  function setOpen(btn, open) {
+    btn.setAttribute('aria-expanded', String(open));
 
-    function closeAll(scope) {
-        scope.querySelectorAll('button[data-collapse-target][aria-expanded="true"]').forEach(closeBtn);
-    }
+    const panel = getPanel(btn);
+    if (panel) panel.classList.toggle('hidden', !open);
 
-    // Für Sidebar: nur Geschwister unter demselben <ul> schließen
-    function closeSidebarSiblings(btn, scope) {
-        const root = btn.closest('ul') || scope;
-        root.querySelectorAll('> li > button[data-collapse-target][aria-expanded="true"]').forEach(b => {
-        if (b !== btn) closeBtn(b);
-        });
-    }
+    const chev = btn.querySelector('[data-chevron]');
+    if (chev) chev.classList.toggle('rotate-180', open);
+  }
 
-    // Für Bilder: alle anderen Bild-Menüs schließen (global in der Liste)
-    function closeOtherImageMenus(currentBtn) {
-        if (!imageList) return;
-        imageList.querySelectorAll('button[data-collapse-target][aria-expanded="true"]').forEach(b => {
-        if (b !== currentBtn) closeBtn(b);
-        });
-    }
+  function closeSiblings(btn) {
+    // Nur Buttons auf derselben Ebene schließen
+    const parentUl = btn.closest('li')?.parentElement; // das UL, das die LI enthält
+    if (!parentUl) return;
 
-    // Herausfinden, zu welchem Scope ein Button gehört
-    function findScopeFor(el) {
-        return scopes.find(s => s.contains(el)) || null;
-    }
-
-    // --- Toggle per Klick (nur innerhalb unserer Scopes) ----------------------
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-collapse-target]');
-        if (!btn) return;
-
-        const scope = findScopeFor(btn);
-        if (!scope) return; // Buttons außerhalb unserer Scopes ignorieren (z. B. andere Komponenten)
-
-        e.preventDefault();
-        const panel = getPanel(btn);
-        if (!panel) return;
-
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-
-        if (scope === imageList) {
-        // Bildmenüs: alle anderen schließen
-        closeOtherImageMenus(btn);
-        } else {
-        // Sidebar: nur Geschwister schließen
-        closeSidebarSiblings(btn, scope);
-        }
-
-        btn.setAttribute('aria-expanded', String(!expanded));
-        panel.classList.toggle('hidden', expanded);
-        btn.querySelector('[data-chevron]')?.classList.toggle('rotate-180', !expanded);
+    parentUl.querySelectorAll(':scope > li > button[data-collapse-target][aria-expanded="true"]').forEach(b => {
+      if (b !== btn) setOpen(b, false);
     });
+  }
 
-    // --- Outside-Click: je Scope schließen -----------------------------------
-    document.addEventListener('click', (e) => {
-        scopes.forEach(scope => {
-        if (!scope) return;
+  // --- Click toggle ----------------------------------------------------------
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-collapse-target]');
+    if (!btn) return;
+    if (!isInSidebar(btn)) return;
 
-        const clickedInside = scope.contains(e.target);
-
-        if (scope === imageList) {
-            // In der Bildliste: wenn nicht auf einen offenen Toggle/Panel geklickt, schließen
-            const openBtns = scope.querySelectorAll('button[data-collapse-target][aria-expanded="true"]');
-            if (!openBtns.length) return;
-
-            let clickHitsOpenThing = false;
-            openBtns.forEach(b => {
-            const p = getPanel(b);
-            if (b.contains(e.target) || (p && p.contains(e.target))) clickHitsOpenThing = true;
-            });
-
-            if (!clickedInside || (clickedInside && !clickHitsOpenThing && !e.target.closest('button[data-collapse-target]'))) {
-            closeAll(scope);
-            }
-        } else {
-            // Sidebar: Klick außerhalb schließt alles
-            if (!clickedInside) closeAll(scope);
-        }
-        });
-    });
-
-    // --- ESC: alles schließen -------------------------------------------------
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') scopes.forEach(scope => scope && closeAll(scope));
-    });
-
-    // --- „Add to Album“ in Bildmenüs: Modal öffnen + Menü schließen ----------
-    // Delegation, damit es auch bei dynamischen Listen funktioniert
-    if (imageList) {
-        imageList.addEventListener('click', (e) => {
-        const a = e.target.closest('.assign-to-album-btn');
-        if (!a) return;
-
-        e.preventDefault();
-        const filename = a.getAttribute('data-filename');
-        const hiddenInput = document.getElementById('assignImageFilename');
-        const modal = document.getElementById('assignToAlbumModal');
-        if (hiddenInput) hiddenInput.value = filename;
-        if (modal) modal.classList.remove('hidden');
-
-        // Bildmenü schließen
-        closeAll(imageList);
-        });
+    const panel = getPanel(btn);
+    if (!panel) {
+      console.warn('[NAV] No panel (UL) found for button:', btn);
+      return;
     }
+
+    e.preventDefault();
+
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+    closeSiblings(btn);
+    setOpen(btn, !isOpen);
+
+    // Debug (kannst du später löschen)
+    console.log('[NAV] toggle', { isOpen, nowOpen: !isOpen, panelId: panel.id, panelClass: panel.className });
+  }, true);
+
+  // --- Outside click closes all ---------------------------------------------
+  document.addEventListener('click', (e) => {
+    sidebars.forEach(sb => {
+      const inside = sb.contains(e.target);
+      if (inside) return;
+
+      sb.querySelectorAll('button[data-collapse-target][aria-expanded="true"]').forEach(b => setOpen(b, false));
+    });
+  }, true);
+
+  // --- ESC closes all --------------------------------------------------------
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    sidebars.forEach(sb => {
+      sb.querySelectorAll('button[data-collapse-target][aria-expanded="true"]').forEach(b => setOpen(b, false));
+    });
+  });
 })();

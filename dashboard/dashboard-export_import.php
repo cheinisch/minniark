@@ -360,7 +360,7 @@
 
     
 
-    <script src="js/navbar.js"></script>
+    <!-- <script src="js/navbar.js"></script> -->
     <script src="js/tailwind.js"></script>
     <script src="js/update.js"></script>
     <script>

@@ -561,7 +561,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
     </el-dialog>
 
     <!-- SCRIPTS -->
-    <script src="js/navbar.js"></script>
+    <!-- <script src="js/navbar.js"></script> -->
     <script src="js/tailwind.js"></script>
     <script src="js/update.js"></script>
     <script src="js/select_home.js"></script>

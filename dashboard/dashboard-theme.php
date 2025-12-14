@@ -513,7 +513,7 @@
     </main>
   </div>
 
-  <script src="js/navbar.js"></script>
+  <!-- <script src="js/navbar.js"></script> -->
   <script src="js/tailwind.js"></script>
   <script src="js/search_theme.js"></script>
   <script src="js/notify.js"></script>

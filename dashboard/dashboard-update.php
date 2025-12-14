@@ -284,8 +284,7 @@
 		<!-- RELEASE NOTES MODAL -->
 		<el-dialog>
 			<div id="releasenotes-modal" class="<?php echo $releasenotedialog; ?> fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="releasenotes-title">
-				<el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 dark:bg-black/60 transition-opacity data-closed:opacity-0"></el-dialog-backdrop>
-
+				<el-dialog-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-[2px] transition-opacity"></el-dialog-backdrop>
 				<div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 					<el-dialog-panel
 						class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
@@ -347,7 +346,7 @@
 
 
 
-  		<script src="js/navbar.js"></script>
+  		<!-- <script src="js/navbar.js"></script> -->
 		<script src="js/tailwind.js"></script>
 		<script src="js/update.js"></script>
 		<script src="js/notify.js"></script>

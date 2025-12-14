@@ -243,7 +243,7 @@
 
 
 		</div>
-		<script src="js/navbar.js"></script>
+		<!-- <script src="js/navbar.js"></script> -->
 		<script src="js/tailwind.js"></script>
 		<script src="js/select_settings.js"></script>
         <script src="js/save_settings.js"></script>

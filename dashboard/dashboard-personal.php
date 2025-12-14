@@ -376,7 +376,7 @@
 
 
 		</div>
-		<script src="js/navbar.js"></script>
+		<!-- <script src="js/navbar.js"></script> -->
 		<script src="js/tailwind.js"></script>
     <script src="js/notify.js"></script>
 		<script src="js/profile_settings.js"></script>

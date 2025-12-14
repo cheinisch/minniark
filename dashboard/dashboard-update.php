@@ -36,25 +36,6 @@
 	$releasenotedialog = 'hidden';
   }
 
-  $rnBody = 'bg-gray-50 dark:bg-white/5 border-black/10 dark:border-white/10';
-	$rnProse = 'prose-slate dark:prose-invert';
-
-	if ($currentVersion !== '' && $latestVersion !== '') {
-		if (version_compare($latestVersion, $currentVersion, '>')) {
-			// Update verfügbar
-			$rnBody  = 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-600/20 dark:border-emerald-500/20';
-			$rnProse = 'prose-emerald dark:prose-invert';
-		} else {
-			// Up to date
-			$rnBody  = 'bg-gray-50 dark:bg-white/5 border-black/10 dark:border-white/10';
-			$rnProse = 'prose-slate dark:prose-invert';
-		}
-	} else {
-		// unklar/Fehler
-		$rnBody  = 'bg-yellow-50/70 dark:bg-yellow-500/10 border-yellow-600/20 dark:border-yellow-500/20';
-		$rnProse = 'prose-yellow dark:prose-invert';
-	}
-
 ?>
 <!doctype html>
 <html lang="<?php echo get_language(); ?>">

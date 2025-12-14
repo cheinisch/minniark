@@ -1,6 +1,6 @@
 {
   "name": "cheinisch/openrouter-php-client",
-  "description": "PHP Client für OpenRouter.ai API",
+  "description": "Modern, lightweight PHP client for the OpenRouter.ai API. Provides a simple interface for chat completions, text generation, and custom LLM endpoints.",
   "type": "library",
   "license": "MIT",
   "keywords": [

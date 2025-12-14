@@ -1,6 +1,6 @@
 # OpenRouter PHP Client
 
-Lightweight PHP client for the OpenRouter.ai API. Minimal, and easy to use.
+It’s a lightweight PHP client for the OpenRouter.ai API that lets you call chat models with a single static method or a simple client, returning the plain text answer. It supports optional attribution headers (Referer/Title), works with many models (e.g., GPT-4o-mini, Claude 3.5, Gemini 2.5, Mistral), and installs via Composer.
 
 ## Requirements
 

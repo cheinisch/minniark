@@ -47,16 +47,16 @@
         },
         {
             "name": "cheinisch/openrouter-php-client",
-            "version": "v0.2.1",
+            "version": "v0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cheinisch/OpenRouter-php-Client.git",
-                "reference": "9c0521b61b154e4ed8173b278443961e0ffec5fa"
+                "reference": "32a38048f9d49529b04485f03ae7e1227e442616"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/9c0521b61b154e4ed8173b278443961e0ffec5fa",
-                "reference": "9c0521b61b154e4ed8173b278443961e0ffec5fa",
+                "url": "https://api.github.com/repos/cheinisch/OpenRouter-php-Client/zipball/32a38048f9d49529b04485f03ae7e1227e442616",
+                "reference": "32a38048f9d49529b04485f03ae7e1227e442616",
                 "shasum": ""
             },
             "require": {
@@ -77,7 +77,7 @@
             "license": [
                 "MIT"
             ],
-            "description": "PHP Client für OpenRouter.ai API",
+            "description": "Modern, lightweight PHP client for the OpenRouter.ai API. Provides a simple interface for chat completions, text generation, and custom LLM endpoints.",
             "keywords": [
                 "OpenRouter",
                 "ai",
@@ -88,7 +88,7 @@
             ],
             "support": {
                 "issues": "https://github.com/cheinisch/OpenRouter-php-Client/issues",
-                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.2.1"
+                "source": "https://github.com/cheinisch/OpenRouter-php-Client/tree/v0.2.2"
             },
             "funding": [
                 {
@@ -96,7 +96,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-18T10:17:43+00:00"
+            "time": "2025-10-08T08:39:17+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -1175,28 +1175,28 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.3.3",
+            "version": "v7.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "d4f4a66866fe2451f61296924767280ab5732d9d"
+                "reference": "24dd4de28d2e3988b311751ac49e684d783e2345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d4f4a66866fe2451f61296924767280ab5732d9d",
-                "reference": "d4f4a66866fe2451f61296924767280ab5732d9d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/24dd4de28d2e3988b311751ac49e684d783e2345",
+                "reference": "24dd4de28d2e3988b311751ac49e684d783e2345",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
-                "symfony/deprecation-contracts": "^2.5|^3.0",
+                "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
                 "symfony/console": "<6.4"
             },
             "require-dev": {
-                "symfony/console": "^6.4|^7.0"
+                "symfony/console": "^6.4|^7.0|^8.0"
             },
             "bin": [
                 "Resources/bin/yaml-lint"
@@ -1227,7 +1227,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.3.3"
+                "source": "https://github.com/symfony/yaml/tree/v7.4.1"
             },
             "funding": [
                 {
@@ -1247,20 +1247,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-27T11:34:33+00:00"
+            "time": "2025-12-04T18:11:45+00:00"
         },
         {
             "name": "twig/twig",
-            "version": "v3.21.1",
+            "version": "v3.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "285123877d4dd97dd7c11842ac5fb7e86e60d81d"
+                "reference": "1de2ec1fc43ab58a4b7e80b214b96bfc895750f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/285123877d4dd97dd7c11842ac5fb7e86e60d81d",
-                "reference": "285123877d4dd97dd7c11842ac5fb7e86e60d81d",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/1de2ec1fc43ab58a4b7e80b214b96bfc895750f3",
+                "reference": "1de2ec1fc43ab58a4b7e80b214b96bfc895750f3",
                 "shasum": ""
             },
             "require": {
@@ -1314,7 +1314,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.21.1"
+                "source": "https://github.com/twigphp/Twig/tree/v3.22.1"
             },
             "funding": [
                 {
@@ -1326,7 +1326,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-03T07:21:55+00:00"
+            "time": "2025-11-16T16:01:12+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

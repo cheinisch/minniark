@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.2
+
+### Changes
+
+* Change description from german to english
+
 ## v0.2.1
 
 ### Changes

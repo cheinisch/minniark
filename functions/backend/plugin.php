@@ -38,7 +38,7 @@ function renderPluginSettings(string $pluginDir): void
     if (!empty($url)) {
         $safeUrl = htmlspecialchars($url);
         echo <<<HTML
-        <p class="mt-1 text-sm text-gray-400">Website: <a href="{$safeUrl}" class="text-sky-600 hover:text-sky-500" target="_blank" rel="noopener noreferrer">{$safeUrl}</a></p>
+        <p class="mt-1 text-sm text-gray-400">Website: <a href="{$safeUrl}" class="text-cyan-600 hover:text-cyan-500" target="_blank" rel="noopener noreferrer">{$safeUrl}</a></p>
     HTML;
     }
 
@@ -74,7 +74,7 @@ HTML;
           <span class="text-sm font-medium text-gray-900 dark:text-white">Enable Plugin</span>
           <span class="text-sm text-gray-500">Toggles this plugin on or off globally</span>
         </span>
-        <button type="button" data-plugin="{$pluginKey}" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2" role="switch" aria-checked="{$enabled}">
+        <button type="button" data-plugin="{$pluginKey}" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2" role="switch" aria-checked="{$enabled}">
           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
         </button>
         <input type="hidden" name="enabled" id="enabled-input-{$pluginKey}" value="{$enabled}">
@@ -98,7 +98,7 @@ HTML;
     <div class="sm:col-span-full">
       <label for="{$key}" class="block text-sm font-medium text-gray-700 dark:text-white">{$label}</label>
       <div class="mt-2">
-        <input type="{$type}" name="{$key}" id="{$key}" value="{$escapedValue}" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline outline-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:outline-sky-500 sm:text-sm">
+        <input type="{$type}" name="{$key}" id="{$key}" value="{$escapedValue}" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline outline-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:outline-cyan-500 sm:text-sm">
       </div>
       <p class="mt-1 text-xs text-gray-500">{$hint}</p>
     </div>
@@ -110,7 +110,7 @@ HTML;
     <div class="sm:col-span-full">
       <label for="{$key}" class="block text-sm font-medium text-gray-700 dark:text-white">{$label}</label>
       <div class="mt-2">
-        <select name="{$key}" id="{$key}" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline outline-1 outline-gray-500 dark:outline-white/10 focus:outline-2 focus:outline-sky-500 sm:text-sm">
+        <select name="{$key}" id="{$key}" class="block w-full bg-white/5 px-3 py-1.5 text-base text-gray-700 dark:text-white outline outline-1 outline-gray-500 dark:outline-white/10 focus:outline-2 focus:outline-cyan-500 sm:text-sm">
 HTML;
                 foreach ($field['options'] ?? [] as $opt) {
                     $selected = ($opt == $value) ? 'selected' : '';
@@ -134,7 +134,7 @@ HTML;
           <span class="text-sm font-medium text-gray-900 dark:text-white">{$label}</span>
           <span class="text-sm text-gray-500">{$hint}</span>
         </span>
-        <input type="checkbox" name="{$key}" value="1" class="h-5 w-10 rounded-full bg-gray-300 checked:bg-sky-600 transition-colors duration-200 ease-in-out" {$checked}>
+        <input type="checkbox" name="{$key}" value="1" class="h-5 w-10 rounded-full bg-gray-300 checked:bg-cyan-600 transition-colors duration-200 ease-in-out" {$checked}>
       </div>
     </div>
 HTML;
@@ -144,7 +144,7 @@ HTML;
 
     echo <<<HTML
     <div class="mt-8 flex">
-      <button type="submit" class="bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-400 focus:outline-sky-500">{$save}</button>
+      <button type="submit" class="bg-cyan-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-400 focus:outline-cyan-500">{$save}</button>
     </div>
     </div>
   </form>

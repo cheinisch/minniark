@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Helper: Auswahl-Status setzen
   function clearSelections(listItems) {
     listItems.forEach(item => {
-      item.querySelector('span.text-sky-600')?.classList.add('hidden');
+      item.querySelector('span.text-cyan-600')?.classList.add('hidden');
     });
   }
 
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
   albumListItems.forEach(item => {
     item.addEventListener('click', () => {
       clearSelections(albumListItems);
-      item.querySelector('span.text-sky-600')?.classList.remove('hidden');
+      item.querySelector('span.text-cyan-600')?.classList.remove('hidden');
       const slug = item.getAttribute('data-value');
       welcomeContentInput.value = slug;
     });
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
   pageListItems.forEach(item => {
     item.addEventListener('click', () => {
       clearSelections(pageListItems);
-      item.querySelector('span.text-sky-600')?.classList.remove('hidden');
+      item.querySelector('span.text-cyan-600')?.classList.remove('hidden');
       const slug = item.getAttribute('data-value');
       welcomeContentInput.value = slug;
     });

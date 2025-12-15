@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
         // Visuelle Auswahl aktualisieren
         dropdownItems.forEach(i => {
-          i.classList.remove('bg-sky-600', 'text-white', 'font-semibold');
+          i.classList.remove('bg-cyan-600', 'text-white', 'font-semibold');
           i.classList.add('text-gray-900', 'font-normal');
         });
-        item.classList.add('bg-sky-600', 'text-white', 'font-semibold');
+        item.classList.add('bg-cyan-600', 'text-white', 'font-semibold');
   
         // Dropdown schließen
         dropdownList.classList.add('hidden');
@@ -207,12 +207,12 @@ document.addEventListener('DOMContentLoaded', function () {
       if (isChecked) {
           // Einschalten
           button.classList.remove('bg-gray-400');
-          button.classList.add('bg-sky-600');
+          button.classList.add('bg-cyan-600');
           ball.classList.remove('translate-x-0');
           ball.classList.add('translate-x-5');
       } else {
           // Ausschalten
-          button.classList.remove('bg-sky-600');
+          button.classList.remove('bg-cyan-600');
           button.classList.add('bg-gray-400');
           ball.classList.remove('translate-x-5');
           ball.classList.add('translate-x-0');
@@ -226,12 +226,12 @@ document.addEventListener('DOMContentLoaded', function () {
           if (!isNowChecked) {
               // Einschalten
               button.classList.remove('bg-gray-400');
-              button.classList.add('bg-sky-600');
+              button.classList.add('bg-cyan-600');
               ball.classList.remove('translate-x-0');
               ball.classList.add('translate-x-5');
           } else {
               // Ausschalten
-              button.classList.remove('bg-sky-600');
+              button.classList.remove('bg-cyan-600');
               button.classList.add('bg-gray-400');
               ball.classList.remove('translate-x-5');
               ball.classList.add('translate-x-0');

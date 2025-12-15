@@ -88,7 +88,7 @@ function get_ratinglist($mobile)
     foreach ($ratingCounts as $rating => $count) {
         $stars = '';
         for ($i = 1; $i <= 5; $i++) {
-            $colorClass = $i <= $rating ? 'text-sky-400' : 'text-gray-300';
+            $colorClass = $i <= $rating ? 'text-cyan-400' : 'text-gray-300';
             $stars .= "<svg class='w-4 h-4 inline-block $colorClass' viewBox='0 0 20 20' fill='currentColor'><path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.137 3.5h3.684c.969 0 1.371 1.24.588 1.81l-2.984 2.17 1.138 3.5c.3.921-.755 1.688-1.538 1.117L10 13.348l-2.976 2.176c-.783.571-1.838-.196-1.538-1.117l1.138-3.5-2.984-2.17c-.783-.57-.38-1.81.588-1.81h3.684l1.137-3.5z'/></svg>";
         }
         $html = "
@@ -365,7 +365,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $filterTag
 
             echo "
             <div class=\"\">
-                <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-sky-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 200px; max-width: var(--img-max-width);\">
+                <div class=\"w-full aspect-video overflow-hidden border border-gray-300 hover:border-cyan-400 rounded-xs dynamic-image-width transition-[max-width] duration-300 ease-in-out max-w-full md:max-w-none\" style=\"--img-max-width: 200px; max-width: var(--img-max-width);\">
                     <a href=\"media-detail.php?image=" . urlencode($fileName) . "\">
                         <img src=\"$imagePath\" class=\"w-full h-full object-cover\" alt=\"$title\" data-filename=\"$fileName\" title=\"$description\" draggable=\"true\"/>
                     </a>
@@ -380,7 +380,7 @@ function renderImageGallery($filterYear = null, $filterRating = null, $filterTag
                         </button>
                         <div class=\"dropdown hidden absolute right-0 z-10 bottom-full mb-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
                             <a href=\"backend_api/album_set_hero.php?album=$album&filename=$fileName\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Set as Hero Image</a>
-                            <a href=\"backend_api/delete.php?type=album_img&filename=$fileName&albumname=$album\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">remove from album</a>
+                            <a href=\"backend_api/delete.php?type=album_img&filename=$fileName&albumname=$album\" class=\"image-delete-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">remove from album</a>
                         </div>
                     </div>
                 </div>

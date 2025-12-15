@@ -21,16 +21,16 @@ document.getElementById('uploadImageButton').addEventListener('click', () => {
     // Handle drag and drop
     uploadBox.addEventListener("dragover", (e) => {
         e.preventDefault();
-        uploadBox.classList.add("border-sky-500");
+        uploadBox.classList.add("border-cyan-500");
     });
 
     uploadBox.addEventListener("dragleave", () => {
-        uploadBox.classList.remove("border-indigo-500");
+        uploadBox.classList.remove("border-cyan-500");
     });
 
     uploadBox.addEventListener("drop", (e) => {
         e.preventDefault();
-        uploadBox.classList.remove("border-indigo-500");
+        uploadBox.classList.remove("border-cyan-500");
 
         const files = e.dataTransfer.files;
         handleFiles(files);

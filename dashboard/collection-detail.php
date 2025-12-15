@@ -62,7 +62,7 @@ $albumTitle = $albumTitle ?? '';
 
         <div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
           <div class="relative flex h-16 shrink-0 items-center">
-            <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Minniark" class="h-8 w-auto" />
+            <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Minniark" class="h-8 w-auto" />
           </div>
           <nav class="relative flex flex-1 flex-col">
             <?php include (__DIR__.'/layout/media_menu.php'); ?>
@@ -77,7 +77,7 @@ $albumTitle = $albumTitle ?? '';
 <div class="hidden bg-white dark:bg-black ring-1 ring-black/10 dark:ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
   <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
     <div class="flex h-16 shrink-0 items-center">
-      <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Minniark" class="h-8 w-auto" />
+      <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Minniark" class="h-8 w-auto" />
     </div>
     <nav class="flex flex-1 flex-col">
       <?php include (__DIR__.'/layout/media_menu.php'); ?>
@@ -100,7 +100,7 @@ $albumTitle = $albumTitle ?? '';
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 text-black dark:text-white">
       <div class="grid flex-1 grid-cols-1">
         <div class="hidden md:flex justify-start gap-2">
-          <a href="dashboard.php" class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
+          <a href="dashboard.php" class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
             <?php echo languageString('nav.dashboard'); ?>
           </a>
           <a href="media.php" class="inline-flex items-center justify-start mx-2 py-2 border-b-2 border-gray-800 dark:border-gray-400 rounded-none no-underline text-base font-normal leading-tight appearance-none">
@@ -209,7 +209,7 @@ $albumTitle = $albumTitle ?? '';
                     <input type="text" name="collection-title-edit"
                            value="<?php echo htmlspecialchars($collectiondata['name'] ?? '', ENT_QUOTES); ?>"
                            class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
-                                  outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
+                                  outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600
                                   dark:bg-white/10 dark:outline-white/10">
                     <input type="hidden" name="collection-current-title"
                            value="<?php echo htmlspecialchars($collectiondata['name'] ?? '', ENT_QUOTES); ?>">
@@ -219,7 +219,7 @@ $albumTitle = $albumTitle ?? '';
                     <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Description</label>
                     <textarea name="collection-description" rows="6"
                               class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
-                                     outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
+                                     outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600
                                      dark:bg-white/10 dark:outline-white/10"><?php echo htmlspecialchars($collectiondata['description'] ?? '', ENT_QUOTES); ?></textarea>
                   </div>
                 </div>
@@ -227,7 +227,7 @@ $albumTitle = $albumTitle ?? '';
                 <div class="mt-4 flex flex-wrap gap-2">
                   <div id="normal-group" class="flex gap-2">
                     <button type="button" id="edit_text"
-                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+                            class="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white hover:bg-cyan-500">
                       Edit
                     </button>
 
@@ -239,7 +239,7 @@ $albumTitle = $albumTitle ?? '';
 
                   <div id="edit-group" class="hidden flex gap-2">
                     <button type="submit"
-                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+                            class="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white hover:bg-cyan-500">
                       Save
                     </button>
 
@@ -347,7 +347,7 @@ $albumTitle = $albumTitle ?? '';
                                value="' . htmlspecialchars($imgName, ENT_QUOTES) . '"
                                class="sr-only peer">
                         <div class="rounded overflow-hidden border border-black/10 dark:border-white/10
-                                    peer-checked:ring-2 peer-checked:ring-indigo-500">
+                                    peer-checked:ring-2 peer-checked:ring-cyan-500">
                           <img src="' . htmlspecialchars($thumb, ENT_QUOTES) . '"
                                alt="' . htmlspecialchars($title, ENT_QUOTES) . '"
                                class="object-cover w-full aspect-square" loading="lazy">
@@ -370,7 +370,7 @@ $albumTitle = $albumTitle ?? '';
                 Cancel
               </button>
               <button type="submit"
-                      class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
+                      class="px-3 py-2 text-sm rounded-md bg-cyan-600 text-white hover:bg-cyan-500">
                 Save cover
               </button>
             </div>
@@ -444,7 +444,7 @@ $albumTitle = $albumTitle ?? '';
                     <label class="block text-sm text-center cursor-pointer album-item"
                            data-name="' . htmlspecialchars(mb_strtolower($title), ENT_QUOTES) . '">
                       <input type="checkbox" name="albums[]" value="' . htmlspecialchars($a['slug'], ENT_QUOTES) . '" class="sr-only peer">
-                      <div class="peer-checked:ring-2 peer-checked:ring-indigo-500 rounded overflow-hidden border border-black/10 dark:border-white/10">
+                      <div class="peer-checked:ring-2 peer-checked:ring-cyan-500 rounded overflow-hidden border border-black/10 dark:border-white/10">
                         <img src="' . htmlspecialchars($thumb, ENT_QUOTES) . '" alt="' . htmlspecialchars($title, ENT_QUOTES) . '" class="object-cover w-full aspect-square">
                       </div>
                       <span class="block mt-1 truncate text-xs text-gray-700 dark:text-gray-300">' . htmlspecialchars($title, ENT_QUOTES) . '</span>
@@ -462,7 +462,7 @@ $albumTitle = $albumTitle ?? '';
                 Cancel
               </button>
               <button type="submit"
-                      class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
+                      class="px-3 py-2 text-sm rounded-md bg-cyan-600 text-white hover:bg-cyan-500">
                 Add selected
               </button>
             </div>

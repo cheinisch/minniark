@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Bildauswahl
   galleryItems.forEach(div => {
     div.addEventListener('click', () => {
-      galleryItems.forEach(d => d.classList.remove('ring-2', 'ring-sky-500'));
-      div.classList.add('ring-2', 'ring-sky-500');
+      galleryItems.forEach(d => d.classList.remove('ring-2', 'ring-cyan-500'));
+      div.classList.add('ring-2', 'ring-cyan-500');
       selectedImage = div.getAttribute('data-filename');
       albumSelect.value = ''; // Reset Album
     });
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
   albumSelect?.addEventListener('change', () => {
     if (albumSelect.value !== '') {
       selectedImage = null;
-      galleryItems.forEach(d => d.classList.remove('ring-2', 'ring-sky-500'));
+      galleryItems.forEach(d => d.classList.remove('ring-2', 'ring-cyan-500'));
     }
   });
 
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="text-xs text-gray-500 mt-1">${filename}</p>
       `;
     } else if (style === 'album' && filename) {
-      previewContainer.innerHTML = `<p class="mt-4 text-sm text-sky-600 font-semibold">Album: ${filename}</p>`;
+      previewContainer.innerHTML = `<p class="mt-4 text-sm text-cyan-600 font-semibold">Album: ${filename}</p>`;
     } else {
     //#previewContainer.innerHTML = '';
     }

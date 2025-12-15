@@ -76,7 +76,7 @@
 
           <h2 class="text-2xl font-bold text-gray-900 sm:pr-12 mb-4">Add Images from Collection Albums</h2>
 
-          <input type="text" id="imageSearchInput" placeholder="Search by image name..." class="w-full mb-4 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm">
+          <input type="text" id="imageSearchInput" placeholder="Search by image name..." class="w-full mb-4 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm">
 
           <form id="addImagesForm" method="post" action="backend_api/collection_set_hero.php" class="w-full">
             <input type="hidden" name="album" value="<?php echo htmlspecialchars($image); ?>">
@@ -117,7 +117,7 @@
                         <label class="block text-sm text-center cursor-pointer">
                           <input type="hidden" name="slug" value="'.$slug.'">
                           <input type="radio" name="image" value="' . $filename . '" class="sr-only peer">
-                          <div class="peer-checked:ring-2 peer-checked:ring-sky-500 rounded overflow-hidden border border-gray-300">
+                          <div class="peer-checked:ring-2 peer-checked:ring-cyan-500 rounded overflow-hidden border border-gray-300">
                             <img src="' . $thumb . '" alt="' . $title . '" class="object-cover w-full aspect-square">
                           </div>
                           <span class="block mt-1 truncate text-xs">' . $title . '</span>
@@ -132,7 +132,7 @@
               <button type="button" id="cancelAddToAlbumImage" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
                 Cancel
               </button>
-              <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+              <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-cyan-500 px-8 py-3 text-base font-medium text-white hover:bg-cyan-700 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
                 Add Selected
               </button>
             </div>
@@ -162,7 +162,7 @@
 
           <h2 class="text-2xl font-bold text-gray-900 sm:pr-12 mb-4">Add Albums to Collection</h2>
 
-          <input type="text" id="albumSearchInput" placeholder="Search by album name..." class="w-full mb-4 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm">
+          <input type="text" id="albumSearchInput" placeholder="Search by album name..." class="w-full mb-4 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm">
 
           <form id="addAlbumsForm" method="post" action="backend_api/add_albums_to_collection.php" class="w-full">
             <input type="hidden" name="collection" value="<?php echo htmlspecialchars($collectionTitle); ?>">
@@ -185,7 +185,7 @@
                 echo '
                 <label class="block text-sm text-center cursor-pointer">
                   <input type="checkbox" name="albums[]" value="' . htmlspecialchars($album['slug']) . '" class="sr-only peer">
-                  <div class="peer-checked:ring-2 peer-checked:ring-sky-500 rounded overflow-hidden border border-gray-300">
+                  <div class="peer-checked:ring-2 peer-checked:ring-cyan-500 rounded overflow-hidden border border-gray-300">
                     <img src="' . htmlspecialchars($thumb) . '" alt="' . htmlspecialchars($album['title']) . '" class="object-cover w-full aspect-square">
                   </div>
                   <span class="block mt-1 truncate text-xs">' . htmlspecialchars($album['title']) . '</span>
@@ -198,7 +198,7 @@
               <button type="button" id="cancelAddTocollectionAlbum" class="flex-1 flex items-center justify-center border border-transparent bg-rose-500 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none">
                 Cancel
               </button>
-              <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-sky-500 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-none">
+              <button type="submit" class="flex-1 flex items-center justify-center border border-transparent bg-cyan-500 px-8 py-3 text-base font-medium text-white hover:bg-cyan-700 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:outline-none">
                 Add Selected
               </button>
             </div>
@@ -218,7 +218,7 @@
               <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
               <p class="mt-4 text-gray-600">Do you really want to remove this album from collection?</p>
               <div class="flex justify-end mt-6 space-x-3">
-                <button id="confirmNo" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"><?php echo languageString('general.cancel'); ?></button>
+                <button id="confirmNo" class="px-4 py-2 bg-cyan-500 text-white hover:bg-cyan-600"><?php echo languageString('general.cancel'); ?></button>
                 <button id="confirmYes" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Remove</button>
               </div>
             </div>
@@ -233,7 +233,7 @@
               <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation</h2>
               <p class="mt-4 text-gray-600">Do you really want to delete this collection?</p>
               <div class="flex justify-end mt-6 space-x-3">
-                <button id="confirmcollectionNo" class="px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"><?php echo languageString('general.cancel'); ?></button>
+                <button id="confirmcollectionNo" class="px-4 py-2 bg-cyan-500 text-white hover:bg-cyan-600"><?php echo languageString('general.cancel'); ?></button>
                 <button id="confirmcollectionYes" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600">Delete</button>
               </div>
             </div>
@@ -248,7 +248,7 @@
                     <div class="flex">
                       <div class="mr-2 -ml-2 flex items-center md:hidden">
                         <!-- Mobile menu button -->
-                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
+                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-cyan-500 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false">
                           <span class="absolute -inset-0.5"></span>
                           <span class="sr-only">Open main menu</span>
                           <!--
@@ -270,22 +270,22 @@
                         </button>
                       </div>
                       <div class="hidden md:ml-6 md:flex md:space-x-8">
-                        <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.dashboard'); ?></a>
-                        <a href="media.php" class="inline-flex items-center border-b-2 border-sky-400 px-1 pt-1 text-base font-medium text-sky-400"><?php echo languageString('nav.images'); ?></a>
-                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.blogposts'); ?></a>
-                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-sky-400 hover:text-sky-400"><?php echo languageString('nav.pages'); ?></a>
+                        <!-- Current: "border-cyan-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+                        <a href="dashboard.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-cyan-400 hover:text-cyan-400"><?php echo languageString('nav.dashboard'); ?></a>
+                        <a href="media.php" class="inline-flex items-center border-b-2 border-cyan-400 px-1 pt-1 text-base font-medium text-cyan-400"><?php echo languageString('nav.images'); ?></a>
+                        <a href="blog.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-cyan-400 hover:text-cyan-400"><?php echo languageString('nav.blogposts'); ?></a>
+                        <a href="pages.php" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-cyan-400 hover:text-cyan-400"><?php echo languageString('nav.pages'); ?></a>
                       </div>
                     </div>
                     <div class="flex items-center">
                          <div class="shrink-0">
-                        <button type="button" id="selectCollectionImageBtn" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                        <button type="button" id="selectCollectionImageBtn" class="relative inline-flex items-center gap-x-1.5  bg-cyan-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
                           Select Cover Image
                         </button>
-                        <button type="button" id="addAlbumtoCollectionBtn" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                        <button type="button" id="addAlbumtoCollectionBtn" class="relative inline-flex items-center gap-x-1.5  bg-cyan-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">
                           <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                           </svg>
@@ -293,7 +293,7 @@
                         </button>
                       </div>
                       <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
-                        <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
+                        <button type="button" class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:outline-hidden">
                           <span class="absolute -inset-1.5"></span>
                           <span class="sr-only">View notifications</span>
                           <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -304,7 +304,7 @@
                         <!-- Profile dropdown -->
                         <div class="relative ml-3">
                           <div>
-                            <button type="button" class="relative flex rounded-full bg-white text-sm focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <button type="button" class="relative flex rounded-full bg-white text-sm focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                               <span class="absolute -inset-1.5"></span>
                               <span class="sr-only">Open user menu</span>
                               <img class="size-8 rounded-full" src="<?php echo get_userimage($_SESSION['username']); ?>" alt="">
@@ -336,9 +336,9 @@
                 <!-- Mobile menu, show/hide based on menu state. -->
                 <div class="md:hidden" id="mobile-menu">
                   <div class="space-y-1 pt-2 pb-3">
-                    <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
+                    <!-- Current: "bg-cyan-50 border-cyan-500 text-cyan-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
                     <a href="dashboard.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.dashboard'); ?></a>
-                    <a href="media.php" class="block border-l-4 border-sky-400 py-2 pr-4 pl-3 text-base font-medium text-sky-400 sm:pr-6 sm:pl-5"><?php echo languageString('nav.images'); ?></a>
+                    <a href="media.php" class="block border-l-4 border-cyan-400 py-2 pr-4 pl-3 text-base font-medium text-cyan-400 sm:pr-6 sm:pl-5"><?php echo languageString('nav.images'); ?></a>
                     <a href="blog.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.blogposts'); ?></a>
                     <a href="pages.php" class="block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 dark:text-gray-300 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pr-6 sm:pl-5"><?php echo languageString('nav.pages'); ?></a>
                   </div>
@@ -364,7 +364,7 @@
                         <div class="text-base font-medium text-gray-300"><?php echo get_username($_SESSION['username']); ?></div>
                         <div class="text-sm font-medium text-gray-500"><?php echo get_usermail($_SESSION['username']); ?></div>
                       </div>
-                      <button type="button" class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-hidden">
+                      <button type="button" class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:outline-hidden">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View notifications</span>
                         <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -388,7 +388,7 @@
                 <ul role="list" class="-mx-2 space-y-1">
                   <li>Content</li>
                   <ul class="px-5">
-                    <li><a href="media.php" class="text-gray-400 hover:text-sky-400">All Photos (<?php count_images(); ?>)</a></li>
+                    <li><a href="media.php" class="text-gray-400 hover:text-cyan-400">All Photos (<?php count_images(); ?>)</a></li>
                   </ul>
                   <li class="flex items-center gap-1">
                     Albums
@@ -404,7 +404,7 @@
 
                       foreach($albums as $album)
                       {
-                        echo '<li id="'.$album['title'].'"><a href="album-detail.php?album='.$album['slug'].'" class="text-gray-400 hover:text-sky-400">'.$album['title'].'</a></li>';
+                        echo '<li id="'.$album['title'].'"><a href="album-detail.php?album='.$album['slug'].'" class="text-gray-400 hover:text-cyan-400">'.$album['title'].'</a></li>';
                       }                    
                     ?>
                   </ul> 
@@ -422,7 +422,7 @@
 
                       foreach($collections as $collection)
                       {
-                        echo '<li id="'.$collection['title'].'"><a href="collection-detail.php?collection='.$collection['slug'].'" class="text-gray-400 hover:text-sky-400">'.$collection['title'].'</a></li>';
+                        echo '<li id="'.$collection['title'].'"><a href="collection-detail.php?collection='.$collection['slug'].'" class="text-gray-400 hover:text-cyan-400">'.$collection['title'].'</a></li>';
                       }                    
                     ?>
                   </ul>                    
@@ -448,16 +448,16 @@
                   <form action="backend_api/collection_update.php" method="post">
                     <div id="text-edit-frame" class="hidden">                    
                       <div class="pt-10">
-                        <input type="text" id="collection-title-edit" name="collection-title-edit" value="<?php echo $collectiondata['name']; ?>" class="border-b focus:border-b-2 focus:border-sky-500 outline-none text-2xl dark:text-gray-400 border-gray-400">
+                        <input type="text" id="collection-title-edit" name="collection-title-edit" value="<?php echo $collectiondata['name']; ?>" class="border-b focus:border-b-2 focus:border-cyan-500 outline-none text-2xl dark:text-gray-400 border-gray-400">
                         <input type="hidden" id="collection-current-title" name="collection-current-title" value="<?php echo $collectiondata['name']; ?>">
                       </div>
                       <div class="mt-5 bg-white">
-                        <textarea id="collection-description" name="collection-description" class="w-full border-b focus:border-b-2 focus:border-sky-500 outline-none border-gray-400" placeholder="Enter Collection description" rows="10"><?php echo $collectiondata['description']; ?></textarea>
+                        <textarea id="collection-description" name="collection-description" class="w-full border-b focus:border-b-2 focus:border-cyan-500 outline-none border-gray-400" placeholder="Enter Collection description" rows="10"><?php echo $collectiondata['description']; ?></textarea>
                       </div>
                     </div>
                     <div id="button_group" class="space-x-2 mt-2">
                       <div id="normal-group">
-                        <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                        <button type="button" id="edit_text" class="relative inline-flex items-center gap-x-1.5  bg-cyan-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-600">
                           Edit
                         </button>
                         <a href="backend_api/delete.php?type=collection&filename=<?php echo generateSlug($collectiondata['name']); ?>" id="delete_collection" class="delete-link relative inline-flex items-center gap-x-1.5  px-3 py-2 text-sm text-red-500 shadow-xs hover:bg-red-600 hover:text-white">
@@ -465,7 +465,7 @@
                         </a>
                       </div>
                       <div id="edit-group" class="hidden">
-                      <button type="submit" id="save_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-600">
+                      <button type="submit" id="save_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-cyan-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-600">
                         Save
                       </button>
                       <button type="button" id="cancel_edit" class="hidden relative inline-flex items-center gap-x-1.5  bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-400">

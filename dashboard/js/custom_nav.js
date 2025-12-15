@@ -16,13 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function setToggleState(state) {
       if (state) {
         toggle.classList.remove("bg-gray-400");
-        toggle.classList.add("bg-sky-600");
+        toggle.classList.add("bg-cyan-600");
         knob.classList.remove("translate-x-0");
         knob.classList.add("translate-x-5");
         toggle.setAttribute("aria-checked", "1");
         hiddenInput.value = "1";
       } else {
-        toggle.classList.remove("bg-sky-600");
+        toggle.classList.remove("bg-cyan-600");
         toggle.classList.add("bg-gray-400");
         knob.classList.remove("translate-x-5");
         knob.classList.add("translate-x-0");
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     li.className = "bg-white dark:bg-gray-950 p-2 shadow mb-2 cursor-move";
     li.innerHTML = `
       <div class="flex items-center justify-between dark:text-gray-200">
-        <span class="truncate">${escapeHtml(label)} → <a href="${escapeAttr(link)}" class="text-sky-600 underline break-all" target="_blank" rel="noopener">${escapeHtml(link)}</a></span>
+        <span class="truncate">${escapeHtml(label)} → <a href="${escapeAttr(link)}" class="text-cyan-600 underline break-all" target="_blank" rel="noopener">${escapeHtml(link)}</a></span>
         <button type="button" class="text-red-500 hover:text-red-700" onclick="this.closest('li').remove()">Remove</button>
       </div>
       <ul class="children border-l-2 border-gray-200 ml-2 pl-4 space-y-2 mt-2"></ul>

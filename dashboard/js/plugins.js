@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.setAttribute('aria-checked', isChecked);
         hiddenInput.value = isChecked ? 'true' : 'false';
 
-        button.classList.toggle('bg-sky-600', isChecked);
+        button.classList.toggle('bg-cyan-600', isChecked);
         button.classList.toggle('bg-gray-400', !isChecked);
         thumb.classList.toggle('translate-x-5', isChecked);
         thumb.classList.toggle('translate-x-0', !isChecked);

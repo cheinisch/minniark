@@ -54,7 +54,7 @@
 
         <!-- Close -->
         <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
-          <a href="?" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+          <a href="?" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
             <span class="sr-only">Close</span>
             <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -103,7 +103,7 @@
 
         <!-- Close -->
         <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
-          <a href="?" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+          <a href="?" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
             <span class="sr-only">Close</span>
             <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -120,7 +120,7 @@
         </div>
 
         <div class="mt-6 sm:flex sm:flex-row-reverse">
-          <a href="?" class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto dark:bg-indigo-500 dark:hover:bg-indigo-400">
+          <a href="?" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500 sm:ml-3 sm:w-auto dark:bg-cyan-500 dark:hover:bg-cyan-400">
             <?php echo languageString('general.ok'); ?>
           </a>
         </div>
@@ -147,7 +147,7 @@
 						<!-- Sidebar component, swap this element with another sidebar if you like -->
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
-								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
 								<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -162,7 +162,7 @@
 			<!-- Sidebar component, swap this element with another sidebar if you like -->
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
-					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
 					<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -322,7 +322,7 @@
 										id="username"
 										name="username"
 										value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>"
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 									<input type="hidden" name="username_old" value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>">
 								</div>
@@ -336,7 +336,7 @@
 										id="mail"
 										name="mail"
 										value="<?php echo htmlspecialchars($mail, ENT_QUOTES, 'UTF-8'); ?>"
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 								</div>
 
@@ -349,7 +349,7 @@
 										id="password"
 										name="password"
 										placeholder="<?php echo languageString('dashboard.user.form.password_placeholder'); ?>"
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 								</div>
 
@@ -360,7 +360,7 @@
 									<select
 										id="userrole"
 										name="userrole"
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 										<option value="user"  <?php echo $role === 'user'  ? 'selected' : ''; ?>>
 											<?php echo languageString('dashboard.user.form.userrole_user'); ?>
@@ -374,7 +374,7 @@
 								<div class="sm:col-span-2">
 									<button
 										type="submit"
-										class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500"
+										class="inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500"
 									>
 										<?php echo languageString('dashboard.user.form.submit'); ?>
 									</button>
@@ -395,7 +395,7 @@
 										id="username"
 										name="username"
 										required
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 								</div>
 
@@ -408,7 +408,7 @@
 										id="mail"
 										name="mail"
 										required
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 								</div>
 
@@ -421,7 +421,7 @@
 										id="password"
 										name="password"
 										required
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 								</div>
 
@@ -432,7 +432,7 @@
 									<select
 										id="userrole"
 										name="userrole"
-										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
+										class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"
 									>
 										<option value="user" selected>
 											<?php echo languageString('dashboard.user.form.userrole_user'); ?>
@@ -446,7 +446,7 @@
 								<div class="sm:col-span-2">
 									<button
 										type="submit"
-										class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500"
+										class="inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500"
 									>
 										<?php echo languageString('dashboard.user.form.submit'); ?>
 									</button>
@@ -480,7 +480,7 @@
 
 						<div class="mt-4">
 							<a href="?new"
-							   class="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+							   class="inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500">
 								<?php echo languageString('dashboard.user.actions.create'); ?>
 							</a>
 						</div>

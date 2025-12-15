@@ -32,7 +32,7 @@
 						<!-- Sidebar component, swap this element with another sidebar if you like -->
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
-								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
 								<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -47,7 +47,7 @@
 			<!-- Sidebar component, swap this element with another sidebar if you like -->
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
-					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
 					<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -202,7 +202,7 @@
                         <?php echo languageString('dashboard.system.name'); ?>
                       </label>
                       <input type="text" name="site-name" id="site-name" value="<?php echo get_sitename(); ?>"
-                            class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                            class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500">
                     </div>
 
                     <div class="sm:col-span-full">
@@ -210,7 +210,7 @@
                         <?php echo languageString('dashboard.system.description'); ?>
                       </label>
                       <input type="text" name="site-decription" id="site-decription" value="<?php echo get_sitedescription(); ?>"
-                            class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                            class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500">
                     </div>
 
                     <!-- Language -->
@@ -219,7 +219,7 @@
                         <?php echo languageString('dashboard.system.language'); ?>
                       </label>
                       <select id="language-select" name="language"
-                              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
+                              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600">
                         <?php 
                         $langs = getLangFiles();
                         $current = get_language();
@@ -276,7 +276,7 @@
                       </label>
                       <?php $imgSize = get_imagesize(); ?>
                       <select id="image-size-select"
-                              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600">
+                              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600">
                         <option value="L"   <?php echo $imgSize==='L'   ? 'selected' : ''; ?>>L</option>
                         <option value="XL"  <?php echo $imgSize==='XL'  ? 'selected' : ''; ?>>XL</option>
                         <option value="XXL" <?php echo $imgSize==='XXL' ? 'selected' : ''; ?>>XXL</option>
@@ -334,7 +334,7 @@
                           </span>
                         </span>
                         <button type="button" id="timline_enable"
-                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden"
                                 role="switch" aria-checked="<?php echo is_timeline_enabled(); ?>">
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -352,7 +352,7 @@
                           </span>
                         </span>
                         <button type="button" id="timline_group"
-                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden"
                                 role="switch" aria-checked="<?php echo is_timeline_grouped(); ?>">
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -404,7 +404,7 @@
                           </span>
                         </span>
                         <button type="button" id="map_enable"
-                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden"
                                 role="switch" aria-checked="<?php echo is_map_enabled(); ?>">
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -453,7 +453,7 @@
                           </span>
                         </span>
                         <button type="button" id="sitemap_enable"
-                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden"
                                 role="switch" aria-checked="<?php echo is_sitemap_enabled(); ?>">
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -471,7 +471,7 @@
                           </span>
                         </span>
                         <button type="button" id="sitemap_images_enable"
-                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden"
                                 role="switch" aria-checked="<?php echo is_sitemap_images_enabled(); ?>">
                           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -571,7 +571,7 @@
                       <?php endif; ?>
 
                       <input type="text" name="site-license" id="site-license" value="<?php echo get_license(); ?>"
-                            class="mt-2 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                            class="mt-2 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500">
                     </div>
                   </div>
 

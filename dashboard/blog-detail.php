@@ -49,7 +49,7 @@
             </div>
             <div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
               <div class="relative flex h-16 shrink-0 items-center">
-                <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+                <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
               </div>
               <nav class="relative flex flex-1 flex-col">
                 <?php include (__DIR__.'/layout/blog_menu.php'); ?>
@@ -64,7 +64,7 @@
     <div class="hidden bg-white dark:bg-black ring-1 ring-black/10 dark:ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
       <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
         <div class="flex h-16 shrink-0 items-center">
-          <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+          <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
         </div>
         <nav class="flex flex-1 flex-col">
           <?php include (__DIR__.'/layout/blog_menu.php'); ?>
@@ -199,14 +199,14 @@
                   <label for="title" class="block text-xs font-medium"><?php echo languageString('general.title'); ?></label>
                   <div class="mt-1">
                     <input type="text" name="title" id="title" placeholder="Title" value="<?php echo $essay['title']; ?>"
-                           class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600" />
+                           class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600" />
                   </div>
                 </div>
 
                 <!-- Foldername -->
                 <div class="sm:col-span-4">
                   <label for="foldername" class="block text-xs font-medium"><?php echo languageString('blog.foldername'); ?></label>
-                  <div class="mt-1 flex items-stretch overflow-hidden outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
+                  <div class="mt-1 flex items-stretch overflow-hidden outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600">
                     <span class="shrink-0 px-3 py-2 text-xs text-black/60 dark:text-gray-400 bg-black/5 dark:bg-white/5 select-none">/userdata/content/essays/</span>
                     <input type="text" name="foldername" id="foldername" readonly value="<?php echo $essay['slug']; ?>"
                            class="min-w-0 grow bg-white dark:bg-black px-3 py-2 text-sm focus:outline-none" />
@@ -219,7 +219,7 @@
                   <label for="content" class="block text-xs font-medium"><?php echo languageString('blog.content'); ?></label>
                   <div class="mt-1">
                     <textarea name="content" id="content" rows="12"
-                              class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600"><?php echo $essay['content']; ?></textarea>
+                              class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600"><?php echo $essay['content']; ?></textarea>
                   </div>
                 </div>
 
@@ -229,7 +229,7 @@
                   <div class="mt-1">
                     <input type="text" name="tags" id="tags" placeholder="tag1, tag2"
                            value="<?php echo isset($essay['tags']) ? htmlspecialchars(implode(', ', $essay['tags']), ENT_QUOTES, 'UTF-8') : ''; ?>"
-                           class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600" />
+                           class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600" />
                   </div>
                 </div>
 
@@ -273,7 +273,7 @@
                     </span>
 
                     <button type="button" id="is_published"
-                            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden"
                             role="switch"
                             aria-checked="<?php echo ($essay['is_published'] === true || $essay['is_published'] === 'true') ? 'true' : 'false'; ?>"
                             aria-labelledby="availability-label" aria-describedby="availability-description">
@@ -338,7 +338,7 @@
                     echo '      <span class="text-sm font-medium">'. $label .'</span>';
                     if ($hint) echo '  <span class="text-xs text-black/60 dark:text-gray-400">'. $hint .'</span>';
                     echo '    </span>';
-                    echo '    <button type="button" id="'. $key .'" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors focus:ring-2 focus:ring-sky-600" role="switch" aria-checked="'. $checked .'">';
+                    echo '    <button type="button" id="'. $key .'" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors focus:ring-2 focus:ring-cyan-600" role="switch" aria-checked="'. $checked .'">';
                     echo '      <span aria-hidden="true" class="pointer-events-none inline-block size-5 '.($value ? 'translate-x-5':'translate-x-0').' transform rounded-full bg-white shadow-sm ring-0 transition"></span>';
                     echo '    </button>';
                     echo '    <input type="hidden" name="'. $key .'" id="'. $key .'-input" value="'. ($value ? 'true' : 'false') .'">';
@@ -492,7 +492,7 @@
         function updateToggleUI(enabled){
           toggleBtn.setAttribute("aria-checked", enabled ? "true" : "false");
           toggleBtn.classList.toggle("bg-gray-400", !enabled);
-          toggleBtn.classList.toggle("bg-sky-600", enabled);
+          toggleBtn.classList.toggle("bg-cyan-600", enabled);
           knob.classList.toggle("translate-x-5", enabled);
           knob.classList.toggle("translate-x-0", !enabled);
           hiddenInput.value = enabled ? "true" : "false";

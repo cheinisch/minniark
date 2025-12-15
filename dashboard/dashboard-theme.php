@@ -43,7 +43,7 @@
         <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
           <a href="?"
              id="closeSearchThemesModal"
-             class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600
+             class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600
                     dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
             <span class="sr-only"><?php echo languageString('general.close'); ?></span>
             <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -54,8 +54,8 @@
 
         <!-- Header -->
         <div class="sm:flex sm:items-start">
-          <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-indigo-100 sm:mx-0 sm:size-10 dark:bg-indigo-500/10">
-            <svg class="size-6 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-cyan-100 sm:mx-0 sm:size-10 dark:bg-cyan-500/10">
+            <svg class="size-6 text-cyan-600 dark:text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"/>
             </svg>
           </div>
@@ -73,7 +73,7 @@
         <div class="mt-4">
           <div class="grid w-full grid-cols-1">
             <input type="search" id="theme-search-input"
-                   class="col-start-1 row-start-1 block w-full bg-white py-1.5 pr-3 pl-10 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
+                   class="col-start-1 row-start-1 block w-full bg-white py-1.5 pr-3 pl-10 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600
                           dark:bg-white/10 dark:text-white dark:outline-white/10"
                    placeholder="<?php echo languageString('dashboard.theme.install.search_placeholder'); ?>">
             <svg class="pointer-events-none col-start-1 row-start-1 ml-3 size-5 self-center text-gray-400" viewBox="0 0 20 20" fill="currentColor">
@@ -103,8 +103,8 @@
 
                   <?php if (!$installed): ?>
                     <a href="backend_api/theme_install.php?install=<?= urlencode($theme['name']) ?>"
-                       class="mt-2 inline-block rounded-md px-2 py-1 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-500
-                              dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                       class="mt-2 inline-block rounded-md px-2 py-1 text-xs font-medium text-white bg-cyan-600 hover:bg-cyan-500
+                              dark:bg-cyan-500 dark:hover:bg-cyan-400"
                        aria-label="<?php echo languageString('dashboard.theme.install.install'); ?> <?= htmlspecialchars($theme['name'], ENT_QUOTES); ?>">
                       <?php echo languageString('dashboard.theme.install.install'); ?>
                     </a>
@@ -148,7 +148,7 @@
 
         <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
           <a href="?"
-             class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600
+             class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600
                     dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
             <span class="sr-only"><?php echo languageString('general.close'); ?></span>
             <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -159,8 +159,8 @@
 
         <!-- Header -->
         <div class="sm:flex sm:items-start">
-          <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-indigo-100 sm:mx-0 sm:size-10 dark:bg-indigo-500/10">
-            <svg class="size-6 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-cyan-100 sm:mx-0 sm:size-10 dark:bg-cyan-500/10">
+            <svg class="size-6 text-cyan-600 dark:text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M5 13l4 4L19 7"/>
             </svg>
           </div>
@@ -183,8 +183,8 @@
         <!-- Footer -->
         <div class="mt-6 sm:flex sm:flex-row-reverse">
           <a href="backend_api/settheme.php?name=<?= htmlspecialchars($folder, ENT_QUOTES, 'UTF-8') ?>"
-             class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto
-                    dark:bg-indigo-500 dark:hover:bg-indigo-400">
+             class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500 sm:ml-3 sm:w-auto
+                    dark:bg-cyan-500 dark:hover:bg-cyan-400">
             <?php echo languageString('general.ok'); ?>
           </a>
           <a href="?"
@@ -213,7 +213,7 @@
 
         <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
           <a href="?"
-             class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600
+             class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600
                     dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
             <span class="sr-only"><?php echo languageString('general.close'); ?></span>
             <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -279,7 +279,7 @@
           <!-- Sidebar component -->
           <div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
             <div class="relative flex h-16 shrink-0 items-center">
-              <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Logo" class="h-8 w-auto" />
+              <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Logo" class="h-8 w-auto" />
             </div>
             <nav class="relative flex flex-1 flex-col">
               <?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -294,7 +294,7 @@
   <div class="hidden bg-white dark:bg-black ring-1 ring-black/10 dark:ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
     <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
       <div class="flex h-16 shrink-0 items-center">
-        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Logo" class="h-8 w-auto" />
+        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Logo" class="h-8 w-auto" />
       </div>
       <nav class="flex flex-1 flex-col">
         <?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -487,14 +487,14 @@
                     </span>
                   <?php else: ?>
                     <a href="?selected=<?php echo htmlspecialchars($theme['folder']); ?>&name=<?php echo htmlspecialchars($theme['name']); ?>"
-                       class="inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium bg-sky-600 text-white hover:bg-sky-500">
+                       class="inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium bg-cyan-600 text-white hover:bg-cyan-500">
                       <?php echo languageString('dashboard.theme.activate'); ?>
                     </a>
                   <?php endif; ?>
 
                   <?php if (!empty($theme['update_available'])): ?>
                     <a href="backend_api/thememodify.php?update=<?php echo htmlspecialchars($theme['folder']); ?>"
-                       class="inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium bg-sky-600 text-white hover:bg-sky-500">
+                       class="inline-flex items-center rounded-sm px-2 py-1 text-xs font-medium bg-cyan-600 text-white hover:bg-cyan-500">
                       <?php echo languageString('dashboard.theme.update'); ?>
                     </a>
                   <?php endif; ?>

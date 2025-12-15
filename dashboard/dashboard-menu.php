@@ -34,7 +34,7 @@
 						<!-- Sidebar component, swap this element with another sidebar if you like -->
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
-								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
 								<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -49,7 +49,7 @@
 			<!-- Sidebar component, swap this element with another sidebar if you like -->
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
-					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
 					<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -179,7 +179,7 @@
 						// Sichere 1/0-Ausgabe für aria-checked + Klassen
 						$navEnabledBool = is_nav_enabled();
 						$navAria        = $navEnabledBool ? '1' : '0';
-						$toggleBgClass  = $navEnabledBool ? 'bg-sky-600' : 'bg-gray-400';
+						$toggleBgClass  = $navEnabledBool ? 'bg-cyan-600' : 'bg-gray-400';
 						$knobShiftClass = $navEnabledBool ? 'translate-x-5' : 'translate-x-0';
 					?>
 
@@ -220,7 +220,7 @@
 								<!-- EXAKT ein <span> im Button für JS: knob -->
 								<button type="button"
 										id="nav_enable"
-										class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden <?php echo $toggleBgClass; ?>"
+										class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden <?php echo $toggleBgClass; ?>"
 										role="switch"
 										aria-checked="<?php echo $navAria; ?>"
 										aria-labelledby="availability-label"
@@ -326,9 +326,9 @@
 							<h3 class="text-xs font-semibold mb-2"><?php echo languageString('dashboard.menu.custommenu_link'); ?></h3>
 							<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
 							<input type="text" id="custom_label" placeholder="Label (e.g. Blog)"
-									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
+									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500" />
 							<input type="text" id="custom_link" placeholder="URL (e.g. /blog)"
-									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500" />
+									class="w-full sm:w-1/2 bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500" />
 							<button id="add_custom" type="button"
 									class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
 								<?php echo languageString('general.add'); ?>

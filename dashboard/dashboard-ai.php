@@ -39,7 +39,7 @@
 						<!-- Sidebar component, swap this element with another sidebar if you like -->
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
-								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
 								<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -54,7 +54,7 @@
 			<!-- Sidebar component, swap this element with another sidebar if you like -->
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
-					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
 					<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -207,7 +207,7 @@
               <div class="sm:col-span-full">
                 <label for="ai-provider" class="block text-xs font-medium"><?php echo languageString('dashboard.ai.select'); ?></label>
                 <select id="ai-provider" name="ai-provider"
-                        class="mt-1 block w-full rounded-md bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                        class="mt-1 block w-full rounded-md bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500">
                   <!-- <option>DeepAI</option>
                   <option>OpenAI</option> -->
                   <option>OpenRouter</option>
@@ -219,7 +219,7 @@
                 <label for="site-decription" class="block text-xs font-medium hidden">Dummy Text</label>
                 <input type="hidden" name="site-decription" id="site-decription"
                        value="<?php echo get_sitedescription(); ?>"
-                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500">
+                       class="mt-1 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500">
               </div>
 
               <!-- Hidden bleibt erhalten, falls deine JS darauf hört -->

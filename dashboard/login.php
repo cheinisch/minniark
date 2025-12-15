@@ -90,7 +90,7 @@
               name="username"
               placeholder="<?php echo languageString('login.username'); ?>"
               class="w-full rounded bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 placeholder:text-gray-400
-                     focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:outline-white/10"/>
+                     focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:outline-white/10"/>
             <p id="wrong-user"
                class="mt-1 text-xs text-rose-600 <?php echo $user_wrong ? '' : 'hidden'; ?>">
                <?php echo languageString('login.username_wrong'); ?>
@@ -139,7 +139,7 @@
               name="password"
               placeholder="<?php echo languageString('login.password'); ?>"
               class="w-full rounded bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 placeholder:text-gray-400
-                     focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:outline-white/10"/>
+                     focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:outline-white/10"/>
             <p id="wrong-pass"
                class="mt-1 text-xs text-rose-600 <?php echo $pass_wrong ? '' : 'hidden'; ?>">
                <?php echo languageString('login.password_wrong'); ?>

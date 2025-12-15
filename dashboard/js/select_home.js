@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
         // Visuelle Auswahl aktualisieren
         dropdownItems.forEach(i => {
-          i.classList.remove('bg-sky-600', 'text-white', 'font-semibold');
+          i.classList.remove('bg-cyan-600', 'text-white', 'font-semibold');
           i.classList.add('text-gray-900', 'font-normal');
         });
-        item.classList.add('bg-sky-600', 'text-white', 'font-semibold');
+        item.classList.add('bg-cyan-600', 'text-white', 'font-semibold');
   
         // Dropdown schließen
         dropdownList.classList.add('hidden');
@@ -57,10 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
         // Visuelle Auswahl aktualisieren
         dropdownItems.forEach(i => {
-          i.classList.remove('bg-sky-600', 'text-white', 'font-semibold');
+          i.classList.remove('bg-cyan-600', 'text-white', 'font-semibold');
           i.classList.add('text-gray-900', 'font-normal');
         });
-        item.classList.add('bg-sky-600', 'text-white', 'font-semibold');
+        item.classList.add('bg-cyan-600', 'text-white', 'font-semibold');
   
         // Dropdown schließen
         dropdownList.classList.add('hidden');
@@ -102,10 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
         // Visuelle Auswahl aktualisieren
         dropdownItems.forEach(i => {
-          i.classList.remove('bg-sky-600', 'text-white', 'font-semibold');
+          i.classList.remove('bg-cyan-600', 'text-white', 'font-semibold');
           i.classList.add('text-gray-900', 'font-normal');
         });
-        item.classList.add('bg-sky-600', 'text-white', 'font-semibold');
+        item.classList.add('bg-cyan-600', 'text-white', 'font-semibold');
   
         // Dropdown schließen
         dropdownList.classList.add('hidden');

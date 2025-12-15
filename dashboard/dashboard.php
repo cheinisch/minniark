@@ -37,7 +37,7 @@
                   <!-- Sidebar component, swap this element with another sidebar if you like -->
                   <div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
                      <div class="relative flex h-16 shrink-0 items-center">
-                        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+                        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
                      </div>
                      <nav class="relative flex flex-1 flex-col">
                         <?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -52,7 +52,7 @@
          <!-- Sidebar component, swap this element with another sidebar if you like -->
          <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
             <div class="flex h-16 shrink-0 items-center">
-               <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+               <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
             </div>
             <nav class="flex flex-1 flex-col">
                <?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -273,7 +273,7 @@
                </div>
                <!-- Hinweis -->
                <div class="mt-4">
-                  <div class="rounded-sm border border-black/10 dark:border-white/10 bg-sky-700 text-white px-3 py-2 shadow-xs">
+                  <div class="rounded-sm border border-black/10 dark:border-white/10 bg-cyan-700 text-white px-3 py-2 shadow-xs">
                      <?php echo languageString('dashboard.systeminformation.bugreport',  ['url' => '<a href="https://github.com/cheinisch/minniark/issues" class="underline">Github</a>']); ?>
                   </div>
                </div>

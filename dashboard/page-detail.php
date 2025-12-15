@@ -48,7 +48,7 @@
 						<!-- Sidebar component, swap this element with another sidebar if you like -->
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
-								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
 								<?php include (__DIR__.'/layout/pages_menu.php'); ?>
@@ -63,7 +63,7 @@
 			<!-- Sidebar component, swap this element with another sidebar if you like -->
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
-					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
 					<?php include (__DIR__.'/layout/pages_menu.php'); ?>
@@ -213,14 +213,14 @@
                   <label for="title" class="block text-xs font-medium"><?php echo languageString('general.title'); ?></label>
                   <div class="mt-1">
                     <input type="text" name="title" id="title" placeholder="title" value="<?php echo $page['title']; ?>"
-                           class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600" />
+                           class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600" />
                   </div>
                 </div>
 
                 <!-- Foldername -->
                 <div class="sm:col-span-4">
                   <label for="foldername" class="block text-xs font-medium"><?php echo languageString('page.foldername'); ?></label>
-                  <div class="mt-1 flex items-stretch overflow-hidden outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-sky-600">
+                  <div class="mt-1 flex items-stretch overflow-hidden outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600">
                     <span class="shrink-0 px-3 py-2 text-xs text-black/60 dark:text-gray-400 bg-black/5 dark:bg-white/5 select-none">/userdata/content/pages/</span>
                     <input type="text" name="foldername" id="foldername" readonly value="<?php echo $page['slug']; ?>"
                            class="min-w-0 grow bg-white dark:bg-black px-3 py-2 text-sm focus:outline-none" />
@@ -233,7 +233,7 @@
                   <label for="content" class="block text-xs font-medium"><?php echo languageString('page.content'); ?></label>
                   <div class="mt-1">
                     <textarea name="content" id="content" rows="10"
-                              class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600"><?php echo $page['content']; ?></textarea>
+                              class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600"><?php echo $page['content']; ?></textarea>
                   </div>
                 </div>
 
@@ -247,7 +247,7 @@
                   </div>
 
                   <div class="mt-2 flex gap-2">
-                    <!-- Outline Buttons statt sky -->
+                    <!-- Outline Buttons statt cyan -->
                     <button type="button" id="openCoverModalBtn"
                             class="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
                       <?php echo languageString('page.select-heroimage'); ?>
@@ -278,7 +278,7 @@
                     </span>
 
                     <button type="button" id="is_published"
-                            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 focus:outline-hidden"
+                            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-400 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 focus:outline-hidden"
                             role="switch"
                             aria-checked="<?php echo ($page['is_published'] === true || $page['is_published'] === 'true') ? "true" : "false"; ?>"
                             aria-labelledby="availability-label" aria-describedby="availability-description">
@@ -393,7 +393,7 @@
         function updateToggleUI(enabled){
           toggleBtn.setAttribute("aria-checked", enabled ? "true" : "false");
           toggleBtn.classList.toggle("bg-gray-400", !enabled);
-          toggleBtn.classList.toggle("bg-sky-600", enabled);
+          toggleBtn.classList.toggle("bg-cyan-600", enabled);
           knob.classList.toggle("translate-x-5", enabled);
           knob.classList.toggle("translate-x-0", !enabled);
           hiddenInput.value = enabled ? "true" : "false";

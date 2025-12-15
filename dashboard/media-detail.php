@@ -101,7 +101,7 @@
 			<!-- Close (X) -->
 			<div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
 				<button type="button" id="close_edit_image_text"
-						class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+						class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
 				<span class="sr-only">Close</span>
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">
 					<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
@@ -138,7 +138,7 @@
 					<input id="image-title-input" data-key="title" type="text"
 						value="<?php echo nl2br(htmlspecialchars($title)); ?>"
 						class="mt-1 block w-full rounded border border-black/10 px-2 py-2 text-sm
-								text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+								text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
 								dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30" />
 				</div>
 
@@ -148,7 +148,7 @@
 					</label>
 					<textarea id="image-description-input" data-key="description" rows="6"
 							class="mt-1 block w-full rounded border border-black/10 px-2 py-2 text-sm leading-6
-									text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+									text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
 									dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30"><?php echo nl2br(htmlspecialchars($description)); ?></textarea>
 				</div>
 				</form>
@@ -190,7 +190,7 @@
       <!-- Close (X) -->
       <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
         <button type="button" id="editExifClose"
-                class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+                class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
           <span class="sr-only">Close</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">
             <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
@@ -227,7 +227,7 @@
               <input id="exif-camera-input" data-key="camera" type="text"
                      value="<?php echo htmlspecialchars($camera); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10 dark:placeholder-white/30" />
             </div>
 
@@ -236,7 +236,7 @@
               <input id="exif-lens-input" data-key="lens" type="text"
                      value="<?php echo htmlspecialchars($lens); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
 
@@ -245,7 +245,7 @@
               <input id="exif-aperture-input" data-key="aperture" type="text"
                      value="<?php echo htmlspecialchars($aperture); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
 
@@ -254,7 +254,7 @@
               <input id="exif-shutter-input" data-key="shutter_speed" type="text"
                      value="<?php echo htmlspecialchars($shutterSpeed); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
 
@@ -263,7 +263,7 @@
               <input id="exif-iso-input" data-key="iso" type="text"
                      value="<?php echo htmlspecialchars($iso); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
 
@@ -272,7 +272,7 @@
               <input id="exif-focal-input" data-key="focal_length" type="text"
                      value="<?php echo htmlspecialchars($focallength); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
 
@@ -281,7 +281,7 @@
               <input id="exif-date-input" data-key="date" type="text"
                      value="<?php echo htmlspecialchars($dateTaken); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
           </div>
@@ -293,7 +293,7 @@
               <input id="exif-lat-input" data-key="lat" type="text"
                      value="<?php echo htmlspecialchars($latitude); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
             <div>
@@ -301,7 +301,7 @@
               <input id="exif-lon-input" data-key="lon" type="text"
                      value="<?php echo htmlspecialchars($longitude); ?>"
                      class="mt-1 block w-full rounded border border-black/10 px-2 py-1 text-sm
-                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500/40
+                            text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/40
                             dark:bg-black dark:text-white dark:border-white/10" />
             </div>
           </div>
@@ -328,7 +328,7 @@
 			<div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
 				<div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
 					<div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
-					<button type="button" id="aiTextClose" command="close" commandfor="deleteImageModal" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+					<button type="button" id="aiTextClose" command="close" commandfor="deleteImageModal" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
 						<span class="sr-only">Close</span>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
 						<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
@@ -373,7 +373,7 @@
 						<!-- Sidebar component, swap this element with another sidebar if you like --
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
-								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
 								<?php # include (__DIR__.'/layout/media_menu.php'); ?>
@@ -388,7 +388,7 @@
 			<!-- Sidebar component, swap this element with another sidebar if you like --
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
-					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
 					<?php # include (__DIR__.'/layout/media_menu.php'); ?>
@@ -410,7 +410,7 @@
 					<div class="grid flex-1 grid-cols-1">
 						<div class="hidden md:flex justify-start gap-2">
 						    <a href="dashboard.php"
-								class="inline-flex items-center justify-start mx-2 py-2 border-b hover:border-t border-gray-800 dark:border-gray-400 rounded-none
+								class="inline-flex items-center justify-start mx-2 py-2 border-b border-gray-800 dark:border-gray-400 rounded-none
 										no-underline text-base font-normal leading-tight appearance-none">
 								<?php echo languageString('nav.dashboard'); ?>
 							</a>
@@ -565,7 +565,7 @@
 										<ul class="ml-0 flex flex-wrap gap-2" id="tag-list">
 											<?php foreach ($tags as $tag): ?>
 											<li>
-												<span class="group inline-flex items-center gap-1 rounded-full border border-sky-600/70 bg-sky-600 text-white px-2 py-0.5 text-xs">
+												<span class="group inline-flex items-center gap-1 rounded-full border border-cyan-600/70 bg-cyan-600 text-white px-2 py-0.5 text-xs">
 												<!-- Tag-Icon (dezent) -->
 												<svg viewBox="0 0 24 24" aria-hidden="true" class="size-3 opacity-80 fill-current">
 													<path d="M21 11.5 12.5 3a1.5 1.5 0 0 0-1.06-.44H5A2 2 0 0 0 3 4.5v6.44c0 .4.16.78.44 1.06L12 21a1.5 1.5 0 0 0 2.12 0l6.88-6.88a1.5 1.5 0 0 0 0-2.12ZM7.75 8.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"/>
@@ -599,7 +599,7 @@
 										type="text"
 										name="tag"
 										required
-										class="flex-1 rounded border border-black/10 dark:border-white/10 bg-white dark:bg-black px-3 py-2 text-sm placeholder-black/50 dark:placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500"
+										class="flex-1 rounded border border-black/10 dark:border-white/10 bg-white dark:bg-black px-3 py-2 text-sm placeholder-black/50 dark:placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500"
 										placeholder="<?php echo languageString('general.tags_add'); ?>"
 									/>
 									</form>

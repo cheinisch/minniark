@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createStarSVG(index, filled) {
     const span = document.createElement("span");
-    const fillColor = index === 0 ? '#d1d5db' : (filled ? '#38bdf8' : '#d1d5db'); // sky-400 oder grau
+    const fillColor = index === 0 ? '#d1d5db' : (filled ? '#38bdf8' : '#d1d5db'); // cyan-400 oder grau
   
     span.innerHTML = `
       <svg class="w-5 h-5 cursor-pointer" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <!-- Header -->
           <div class="px-4 pt-5 pb-2 sm:px-6">
             <div class="flex items-center gap-3">
-              <div class="flex size-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-500/10">
-                <svg class="size-5 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <div class="flex size-10 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-500/10">
+                <svg class="size-5 text-cyan-600 dark:text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
@@ -45,14 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="px-4 pb-4 sm:px-6 sm:pb-6">
             <div class="mt-3">
               <div id="progress" class="w-full rounded-full bg-black/10 dark:bg-white/10 overflow-hidden h-2">
-                <div class="h-2 bg-sky-600 dark:bg-sky-500 transition-all duration-500" style="width:0%"></div>
+                <div class="h-2 bg-cyan-600 dark:bg-cyan-500 transition-all duration-500" style="width:0%"></div>
               </div>
               <p id="progress-text" class="mt-3 text-sm text-black/80 dark:text-gray-300">Starte Update…</p>
             </div>
 
             <div class="mt-3">
               <button id="toggle-log"
-                      class="inline-flex items-center gap-1 text-xs font-medium text-sky-700 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300">
+                      class="inline-flex items-center gap-1 text-xs font-medium text-cyan-700 hover:text-cyan-600 dark:text-cyan-400 dark:hover:text-cyan-300">
                 Details anzeigen ▼
               </button>
               <div id="log" class="mt-2 hidden max-h-48 overflow-y-auto rounded-md border border-black/10 dark:border-white/10 bg-gray-50 dark:bg-white/5 p-2 text-[11px] leading-5 text-gray-700 dark:text-gray-200"></div>

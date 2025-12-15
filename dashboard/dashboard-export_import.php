@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="mt-6 sm:flex sm:flex-row-reverse">
-              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
+              <a href="?" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
               <button type="button" command="close" commandfor="backupSuccess" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20"><?php echo languageString('general.close'); ?></button>
             </div>
           </el-dialog-panel>
@@ -65,7 +65,7 @@
               </div>
             </div>
             <div class="mt-6 sm:flex sm:flex-row-reverse">
-              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
+              <a href="?" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
               <button type="button" command="close" commandfor="restoreSuccess" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20"><?php echo languageString('general.close'); ?></button>
             </div>
           </el-dialog-panel>
@@ -88,7 +88,7 @@
               </div>
             </div>
             <div class="mt-6 sm:flex sm:flex-row-reverse">
-              <a href="?" class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
+              <a href="?" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500 sm:ml-3 sm:w-auto"><?php echo languageString('general.ok'); ?></a>
               <button type="button" command="close" commandfor="restoreError" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto dark:bg:white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20"><?php echo languageString('general.close'); ?></button>
             </div>
           </el-dialog-panel>
@@ -114,7 +114,7 @@
 						<!-- Sidebar component, swap this element with another sidebar if you like -->
 						<div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
 							<div class="relative flex h-16 shrink-0 items-center">
-								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+								<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 							</div>
 							<nav class="relative flex flex-1 flex-col">
 								<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -129,7 +129,7 @@
 			<!-- Sidebar component, swap this element with another sidebar if you like -->
 			<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
 				<div class="flex h-16 shrink-0 items-center">
-					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+					<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Your Company" class="h-8 w-auto" />
 				</div>
 				<nav class="flex flex-1 flex-col">
 					<?php include (__DIR__.'/layout/dashboard_menu.php'); ?>
@@ -264,7 +264,7 @@
             <div class="p-4">
               <a href="backend_api/backup.php"
                  id="backup-btn-new"
-                 class="inline-flex items-center gap-2 bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+                 class="inline-flex items-center gap-2 bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500">
                 <?php echo languageString('dashboard.export.generate_backup'); ?>
               </a>
             </div>
@@ -291,10 +291,10 @@
                 <div>
                   <label for="backup-file" class="block text-sm font-medium"><?php echo languageString('dashboard.export.import_file'); ?></label>
                   <input id="backup-file" name="backup_file" type="file" accept=".zip" required
-                         class="mt-2 block w-full text-black dark:text-white file:bg-sky-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded file:cursor-pointer bg-white/5 px-3 py-2 text-sm outline -outline-offset-1 outline-black/10 focus:outline-2 focus:outline-sky-600 dark:outline-white/10">
+                         class="mt-2 block w-full text-black dark:text-white file:bg-cyan-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded file:cursor-pointer bg-white/5 px-3 py-2 text-sm outline -outline-offset-1 outline-black/10 focus:outline-2 focus:outline-cyan-600 dark:outline-white/10">
                 </div>
                 <button type="submit"
-                        class="bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500">
+                        class="bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500">
                   <?php echo languageString('dashboard.export.import_upload'); ?>
                 </button>
               </form>
@@ -334,7 +334,7 @@
                         <td class="py-2 pr-4">'.$filesize.'</td>
                         <td class="py-2 pr-4">
                           <a href="backend_api/restore.php?filename='.htmlspecialchars($file['name']).'"
-                             class="text-sky-600 hover:text-sky-800 restore-backup-btn"
+                             class="text-cyan-600 hover:text-cyan-800 restore-backup-btn"
                              data-filename="'.htmlspecialchars($file['name']).'"
                              onclick="return confirm(\'Do you really want to restore this backup?\');">
                             Restore

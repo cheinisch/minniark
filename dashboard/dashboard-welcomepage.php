@@ -75,7 +75,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
             </div>
             <div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4 ring-1 ring-white/10 dark:before:pointer-events-none dark:before:absolute dark:before:inset-0 dark:before:bg-black/10">
               <div class="relative flex h-16 shrink-0 items-center">
-                <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Logo" class="h-8 w-auto" />
+                <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Logo" class="h-8 w-auto" />
               </div>
               <nav class="relative flex flex-1 flex-col">
                 <?php include(__DIR__ . '/layout/dashboard_menu.php'); ?>
@@ -90,7 +90,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
     <div class="hidden bg-white dark:bg-black ring-1 ring-black/10 dark:ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
       <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black/10 px-6 pb-4">
         <div class="flex h-16 shrink-0 items-center">
-          <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Logo" class="h-8 w-auto" />
+          <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=cyan&shade=500" alt="Logo" class="h-8 w-auto" />
         </div>
         <nav class="flex flex-1 flex-col">
           <?php include(__DIR__ . '/layout/dashboard_menu.php'); ?>
@@ -238,7 +238,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                   </label>
                   <div class="relative mt-2">
                     <button type="button"
-                            class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6 dark:bg-white/10 dark:text-white dark:outline-white/10"
+                            class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 sm:text-sm/6 dark:bg-white/10 dark:text-white dark:outline-white/10"
                             aria-haspopup="listbox-type" aria-expanded="false" aria-labelledby="listbox-type-label">
                       <span class="col-start-1 row-start-1 truncate pr-6"><?php echo htmlspecialchars($pagetype, ENT_QUOTES, 'UTF-8'); ?></span>
                       <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -252,7 +252,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                         <span class="block truncate font-normal">
                           <?php echo languageString('dashboard.welcome.type_start'); ?>
                         </span>
-                        <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-sky-600">
+                        <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-cyan-600">
                           <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                           </svg>
@@ -263,7 +263,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                         <span class="block truncate font-normal">
                           <?php echo languageString('dashboard.welcome.type_page'); ?>
                         </span>
-                        <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-sky-600">
+                        <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-cyan-600">
                           <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                           </svg>
@@ -274,7 +274,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                         <span class="block truncate font-normal">
                           <?php echo languageString('dashboard.welcome.type_album'); ?>
                         </span>
-                        <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-sky-600">
+                        <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-cyan-600">
                           <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                           </svg>
@@ -292,7 +292,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                   </label>
                   <div class="relative mt-2">
                     <button type="button"
-                            class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6 dark:bg-white/10 dark:text-white dark:outline-white/10"
+                            class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 sm:text-sm/6 dark:bg-white/10 dark:text-white dark:outline-white/10"
                             aria-haspopup="listbox-page" aria-expanded="false" aria-labelledby="listbox-page-label">
                       <span class="col-start-1 row-start-1 truncate pr-6">
                         <?php echo htmlspecialchars($startvaluePage, ENT_QUOTES, 'UTF-8'); ?>
@@ -310,7 +310,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                           <span class="block truncate font-normal">
                             <?php echo htmlspecialchars($page['title'], ENT_QUOTES, 'UTF-8'); ?>
                           </span>
-                          <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-sky-600">
+                          <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-cyan-600">
                             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                               <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                             </svg>
@@ -328,7 +328,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                   </label>
                   <div class="relative mt-2">
                     <button type="button"
-                            class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6 dark:bg-white/10 dark:text-white dark:outline-white/10"
+                            class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 sm:text-sm/6 dark:bg-white/10 dark:text-white dark:outline-white/10"
                             aria-haspopup="listbox-album" aria-expanded="false" aria-labelledby="listbox-album-label">
                       <span class="col-start-1 row-start-1 truncate pr-6">
                         <?php echo htmlspecialchars($startvalueAlbum, ENT_QUOTES, 'UTF-8'); ?>
@@ -346,7 +346,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                           <span class="block truncate font-normal">
                             <?php echo htmlspecialchars($album['title'], ENT_QUOTES, 'UTF-8'); ?>
                           </span>
-                          <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-sky-600">
+                          <span class="absolute inset-y-0 right-0 hidden items-center pr-4 text-cyan-600">
                             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                               <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                             </svg>
@@ -361,7 +361,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
 
                 <div class="pt-2">
                   <button type="submit"
-                          class="bg-sky-600 hover:bg-sky-500 px-3 py-2 text-sm font-semibold text-white rounded shadow-xs">
+                          class="bg-cyan-600 hover:bg-cyan-500 px-3 py-2 text-sm font-semibold text-white rounded shadow-xs">
                     <?php echo languageString('general.save'); ?>
                   </button>
                 </div>
@@ -387,25 +387,25 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                     <?php echo languageString('dashboard.welcome.headline'); ?>
                   </label>
                   <input type="text" name="headline" id="headline" value="<?php echo $headline; ?>"
-                         class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
+                         class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
                 </div>
                 <div>
                   <label for="sub-headline" class="block text-sm font-medium">
                     <?php echo languageString('dashboard.welcome.subheadline'); ?>
                   </label>
                   <input type="text" name="sub-headline" id="sub-headline" value="<?php echo $subHeadline; ?>"
-                         class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
+                         class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
                 </div>
                 <div>
                   <label for="content" class="block text-sm font-medium">
                     <?php echo languageString('dashboard.welcome.content'); ?>
                   </label>
                   <textarea name="content" id="content" rows="6"
-                            class="mt-2 block w-full rounded-md bg-white px-3 py-2 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10"><?php echo $content; ?></textarea>
+                            class="mt-2 block w-full rounded-md bg-white px-3 py-2 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10"><?php echo $content; ?></textarea>
                 </div>
                 <div class="pt-2">
                   <button type="submit" id="btnWelcomeSite"
-                          class="bg-sky-600 hover:bg-sky-500 px-3 py-2 text-sm font-semibold text-white rounded shadow-xs">
+                          class="bg-cyan-600 hover:bg-cyan-500 px-3 py-2 text-sm font-semibold text-white rounded shadow-xs">
                     <?php echo languageString('general.save'); ?>
                   </button>
                 </div>
@@ -431,7 +431,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
 
                 <div class="flex items-center gap-3">
                   <button type="button" id="open-cover-modal"
-                          class="bg-sky-600 hover:bg-sky-500 px-3 py-2 text-sm font-semibold text-white rounded shadow-xs">
+                          class="bg-cyan-600 hover:bg-cyan-500 px-3 py-2 text-sm font-semibold text-white rounded shadow-xs">
                     <?php echo languageString('dashboard.welcome.cover_button_select'); ?>
                   </button>
                   <button type="submit" id="save-cover-btn"
@@ -449,7 +449,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                       <?php echo htmlspecialchars($defaultImage, ENT_QUOTES, 'UTF-8'); ?>
                     </p>
                   <?php elseif ($defaultStyle === 'album' && $defaultImage): ?>
-                    <p class="mt-2 text-sm text-sky-600 font-semibold">
+                    <p class="mt-2 text-sm text-cyan-600 font-semibold">
                       <?php echo languageString('dashboard.welcome.cover_preview_album_prefix'); ?>
                       <?php echo htmlspecialchars($defaultImage, ENT_QUOTES, 'UTF-8'); ?>
                     </p>
@@ -476,7 +476,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
             <!-- Close -->
             <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
               <button type="button" id="close-cover-modal"
-                      class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-sky-600
+                      class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600
                              dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
                 <span class="sr-only">Close</span>
                 <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -487,8 +487,8 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
 
             <!-- Header -->
             <div class="sm:flex sm:items-start">
-              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-sky-100 sm:mx-0 sm:size-10 dark:bg-sky-500/10">
-                <svg class="size-6 text-sky-600 dark:text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-cyan-100 sm:mx-0 sm:size-10 dark:bg-cyan-500/10">
+                <svg class="size-6 text-cyan-600 dark:text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h6l2 2h10M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9M9 17h6" />
                 </svg>
               </div>
@@ -510,7 +510,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                   <?php echo languageString('dashboard.welcome.modal_album_label'); ?>
                 </label>
                 <select id="album-select"
-                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600 dark:bg-white/10 dark:text-white dark:outline-white/10">
                   <option value="">
                     <?php echo languageString('dashboard.welcome.modal_album_none'); ?>
                   </option>
@@ -530,7 +530,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
                 <div class="grid grid-cols-3 gap-4 max-h-64 overflow-y-auto" id="image-gallery">
                   <?php foreach ($home['available_images'] as $img): ?>
                     <button type="button"
-                            class="border border-black/10 dark:border-white/10 overflow-hidden cursor-pointer hover:ring-2 hover:ring-sky-500 transition rounded"
+                            class="border border-black/10 dark:border-white/10 overflow-hidden cursor-pointer hover:ring-2 hover:ring-cyan-500 transition rounded"
                             data-filename="<?php echo htmlspecialchars($img, ENT_QUOTES, 'UTF-8'); ?>">
                       <img src="/userdata/content/images/<?php echo rawurlencode($img); ?>" alt=""
                            class="w-full h-24 object-cover">
@@ -546,7 +546,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
             <!-- Footer -->
             <div class="mt-6 sm:flex sm:flex-row-reverse">
               <button type="button" id="confirm-cover-selection"
-                      class="inline-flex w-full justify-center rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500 sm:ml-3 sm:w-auto">
+                      class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500 sm:ml-3 sm:w-auto">
                 <?php echo languageString('dashboard.welcome.modal_button_use'); ?>
               </button>
               <button type="button" id="cancel-cover-selection"

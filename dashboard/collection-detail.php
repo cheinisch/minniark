@@ -1,6 +1,7 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
   require_once __DIR__ . '/../vendor/autoload.php'; // Pfad zu Parsedown
+    require_once __DIR__ . '/../app/autoload.php';
   security_checklogin();
 
   $slug = isset($_GET['collection']) ? $_GET['collection'] : null;
@@ -112,14 +113,14 @@
 					</div>
 					<div class="flex items-center gap-x-4 lg:gap-x-6">
 						<button type="button"
-						id="uploadImageButton"
+						id="openAlbumImagesModal"
 						class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
 							<?php echo languageString('image.upload_image'); ?>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
 								<path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707z"/>
   								<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
 							</svg>
-							<span class="sr-only">Upload new Image</span>
+							<span class="sr-only">Select Cover Image</span>
 							</button>
 						<button type="button" class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
 							<span class="sr-only">View notifications</span>
@@ -499,6 +500,56 @@
     </div>
   </div>
 </div>
+<!-- Select Cover Image -->
+<div id="albumImagesModal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+
+  <div class="flex min-h-full items-center justify-center p-4">
+    <div class="w-full max-w-6xl rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
+
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Bilder aus Collection-Alben</h2>
+          <p id="albumImagesMeta" class="mt-1 text-sm text-gray-500 dark:text-gray-400">Lade…</p>
+        </div>
+        <button type="button" id="closeAlbumImagesModal"
+          class="rounded-md p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <span class="sr-only">Close</span>
+          <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="mt-4 flex flex-col md:flex-row gap-3 md:items-center">
+        <input id="albumImagesSearch" type="text"
+          placeholder="Suchen…"
+          class="w-full md:max-w-md rounded-md px-3 py-2 text-sm border border-gray-300 dark:border-white/10 bg-white dark:bg-white/10 text-gray-900 dark:text-white" />
+
+        <button id="albumImagesReload" type="button"
+          class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                 dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
+          Neu laden
+        </button>
+      </div>
+
+      <div id="albumImagesGrid"
+        class="mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-h-[65vh] overflow-y-auto">
+        <!-- injected -->
+      </div>
+
+      <div class="mt-6 flex justify-end gap-2">
+        <button type="button" id="cancelAlbumImagesModal"
+          class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                 dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
+          Schließen
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <script src="js/tailwind.js"></script>
 <script src="js/collection_edit.js"></script>
@@ -678,6 +729,100 @@
     });
   })();
 </script>
+
+<script>
+(() => {
+  const modal   = document.getElementById('albumImagesModal');
+  const openBtn = document.getElementById('openAlbumImagesModal');
+  const closeBtn= document.getElementById('closeAlbumImagesModal');
+  const cancel  = document.getElementById('cancelAlbumImagesModal');
+  const reload  = document.getElementById('albumImagesReload');
+
+  const grid    = document.getElementById('albumImagesGrid');
+  const meta    = document.getElementById('albumImagesMeta');
+  const search  = document.getElementById('albumImagesSearch');
+
+  const collectionSlug = <?php echo json_encode($slug ?? ''); ?>;
+
+  let all = [];
+
+  const open = () => { modal.classList.remove('hidden'); load(); };
+  const close = () => { modal.classList.add('hidden'); };
+
+  openBtn?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', close);
+  cancel?.addEventListener('click', close);
+  reload?.addEventListener('click', load);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
+  });
+
+  // Klick auf Backdrop schließt
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) close();
+  });
+
+  async function load() {
+    if (!grid || !meta) return;
+
+    meta.textContent = 'Lade…';
+    grid.innerHTML = '';
+
+    try {
+      const url = `backend_api/collection_album_images.php?collection=${encodeURIComponent(collectionSlug)}`;
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+
+      if (!data.ok) throw new Error(data.error || 'Load failed');
+
+      all = data.images || [];
+      meta.textContent = `${data.count} Bilder geladen`;
+
+      render(all);
+    } catch (err) {
+      meta.textContent = 'Fehler beim Laden';
+      grid.innerHTML = `<div class="col-span-full text-sm text-red-600 dark:text-red-400">${String(err)}</div>`;
+    }
+  }
+
+  function render(list) {
+    const q = (search?.value || '').toLowerCase().trim();
+
+    const filtered = q
+      ? list.filter(x => (x.title || '').toLowerCase().includes(q) || (x.filename || '').toLowerCase().includes(q))
+      : list;
+
+    grid.innerHTML = filtered.map(x => {
+      const title = escapeHtml(x.title || x.filename);
+      const file  = escapeHtml(x.filename || '');
+      const thumb = escapeHtml(x.thumb || '');
+      const album = escapeHtml(x.album || '');
+
+      return `
+        <div class="group">
+          <div class="overflow-hidden rounded border border-black/10 dark:border-white/10">
+            <img src="${thumb}" alt="${title}" class="w-full aspect-square object-cover">
+          </div>
+          <div class="mt-1 text-xs text-gray-700 dark:text-gray-300 truncate" title="${title}">${title}</div>
+          <div class="text-[11px] text-gray-500 dark:text-gray-500 truncate" title="${album}">${album}</div>
+        </div>
+      `;
+    }).join('');
+
+    meta.textContent = `${filtered.length} / ${list.length} angezeigt`;
+  }
+
+  search?.addEventListener('input', () => render(all));
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    }[s]));
+  }
+})();
+</script>
+
 
 </body>
 </html>

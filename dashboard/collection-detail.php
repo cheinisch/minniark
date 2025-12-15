@@ -119,12 +119,12 @@ $albumTitle = $albumTitle ?? '';
         <!-- Buttons -->
         <button type="button" id="selectCollectionImageBtn"
           class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-          Select cover
+          <?php echo languageString('collection.selectCoverImage'); ?>
         </button>
 
         <button type="button" id="addAlbumtoCollectionBtn"
           class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
-          Add album
+          <?php echo languageString('collection.addAlbums'); ?>
         </button>
 
         <div aria-hidden="true" class="hidden lg:block lg:h-6 lg:w-px dark:bg-gray-100/10"></div>
@@ -205,7 +205,7 @@ $albumTitle = $albumTitle ?? '';
               <form action="backend_api/collection_update.php" method="post" class="mt-4">
                 <div id="text-edit-frame" class="hidden space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Title</label>
+                    <label class="block text-sm font-medium text-gray-900 dark:text-gray-200"><?php echo languageString('general.title'); ?></label>
                     <input type="text" name="collection-title-edit"
                            value="<?php echo htmlspecialchars($collectiondata['name'] ?? '', ENT_QUOTES); ?>"
                            class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
@@ -216,7 +216,7 @@ $albumTitle = $albumTitle ?? '';
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Description</label>
+                    <label class="block text-sm font-medium text-gray-900 dark:text-gray-200"><?php echo languageString('general.description'); ?></label>
                     <textarea name="collection-description" rows="6"
                               class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
                                      outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600
@@ -233,7 +233,7 @@ $albumTitle = $albumTitle ?? '';
 
                     <a href="backend_api/delete.php?type=collection&filename=<?php echo urlencode(generateSlug($collectiondata['name'] ?? '')); ?>"
                        class="delete-link rounded-md px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10">
-                      Delete Collection
+                      <?php echo languageString('collection.delete'); ?>
                     </a>
                   </div>
 
@@ -290,10 +290,10 @@ $albumTitle = $albumTitle ?? '';
           <div class="flex items-start justify-between gap-4">
             <div>
               <h2 id="cover-modal-title" class="text-lg font-semibold text-gray-900 dark:text-white">
-                Select cover image
+                <?php echo languageString('collection.selectCoverImage'); ?>
               </h2>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Choose one image from albums inside this collection.
+                <?php echo languageString('collection.selectCoverImageText'); ?>
               </p>
             </div>
 
@@ -367,11 +367,11 @@ $albumTitle = $albumTitle ?? '';
                              bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
                              dark:bg-white/10 dark:text-white
                              dark:inset-ring-white/5 dark:hover:bg-white/20">
-                Cancel
+                <?php echo languageString('general.cancel'); ?>
               </button>
               <button type="submit"
                       class="px-3 py-2 text-sm rounded-md bg-cyan-600 text-white hover:bg-cyan-500">
-                Save cover
+                <?php echo languageString('collection.saveCover'); ?>
               </button>
             </div>
           </form>
@@ -402,10 +402,10 @@ $albumTitle = $albumTitle ?? '';
           <div class="flex items-start justify-between gap-4">
             <div>
               <h2 id="album-modal-title" class="text-lg font-semibold text-gray-900 dark:text-white">
-                Add albums to collection
+                <?php echo languageString('collection.addAlbum'); ?>
               </h2>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Select one or more albums.
+                <?php echo languageString('collection.addAlbumText'); ?>
               </p>
             </div>
 
@@ -425,48 +425,70 @@ $albumTitle = $albumTitle ?? '';
                         bg-white dark:bg-white/10 text-gray-900 dark:text-white">
 
           <form method="post" action="backend_api/add_albums_to_collection.php" class="mt-4">
-            <input type="hidden" name="collection" value="<?php echo htmlspecialchars($collectionTitleSlug, ENT_QUOTES); ?>">
+  <input type="hidden" name="collection" value="<?php echo htmlspecialchars($collectionTitleSlug, ENT_QUOTES); ?>">
 
-            <div id="albumList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[60vh] overflow-y-auto">
-              <?php
-                $allAlbums = getAlbumList();
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[60vh] overflow-y-auto">
+    <?php
+      $allAlbums = getAlbumList();
 
-                foreach ($allAlbums as $a) {
-                  $thumb = 'img/placeholder.png';
-                  if (!empty($a['image'])) {
-                    $tmp = get_cacheimage($a['image'], 'M');
-                    $thumb = '../cache/images/' . $tmp;
-                  }
+      foreach ($allAlbums as $a) {
+        $slug  = (string)($a['slug'] ?? '');
+        if ($slug === '') { continue; }
 
-                  $title = $a['title'] ?? $a['name'] ?? $a['slug'];
+        $title = (string)($a['title'] ?? $a['name'] ?? $slug);
 
-                  echo '
-                    <label class="block text-sm text-center cursor-pointer album-item"
-                           data-name="' . htmlspecialchars(mb_strtolower($title), ENT_QUOTES) . '">
-                      <input type="checkbox" name="albums[]" value="' . htmlspecialchars($a['slug'], ENT_QUOTES) . '" class="sr-only peer">
-                      <div class="peer-checked:ring-2 peer-checked:ring-cyan-500 rounded overflow-hidden border border-black/10 dark:border-white/10">
-                        <img src="' . htmlspecialchars($thumb, ENT_QUOTES) . '" alt="' . htmlspecialchars($title, ENT_QUOTES) . '" class="object-cover w-full aspect-square">
-                      </div>
-                      <span class="block mt-1 truncate text-xs text-gray-700 dark:text-gray-300">' . htmlspecialchars($title, ENT_QUOTES) . '</span>
-                    </label>';
-                }
-              ?>
+        $thumb = '../img/placeholder.png';
+        if (!empty($a['image'])) {
+          $tmp = get_cacheimage((string)$a['image'], 'M');
+          if (!empty($tmp)) {
+            $thumb = '../cache/images/' . $tmp;
+          }
+        }
+
+        $titleEsc   = htmlspecialchars($title, ENT_QUOTES);
+        $slugEsc    = htmlspecialchars($slug, ENT_QUOTES);
+        $thumbEsc   = htmlspecialchars($thumb, ENT_QUOTES);
+        $searchName = htmlspecialchars(mb_strtolower($title), ENT_QUOTES);
+
+        echo '
+          <label class="block text-sm text-center cursor-pointer album-item" data-name="' . $searchName . '">
+            <input type="checkbox" name="albums[]" value="' . $slugEsc . '" class="sr-only peer">
+
+            <div class="rounded overflow-hidden border border-black/10 dark:border-white/10
+                        peer-checked:ring-2 peer-checked:ring-cyan-500 peer-checked:ring-offset-2
+                        peer-checked:ring-offset-white dark:peer-checked:ring-offset-black">
+              <img src="' . $thumbEsc . '"
+                   alt="' . $titleEsc . '"
+                   class="object-cover w-full aspect-square"
+                   loading="lazy"
+                   decoding="async">
             </div>
 
-            <div class="mt-6 flex justify-end gap-2">
-              <button type="button" id="cancelAddTocollectionAlbum"
-                      class="px-3 py-2 text-sm rounded-md
-                             bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
-                             dark:bg-white/10 dark:text-white
-                             dark:inset-ring-white/5 dark:hover:bg-white/20">
-                Cancel
-              </button>
-              <button type="submit"
-                      class="px-3 py-2 text-sm rounded-md bg-cyan-600 text-white hover:bg-cyan-500">
-                Add selected
-              </button>
-            </div>
-          </form>
+            <span class="block mt-1 truncate text-xs text-gray-700 dark:text-gray-300">
+              ' . $titleEsc . '
+            </span>
+          </label>
+        ';
+      }
+    ?>
+  </div>
+
+  <div class="mt-6 flex justify-end gap-2">
+    <button type="button" id="cancelAddTocollectionAlbum"
+            class="px-3 py-2 text-sm rounded-md
+                   bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                   dark:bg-white/10 dark:text-white
+                   dark:inset-ring-white/5 dark:hover:bg-white/20">
+      <?php echo languageString('general.cancel'); ?>
+    </button>
+
+    <button type="submit"
+            class="px-3 py-2 text-sm rounded-md bg-cyan-600 text-white hover:bg-cyan-500">
+      <?php echo languageString('collection.addSelected'); ?>
+    </button>
+  </div>
+</form>
+
 
         </el-dialog-panel>
       </div>
@@ -492,10 +514,10 @@ $albumTitle = $albumTitle ?? '';
                  filter-none backdrop-blur-none">
 
           <h2 id="confirm-delete-title" class="text-base font-semibold text-gray-900 dark:text-white">
-            Delete collection
+            <?php echo languageString('collection.deleteCollection'); ?>
           </h2>
           <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            Do you really want to delete this collection?
+            <?php echo languageString('collection.DeleteCollectionText'); ?>
           </p>
 
           <div class="mt-6 flex justify-end gap-2">
@@ -508,7 +530,7 @@ $albumTitle = $albumTitle ?? '';
             </button>
             <button id="confirmcollectionYes" type="button"
                     class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
-              Delete
+              <?php echo languageString('general.delete'); ?>
             </button>
           </div>
 
@@ -646,6 +668,23 @@ $albumTitle = $albumTitle ?? '';
     });
   });
 })();
+</script>
+<script>
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.dropdown-toggle');
+  if (!btn) return;
+
+  const menu = btn.nextElementSibling;
+  if (!menu || !menu.classList.contains('dropdown-menu')) return;
+
+  const expanded = btn.getAttribute('aria-expanded') === 'true';
+
+  btn.setAttribute('aria-expanded', String(!expanded));
+  menu.classList.toggle('hidden', expanded);
+
+  const chevron = btn.querySelector('.chevron');
+  chevron?.classList.toggle('rotate-180', !expanded);
+});
 </script>
 
 </body>

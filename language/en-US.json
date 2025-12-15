@@ -18,6 +18,7 @@
         "close" : "Close",
         "copy" : "Copy",
         "title" : "Title",
+        "description" : "Description",
         "reset_filter": "Reset Filter",
         "published" : "Published",
         "success" : "Success",
@@ -338,10 +339,18 @@
         "addImage" : "Add Image",
         "addSelectedImage" : "Add selected images",
         "removeImage" : "Remove Image",
-        "setHero" : "Set Albumcover"
+        "setHero" : "Set Albumcover",
+        "deleteCollection" : "Delete Collection",
+        "deleteCollectionText" : "Do you really want to delete this collection?"
     },
     "collection" : {
-
+        "delete" : "Delete Collection",
+        "selectCoverImage" : "Select cover image",
+        "selectCoverImageText" : "Choose one image from albums inside this collection.",
+        "saveCover" : "Save cover",
+        "addAlbums" : "Add albums to collection",
+        "addAlbumsText" : "Select one or more albums.",
+        "addSelected" : "Add selected"
     },
     "blog" : {
         "foldername" : "Foldername",

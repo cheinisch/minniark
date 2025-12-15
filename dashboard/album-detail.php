@@ -417,6 +417,53 @@
   document.getElementById('confirmNo').onclick = () => dlg.close();
 })();
 </script>
+<script>
+(() => {
+  // Delegation: funktioniert für alle Bilder aus renderImageGalleryAlbum()
+  const imageList = document.getElementById('image-list');
+  if (!imageList) return;
+
+  const closeAll = (except = null) => {
+    imageList.querySelectorAll('.dropdown').forEach(dd => {
+      if (dd !== except) dd.classList.add('hidden');
+    });
+  };
+
+  imageList.addEventListener('click', (e) => {
+    // 1) Klick auf 3-Punkte Button (oder das SVG darin)
+    const btn = e.target.closest('button[data-filename]');
+    if (btn) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const wrap = btn.closest('.relative.inline-block');
+      const dd = wrap?.querySelector('.dropdown');
+      if (!dd) return;
+
+      const willOpen = dd.classList.contains('hidden');
+      closeAll(dd);
+      dd.classList.toggle('hidden', !willOpen);
+      return;
+    }
+
+    // 2) Klick im Dropdown selbst -> nichts schließen
+    if (e.target.closest('.dropdown')) return;
+
+    // 3) sonst: Dropdowns schließen
+    closeAll();
+  });
+
+  // Click außerhalb der Image-Liste schließt auch
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#image-list')) closeAll();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+</script>
+
 
 </body>
 </html>

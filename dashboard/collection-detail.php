@@ -201,14 +201,22 @@
 				</div>
 			</div>
             <main class="py-10 bg-white dark:bg-black">
-  <div class="px-4 sm:px-6 lg:px-8">
+  <?php
+    // WICHTIG: im neuen Layout waren diese Variablen nicht gesetzt → deshalb keine Bilder aus Alben
+    $collectionFile     = strtolower($collectionTitle);
+    $albumsInCollection = $collectiondata['albums'] ?? [];
+    $collectionTitleSlug = generateSlug($collectiondata['name'] ?? '');
+  ?>
 
+  <div class="px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
       <!-- Collection info -->
       <section class="lg:col-span-4">
         <div class="rounded-lg overflow-hidden bg-white dark:bg-black shadow-sm dark:outline dark:-outline-offset-1 dark:outline-white/10">
-          <img src="<?php echo htmlspecialchars($headimage); ?>" class="w-full aspect-video object-cover" alt="Collection cover">
+          <img src="<?php echo htmlspecialchars($headimage); ?>"
+               class="w-full aspect-video object-cover"
+               alt="Collection cover">
 
           <div class="p-5">
             <!-- view -->
@@ -216,6 +224,7 @@
               <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">
                 <?php echo htmlspecialchars($collectiondata['name'] ?? ''); ?>
               </h2>
+
               <div class="prose prose-sm mt-4 max-w-none dark:prose-invert text-gray-700 dark:text-gray-300">
                 <?php echo $descriptionHtml; ?>
               </div>
@@ -226,26 +235,28 @@
               <div id="text-edit-frame" class="hidden space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Title</label>
-                  <input type="text" name="collection-title-edit" value="<?php echo htmlspecialchars($collectiondata['name'] ?? ''); ?>"
-                    class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
-                           outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
-                           dark:bg-white/10 dark:outline-white/10">
-                  <input type="hidden" name="collection-current-title" value="<?php echo htmlspecialchars($collectiondata['name'] ?? ''); ?>">
+                  <input type="text" name="collection-title-edit"
+                         value="<?php echo htmlspecialchars($collectiondata['name'] ?? ''); ?>"
+                         class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
+                                outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
+                                dark:bg-white/10 dark:outline-white/10">
+                  <input type="hidden" name="collection-current-title"
+                         value="<?php echo htmlspecialchars($collectiondata['name'] ?? ''); ?>">
                 </div>
 
                 <div>
                   <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Description</label>
                   <textarea name="collection-description" rows="6"
-                    class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
-                           outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
-                           dark:bg-white/10 dark:outline-white/10"><?php echo htmlspecialchars($collectiondata['description'] ?? ''); ?></textarea>
+                            class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
+                                   outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
+                                   dark:bg-white/10 dark:outline-white/10"><?php echo htmlspecialchars($collectiondata['description'] ?? ''); ?></textarea>
                 </div>
               </div>
 
               <div class="mt-4 flex flex-wrap gap-2">
                 <div id="normal-group" class="flex gap-2">
                   <button type="button" id="edit_text"
-                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+                          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
                     Edit
                   </button>
 
@@ -257,13 +268,13 @@
 
                 <div id="edit-group" class="hidden flex gap-2">
                   <button type="submit"
-                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+                          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
                     Save
                   </button>
 
                   <button type="button" id="cancel_edit"
-                    class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
-                           dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
+                          class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                                 dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
                     Cancel
                   </button>
                 </div>
@@ -288,45 +299,45 @@
 <!-- =================== MODALS =================== -->
 
 <!-- Select Cover Image Modal -->
-<el-dialog>
-  <div id="addToAlbumImageModal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
-    <el-dialog-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></el-dialog-backdrop>
+<div id="addToAlbumImageModal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></div>
 
-    <div class="flex min-h-full items-center justify-center p-4">
-      <div class="w-full max-w-5xl rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
+  <div class="flex min-h-full items-center justify-center p-4">
+    <div class="w-full max-w-5xl rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
 
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Select cover image</h2>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Choose one image from albums inside this collection.</p>
-          </div>
-          <button type="button" id="closeAddToAlbumImageModal"
-            class="rounded-md p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-            <span class="sr-only">Close</span>
-            <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Select cover image</h2>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Choose one image from albums inside this collection.</p>
         </div>
+        <button type="button" id="closeAddToAlbumImageModal"
+                class="rounded-md p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <span class="sr-only">Close</span>
+          <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
 
-        <input type="text" id="imageSearchInput"
-          placeholder="Search by image name..."
-          class="mt-4 w-full rounded-md px-3 py-2 text-sm border border-gray-300 dark:border-white/10 bg-white dark:bg-white/10 text-gray-900 dark:text-white">
+      <input type="text" id="imageSearchInput"
+             placeholder="Search by image name..."
+             class="mt-4 w-full rounded-md px-3 py-2 text-sm border border-gray-300 dark:border-white/10 bg-white dark:bg-white/10 text-gray-900 dark:text-white">
 
-        <form method="post" action="backend_api/collection_set_hero.php" class="mt-4">
-          <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug); ?>">
+      <form method="post" action="backend_api/collection_set_hero.php" class="mt-4">
+        <!-- FIX: im alten Code war das teils "album", hier muss es die Collection identifizieren -->
+        <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug); ?>">
 
-          <div id="imageList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[60vh] overflow-y-auto">
-            <?php
-            // Erwartet: $albumsInCollection (array mit album slugs)
+        <div id="imageList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[60vh] overflow-y-auto">
+          <?php
             $imageDir  = __DIR__ . '/../userdata/content/images/';
-            $cachePath = '/cache/images/';
+            // FIX: in admin/ brauchst du i.d.R. ../cache/ statt /cache/
+            $cachePath = '../cache/images/';
 
-            require_once __DIR__ . '/../vendor/autoload.php';
             use Symfony\Component\Yaml\Yaml;
 
             foreach ($albumsInCollection as $albumSlug) {
               $album = getAlbumData($albumSlug);
+
               foreach (($album['images'] ?? []) as $imgName) {
                 $ymlPath = $imageDir . pathinfo($imgName, PATHINFO_FILENAME) . '.yml';
                 if (!file_exists($ymlPath)) continue;
@@ -337,6 +348,7 @@
                 } catch (Exception $e) {
                   continue;
                 }
+
                 if (empty($meta['guid'])) continue;
 
                 $title = htmlspecialchars($meta['title'] ?? $imgName);
@@ -353,65 +365,65 @@
                   </label>';
               }
             }
-            ?>
-          </div>
-
-          <div class="mt-6 flex justify-end gap-2">
-            <button type="button" id="cancelAddToAlbumImage"
-              class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
-                     dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
-              Cancel
-            </button>
-            <button type="submit"
-              class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
-              Save cover
-            </button>
-          </div>
-        </form>
-
-      </div>
-    </div>
-  </div>
-</el-dialog>
-
-<!-- Add Albums to Collection Modal -->
-<el-dialog>
-  <div id="addTocollectionAlbumModal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
-    <el-dialog-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></el-dialog-backdrop>
-
-    <div class="flex min-h-full items-center justify-center p-4">
-      <div class="w-full max-w-5xl rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
-
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Add albums to collection</h2>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Select one or more albums.</p>
-          </div>
-          <button type="button" id="closeAddTocollectionAlbumModal"
-            class="rounded-md p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-            <span class="sr-only">Close</span>
-            <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
+          ?>
         </div>
 
-        <input type="text" id="albumSearchInput"
-          placeholder="Search by album name..."
-          class="mt-4 w-full rounded-md px-3 py-2 text-sm border border-gray-300 dark:border-white/10 bg-white dark:bg-white/10 text-gray-900 dark:text-white">
+        <div class="mt-6 flex justify-end gap-2">
+          <button type="button" id="cancelAddToAlbumImage"
+                  class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                         dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
+            Cancel
+          </button>
+          <button type="submit"
+                  class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
+            Save cover
+          </button>
+        </div>
+      </form>
 
-        <form method="post" action="backend_api/add_albums_to_collection.php" class="mt-4">
-          <input type="hidden" name="collection" value="<?php echo htmlspecialchars($collectionTitleSlug); ?>">
+    </div>
+  </div>
+</div>
 
-          <div id="albumList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[60vh] overflow-y-auto">
-            <?php
+<!-- Add Albums to Collection Modal -->
+<div id="addTocollectionAlbumModal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+
+  <div class="flex min-h-full items-center justify-center p-4">
+    <div class="w-full max-w-5xl rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
+
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Add albums to collection</h2>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Select one or more albums.</p>
+        </div>
+        <button type="button" id="closeAddTocollectionAlbumModal"
+                class="rounded-md p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <span class="sr-only">Close</span>
+          <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <input type="text" id="albumSearchInput"
+             placeholder="Search by album name..."
+             class="mt-4 w-full rounded-md px-3 py-2 text-sm border border-gray-300 dark:border-white/10 bg-white dark:bg-white/10 text-gray-900 dark:text-white">
+
+      <form method="post" action="backend_api/add_albums_to_collection.php" class="mt-4">
+        <input type="hidden" name="collection" value="<?php echo htmlspecialchars($collectionTitleSlug); ?>">
+
+        <div id="albumList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[60vh] overflow-y-auto">
+          <?php
             $allAlbums = getAlbumList();
+
             foreach ($allAlbums as $a) {
               $imageSrc = '';
               if (!empty($a['image'])) {
                 $tmp = get_cacheimage($a['image'], 'M');
                 $imageSrc = '../cache/images/' . $tmp;
               }
+
               $thumb = $imageSrc ?: 'img/placeholder.png';
               $title = $a['title'] ?? $a['name'] ?? $a['slug'];
 
@@ -424,74 +436,69 @@
                   <span class="block mt-1 truncate text-xs text-gray-700 dark:text-gray-300">' . htmlspecialchars($title) . '</span>
                 </label>';
             }
-            ?>
-          </div>
+          ?>
+        </div>
 
-          <div class="mt-6 flex justify-end gap-2">
-            <button type="button" id="cancelAddTocollectionAlbum"
-              class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
-                     dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
-              Cancel
-            </button>
-            <button type="submit"
-              class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
-              Add selected
-            </button>
-          </div>
-        </form>
+        <div class="mt-6 flex justify-end gap-2">
+          <button type="button" id="cancelAddTocollectionAlbum"
+                  class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                         dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
+            Cancel
+          </button>
+          <button type="submit"
+                  class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
+            Add selected
+          </button>
+        </div>
+      </form>
 
+    </div>
+  </div>
+</div>
+
+<!-- Confirm: remove album from collection (.confirm-link) -->
+<div id="confirmModal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+  <div class="flex min-h-full items-center justify-center p-4 text-center">
+    <div class="w-full max-w-lg rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
+      <h2 class="text-base font-semibold text-gray-900 dark:text-white">Remove album</h2>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Do you really want to remove this album from the collection?</p>
+      <div class="mt-6 flex justify-end gap-2">
+        <button id="confirmNo" type="button"
+                class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                       dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
+          <?php echo languageString('general.cancel'); ?>
+        </button>
+        <button id="confirmYes" type="button"
+                class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
+          Remove
+        </button>
       </div>
     </div>
   </div>
-</el-dialog>
+</div>
 
-<!-- Remove album from collection confirm (.confirm-link) -->
-<el-dialog>
-  <dialog id="confirmModal" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-    <el-dialog-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></el-dialog-backdrop>
-    <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center">
-      <div class="w-full max-w-lg rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
-        <h2 class="text-base font-semibold text-gray-900 dark:text-white">Remove album</h2>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Do you really want to remove this album from the collection?</p>
-        <div class="mt-6 flex justify-end gap-2">
-          <button id="confirmNo" type="button"
-            class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
-                   dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
-            <?php echo languageString('general.cancel'); ?>
-          </button>
-          <button id="confirmYes" type="button"
-            class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
-            Remove
-          </button>
-        </div>
+<!-- Confirm: delete collection (.delete-link) -->
+<div id="confirmModalcollection" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+  <div class="flex min-h-full items-center justify-center p-4 text-center">
+    <div class="w-full max-w-lg rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
+      <h2 class="text-base font-semibold text-gray-900 dark:text-white">Delete collection</h2>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Do you really want to delete this collection?</p>
+      <div class="mt-6 flex justify-end gap-2">
+        <button id="confirmcollectionNo" type="button"
+                class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                       dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
+          <?php echo languageString('general.cancel'); ?>
+        </button>
+        <button id="confirmcollectionYes" type="button"
+                class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
+          Delete
+        </button>
       </div>
     </div>
-  </dialog>
-</el-dialog>
-
-<!-- Delete collection confirm (.delete-link) -->
-<el-dialog>
-  <dialog id="confirmModalcollection" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-    <el-dialog-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-[2px]"></el-dialog-backdrop>
-    <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center">
-      <div class="w-full max-w-lg rounded-lg bg-white dark:bg-black p-6 shadow-xl dark:outline dark:-outline-offset-1 dark:outline-white/10">
-        <h2 class="text-base font-semibold text-gray-900 dark:text-white">Delete collection</h2>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Do you really want to delete this collection?</p>
-        <div class="mt-6 flex justify-end gap-2">
-          <button id="confirmcollectionNo" type="button"
-            class="px-3 py-2 text-sm rounded-md bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
-                   dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
-            <?php echo languageString('general.cancel'); ?>
-          </button>
-          <button id="confirmcollectionYes" type="button"
-            class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
-  </dialog>
-</el-dialog>
+  </div>
+</div>
 
 <script src="js/tailwind.js"></script>
 <script src="js/collection_edit.js"></script>
@@ -500,16 +507,16 @@
   // Open/close modals (Select Cover + Add Album)
   (() => {
     const coverModal = document.getElementById('addToAlbumImageModal');
-    const openCover = document.getElementById('selectCollectionImageBtn');
+    const openCover  = document.getElementById('selectCollectionImageBtn');
     const closeCover = document.getElementById('closeAddToAlbumImageModal');
-    const cancelCover = document.getElementById('cancelAddToAlbumImage');
+    const cancelCover= document.getElementById('cancelAddToAlbumImage');
 
     const albumModal = document.getElementById('addTocollectionAlbumModal');
-    const openAlbum = document.getElementById('addAlbumtoCollectionBtn');
+    const openAlbum  = document.getElementById('addAlbumtoCollectionBtn');
     const closeAlbum = document.getElementById('closeAddTocollectionAlbumModal');
-    const cancelAlbum = document.getElementById('cancelAddTocollectionAlbum');
+    const cancelAlbum= document.getElementById('cancelAddTocollectionAlbum');
 
-    const open = (m) => m?.classList.remove('hidden');
+    const open  = (m) => m?.classList.remove('hidden');
     const close = (m) => m?.classList.add('hidden');
 
     openCover?.addEventListener('click', () => open(coverModal));
@@ -532,7 +539,7 @@
   // Search inside modals
   (() => {
     const imgSearch = document.getElementById('imageSearchInput');
-    const imgList = document.getElementById('imageList');
+    const imgList   = document.getElementById('imageList');
 
     imgSearch?.addEventListener('input', () => {
       const q = (imgSearch.value || '').toLowerCase().trim();
@@ -543,7 +550,7 @@
     });
 
     const albSearch = document.getElementById('albumSearchInput');
-    const albList = document.getElementById('albumList');
+    const albList   = document.getElementById('albumList');
 
     albSearch?.addEventListener('input', () => {
       const q = (albSearch.value || '').toLowerCase().trim();
@@ -559,33 +566,35 @@
   // Confirm modal for removing album from collection (.confirm-link)
   (() => {
     let pending = null;
-    const dlg = document.getElementById('confirmModal');
-    const yes = document.getElementById('confirmYes');
-    const no = document.getElementById('confirmNo');
+    const modal = document.getElementById('confirmModal');
+    const yes   = document.getElementById('confirmYes');
+    const no    = document.getElementById('confirmNo');
 
-    if (!dlg || !yes || !no) return;
+    if (!modal || !yes || !no) return;
 
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a.confirm-link');
       if (!a) return;
       e.preventDefault();
       pending = a.href;
-      dlg.showModal?.();
+      modal.classList.remove('hidden');
     });
 
     no.addEventListener('click', () => {
       pending = null;
-      if (dlg.open) dlg.close();
+      modal.classList.add('hidden');
     });
 
     yes.addEventListener('click', () => {
       const href = pending;
       pending = null;
-      if (dlg.open) dlg.close();
+      modal.classList.add('hidden');
       if (href) window.location.assign(href);
     });
 
-    dlg.addEventListener('close', () => pending = null);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) { pending = null; modal.classList.add('hidden'); }
+    });
   })();
 </script>
 
@@ -593,52 +602,54 @@
   // Confirm modal for deleting collection (.delete-link)
   (() => {
     let pending = null;
-    const dlg = document.getElementById('confirmModalcollection');
-    const yes = document.getElementById('confirmcollectionYes');
-    const no = document.getElementById('confirmcollectionNo');
+    const modal = document.getElementById('confirmModalcollection');
+    const yes   = document.getElementById('confirmcollectionYes');
+    const no    = document.getElementById('confirmcollectionNo');
 
-    if (!dlg || !yes || !no) return;
+    if (!modal || !yes || !no) return;
 
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a.delete-link');
       if (!a) return;
       e.preventDefault();
       pending = a.href;
-      dlg.showModal?.();
+      modal.classList.remove('hidden');
     });
 
     no.addEventListener('click', () => {
       pending = null;
-      if (dlg.open) dlg.close();
+      modal.classList.add('hidden');
     });
 
     yes.addEventListener('click', () => {
       const href = pending;
       pending = null;
-      if (dlg.open) dlg.close();
+      modal.classList.add('hidden');
       if (href) window.location.assign(href);
     });
 
-    dlg.addEventListener('close', () => pending = null);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) { pending = null; modal.classList.add('hidden'); }
+    });
   })();
 </script>
 
 <script>
   /**
-   * Dropdowns in der Bilderliste (für dein Markup: button[data-filename] + .dropdown.hidden ...)
-   * Fix: "..." öffnet Menü, Klick außerhalb schließt, ESC schließt.
+   * Dropdowns in der Bilderliste:
+   * Fix: Button "..." öffnet Menü, Klick außerhalb schließt, ESC schließt.
    */
   (() => {
-    const imageList = document.getElementById('image-list');
-    if (!imageList) return;
+    const list = document.getElementById('image-list');
+    if (!list) return;
 
     const closeAll = (except = null) => {
-      imageList.querySelectorAll('.dropdown').forEach(dd => {
+      list.querySelectorAll('.dropdown').forEach(dd => {
         if (dd !== except) dd.classList.add('hidden');
       });
     };
 
-    imageList.addEventListener('click', (e) => {
+    list.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-filename]');
       if (btn) {
         e.preventDefault();

@@ -350,7 +350,10 @@
         "saveCover" : "Save cover",
         "addAlbums" : "Add albums to collection",
         "addAlbumsText" : "Select one or more albums.",
-        "addSelected" : "Add selected"
+        "addSelected" : "Add selected",
+        "removeFromCollection" : "Remove from Collection",
+        "removeFromCollectionText" : "Are you sure you want to remove this item?",
+        "removeAlbumBtn" : "Remove Album"
     },
     "blog" : {
         "foldername" : "Foldername",

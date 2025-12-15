@@ -296,7 +296,7 @@
                                     </svg>
                                 </button>                    
                                 <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
-                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">Remove from Collection</a>
+                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">".languageString('collection.removeFromCollection')."</a>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +318,7 @@
                                     </svg>
                                 </button>                    
                                 <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
-                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">Remove from Collection</a>
+                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">".languageString('collection.removeFromCollection')."</a>
                                 </div>
                             </div>
                         </div>
@@ -340,7 +340,7 @@
                                     </svg>
                                 </button>                    
                                 <div class=\"dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
-                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">Remove from Collection</a>
+                                    <a href=\"backend_api/delete.php?type=removealbumfromcollection&albumname=$albumslug&collection=$collectionSlug\" class=\"confirm-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">".languageString('collection.removeFromCollection')."</a>
                                 </div>
                             </div>
                         </div>

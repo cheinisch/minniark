@@ -539,6 +539,56 @@ $albumTitle = $albumTitle ?? '';
     </div>
   </el-dialog>
 
+  <!-- ============== REMOVE ALBUM MODAL ============== -->$_COOKIE
+   <el-dialog>
+  <div id="confirmRemoveModal"
+       class="hidden fixed inset-0 z-50"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="confirm-remove-title">
+
+    <el-dialog-backdrop
+      class="fixed inset-0 bg-black/50 backdrop-blur-[2px] transition-opacity">
+    </el-dialog-backdrop>
+
+    <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center">
+      <el-dialog-panel
+        class="relative w-full max-w-md transform overflow-hidden rounded-lg
+               bg-white dark:bg-black px-6 py-5 text-left shadow-xl
+               dark:outline dark:-outline-offset-1 dark:outline-white/10">
+
+        <h2 id="confirm-remove-title"
+            class="text-base font-semibold text-gray-900 dark:text-white">
+          <?php echo languageString('collection.removeFromCollection'); ?>
+        </h2>
+
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          <?php echo languageString('collection.removeFromCollectionText'); ?>
+        </p>
+
+        <div class="mt-6 flex justify-end gap-2">
+          <button id="confirmRemoveCancel"
+                  type="button"
+                  class="px-3 py-2 text-sm rounded-md
+                         bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
+                         dark:bg-white/10 dark:text-white
+                         dark:inset-ring-white/5 dark:hover:bg-white/20">
+            <?php echo languageString('general.cancel'); ?>
+          </button>
+
+          <a id="confirmRemoveYes"
+             href="#"
+             class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
+            <?php echo languageString('collection.removeAlbumBtn'); ?>
+          </a>
+        </div>
+
+      </el-dialog-panel>
+    </div>
+  </div>
+</el-dialog>
+
+
 </div><!-- /lg:pl-72 -->
 
 <script src="js/tailwind.js"></script>
@@ -670,22 +720,85 @@ $albumTitle = $albumTitle ?? '';
 })();
 </script>
 <script>
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.dropdown-toggle');
-  if (!btn) return;
+(() => {
+  // Hilfsfunktionen
+  const isDropdown = (el) => el && el.classList && el.classList.contains('dropdown');
 
-  const menu = btn.nextElementSibling;
-  if (!menu || !menu.classList.contains('dropdown-menu')) return;
+  const closeAll = (except = null) => {
+    document.querySelectorAll('.dropdown').forEach(dd => {
+      if (dd === except) return;
+      dd.classList.add('hidden');
+    });
+  };
 
-  const expanded = btn.getAttribute('aria-expanded') === 'true';
+  // Toggle per Klick (Event Delegation)
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-filename]');
+    if (!btn) {
+      // Klick außerhalb -> alles schließen
+      if (!e.target.closest('.dropdown')) closeAll();
+      return;
+    }
 
-  btn.setAttribute('aria-expanded', String(!expanded));
-  menu.classList.toggle('hidden', expanded);
+    // Dein HTML: <button ...> ... </button> <div class="dropdown hidden ...">
+    const wrap = btn.parentElement;
+    if (!wrap) return;
 
-  const chevron = btn.querySelector('.chevron');
-  chevron?.classList.toggle('rotate-180', !expanded);
-});
+    const dd = wrap.querySelector(':scope > .dropdown') || wrap.querySelector('.dropdown');
+    if (!isDropdown(dd)) return;
+
+    // andere schließen, dann toggeln
+    const willOpen = dd.classList.contains('hidden');
+    closeAll(dd);
+    dd.classList.toggle('hidden', !willOpen);
+
+    // Klick soll nicht sofort wieder "außen" triggern
+    e.stopPropagation();
+  });
+
+  // ESC schließt
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAll();
+  });
+})();
 </script>
+
+<script>
+(() => {
+  const modal = document.getElementById('confirmRemoveModal');
+  const confirmBtn = document.getElementById('confirmRemoveYes');
+  const cancelBtn = document.getElementById('confirmRemoveCancel');
+
+  let pendingHref = null;
+
+  // Klick auf "Remove ..."
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.confirm-link');
+    if (!link) return;
+
+    e.preventDefault();
+    pendingHref = link.href;
+    confirmBtn.href = pendingHref;
+    modal.classList.remove('hidden');
+  });
+
+  // Cancel
+  cancelBtn?.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    pendingHref = null;
+    confirmBtn.href = '#';
+  });
+
+  // ESC schließt
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      modal.classList.add('hidden');
+      pendingHref = null;
+    }
+  });
+})();
+</script>
+
 
 </body>
 </html>

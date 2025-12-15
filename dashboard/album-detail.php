@@ -202,7 +202,7 @@
               <form action="backend_api/album_update.php" method="post">
                 <div id="text-edit-frame" class="hidden space-y-4 mt-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-800 dark:text-gray-200">Title</label>
+                    <label class="block text-sm font-medium text-gray-800 dark:text-gray-200"><?php echo languageString('general.title'); ?></label>
                     <input
                       type="text"
                       name="album-title-edit"
@@ -218,7 +218,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-800 dark:text-gray-200">Description</label>
+                    <label class="block text-sm font-medium text-gray-800 dark:text-gray-200"><?php echo languageString('general.description'); ?></label>
                     <textarea
                       name="album-description"
                       rows="6"
@@ -236,7 +236,7 @@
                       id="edit_text"
                       class="rounded-md bg-cyan-600 px-3 py-2 text-sm text-white hover:bg-cyan-500"
                     >
-                      Edit
+                      <?php echo languageString('general.edit'); ?>
                     </button>
 
                     <button
@@ -244,7 +244,7 @@
                       id="openDeleteAlbumModal"
                       class="rounded-md px-3 py-2 text-sm text-red-600 hover:bg-red-100 dark:hover:bg-red-500/10"
                     >
-                      Delete album
+                      <?php echo languageString('album.deleteAlbum'); ?>
                     </button>
                   </div>
 
@@ -253,14 +253,14 @@
                       type="submit"
                       class="rounded-md bg-cyan-600 px-3 py-2 text-sm text-white hover:bg-cyan-500"
                     >
-                      Save
+                      <?php echo languageString('general.save'); ?>
                     </button>
                     <button
                       type="button"
                       id="cancel_edit"
                       class="rounded-md bg-gray-200 px-3 py-2 text-sm hover:bg-gray-300 dark:bg-white/10 dark:hover:bg-white/15 text-gray-900 dark:text-white"
                     >
-                      Cancel
+                      <?php echo languageString('general.cancel'); ?>
                     </button>
                   </div>
                 </div>
@@ -304,11 +304,11 @@
 
         <h2 id="delete-album-title"
             class="text-base font-semibold text-gray-900 dark:text-white">
-          Delete album
+          <?php echo languageString('album.deleteAlbum'); ?>
         </h2>
 
         <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          Do you really want to delete this album? This action cannot be undone.
+          <?php echo languageString('album.deleteAlbumText'); ?>
         </p>
 
         <div class="mt-6 flex justify-end gap-2">
@@ -322,7 +322,7 @@
 
           <a href="backend_api/delete.php?type=album&filename=<?php echo urlencode((string)$albumTitle); ?>"
              class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
-            Delete
+            <?php echo languageString('general.delete'); ?>
           </a>
         </div>
 
@@ -352,11 +352,11 @@
 
         <h2 id="delete-image-title"
             class="text-base font-semibold text-gray-900 dark:text-white">
-          Remove image
+          <?php echo languageString('album.removeFromAlbum'); ?>
         </h2>
 
         <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          Do you really want to remove this image from the album?
+          <?php echo languageString('album.removeFromAlbumText'); ?>
         </p>
 
         <div class="mt-6 flex justify-end gap-2">
@@ -365,13 +365,13 @@
                          bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
                          dark:bg-white/10 dark:text-white
                          dark:inset-ring-white/5 dark:hover:bg-white/20">
-            Cancel
+            <?php echo languageString('general.cancel'); ?>
           </button>
 
           <a id="confirmDeleteImage"
              href="#"
              class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-500">
-            Remove
+            <?php echo languageString('general.delete'); ?>
           </a>
         </div>
 
@@ -401,7 +401,7 @@
 
         <div class="flex items-start justify-between gap-4 mb-4">
           <h2 id="add-image-title" class="text-lg font-semibold text-gray-900 dark:text-white">
-            Add images to album
+            <?php echo languageString('album.addToAlbum'); ?>
           </h2>
 
           <button type="button" id="closeAddImageModal"
@@ -456,12 +456,12 @@
                            bg-white inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
                            dark:bg-white/10 dark:text-white
                            dark:inset-ring-white/5 dark:hover:bg-white/20">
-              Cancel
+              <?php echo languageString('general.cancel'); ?>
             </button>
 
             <button type="submit"
                     class="px-3 py-2 text-sm rounded-md bg-cyan-600 text-white hover:bg-cyan-500">
-              Add selected
+              <?php echo languageString('album.addSelectedImage'); ?>
             </button>
           </div>
         </form>

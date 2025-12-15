@@ -1,10 +1,11 @@
-## [2025.12.1]
-2025-12-14
+## [2025.12.2]
+2025-12-15
 
-### New Features
-- Album get new design
-- Collection get new design
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.11.2...v2025.12.2
 
-### Bug Fixes
-- Add Album Modal don't work
-- Add Collection Modal don't work
+### Changes
+- Album get new Design
+- Collection get new Design
+
+### Bugfixes
+- add language missing language strings

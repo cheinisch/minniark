@@ -228,7 +228,7 @@ $albumTitle = $albumTitle ?? '';
                   <div id="normal-group" class="flex gap-2">
                     <button type="button" id="edit_text"
                             class="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white hover:bg-cyan-500">
-                      Edit
+                      <?php echo languageString('general.edit'); ?>
                     </button>
 
                     <a href="backend_api/delete.php?type=collection&filename=<?php echo urlencode(generateSlug($collectiondata['name'] ?? '')); ?>"
@@ -240,13 +240,13 @@ $albumTitle = $albumTitle ?? '';
                   <div id="edit-group" class="hidden flex gap-2">
                     <button type="submit"
                             class="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white hover:bg-cyan-500">
-                      Save
+                      <?php echo languageString('general.save'); ?>
                     </button>
 
                     <button type="button" id="cancel_edit"
                             class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 inset-ring-1 inset-ring-gray-300 hover:bg-gray-50
                                    dark:bg-white/10 dark:text-white dark:inset-ring-white/5 dark:hover:bg-white/20">
-                      Cancel
+                      <?php echo languageString('general.cancel'); ?>
                     </button>
                   </div>
                 </div>

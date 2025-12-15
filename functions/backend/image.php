@@ -379,8 +379,8 @@ function renderImageGallery($filterYear = null, $filterRating = null, $filterTag
                             </svg>
                         </button>
                         <div class=\"dropdown hidden absolute right-0 z-10 bottom-full mb-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none\">
-                            <a href=\"backend_api/album_set_hero.php?album=$album&filename=$fileName\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Set as Hero Image</a>
-                            <a href=\"backend_api/delete.php?type=album_img&filename=$fileName&albumname=$album\" class=\"image-delete-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">remove from album</a>
+                            <a href=\"backend_api/album_set_hero.php?album=$album&filename=$fileName\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">".languageString('album.setHero')."</a>
+                            <a href=\"backend_api/delete.php?type=album_img&filename=$fileName&albumname=$album\" class=\"image-delete-link block px-4 py-2 text-sm text-red-600 hover:bg-red-100\">".languageString('album.removeFromAlbum')."</a>
                         </div>
                     </div>
                 </div>

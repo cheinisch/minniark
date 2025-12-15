@@ -330,7 +330,18 @@
         }
     },
     "album" : {
-        "addToAlbum" : "Add to Album"
+        "addToAlbum" : "Add to Album",
+        "removeFromAlbum" : "Remove from Album",
+        "removeFromAlbumText" : "Do you really want to remove this image from the album?",
+        "deleteAlbum" : "Delete Album",
+        "deleteAlbumText" : "Do you really want to delete this album? This action cannot be undone.",
+        "addImage" : "Add Image",
+        "addSelectedImage" : "Add selected images",
+        "removeImage" : "Remove Image",
+        "setHero" : "Set Albumcover"
+    },
+    "collection" : {
+
     },
     "blog" : {
         "foldername" : "Foldername",

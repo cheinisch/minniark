@@ -37,7 +37,7 @@
         "login":"Connexion",
         "login_at":"Connexion sur",
         "password":"Mot de passe",
-        "passowrd_wrong":"Mot de passe incorrect",
+        "password_wrong":"Mot de passe incorrect",
         "enter_otp":"Entrer le code OTP",
         "username":"Nom d’utilisateur",
         "username_wrong":"Nom d’utilisateur incorrect",

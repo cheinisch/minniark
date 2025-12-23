@@ -38,7 +38,7 @@
         "login":"Login",
         "login_at":"Login at",
         "password":"Password",
-        "passowrd_wrong":"Password is wrong",
+        "password_wrong":"Password is wrong",
         "enter_otp":"Enter OTP",
         "username":"Username",
         "username_wrong":"Username is wrong",

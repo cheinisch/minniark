@@ -1,8 +1,13 @@
 <?php
 
     require_once( __DIR__ . "/../functions/function_backend.php");
+    require_once __DIR__ . '/../app/autoload.php';
 	$settingspage = "system";
 	security_checklogin();
+
+  $lm = new LicenseManager(dirname(__DIR__), $_ENV['LEMON_SQUEEZY_API_KEY'] ?? getenv('LEMON_SQUEEZY_API_KEY') ?? '');
+  $licenseSummary = $lm->getSummary();   // masked key + status
+  $isPro = $lm->isLicensed();
 
 ?>
 
@@ -489,101 +494,133 @@
               </div>
             </section>
 
-            <!-- Supporter License -->
-            <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
-              <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-                <h2 class="text-sm font-semibold">
-                  <?php echo languageString('dashboard.system.license_title'); ?>
-                </h2>
-                <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
-                  <?php echo languageString('dashboard.system.license_description'); ?>
-                </p>
-              </header>
+<?php
+  // Voraussetzung: Oben auf der Seite existiert bereits:
+  // $lm = new LicenseManager(dirname(__DIR__), $_ENV['LEMON_SQUEEZY_API_KEY'] ?? getenv('LEMON_SQUEEZY_API_KEY') ?? '');
+  // $summary = $lm->getSummary();
+  // $rawKey  = $lm->getRawLicenseKey();
+  // $isPro   = $lm->isLicensed();
 
-              <div class="px-4 py-4">
-                <form class="md:col-span-2" id="change-sitelicense-form" action="backend_api/settings_save.php" method="post">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
-                    <div class="sm:col-span-full">
-                      <label for="site-license" class="block text-xs font-medium">
-                        <?php echo languageString('dashboard.system.license_field'); ?>
-                      </label>
+  $summary = $summary ?? $lm->getSummary();
+  $rawKey  = $rawKey  ?? $lm->getRawLicenseKey();
+  $isPro   = $isPro   ?? $lm->isLicensed();
 
-                      <?php if(!empty(get_license())): $info = getLicenseInformation(); ?>
-                        <ul class="mt-2 text-sm text-black/80 dark:text-gray-300">
-                          <?php if (!$info['valid']): ?>
-                            <li>
-                              <?php
-                                echo languageString('dashboard.system.license_invalid');
-                                if (!empty($info['message'])) {
-                                  echo ': ' . htmlspecialchars($info['message']);
-                                }
-                              ?>.
-                            </li>
-                            <?php if (!empty($info['expired_date'])): ?>
-                              <li>
-                                <?php echo languageString('dashboard.system.license_expired_label'); ?>:
-                                <?php echo htmlspecialchars($info['expired_date']); ?>
-                              </li>
-                            <?php endif; ?>
-                          <?php else: ?>
-                            <li><?php echo languageString('dashboard.system.license_valid'); ?></li>
-                            <?php if (empty($info['expired_date'])): ?>
-                              <li>
-                                <?php echo languageString('dashboard.system.license_status'); ?>:
-                                <span class="text-emerald-600">
-                                  <?php echo languageString('dashboard.system.license_status_active'); ?>
-                                </span>
-                              </li>
-                              <li>
-                                <?php echo languageString('dashboard.system.license_type'); ?>:
-                                <?php echo languageString('dashboard.system.license_type_unlimited'); ?>
-                              </li>
-                            <?php else: ?>
-                              <li>
-                                <?php echo languageString('dashboard.system.license_status'); ?>:
-                                <?php if ($info['expired']): ?>
-                                  <span class="text-red-600">
-                                    <?php echo languageString('dashboard.system.license_status_expired'); ?>
-                                  </span>
-                                <?php else: ?>
-                                  <span class="text-emerald-600">
-                                    <?php echo languageString('dashboard.system.license_status_active'); ?>
-                                  </span>
-                                <?php endif; ?>
-                              </li>
-                              <?php if (!$info['expired']): ?>
-                                <li>
-                                  <?php echo languageString('dashboard.system.license_remaining_days'); ?>:
-                                  <?php echo (int)$info['days']; ?>
-                                </li>
-                              <?php endif; ?>
-                              <li>
-                                <?php echo languageString('dashboard.system.license_expire_date'); ?>:
-                                <?php echo htmlspecialchars($info['expired_date']); ?>
-                              </li>
-                            <?php endif; ?>
-                            <li>
-                              <?php echo languageString('dashboard.system.license_activation'); ?>:
-                              <?php echo (int)$info['timesActivated'] . ' / ' . (int)$info['timesActivatedMax']; ?>
-                            </li>
-                          <?php endif; ?>
-                        </ul>
-                      <?php endif; ?>
+  $status     = (string)($summary['status'] ?? '');
+  $expiresAt  = $summary['expires_at'] ?? null;
+  $limit      = $summary['activation_limit'] ?? null;
+  $usage      = $summary['activation_usage'] ?? null;
+  $lastError  = $summary['last_error'] ?? null;
+?>
 
-                      <input type="text" name="site-license" id="site-license" value="<?php echo get_license(); ?>"
-                            class="mt-2 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500">
-                    </div>
-                  </div>
+<!-- Supporter License -->
+<section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
+  <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
+    <h2 class="text-sm font-semibold">
+      <?php echo languageString('dashboard.system.license_title'); ?>
+    </h2>
+    <p class="mt-1 text-xs text-black/60 dark:text-gray-400">
+      <?php echo languageString('dashboard.system.license_description'); ?>
+    </p>
+  </header>
 
-                  <div class="mt-4 flex">
-                    <button type="submit" id="btnSiteLicense"
-                            class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
-                      <?php echo languageString('general.save'); ?>
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </section>
+  <div class="px-4 py-4">
+    <form class="md:col-span-2" id="change-sitelicense-form" action="backend_api/settings_save.php" method="post">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:max-w-xl sm:grid-cols-6">
+        <div class="sm:col-span-full">
+          <label for="site-license" class="block text-xs font-medium">
+            <?php echo languageString('dashboard.system.license_field'); ?>
+          </label>
+
+          <?php if (!empty($rawKey)): ?>
+            <ul class="mt-2 text-sm text-black/80 dark:text-gray-300 space-y-0.5">
+              <?php if (!$isPro): ?>
+                <li>
+                  <?php echo languageString('dashboard.system.license_invalid'); ?>
+                  <?php if (!empty($status)): ?>
+                    <span class="text-xs text-black/60 dark:text-gray-400">(<?php echo htmlspecialchars($status, ENT_QUOTES, 'UTF-8'); ?>)</span>
+                  <?php endif; ?>
+                </li>
+
+                <?php if (!empty($lastError)): ?>
+                  <li class="text-xs text-black/60 dark:text-gray-400">
+                    <?php echo htmlspecialchars($lastError, ENT_QUOTES, 'UTF-8'); ?>
+                  </li>
+                <?php endif; ?>
+
+                <?php if (!empty($expiresAt)): ?>
+                  <li>
+                    <?php echo languageString('dashboard.system.license_expired_label'); ?>:
+                    <?php echo htmlspecialchars((string)$expiresAt, ENT_QUOTES, 'UTF-8'); ?>
+                  </li>
+                <?php endif; ?>
+
+              <?php else: ?>
+                <li><?php echo languageString('dashboard.system.license_valid'); ?></li>
+
+                <li>
+                  <?php echo languageString('dashboard.system.license_status'); ?>:
+                  <span class="text-emerald-600">
+                    <?php echo languageString('dashboard.system.license_status_active'); ?>
+                  </span>
+                </li>
+
+                <?php if (empty($expiresAt)): ?>
+                  <li>
+                    <?php echo languageString('dashboard.system.license_type'); ?>:
+                    <?php echo languageString('dashboard.system.license_type_unlimited'); ?>
+                  </li>
+                <?php else: ?>
+                  <li>
+                    <?php echo languageString('dashboard.system.license_expire_date'); ?>:
+                    <?php echo htmlspecialchars((string)$expiresAt, ENT_QUOTES, 'UTF-8'); ?>
+                  </li>
+                <?php endif; ?>
+
+                <?php if ($limit !== null): ?>
+                  <li>
+                    <?php echo languageString('dashboard.system.license_activation'); ?>:
+                    <?php echo (int)$usage . ' / ' . (int)$limit; ?>
+                  </li>
+                <?php endif; ?>
+              <?php endif; ?>
+            </ul>
+
+            <p class="mt-2 text-xs text-black/60 dark:text-gray-400">
+              <?php echo languageString('dashboard.system.license_hint_remove'); ?>
+              <!-- Falls du keinen String hast: "Zum Entfernen Feld leeren und speichern." -->
+            </p>
+          <?php endif; ?>
+
+          <input
+            type="text"
+            name="site-license"
+            id="site-license"
+            value="<?php echo htmlspecialchars($rawKey, ENT_QUOTES, 'UTF-8'); ?>"
+            placeholder="XXXX-XXXX-XXXX-XXXX"
+            class="mt-2 block w-full bg-white/5 px-3 py-1.5 text-sm outline-1 -outline-offset-1 outline-gray-500 dark:outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-500"
+          >
+        </div>
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <button type="submit" id="btnSiteLicense"
+                class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10">
+          <?php echo languageString('general.save'); ?>
+        </button>
+
+        <?php if (!empty($rawKey)): ?>
+          <button type="button"
+                  class="text-xs px-2 py-1 rounded border border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10"
+                  onclick="(function(){ const i=document.getElementById('site-license'); if(i){ i.value=''; i.focus(); } })();">
+            <?php echo languageString('general.remove'); ?>
+            <!-- falls du keinen String hast: "Remove" -->
+          </button>
+        <?php endif; ?>
+      </div>
+    </form>
+  </div>
+</section>
+
 
           </div>
         </div>

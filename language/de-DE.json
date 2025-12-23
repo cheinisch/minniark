@@ -37,7 +37,7 @@
         "login":"Login",
         "login_at":"Anmelden bei",
         "password":"Passwort",
-        "passowrd_wrong":"Passwort ist falsch",
+        "password_wrong":"Passwort ist falsch",
         "enter_otp":"Einmalcode eingeben",
         "username":"Benutzername",
         "username_wrong":"Benutzername ist falsch",

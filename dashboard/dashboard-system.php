@@ -2,12 +2,12 @@
 
     require_once( __DIR__ . "/../functions/function_backend.php");
     require_once __DIR__ . '/../app/autoload.php';
-	$settingspage = "system";
-	security_checklogin();
+    $settingspage = "system";
+    security_checklogin();
 
-  $lm = new LicenseManager(dirname(__DIR__), $_ENV['LEMON_SQUEEZY_API_KEY'] ?? getenv('LEMON_SQUEEZY_API_KEY') ?? '');
-  $licenseSummary = $lm->getSummary();   // masked key + status
-  $isPro = $lm->isLicensed();
+    $lm = new LicenseManager(dirname(__DIR__));
+    $licenseSummary = $lm->getSummary();   // safe
+    $isPro = (bool)($licenseSummary['valid'] ?? false);
 
 ?>
 
@@ -646,15 +646,10 @@
           })();
         </script>
       </main>
-
-			
-
-
 		</div>
-		<!-- <script src="js/navbar.js"></script> -->
 		<script src="js/tailwind.js"></script>
 		<script src="js/select_settings.js"></script>
-        <script src="js/save_settings.js"></script>
+    <script src="js/save_settings.js"></script>
 
 	</body>
 </html>

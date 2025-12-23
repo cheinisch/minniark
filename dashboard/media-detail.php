@@ -1,10 +1,15 @@
 <?php
   require_once( __DIR__ . "/../functions/function_backend.php");
+  require_once __DIR__ . '/../app/autoload.php';
   security_checklogin();
 
   $image_url = $_GET['image'];
 
   $imageData = getImage($image_url);
+
+  // Lizenzmanager
+  $lm = new LicenseManager(dirname(__DIR__));
+  $licensed = $lm->isLicensed();
 
     // Daten extrahieren
     $fileName = $imageData['filename'];
@@ -96,7 +101,7 @@
 		<div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
 			<div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all
 						data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in
-						sm:my-8 sm:w-full sm:max-w-xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+						sm:my-8 sm:w-full max-w-4xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
 
 			<!-- Close (X) -->
 			<div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
@@ -534,7 +539,7 @@
 											class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10">
 											<?php echo languageString('general.edit'); ?>
 										</button>
-										<?php if(license_isActive() && isAI_active()) { ?>
+										<?php if($licensed && isAI_active()) { ?>
 										<button type="button" id="generate_text"
 											class="text-xs px-2 py-1 rounded border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 whitespace-nowrap">
 											<?php echo languageString('image.generate_ai_text'); ?>

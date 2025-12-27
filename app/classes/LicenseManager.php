@@ -7,12 +7,26 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * app/classes/LicenseManager.php
  *
- * Minniark LicenseManager (Proxy + Lemon Squeezy via api.minniark.com)
+ * Minniark LicenseManager (supports BOTH providers via proxy):
+ * - LemonSqueezy proxy:  https://api.minniark.com/v1/data/lemonsqueezy
+ * - Creem proxy:         https://api.minniark.com/v1/data/creem
+ *
+ * KEY FIXES (requested):
+ * 1) License removal triggers BEST-EFFORT DEACTIVATE (using correct identifier), then clears local state.
+ * 2) Switching to a DIFFERENT license key:
+ *    - best-effort deactivate OLD key (with OLD instance identifiers)
+ *    - clears cache (IMPORTANT: removes Creem instance_id)
+ *    - ensures NEW key does not reuse old instance_id
+ * 3) Creem behavior:
+ *    - activate uses uuid (instance_name)
+ *    - validate/deactivate should use cached instance_id (lki_...)
+ *    - if validate is called without instance_id, auto-activate once to obtain instance_id
  *
  * Storage:
  * - /userdata/config/settings.yml
- *     - license: <string>   (empty string treated as "removed")
- *     - uuid:    <string>   (generated if missing when license exists)
+ *     - license:   <string> (removed when empty)
+ *     - uuid:      <string> (installation id)
+ *     - provider:  <string> (optional; 'creem'|'lemonsqueezy')
  * - /userdata/config/.env
  *     - MINNIARK_PROXY_KEY=<string>
  *     - MINNIARK_NO_PROXY=1   (optional)
@@ -20,35 +34,7 @@ use Symfony\Component\Yaml\Yaml;
  *     - valid_until (ISO8601)
  *     - cached_at   (ISO8601)
  *     - data        (validate result)
- *
- * Proxy:
- * - Base: https://api.minniark.com/v1/data/lemonsqueezy
- * - POST /register    -> returns {"proxy_key":"..."} (requires {"minniark":"minniark"})
- * - POST /validate    -> requires X-Minniark-Proxy-Key header
- * - POST /activate    -> requires X-Minniark-Proxy-Key header
- * - POST /deactivate  -> requires X-Minniark-Proxy-Key header
- *
- * Client payload for proxy calls:
- * {
- *   "minniark": "minniark",
- *   "license_key": "...",
- *   "instance_name": "uuid"
- * }
- *
- * Behavior:
- * - getSummary(): never throws; returns 'last_error' for dashboard
- * - isLicensed(): never throws; uses getSummary()
- * - Cache:
- *   - only for validate
- *   - valid_until = min(now+14days, license expiry if provided)
- * - Retry:
- *   - on proxy_key_invalid -> registers new key and retries exactly once
- * - Removal:
- *   - if license removed/empty -> best-effort deactivate old + remove uuid + remove proxy env + delete cache
- * - No Proxy mode:
- *   - MINNIARK_NO_PROXY=1 (in userdata/config/.env or real ENV)
- *   - validate: uses cache if valid, otherwise returns clean error (no proxy call)
- *   - activate/deactivate: blocked with clean error (no proxy call)
+ *     - instance_id (Creem: stored after activate, used for validate/deactivate)
  */
 final class LicenseManager
 {
@@ -59,21 +45,21 @@ final class LicenseManager
     private string $cacheFile;
 
     private string $proxyBaseUrl;
+    private string $provider; // 'creem'|'lemonsqueezy'
 
     private ?string $licenseKey = null;
     private ?string $uuid = null;
-    private ?string $proxyKey = null;
 
+    private ?string $proxyKey = null;
     private bool $noProxy = false;
 
     private ?string $lastError = null;
 
-    /**
-     * @param string|null $projectRoot  If null, auto-detect from this file location.
-     * @param string      $proxyBaseUrl Default: https://api.minniark.com/v1/data/lemonsqueezy
-     */
-    public function __construct(?string $projectRoot = null, string $proxyBaseUrl = 'https://api.minniark.com/v1/data/creem')
-    {
+    public function __construct(
+        ?string $projectRoot = null,
+        string $proxyBaseUrl = 'https://api.minniark.com/v1/data/lemonsqueezy',
+        ?string $provider = null
+    ) {
         $this->root = rtrim($projectRoot ?: $this->detectProjectRoot(), '/');
         $this->configDir    = $this->root . '/userdata/config';
         $this->settingsFile = $this->configDir . '/settings.yml';
@@ -84,21 +70,32 @@ final class LicenseManager
 
         $this->ensureConfigDir();
         $this->loadEnv();
-        $this->loadSettings();
+        $this->loadSettings(); // may set $this->licenseKey, $this->uuid, $this->provider
+
+        // Provider selection priority:
+        // 1) constructor $provider
+        // 2) settings.yml provider
+        // 3) detect from URL
+        if ($provider !== null && trim($provider) !== '') {
+            $p = strtolower(trim($provider));
+            $this->provider = in_array($p, ['creem', 'lemonsqueezy'], true)
+                ? $p
+                : $this->detectProviderFromUrl($this->proxyBaseUrl);
+        } else {
+            $this->provider = $this->provider ?: $this->detectProviderFromUrl($this->proxyBaseUrl);
+        }
     }
 
     /* =========================================================
-     * Public API (safe for dashboard)
+     * Public API
      * ======================================================= */
 
-    /** Never throws; returns false on any error */
     public function isLicensed(): bool
     {
-        $summary = $this->getSummary();
-        return (bool)($summary['valid'] ?? false);
+        $s = $this->getSummary();
+        return (bool)($s['valid'] ?? false);
     }
 
-    /** Never throws; best-effort status for UI */
     public function getSummary(): array
     {
         $rawKey = $this->getRawLicenseKey();
@@ -113,6 +110,9 @@ final class LicenseManager
             'last_error' => null,
             'no_proxy' => $this->noProxy,
             'cache_valid_until' => null,
+            'provider' => $this->provider,
+            'uuid' => $this->uuid,
+            'instance_id' => $this->getCachedInstanceId(),
         ];
 
         if ($rawKey === '') {
@@ -122,18 +122,16 @@ final class LicenseManager
         try {
             $info = $this->getLicenseInformation();
 
-            $summary['valid'] = (bool)($info['valid'] ?? false);
+            $summary['valid']  = $this->normalizeValid($info);
             $summary['status'] = $summary['valid'] ? 'valid' : 'invalid';
 
-            $summary['expires_at'] =
-                $info['expires_at']
-                ?? $info['expiresAt']
-                ?? $info['expired_date']
-                ?? $info['expires']
-                ?? null;
+            $summary['expires_at'] = $this->extractExpiresAt($info);
 
-            $summary['activation_limit'] = $info['timesActivatedMax'] ?? $info['activation_limit'] ?? null;
-            $summary['activation_usage'] = $info['timesActivated'] ?? $info['activation_usage'] ?? null;
+            $summary['activation_limit'] =
+                $info['activation_limit'] ?? $info['timesActivatedMax'] ?? $info['activationLimit'] ?? null;
+
+            $summary['activation_usage'] =
+                $info['activation'] ?? $info['timesActivated'] ?? $info['activation_usage'] ?? null;
 
             $cache = $this->readCache();
             if (is_array($cache) && isset($cache['valid_until'])) {
@@ -146,36 +144,26 @@ final class LicenseManager
         } catch (\Throwable $e) {
             $msg = $e->getMessage();
 
-            // NO_PROXY ist kein "Error", sondern ein Zustand
             if ($this->noProxy || str_contains($msg, 'MINNIARK_NO_PROXY=1')) {
                 $this->lastError = $this->humanizeError($msg);
                 $summary['status'] = 'no_proxy';
                 $summary['valid'] = false;
                 $summary['last_error'] = $this->lastError;
 
-                // falls Cache existiert: zeigen, wann er ausläuft
                 $cache = $this->readCache();
                 if (is_array($cache) && isset($cache['valid_until'])) {
                     $summary['cache_valid_until'] = $cache['valid_until'];
-
-                    // optional: wenn Cache-Daten valid=true sind, kannst du "cached" anzeigen
                     $cachedData = $cache['data'] ?? null;
-                    if (is_array($cachedData) && isset($cachedData['valid'])) {
-                        $summary['valid'] = (bool)$cachedData['valid'];
+                    if (is_array($cachedData)) {
+                        $summary['valid']  = $this->normalizeValid($cachedData);
                         $summary['status'] = $summary['valid'] ? 'valid_cached' : 'invalid_cached';
-                        $summary['expires_at'] =
-                            $cachedData['expires_at']
-                            ?? $cachedData['expiresAt']
-                            ?? $cachedData['expired_date']
-                            ?? $cachedData['expires']
-                            ?? null;
+                        $summary['expires_at'] = $this->extractExpiresAt($cachedData);
                     }
                 }
 
                 return $summary;
             }
 
-            // echte Fehler
             $this->lastError = $this->humanizeError($msg);
             $summary['status'] = 'error';
             $summary['valid'] = false;
@@ -187,72 +175,92 @@ final class LicenseManager
             }
         }
 
-
         return $summary;
     }
 
-    public function getLastError(): ?string
-    {
-        return $this->lastError;
-    }
-
-    public function getRawLicenseKey(): string
-    {
-        return trim((string)$this->licenseKey);
-    }
-
-    public function getUuid(): ?string
-    {
-        return $this->uuid;
-    }
-
-    public function getProxyKey(): ?string
-    {
-        return $this->proxyKey;
-    }
-
-    public function isNoProxy(): bool
-    {
-        return $this->noProxy;
-    }
+    public function getLastError(): ?string { return $this->lastError; }
+    public function getRawLicenseKey(): string { return trim((string)$this->licenseKey); }
+    public function getUuid(): ?string { return $this->uuid; }
+    public function getProxyKey(): ?string { return $this->proxyKey; }
+    public function isNoProxy(): bool { return $this->noProxy; }
+    public function getProvider(): string { return $this->provider; }
 
     /**
-     * Save new license key into settings.yml and clear validate cache.
-     * Empty string will remove license + uuid in settings.yml.
+     * Change provider and clear cache (so instance_id from old provider cannot leak).
      */
-    public function saveLicenseKey(string $key): void
+    public function setProvider(string $provider): void
     {
-        $k = trim($key);
-
-        // If key is empty -> treat as removed
-        if ($k === '') {
-            $this->licenseKey = null;
-            $this->uuid = null;
-        } else {
-            $this->licenseKey = $k;
-            // uuid will be created lazily when needed
+        $p = strtolower(trim($provider));
+        if (!in_array($p, ['creem', 'lemonsqueezy'], true)) {
+            throw new \InvalidArgumentException('Invalid provider: ' . $provider);
         }
 
-        $this->saveSettings();
+        $this->provider = $p;
+        $this->saveSettingsProvider($p);
         $this->clearCache();
     }
 
     /**
-     * Full cleanup when license removed:
-     * - best-effort deactivate old license (if possible)
-     * - remove license + uuid from settings
-     * - clear cache
-     * - remove proxy key from userdata/config/.env
+     * Save license key with correct behavior:
+     * - If removed (empty): best-effort deactivate old, then clear local state + cache + proxyKey
+     * - If changed (different key): best-effort deactivate old, clear cache (removes Creem instance_id),
+     *   save new key, keep uuid (installation id), do NOT reuse old instance_id
+     * - If same: just save and clear cache
+     */
+    public function saveLicenseKey(string $key): void
+    {
+        $newKey = trim($key);
+        $oldKey = $this->getRawLicenseKey();
+
+        // nothing to do
+        if ($newKey === '' && $oldKey === '') {
+            $this->licenseKey = null;
+            $this->uuid = null;
+            $this->saveSettings();
+            $this->clearCache();
+            $this->removeProxyKey();
+            return;
+        }
+
+        // License removed
+        if ($newKey === '') {
+            $this->bestEffortDeactivateKey($oldKey);
+            $this->licenseKey = null;
+            $this->uuid = null;
+            $this->saveSettings();
+            $this->clearCache();
+            $this->removeProxyKey();
+            return;
+        }
+
+        // License changed (old -> new)
+        if ($oldKey !== '' && !hash_equals($oldKey, $newKey)) {
+            $this->bestEffortDeactivateKey($oldKey);
+        }
+
+        // Set new key (keep uuid as "installation id")
+        $this->licenseKey = $newKey;
+
+        // Ensure uuid exists for this installation
+        if ($this->uuid === null || trim($this->uuid) === '') {
+            $this->uuid = $this->generateUuid();
+        }
+
+        // IMPORTANT: new key must not reuse old cache/instance_id
+        $this->clearCache();
+
+        $this->saveSettings();
+    }
+
+    /**
+     * Best-effort deactivate + clear local state.
      */
     public function deactivateAndClear(): array
     {
         $result = ['ok' => true];
 
-        // take snapshot before clearing
         $oldKey = $this->getRawLicenseKey();
-
         if ($oldKey !== '') {
-            // best-effort deactivate (might be blocked by NO_PROXY)
             try {
                 $result = $this->sync('deactivate', null, true);
             } catch (\Throwable $e) {
@@ -261,75 +269,17 @@ final class LicenseManager
             }
         }
 
-        // clear local state
         $this->licenseKey = null;
         $this->uuid = null;
         $this->saveSettings();
         $this->clearCache();
-        $this->removeProxyKey(); // IMPORTANT: this deletes MINNIARK_PROXY_KEY line
+        $this->removeProxyKey();
 
         return $result;
     }
 
     /**
-     * Convenience for your settings_save.php flow:
-     * Call this after settings.yml was saved.
-     *
-     * - If $newKey is empty: same as deactivateAndClear (best-effort)
-     * - Else: updates internal key and clears cache
-     */
-    public function onLicenseSaved(string $newKey): void
-    {
-        $newKey = trim($newKey);
-
-        if ($newKey === '') {
-            // we want to deactivate using the old key if we still have it
-            // load settings first to know old key
-            $this->loadSettings();
-            $this->deactivateAndClear();
-            return;
-        }
-
-        // set key (and keep uuid if exists)
-        $this->licenseKey = $newKey;
-        if ($this->uuid !== null && trim($this->uuid) === '') {
-            $this->uuid = null;
-        }
-        $this->saveSettings();
-        $this->clearCache();
-    }
-
-    /**
-     * Activate a (new) license key immediately (best-effort).
-     * Returns proxy response array.
-     */
-    public function activate(string $licenseKey): array
-    {
-        $licenseKey = trim($licenseKey);
-        if ($licenseKey === '') {
-            throw new \RuntimeException('No license key set');
-        }
-
-        // Update memory but don't force-save here (caller usually already saved settings.yml)
-        $this->licenseKey = $licenseKey;
-
-        // ensure uuid exists when activating
-        $this->getOrCreateUuid();
-
-        return $this->sync('activate', null, true);
-    }
-
-    /* =========================================================
-     * Core: Proxy action (activate/deactivate/validate)
-     * ======================================================= */
-
-    /**
-     * Generic proxy action (activate/deactivate/validate).
-     * - ensures uuid exists (if license exists)
-     * - ensures proxy key exists (register if missing)
-     * - on proxy_key_invalid: register again and retry exactly once
-     *
-     * $force=true ignores validate cache.
+     * Validate/activate/deactivate via proxy (provider-aware).
      */
     public function sync(string $action, ?string $instanceName = null, bool $force = false): array
     {
@@ -342,7 +292,6 @@ final class LicenseManager
             throw new \RuntimeException('No license key set');
         }
 
-        // ✅ NO-PROXY MODE: stop BEFORE any uuid/register/proxy call
         if ($this->noProxy) {
             if ($action === 'validate') {
                 $cached = $this->readCache();
@@ -354,7 +303,7 @@ final class LicenseManager
             throw new \RuntimeException('Proxy disabled (MINNIARK_NO_PROXY=1). Action not possible: ' . $action);
         }
 
-        // validate can use cache (unless forced)
+        // validate cache
         if (!$force && $action === 'validate') {
             $cached = $this->readCache();
             if ($cached && $this->cacheStillValid($cached)) {
@@ -362,22 +311,60 @@ final class LicenseManager
             }
         }
 
-        $uuid = $instanceName ?: $this->getOrCreateUuid();
+        $uuid = $this->getOrCreateUuid();
 
-        // Ensure proxy key exists locally; register if missing
         if (!$this->proxyKey) {
             $this->registerProxyKey();
+        }
+
+        // Determine identifier to send as instance_name (contract stays stable)
+        $instanceIdent = $instanceName ?: $uuid;
+
+        if ($this->provider === 'creem') {
+            if ($action === 'activate') {
+                // activate uses uuid
+                $instanceIdent = $uuid;
+            } else {
+                // validate/deactivate should use instance_id, if known
+                $cachedInstanceId = $this->getCachedInstanceId();
+
+                // If validate is requested and we have no instance_id yet, auto-activate once
+                if ($action === 'validate' && $cachedInstanceId === null) {
+                    $actRes = $this->proxyCallWithRetry('activate', [
+                        'minniark' => 'minniark',
+                        'license_key' => $this->getRawLicenseKey(),
+                        'instance_name' => $uuid,
+                    ]);
+
+                    $newInstanceId = $this->extractCreemInstanceId($actRes);
+                    if ($newInstanceId !== null) {
+                        $this->saveCachedInstanceId($newInstanceId);
+                        $cachedInstanceId = $newInstanceId;
+                    }
+                }
+
+                if ($cachedInstanceId !== null) {
+                    $instanceIdent = $cachedInstanceId;
+                }
+            }
         }
 
         $payload = [
             'minniark' => 'minniark',
             'license_key' => $this->getRawLicenseKey(),
-            'instance_name' => $uuid,
+            'instance_name' => $instanceIdent,
         ];
 
         $res = $this->proxyCallWithRetry($action, $payload);
 
-        // write cache only for validate
+        // Creem: store instance_id after activate
+        if ($this->provider === 'creem' && $action === 'activate') {
+            $newInstanceId = $this->extractCreemInstanceId($res);
+            if ($newInstanceId !== null) {
+                $this->saveCachedInstanceId($newInstanceId);
+            }
+        }
+
         if ($action === 'validate') {
             $this->writeValidateCache($res);
         }
@@ -386,22 +373,67 @@ final class LicenseManager
     }
 
     /* =========================================================
-     * Internals: License Information with caching
+     * Internals: deactivate old key safely
+     * ======================================================= */
+
+    /**
+     * Deactivate a specific license key using identifiers we have.
+     * Never throws. Does NOT change local licenseKey.
+     *
+     * Creem: prefer cached instance_id, fallback uuid
+     * LS: uuid
+     */
+    private function bestEffortDeactivateKey(string $licenseKey): void
+    {
+        $licenseKey = trim($licenseKey);
+        if ($licenseKey === '') return;
+
+        if ($this->noProxy) {
+            $this->lastError = 'Proxy disabled (MINNIARK_NO_PROXY=1). Deactivation skipped.';
+            return;
+        }
+
+        // must have uuid to have any chance
+        $uuid = $this->uuid;
+        if ($uuid === null || trim($uuid) === '') {
+            return;
+        }
+
+        try {
+            if (!$this->proxyKey) {
+                $this->registerProxyKey();
+            }
+
+            $instanceIdent = $uuid;
+
+            if ($this->provider === 'creem') {
+                $cachedInstanceId = $this->getCachedInstanceId();
+                if ($cachedInstanceId !== null) {
+                    $instanceIdent = $cachedInstanceId;
+                }
+            }
+
+            $this->proxyCallWithRetry('deactivate', [
+                'minniark' => 'minniark',
+                'license_key' => $licenseKey,
+                'instance_name' => $instanceIdent,
+            ]);
+        } catch (\Throwable $e) {
+            $this->lastError = $this->humanizeError($e->getMessage());
+        }
+    }
+
+    /* =========================================================
+     * License info with caching
      * ======================================================= */
 
     private function getLicenseInformation(): array
     {
-        if ($this->getRawLicenseKey() === '') {
-            throw new \RuntimeException('No license key set');
-        }
-
-        // use cache first (even in no-proxy mode)
         $cached = $this->readCache();
         if ($cached && $this->cacheStillValid($cached)) {
             return $cached['data'] ?? [];
         }
 
-        // force validate (also refresh cache)
         return $this->sync('validate', null, true);
     }
 
@@ -409,32 +441,30 @@ final class LicenseManager
     {
         $validUntilTs = strtotime('+14 days');
 
-        // Reduce cache ttl to license expiry if proxy returns expiry date
-        $expiresAt = $validateResult['expires_at'] ?? $validateResult['expired_date'] ?? $validateResult['expiresAt'] ?? null;
-        if (is_string($expiresAt) && trim($expiresAt) !== '') {
+        $expiresAt = $this->extractExpiresAt($validateResult);
+        if ($expiresAt !== null) {
             $expTs = strtotime($expiresAt);
             if ($expTs !== false) {
                 $validUntilTs = min($validUntilTs, $expTs);
             }
         }
 
-        $cache = [
-            'valid_until' => date('c', $validUntilTs),
-            'cached_at' => date('c'),
-            'data' => $validateResult,
-        ];
+        $cache = $this->readCache() ?? [];
+        $cache['valid_until'] = date('c', $validUntilTs);
+        $cache['cached_at']   = date('c');
+        $cache['data']        = $validateResult;
 
-        
-        // keep instance_id if already known
-        if (!empty($cache['instance_id'])) {
-            $cache['instance_id'] = (string)$cache['instance_id'];
+        // preserve instance_id if present
+        if (isset($cache['instance_id'])) {
+            $cache['instance_id'] = trim((string)$cache['instance_id']);
+            if ($cache['instance_id'] === '') unset($cache['instance_id']);
         }
 
         $this->writeCache($cache);
     }
 
     /* =========================================================
-     * Internals: Proxy calls + retry
+     * Proxy calls + retry
      * ======================================================= */
 
     private function proxyCallWithRetry(string $action, array $payload): array
@@ -442,7 +472,7 @@ final class LicenseManager
         $tries = 0;
         $last = null;
 
-        while ($tries < 2) { // first try + exactly one retry
+        while ($tries < 2) {
             $tries++;
 
             try {
@@ -451,7 +481,6 @@ final class LicenseManager
                 $last = $e;
 
                 if (str_contains($e->getMessage(), 'proxy_key_invalid') && $tries < 2) {
-                    // re-register and retry once
                     $this->registerProxyKey();
                     continue;
                 }
@@ -472,7 +501,6 @@ final class LicenseManager
             'Content-Type: application/json',
         ];
 
-        // for validate/activate/deactivate the proxy expects the key
         if (!empty($this->proxyKey)) {
             $headers[] = 'X-Minniark-Proxy-Key: ' . $this->proxyKey;
         }
@@ -507,16 +535,18 @@ final class LicenseManager
 
         $decoded = json_decode((string)$resp, true);
         if (!is_array($decoded)) {
-            $snippet = mb_substr((string)$resp, 0, 200);
+            $snippet = mb_substr((string)$resp, 0, 300);
             throw new \RuntimeException("Proxy/API error (HTTP {$code}): {$snippet}");
         }
 
         if ($code >= 400) {
             $errCode = (string)($decoded['error'] ?? '');
-            $msg     = (string)($decoded['message'] ?? $decoded['error'] ?? 'Unknown error');
+            $msg     = $decoded['message'] ?? $decoded['error'] ?? 'Unknown error';
+            if (is_array($msg)) $msg = implode('; ', array_map('strval', $msg));
+            $msg = (string)$msg;
 
             if ($errCode !== '') {
-                throw new \RuntimeException("Proxy/API error (HTTP {$code}): {$errCode}");
+                throw new \RuntimeException("Proxy/API error (HTTP {$code}): {$errCode} {$msg}");
             }
             throw new \RuntimeException("Proxy/API error (HTTP {$code}): {$msg}");
         }
@@ -524,29 +554,20 @@ final class LicenseManager
         return $decoded;
     }
 
-    /**
-     * Register / refresh proxy key (stored in userdata/config/.env).
-     * No proxy key header needed for register call.
-     */
     private function registerProxyKey(): void
     {
-        // If noProxy is on, never try to register
         if ($this->noProxy) {
             throw new \RuntimeException('Proxy disabled (MINNIARK_NO_PROXY=1). Cannot register proxy key.');
         }
 
-        // ensure uuid exists for register payload (proxy may use it)
-        if ($this->uuid === null && $this->getRawLicenseKey() !== '') {
-            // create uuid if we have a license (safe)
-            $this->uuid = $this->generateUuid();
-            $this->saveSettings();
-        }
+        $uuid = $this->getOrCreateUuid();
 
         $url = $this->proxyBaseUrl . '/register';
 
+        // Keep proxy contract stable
         $payload = [
             'minniark' => 'minniark',
-            'uuid' => $this->uuid ?: '',
+            'instance_id' => $uuid,
             'site_url' => $this->guessSiteUrl(),
         ];
 
@@ -587,8 +608,9 @@ final class LicenseManager
         }
 
         if ($code >= 400) {
-            $msg = (string)($decoded['error'] ?? $decoded['message'] ?? 'unknown');
-            throw new \RuntimeException("LicenseManager: register failed (HTTP {$code}): {$msg}");
+            $msg = $decoded['message'] ?? $decoded['error'] ?? 'unknown';
+            if (is_array($msg)) $msg = implode('; ', array_map('strval', $msg));
+            throw new \RuntimeException("LicenseManager: register failed (HTTP {$code}): " . (string)$msg);
         }
 
         $newKey = trim((string)($decoded['proxy_key'] ?? ''));
@@ -606,6 +628,8 @@ final class LicenseManager
 
     private function loadSettings(): void
     {
+        $this->provider = '';
+
         if (!is_file($this->settingsFile)) {
             $this->licenseKey = null;
             $this->uuid = null;
@@ -618,11 +642,15 @@ final class LicenseManager
 
             $lk = isset($data['license']) ? trim((string)$data['license']) : '';
             $uu = isset($data['uuid']) ? trim((string)$data['uuid']) : '';
+            $pr = isset($data['provider']) ? strtolower(trim((string)$data['provider'])) : '';
 
             $this->licenseKey = ($lk === '') ? null : $lk;
             $this->uuid       = ($uu === '') ? null : $uu;
 
-            // If license missing -> uuid should not exist
+            if (in_array($pr, ['creem', 'lemonsqueezy'], true)) {
+                $this->provider = $pr;
+            }
+
             if ($this->licenseKey === null) {
                 $this->uuid = null;
             }
@@ -641,11 +669,10 @@ final class LicenseManager
                 $parsed = Yaml::parseFile($this->settingsFile);
                 if (is_array($parsed)) $data = $parsed;
             } catch (\Throwable $e) {
-                // ignore, rewrite
+                // ignore
             }
         }
 
-        // normalize: if license removed -> remove uuid too
         if ($this->licenseKey === null || trim((string)$this->licenseKey) === '') {
             $this->licenseKey = null;
             $this->uuid = null;
@@ -654,7 +681,6 @@ final class LicenseManager
         if ($this->licenseKey !== null) {
             $data['license'] = $this->licenseKey;
         } else {
-            // keep as empty string? better remove entirely
             unset($data['license']);
         }
 
@@ -664,6 +690,31 @@ final class LicenseManager
             unset($data['uuid']);
         }
 
+        if (!empty($this->provider) && in_array($this->provider, ['creem', 'lemonsqueezy'], true)) {
+            $data['provider'] = $this->provider;
+        } else {
+            unset($data['provider']);
+        }
+
+        file_put_contents($this->settingsFile, Yaml::dump($data, 4, 2));
+    }
+
+    private function saveSettingsProvider(string $provider): void
+    {
+        $provider = strtolower(trim($provider));
+        if (!in_array($provider, ['creem', 'lemonsqueezy'], true)) return;
+
+        $data = [];
+        if (is_file($this->settingsFile)) {
+            try {
+                $parsed = Yaml::parseFile($this->settingsFile);
+                if (is_array($parsed)) $data = $parsed;
+            } catch (\Throwable $e) {
+                // ignore
+            }
+        }
+
+        $data['provider'] = $provider;
         file_put_contents($this->settingsFile, Yaml::dump($data, 4, 2));
     }
 
@@ -673,7 +724,6 @@ final class LicenseManager
             return $this->uuid;
         }
 
-        // only create uuid if license exists
         if ($this->licenseKey === null || $this->getRawLicenseKey() === '') {
             throw new \RuntimeException('Cannot create UUID without license');
         }
@@ -684,12 +734,11 @@ final class LicenseManager
     }
 
     /* =========================================================
-     * .env storage (proxy key + no-proxy flag)
+     * .env storage
      * ======================================================= */
 
     private function loadEnv(): void
     {
-        // Prefer real ENV as base (works if server sets env vars)
         $envNoProxy = (string)($_ENV['MINNIARK_NO_PROXY'] ?? getenv('MINNIARK_NO_PROXY') ?? '');
         $this->noProxy = $this->toBool($envNoProxy);
 
@@ -699,9 +748,7 @@ final class LicenseManager
             $this->proxyKey = $envProxyKey;
         }
 
-        if (!is_file($this->envFile)) {
-            return;
-        }
+        if (!is_file($this->envFile)) return;
 
         $lines = file($this->envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         if (!is_array($lines)) return;
@@ -740,9 +787,8 @@ final class LicenseManager
 
                     [$k] = explode('=', $trim, 2);
                     $k = trim($k);
-                    if ($k === 'MINNIARK_PROXY_KEY') {
-                        continue; // replace
-                    }
+                    if ($k === 'MINNIARK_PROXY_KEY') continue;
+
                     $linesOut[] = $line;
                 }
             }
@@ -754,38 +800,27 @@ final class LicenseManager
         file_put_contents($this->envFile, implode("\n", $linesOut) . "\n");
     }
 
-    private function saveNoProxyFlag(bool $enabled): void
+    private function removeProxyKey(): void
     {
-        $linesOut = [];
+        $this->proxyKey = null;
 
-        if (is_file($this->envFile)) {
-            $lines = file($this->envFile, FILE_IGNORE_NEW_LINES);
-            if (is_array($lines)) {
-                foreach ($lines as $line) {
-                    $trim = trim($line);
-                    if ($trim === '' || str_starts_with($trim, '#') || !str_contains($trim, '=')) {
-                        $linesOut[] = $line;
-                        continue;
-                    }
+        if (!is_file($this->envFile)) return;
 
-                    [$k] = explode('=', $trim, 2);
-                    $k = trim($k);
-                    if ($k === 'MINNIARK_NO_PROXY') {
-                        continue; // replace
-                    }
-                    $linesOut[] = $line;
-                }
-            }
+        $lines = file($this->envFile, FILE_IGNORE_NEW_LINES);
+        if (!is_array($lines)) return;
+
+        $out = [];
+        foreach ($lines as $line) {
+            $trim = trim($line);
+            if (str_starts_with($trim, 'MINNIARK_PROXY_KEY=')) continue;
+            $out[] = $line;
         }
 
-        $linesOut[] = 'MINNIARK_NO_PROXY=' . ($enabled ? '1' : '0');
-
-        $this->ensureConfigDir();
-        file_put_contents($this->envFile, implode("\n", $linesOut) . "\n");
+        file_put_contents($this->envFile, implode("\n", $out) . "\n");
     }
 
     /* =========================================================
-     * Cache (license.json)
+     * Cache helpers
      * ======================================================= */
 
     private function readCache(): ?array
@@ -826,13 +861,103 @@ final class LicenseManager
         return $ts > time();
     }
 
+    private function getCachedInstanceId(): ?string
+    {
+        $cache = $this->readCache();
+        if (!is_array($cache)) return null;
+
+        $id = trim((string)($cache['instance_id'] ?? ''));
+        return $id !== '' ? $id : null;
+    }
+
+    private function saveCachedInstanceId(string $instanceId): void
+    {
+        $instanceId = trim($instanceId);
+        if ($instanceId === '') return;
+
+        $cache = $this->readCache() ?? [];
+        $cache['instance_id'] = $instanceId;
+
+        if (!isset($cache['cached_at'])) {
+            $cache['cached_at'] = date('c');
+        }
+        if (!isset($cache['valid_until'])) {
+            $cache['valid_until'] = date('c', strtotime('+1 day'));
+        }
+
+        $this->writeCache($cache);
+    }
+
+    /* =========================================================
+     * Provider normalization
+     * ======================================================= */
+
+    private function normalizeValid(array $info): bool
+    {
+        $status = strtolower(trim((string)($info['status'] ?? '')));
+        if ($status !== '') {
+            if (in_array($status, ['active', 'valid', 'ok'], true)) return true;
+            if (in_array($status, ['inactive', 'invalid', 'expired', 'revoked'], true)) return false;
+        }
+
+        if (array_key_exists('valid', $info)) return (bool)$info['valid'];
+        if (array_key_exists('is_valid', $info)) return (bool)$info['is_valid'];
+
+        $exp = $this->extractExpiresAt($info);
+        if ($exp !== null) {
+            $ts = strtotime($exp);
+            if ($ts !== false) return $ts > time();
+        }
+
+        return false;
+    }
+
+    private function extractExpiresAt(array $info): ?string
+    {
+        $exp =
+            $info['expires_at']
+            ?? $info['expiresAt']
+            ?? $info['expired_date']
+            ?? $info['expires']
+            ?? null;
+
+        if (!is_string($exp)) return null;
+
+        $exp = trim($exp);
+        return $exp !== '' ? $exp : null;
+    }
+
+    private function extractCreemInstanceId(array $res): ?string
+    {
+        $candidates = [
+            $res['instance']['id'] ?? null,
+            $res['data']['instance']['id'] ?? null,
+            $res['instance_id'] ?? null,
+            $res['data']['instance_id'] ?? null,
+        ];
+
+        foreach ($candidates as $c) {
+            if (is_string($c) && trim($c) !== '') {
+                return trim($c);
+            }
+        }
+        return null;
+    }
+
+    private function detectProviderFromUrl(string $url): string
+    {
+        $u = strtolower($url);
+        if (str_contains($u, 'creem')) return 'creem';
+        if (str_contains($u, 'lemonsqueezy') || str_contains($u, 'lemon')) return 'lemonsqueezy';
+        return 'lemonsqueezy';
+    }
+
     /* =========================================================
      * Helpers
      * ======================================================= */
 
     private function detectProjectRoot(): string
     {
-        // this file: <root>/app/classes/LicenseManager.php
         return dirname(__DIR__, 2);
     }
 
@@ -901,32 +1026,9 @@ final class LicenseManager
         if (str_contains($msg, 'missing LEMON_SQUEEZY_API_KEY')) {
             return 'Proxy misconfigured: LEMON_SQUEEZY_API_KEY missing on proxy server.';
         }
+        if (str_contains($msg, 'missing CREEM_API_KEY')) {
+            return 'Proxy misconfigured: CREEM_API_KEY missing on proxy server.';
+        }
         return $msg;
-    }
-
-    /**
-     * Removes MINNIARK_PROXY_KEY from /userdata/config/.env
-     */
-    private function removeProxyKey(): void
-    {
-        $this->proxyKey = null;
-
-        if (!is_file($this->envFile)) {
-            return;
-        }
-
-        $lines = file($this->envFile, FILE_IGNORE_NEW_LINES);
-        if (!is_array($lines)) return;
-
-        $out = [];
-        foreach ($lines as $line) {
-            $trim = trim($line);
-            if (str_starts_with($trim, 'MINNIARK_PROXY_KEY=')) {
-                continue;
-            }
-            $out[] = $line;
-        }
-
-        file_put_contents($this->envFile, implode("\n", $out) . "\n");
     }
 }

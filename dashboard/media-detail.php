@@ -8,7 +8,7 @@
   $imageData = getImage($image_url);
 
   // Lizenzmanager
-  $lm = new LicenseManager(dirname(__DIR__));
+  $lm = new LicenseManager(dirname(__DIR__), 'https://api.minniark.com/v1/data/creem');
   $licensed = $lm->isLicensed();
 
     // Daten extrahieren

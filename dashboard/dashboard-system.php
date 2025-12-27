@@ -5,7 +5,7 @@
     $settingspage = "system";
     security_checklogin();
 
-    $lm = new LicenseManager(dirname(__DIR__));
+    $lm = new LicenseManager(dirname(__DIR__), 'https://api.minniark.com/v1/data/creem');
     $licenseSummary = $lm->getSummary();   // safe
     $isPro = (bool)($licenseSummary['valid'] ?? false);
 

@@ -35,7 +35,7 @@ if (array_key_exists('site-license', $_POST)) {
     $newKey = trim((string)($_POST['site-license'] ?? ''));
 
     // ✅ project root übergeben (…/dashboard/backend_api -> 2 Ebenen hoch)
-    $lm = new LicenseManager(dirname(__DIR__, 2));
+    $lm = new LicenseManager(dirname(__DIR__,2), 'https://api.minniark.com/v1/data/creem');
 
     $oldKey = $lm->getRawLicenseKey();
 

@@ -424,6 +424,12 @@ final class LicenseManager
             'data' => $validateResult,
         ];
 
+        
+        // keep instance_id if already known
+        if (!empty($cache['instance_id'])) {
+            $cache['instance_id'] = (string)$cache['instance_id'];
+        }
+
         $this->writeCache($cache);
     }
 

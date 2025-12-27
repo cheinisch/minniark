@@ -72,7 +72,7 @@ final class LicenseManager
      * @param string|null $projectRoot  If null, auto-detect from this file location.
      * @param string      $proxyBaseUrl Default: https://api.minniark.com/v1/data/lemonsqueezy
      */
-    public function __construct(?string $projectRoot = null, string $proxyBaseUrl = 'https://api.minniark.com/v1/data/testkey')
+    public function __construct(?string $projectRoot = null, string $proxyBaseUrl = 'https://api.minniark.com/v1/data/creem')
     {
         $this->root = rtrim($projectRoot ?: $this->detectProjectRoot(), '/');
         $this->configDir    = $this->root . '/userdata/config';

@@ -23,7 +23,8 @@
         "success" : "Erfolg",
         "success_save" : "Einstellungen gespeichert!",
         "error" : "Fehler",
-        "error_message" : "Etwas ist schiefgelaufen!"
+        "error_message" : "Etwas ist schiefgelaufen!",
+        "remove" : "Entfernen"
     },
     "nav": {
         "dashboard": "Dashboard",

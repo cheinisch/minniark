@@ -4,7 +4,7 @@
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.12.2...v2026.1.0
 
 ### New Features
-- add License Shop for Ai features [https://creem.io/stores/minniark](https://creem.io/stores/minniark)
+- add License Shop for Ai features
 
 ### Bugfixes
 - fix media-detail page

@@ -1,11 +1,10 @@
-## [2025.12.2]
-2025-12-15
+## [2026.1.0]
+2026-01-15
 
-**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.11.2...v2025.12.2
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2025.12.2...v2026.1.0
 
-### Changes
-- Album get new Design
-- Collection get new Design
+### New Features
+- add License Shop for Ai features [https://creem.io/stores/minniark](https://creem.io/stores/minniark)
 
 ### Bugfixes
-- add language missing language strings
+- fix media-detail page

@@ -1,158 +1,199 @@
-/* media-detail.js — robust modal controller (handles duplicate IDs) */
+/* /dashboard/js/media-detail.js */
 (() => {
-  console.log("[media-detail] modal init (robust)");
+  "use strict";
 
-  const lockScroll = () => {
-    document.documentElement.classList.add("overflow-hidden");
-    document.body.classList.add("overflow-hidden");
-  };
-  const unlockScroll = () => {
-    document.documentElement.classList.remove("overflow-hidden");
-    document.body.classList.remove("overflow-hidden");
-  };
+  const log = (...a) => console.log("[media-detail]", ...a);
+  const warn = (...a) => console.warn("[media-detail]", ...a);
 
-  // If IDs are duplicated, querySelectorAll will return all; we take the LAST one.
-  const getLastById = (id) => {
-    const list = document.querySelectorAll(`#${CSS.escape(id)}`);
-    return list.length ? list[list.length - 1] : null;
-  };
+  const byId = (id) => document.getElementById(id);
 
-  const isOpen = (modal) => modal && !modal.classList.contains("hidden");
-
-  const openModal = (modal, focusSelector) => {
-    if (!modal) return;
-    modal.classList.remove("hidden");
-    modal.setAttribute("aria-hidden", "false");
-    lockScroll();
-
-    const focusEl =
-      (focusSelector && modal.querySelector(focusSelector)) ||
-      modal.querySelector("button, [href], input, textarea, select, [tabindex]:not([tabindex='-1'])");
-
-    if (focusEl?.focus) setTimeout(() => focusEl.focus(), 0);
-  };
-
-  const closeModal = (modal, returnFocusEl) => {
-    if (!modal) return;
-    modal.classList.add("hidden");
-    modal.setAttribute("aria-hidden", "true");
-    unlockScroll();
-    if (returnFocusEl?.focus) setTimeout(() => returnFocusEl.focus(), 0);
-  };
-
-  const findBackdrop = (modal) => {
-    if (!modal) return null;
-    // your backdrop is usually a child with fixed inset-0 AND a bg- class
-    const candidates = modal.querySelectorAll(":scope > .fixed.inset-0, .fixed.inset-0");
-    for (const el of candidates) {
-      const cls = (el.className || "").toString();
-      if (el !== modal && cls.includes("bg-")) return el;
-    }
-    return null;
-  };
-
-  const findPanel = (modal) => {
-    if (!modal) return null;
-    // panel is usually the inner "card"
-    return (
-      modal.querySelector(".relative.transform.overflow-hidden") ||
-      modal.querySelector(".relative.transform") ||
-      modal.querySelector("[data-panel]") ||
-      null
-    );
-  };
-
-  function wireModal({
-    modalId,
-    openBtnId,
-    closeSelectors,     // selectors INSIDE the modal (no global getElementById!)
-    focusSelector,
-  }) {
-    const modal = getLastById(modalId);
-    const openBtn = document.getElementById(openBtnId);
-
-    if (!modal || !openBtn) {
-      console.warn("[media-detail] wireModal missing:", { modalId, openBtnId, modal: !!modal, openBtn: !!openBtn });
-      return null;
-    }
-
-    // Avoid double binding
-    if (modal.dataset.bound === "true") return { modal, openBtn };
-    modal.dataset.bound = "true";
-
-    const backdrop = findBackdrop(modal);
-    const panel = findPanel(modal);
-
-    // OPEN
-    openBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      openModal(modal, focusSelector);
-    });
-
-    // CLOSE buttons (X, Cancel, etc.) — query INSIDE the modal instance
-    closeSelectors.forEach((sel) => {
-      const btn = modal.querySelector(sel);
-      if (!btn) return;
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        closeModal(modal, openBtn);
-      });
-    });
-
-    // Backdrop click closes
-    if (backdrop) {
-      backdrop.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        closeModal(modal, openBtn);
-      });
-    }
-
-    // Click outside panel closes (safe fallback)
-    modal.addEventListener("click", (e) => {
-      if (panel && panel.contains(e.target)) return;
-      // allow clicking overlay area to close
-      if (e.target === modal) closeModal(modal, openBtn);
-    });
-
-    return { modal, openBtn };
+  function getImageFile() {
+    // from <meta name="image-file" content="...">
+    const meta = document.querySelector('meta[name="image-file"]');
+    return (meta?.getAttribute("content") || "").trim();
   }
 
-  // --- AI modal ---
-  const ai = wireModal({
-    modalId: "confirmAiModal",
-    openBtnId: "generate_text",
-    closeSelectors: ["#aiTextClose", "#confirmNo"],
-    focusSelector: "#confirmNo",
-  });
+  function getBase() {
+    // you said dashboard lives under /dashboard
+    return "/dashboard";
+  }
 
-  // --- Edit Text modal ---
-  const edit = wireModal({
-    modalId: "editImageTextModal",
-    openBtnId: "edit_text",
-    closeSelectors: ["#close_edit_image_text", "#cancel_image_text"],
-    focusSelector: "#image-title-input",
-  });
+  async function postJson(url, data) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(data),
+    });
 
-  // ESC closes topmost open (edit first, then ai)
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
+    const text = await res.text();
+    let json = null;
+    try { json = JSON.parse(text); } catch (_) {}
 
-    if (edit?.modal && isOpen(edit.modal)) {
-      e.preventDefault();
-      closeModal(edit.modal, edit.openBtn);
-      return;
+    if (!res.ok) {
+      // if server returned html error page, show part of it
+      const msg = json?.error || text?.slice(0, 300) || `HTTP ${res.status}`;
+      throw new Error(msg);
     }
-    if (ai?.modal && isOpen(ai.modal)) {
-      e.preventDefault();
-      closeModal(ai.modal, ai.openBtn);
-      return;
-    }
-  });
 
-  console.log("[media-detail] modal ready", {
-    editModalFound: !!edit?.modal,
-    aiModalFound: !!ai?.modal,
-  });
+    return json ?? { ok: true, raw: text };
+  }
+
+  function setBusy(btn, busy) {
+    if (!btn) return;
+    btn.disabled = !!busy;
+    btn.classList.toggle("opacity-60", !!busy);
+    btn.classList.toggle("cursor-not-allowed", !!busy);
+  }
+
+  function closeDialog(id) {
+    const d = byId(id);
+    if (d && typeof d.close === "function" && d.open) d.close();
+  }
+
+  function init() {
+    const base = getBase();
+    const file = getImageFile();
+
+    log("init", { base, file, edit: !!byId("editImageTextModal"), ai: !!byId("confirmAiModal"), exif: !!byId("editExifModal") });
+
+    if (!file) {
+      warn("No image file found (meta[name=image-file] missing/empty). Saves will fail.");
+    }
+
+    // ---------- SAVE IMAGE TEXT ----------
+    const btnSaveText = byId("save_image_text");
+    if (btnSaveText) {
+      btnSaveText.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const title = (byId("image-title-input")?.value || "").trim();
+        const description = (byId("image-description-input")?.value || "").trim();
+
+        try {
+          setBusy(btnSaveText, true);
+
+          const url = `${base}/backend_api/image_save.php`;
+          const result = await postJson(url, { file, title, description });
+
+          // update UI
+          const titleEl = byId("title");
+          const descEl = byId("description");
+          if (titleEl) titleEl.textContent = title;
+          if (descEl) descEl.innerHTML = description.replace(/\n/g, "<br>");
+
+          log("image saved", result);
+
+          // close dialog (optional)
+          closeDialog("editImageTextModal");
+        } catch (err) {
+          console.error(err);
+          alert("Text save failed: " + (err?.message || err));
+        } finally {
+          setBusy(btnSaveText, false);
+        }
+      });
+    } else {
+      warn("Button #save_image_text not found");
+    }
+
+    // ---------- SAVE EXIF ----------
+    const btnSaveExif = byId("save_metadata");
+    if (btnSaveExif) {
+      btnSaveExif.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const payload = {
+          file,
+          camera: (byId("exif-camera-input")?.value || "").trim(),
+          lens: (byId("exif-lens-input")?.value || "").trim(),
+          aperture: (byId("exif-aperture-input")?.value || "").trim(),
+          shutter_speed: (byId("exif-shutter-input")?.value || "").trim(),
+          iso: (byId("exif-iso-input")?.value || "").trim(),
+          focal_length: (byId("exif-focal-input")?.value || "").trim(),
+          date: (byId("exif-date-input")?.value || "").trim(),
+          lat: (byId("exif-lat-input")?.value || "").trim(),
+          lon: (byId("exif-lon-input")?.value || "").trim(),
+        };
+
+        try {
+          setBusy(btnSaveExif, true);
+
+          const url = `${base}/backend_api/exif_save.php`;
+          const result = await postJson(url, payload);
+
+          // update sidebar view
+          const setText = (id, v) => { const el = byId(id); if (el) el.textContent = v; };
+          setText("exif-camera", payload.camera);
+          setText("exif-lens", payload.lens);
+          setText("exif-aperture", payload.aperture);
+          setText("exif-shutter", payload.shutter_speed);
+          setText("exif-iso", payload.iso);
+          setText("exif-focal", payload.focal_length);
+          setText("exif-date", payload.date);
+          setText("exif-lat", payload.lat);
+          setText("exif-lon", payload.lon);
+
+          log("exif saved", result);
+
+          // close dialog (optional)
+          closeDialog("editExifModal");
+        } catch (err) {
+          console.error(err);
+          alert("EXIF save failed: " + (err?.message || err));
+        } finally {
+          setBusy(btnSaveExif, false);
+        }
+      });
+    } else {
+      warn("Button #save_metadata not found");
+    }
+
+    // ---------- ESC closes any open dialog (optional, handy) ----------
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      // close topmost (rough)
+      const dialogs = ["confirmAiModal", "editImageTextModal", "editExifModal"];
+      for (const id of dialogs) {
+        const d = byId(id);
+        if (d && d.open) {
+          e.preventDefault();
+          d.close();
+          break;
+        }
+      }
+    });
+
+    // ---------- Copy GPS ----------
+    const btnCopyGps = byId("copy-gps");
+    if (btnCopyGps) {
+      btnCopyGps.addEventListener("click", async () => {
+        const lat = (byId("exif-lat")?.textContent || "").trim();
+        const lon = (byId("exif-lon")?.textContent || "").trim();
+        const text = `${lat}, ${lon}`.trim();
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (_) {
+          // fallback
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        }
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
 })();

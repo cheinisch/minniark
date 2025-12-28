@@ -572,7 +572,18 @@
                 <?php else: ?>
                   <li>
                     <?php echo languageString('dashboard.system.license_expire_date'); ?>:
-                    <?php echo htmlspecialchars((string)$expiresAt, ENT_QUOTES, 'UTF-8'); ?>
+                    <?php
+                    if (!empty($expiresAt)) {
+                        try {
+                            $dt = new DateTime($expiresAt);
+                            $dt->setTimezone(new DateTimeZone(date_default_timezone_get()));
+                            echo $dt->format('d.m.Y - H:i');
+                        } catch (Throwable $e) {
+                            // Fallback: roh anzeigen
+                            echo htmlspecialchars((string)$expiresAt, ENT_QUOTES, 'UTF-8');
+                        }
+                    }
+                    ?>
                   </li>
                 <?php endif; ?>
 

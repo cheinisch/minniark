@@ -155,7 +155,7 @@
             "sitemap_images_description": "Include images in the sitemap.xml.",
 
             "license_title": "Supporter License",
-            "license_description": "Add an additional supporter license key. Required for some plugins. You can buy the license at store.minniark.com.",
+            "license_description": "Add an additional supporter license key. Required for some plugins. You can buy the license at <a href=\"https://store.minniark.com\" target=\"_blank\">store.minniark.com</a>.",
             "license_field": "License Key",
             "license_invalid": "License is not valid",
             "license_expired_label": "Expired at",

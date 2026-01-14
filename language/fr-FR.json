@@ -153,7 +153,7 @@
             "sitemap_images_description": "Ajouter les images au sitemap.xml.",
 
             "license_title": "Licence Supporter",
-            "license_description": "Ajouter une clé de licence supporter supplémentaire. Requise pour certains plugins. À acheter sur store.minniark.com.",
+            "license_description": "Ajouter une clé de licence supporter supplémentaire. Requise pour certains plugins. À acheter sur <a href=\"https://store.minniark.com\" target=\"_blank\">store.minniark.com</a>.",
             "license_field": "Clé de licence",
             "license_invalid": "Licence invalide",
             "license_expired_label": "Expire le",

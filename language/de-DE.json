@@ -154,7 +154,7 @@
             "sitemap_images_description": "Bilder in der sitemap.xml einbeziehen.",
 
             "license_title": "Supporter-Lizenz",
-            "license_description": "Lizenzschlüssel hinzufügen. Wird für bestimmte Plugins benötigt. Kaufbar unter store.minniark.com.",
+            "license_description": "Lizenzschlüssel hinzufügen. Wird für bestimmte Plugins benötigt. Kaufbar unter <a href=\"https://store.minniark.com\" target=\"_blank\">store.minniark.com</a>.",
             "license_field": "Lizenzschlüssel",
             "license_invalid": "Lizenz ist ungültig",
             "license_expired_label": "Abgelaufen am",

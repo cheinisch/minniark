@@ -244,7 +244,7 @@ function generateOpenRouterImageText(array $meta, array $tags, int $targetWords 
         return 'Error: OpenRouter API key not available (license invalid / proxy error).';
     }
 
-    $model  = 'openai/gpt-4o-mini';
+    $model  = 'openai/gpt-5-nano';
 
     $prompt = <<<PROMPT
 You are a helpful assistant that writes vivid, natural-sounding photo descriptions for websites.

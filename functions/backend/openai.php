@@ -32,7 +32,7 @@ function getOpenAIKey($key): ?string
 function generateOpenAIImageText(array $meta, int $targetWords = 250, string $language = 'en'): string
 {
     // Modell fest auf günstiges GPT-4 setzen
-    $MODEL = 'gpt-4o-mini';
+    $MODEL = 'gpt-5-mini';
 
     // OpenAI-Key holen
     $apiKey = getOpenAIKey(null);

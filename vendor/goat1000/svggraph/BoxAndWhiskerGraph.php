@@ -132,7 +132,7 @@ class BoxAndWhiskerGraph extends PointGraph {
    */
   protected function whiskerBox($x, $w, $median, $top, $bottom,
     $wtop, $wbottom, $round, $whisker_width, $whisker_dash,
-    $median_width, $median_dash, Colour $median_colour = null)
+    $median_width, $median_dash, ?Colour $median_colour = null)
   {
     $t = $this->gridY($top);
     $b = $this->gridY($bottom);

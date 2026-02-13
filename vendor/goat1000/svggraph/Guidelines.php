@@ -380,10 +380,10 @@ class Guidelines {
       $t = ['x' => $x, 'y' => $y + $svg_text->baseline($font_size)];
       if(empty($text_align) && $text_pos_align != 'start') {
         $t['text-anchor'] = $text_pos_align;
-      } else {
-        $align_map = ['right' => 'end', 'centre' => 'middle'];
-        if(isset($align_map[$text_align]))
-          $t['text-anchor'] = $align_map[$text_align];
+      } elseif($text_align == 'right') {
+        $t['text-anchor'] = 'end';
+      } elseif($text_align == 'centre') {
+        $t['text-anchor'] = 'middle';
       }
 
       if($text_angle != 0) {

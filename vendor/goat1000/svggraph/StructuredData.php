@@ -283,9 +283,11 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
 
     $min = null;
     $key = $this->dataset_fields[$dataset];
-    foreach($this->data as $item) {
-      if(isset($item[$key]) && ($min === null || $item[$key] < $min))
-        $min = $item[$key];
+    if($key !== null) {
+      foreach($this->data as $item) {
+        if(isset($item[$key]) && ($min === null || $item[$key] < $min))
+          $min = $item[$key];
+      }
     }
 
     return ($this->min_values[$dataset] = $min);
@@ -301,9 +303,11 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
 
     $max = null;
     $key = $this->dataset_fields[$dataset];
-    foreach($this->data as $item) {
-      if(isset($item[$key]) && ($max === null || $item[$key] > $max))
-        $max = $item[$key];
+    if($key !== null) {
+      foreach($this->data as $item) {
+        if(isset($item[$key]) && ($max === null || $item[$key] > $max))
+          $max = $item[$key];
+      }
     }
 
     return ($this->max_values[$dataset] = $max);

@@ -182,9 +182,13 @@ class Javascript {
       else
         $vars['tty'] = $vars['line_spacing'];
 
-      $anchors = ['left' => 'start', 'right' => 'end'];
-      $vars['anchor'] = isset($anchors[$vars['align']]) ?
-        $anchors[$vars['align']] : 'middle';
+      switch($vars['align'])
+      {
+      case 'left': $vars['anchor'] = 'start'; break;
+      case 'right': $vars['anchor'] = 'end'; break;
+      default:
+        $vars['anchor'] = 'middle';
+      }
       return $this->insertTemplate('texttt', $vars);
 
     case 'ttEvent' :

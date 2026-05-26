@@ -1,4 +1,7 @@
 ## [2026.5.0]
+2026-05-26
+
+**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2026.2.0...v2026.5.0
 
 ### Changes
 
@@ -9,11 +12,3 @@
   - Upgrading symfony/yaml (v7.4.1 => v7.4.12)
   - Upgrading twig/twig (v3.23.0 => v3.26.0)
   - Upgrading symfony/polyfill-php80 (v1.33.0 => v1.37.0)
-
-## [2026.2.0]
-2026-02-13
-
-**Full Changelog**: https://github.com/cheinisch/minniark/compare/v2026.1.0...v2026.2.0
-
-### New Features
-- Change AI Model

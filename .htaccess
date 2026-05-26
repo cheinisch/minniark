@@ -1,3 +1,8 @@
+# Schutz für YAML und JSON Dateien
+<FilesMatch "\.(yml|yaml|json)$">
+    Require all denied
+</FilesMatch>
+
 RewriteEngine On
 
 # Dashboard-Pfad ausschließen

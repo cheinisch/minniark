@@ -2,8 +2,6 @@
 require_once( __DIR__ . "/../functions/function_api.php");
 require_once( __DIR__ . "/../functions/function_backend.php");
 secure_API();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 error_log("Generate Backup started");
 $prefix = read_prefix(); // z. B. 'projectname'

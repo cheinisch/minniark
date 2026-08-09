@@ -34,6 +34,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Images - <?php echo get_sitename(); ?></title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="../vendor/cheinisch/markdown-editor/public/md-editor.css">
+  <script src="../vendor/cheinisch/markdown-editor/public/md-editor.js"></script>
 </head>
 
 <body class="bg-white dark:bg-black">
@@ -219,12 +221,14 @@
 
                   <div>
                     <label class="block text-sm font-medium text-gray-800 dark:text-gray-200"><?php echo languageString('general.description'); ?></label>
+                    <div data-md-editor data-toolbar='["bold","italic","heading","|","quote"]'>
                     <textarea
                       name="album-description"
                       rows="6"
                       class="mt-1 w-full rounded-md border px-3 py-2 bg-white text-gray-900 border-gray-300
                              dark:bg-white/10 dark:text-white dark:border-white/10"
                     ><?php echo htmlspecialchars((string)($albumdata['description'] ?? ''), ENT_QUOTES); ?></textarea>
+                    </div>
                   </div>
                 </div>
 

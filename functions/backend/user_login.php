@@ -1,7 +1,7 @@
 <?php
 
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
+    
+    
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -86,7 +86,7 @@
     {
         error_log("Generate OPT");
 
-        $opt = rand(100000,999999);
+        $opt = random_int(100000, 999999);
         
         save_otp($opt, $username);
 

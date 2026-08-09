@@ -1,127 +1,136 @@
 {
-    "general" : {
-        "ok" : "Ok",
-        "save" : "Save",
-        "cancel" : "Cancel",
-        "edit" : "Edit",
-        "add" : "Add",
-        "tags" : "Tags",
-        "tags_add" : "Add Tags",
-        "delete" : "Delete",
-        "add_new" : "add new",
-        "countries" : "Countries",
-        "year" : "Year",
-        "content" : "Content",
-        "albums" : "Albums",
-        "collections" : "Collections",
-        "ratings" : "Ratings",
-        "close" : "Close",
-        "copy" : "Copy",
-        "title" : "Title",
-        "description" : "Description",
+    "general": {
+        "ok": "Ok",
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "add": "Add",
+        "tags": "Tags",
+        "tags_add": "Add Tags",
+        "delete": "Delete",
+        "add_new": "add new",
+        "countries": "Countries",
+        "year": "Year",
+        "content": "Content",
+        "albums": "Albums",
+        "collections": "Collections",
+        "ratings": "Ratings",
+        "close": "Close",
+        "copy": "Copy",
+        "title": "Title",
+        "description": "Description",
         "reset_filter": "Reset Filter",
-        "published" : "Published",
-        "success" : "Success",
-        "success_save" : "Settings are saved!",
-        "error" : "Error",
-        "error_message" : "Something gone wrong!",
-        "remove" : "Remove"
+        "published": "Published",
+        "success": "Success",
+        "success_save": "Settings are saved!",
+        "error": "Error",
+        "error_message": "Something gone wrong!",
+        "remove": "Remove"
     },
     "nav": {
         "dashboard": "Dashboard",
         "images": "Images",
-        "blogposts":"Blogposts",
-        "pages":"Pages",
-        "your_profile":"Your Profile",
-        "sign_out":"Sign Out"
+        "blogposts": "Blogposts",
+        "pages": "Pages",
+        "your_profile": "Your Profile",
+        "sign_out": "Sign Out"
     },
     "login": {
-        "login":"Login",
-        "login_at":"Login at",
-        "password":"Password",
-        "password_wrong":"Password is wrong",
-        "enter_otp":"Enter OTP",
-        "username":"Username",
-        "username_wrong":"Username is wrong",
-        "change_user" : "Select different User"
+        "login": "Login",
+        "login_at": "Login at",
+        "password": "Password",
+        "password_wrong": "Password is wrong",
+        "enter_otp": "Enter OTP",
+        "username": "Username",
+        "username_wrong": "Username is wrong",
+        "change_user": "Select different User"
     },
     "dashboard": {
-        "clear_cache" : "Clear Cache",
-        "systeminformation" : {
-            "title" : "System Information",
-            "storage" : "Storage usage",
-            "version" : "Version",
-            "operation_system" : "Operation System",
-            "webserver" : "Webserver",
+        "clear_cache": "Clear Cache",
+        "systeminformation": {
+            "title": "System Information",
+            "storage": "Storage usage",
+            "version": "Version",
+            "operation_system": "Operation System",
+            "webserver": "Webserver",
             "bugreport": "Please report bugs on {{url}}.",
-            "news" : "News / Updates",
-            "component" : "Component",
-            "component-version" : "Version / Type"
+            "news": "News / Updates",
+            "component": "Component",
+            "component-version": "Version / Type"
         },
         "nav": {
-            "overview":"Overview",
-            "dashboard":"Dashboard",
-            "settings":"Settings",
-            "personal":"Personal Settings",
-            "user":"User Settings",
-            "system":"System Settings",
-            "theme":"Theme Settings",
-            "welcome":"Start Page",
-            "nav":"Navigation",
-            "plugin":"Plugins",
-            "export_import":"Export / Import",
-            "ai":"AI",
-            "additionalmenu":"Additional Functions",
-            "update" : "Update"
+            "overview": "Overview",
+            "dashboard": "Dashboard",
+            "settings": "Settings",
+            "personal": "Personal Settings",
+            "user": "User Settings",
+            "system": "System Settings",
+            "theme": "Theme Settings",
+            "welcome": "Start Page",
+            "nav": "Navigation",
+            "plugin": "Plugins",
+            "export_import": "Export / Import",
+            "ai": "AI",
+            "additionalmenu": "Additional Functions",
+            "update": "Update"
         },
         "theme": {
             "title": "Theme Management",
             "subtitle": "Manage, activate, update or remove installed themes.",
-            
             "version": "Version",
             "author": "Author",
-
             "active": "Active",
             "activate": "Activate",
             "update": "Update",
             "remove": "Remove",
             "search": "Search Theme",
-
             "dialog_activate_title": "Activate Theme",
             "dialog_activate_text": "Do you really want to set %s as the active theme?",
-
             "dialog_remove_title": "Remove Theme",
             "dialog_remove_text": "Do you really want to remove %s from the system?",
-
             "install": {
                 "title": "Search and Install Themes",
                 "subtitle": "Browse themes from the catalog and install them.",
-
                 "search_placeholder": "Search themes…",
-
                 "install": "Install",
                 "is_installed": "Installed"
+            },
+            "upload": {
+                "button_title": "Upload Theme",
+                "title": "Upload Theme",
+                "subtitle": "Install a theme directly from a .zip file.",
+                "dropzone_hint": "Drag & drop a theme .zip here, or browse",
+                "zip_only": "Only .zip files are accepted",
+                "browse": "Browse",
+                "uploading": "Uploading…",
+                "install": "Install Theme",
+                "success": "Theme installed successfully.",
+                "error_filetype": "Only .zip files are accepted.",
+                "error_network": "Network error. Please try again.",
+                "error_toobig": "File is too large. Maximum size is 20 MB.",
+                "error_toomany": "ZIP contains too many files.",
+                "error_exists": "A theme with this name is already installed."
             }
         },
-        "ai" : {
-            "title" : "AI Information",
-            "description" : "Some AI Information",
-            "select" : "Select AI"
+        "ai": {
+            "title": "AI Information",
+            "description": "Some AI Information",
+            "select": "Select AI"
         },
-        "personal" : {
-            "title" : "Personal Information",
-            "description" : "Use a permanent address where you can receive mail",
-            "display_name" : "Display Name",
+        "personal": {
+            "title": "Personal Information",
+            "description": "Use a permanent address where you can receive mail",
+            "display_name": "Display Name",
             "username": "Username",
-            "mail" : "Email address",
-            "login_title" : "Login Type",
-            "login_description" : "Select between password and One Time Code via Mail ",
-            "login_type" : "Default Login Type",
-            "password_title" : "Change password",
-            "password_description" : "Update your password associated with your account",
-            "current_password" : "Current Password",
-            "new_password" : "New Password",
-            "confirm_password" : "Confirm Password"
+            "mail": "Email address",
+            "login_title": "Login Type",
+            "login_description": "Select between password and One Time Code via Mail ",
+            "login_type": "Default Login Type",
+            "password_title": "Change password",
+            "password_description": "Update your password associated with your account",
+            "current_password": "Current Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm Password"
         },
         "system": {
             "site_title": "Site Information",
@@ -130,30 +139,25 @@
             "description": "Site Description",
             "language": "Language",
             "no_languages": "No languages found",
-
             "image_title": "Image Settings",
             "image_description": "Choose default settings for image processing and cached images.",
             "image_size_label": "Default image size (for cached images)",
             "recreate_cache": "Recreate Cache",
-
             "timeline_title": "Timeline Settings",
             "timeline_description": "Configure how the timeline is displayed in the frontend.",
             "timeline_enable": "Enable Timeline",
             "timeline_enable_description": "Enable the timeline in the main navigation.",
             "timeline_group": "Group by month",
             "timeline_group_description": "Group images in the timeline by month.",
-
             "map_title": "Map Settings",
             "map_description": "Configure the map view and its availability.",
             "map_enable": "Enable Map",
             "map_enable_description": "Enable the map in the main navigation.",
-
             "sitemap_title": "Sitemap Settings",
             "sitemap": "Enable Sitemap",
             "sitemap_description": "Enables the sitemap.xml in the root directory.",
             "sitemap_images": "Enable Images in Sitemap",
             "sitemap_images_description": "Include images in the sitemap.xml.",
-
             "license_title": "Supporter License",
             "license_description": "Add an additional supporter license key. Required for some plugins. You can buy the license at <a href=\"https://store.minniark.com\" target=\"_blank\">store.minniark.com</a>.",
             "license_field": "License Key",
@@ -168,63 +172,62 @@
             "license_remaining_days": "Remaining days",
             "license_expire_date": "Expire date",
             "license_activation": "Activation",
-            "license_hint_remove" : "Remove the license to deactivate it!"
+            "license_hint_remove": "Remove the license to deactivate it!"
         },
-        "update" : {
-            "name" : "MinniArk - Versionen",
-            "title" : "MinniArk - Versionen",
-            "description" : "The currently installed version and any available new versions are displayed here.",
-            "local" : "Local",
-            "local_description" : "The version currently running on this system.",
-            "remote" : "Remote",
-            "remote_description" : "A newer version that is available for update.",
-            "installed_vers" : "Installed version",
-            "remote_vers" : "Remote version",
+        "update": {
+            "name": "MinniArk - Versionen",
+            "title": "MinniArk - Versionen",
+            "description": "The currently installed version and any available new versions are displayed here.",
+            "local": "Local",
+            "local_description": "The version currently running on this system.",
+            "remote": "Remote",
+            "remote_description": "A newer version that is available for update.",
+            "installed_vers": "Installed version",
+            "remote_vers": "Remote version",
             "no_update": "You are up to date.",
-            "update_available" : "A new version is available for update",
-            "update_now" : "Update now",
-            "update_docker" : "New Docker Image available",
-            "version_error" : "Version information incomplete. Values are only displayed; no verification takes place.",
-            "local_releasenotes" : {
-                "url" : "Open the releasenotes",
-                "dialog_title" : "Release Notes - Version",
+            "update_available": "A new version is available for update",
+            "update_now": "Update now",
+            "update_docker": "New Docker Image available",
+            "version_error": "Version information incomplete. Values are only displayed; no verification takes place.",
+            "local_releasenotes": {
+                "url": "Open the releasenotes",
+                "dialog_title": "Release Notes - Version",
                 "dialog_text": "What's new in this version"
             }
-
         },
-        "export" : {
-            "export" : "Export Data",
-            "export_description" : "Export your data as a ZIP file.",
-            "generate_backup" : "Generate Backup",
-            "import" : "Import Data",
-            "import_description" : "If your backup is larger than {{ fileupload_size }} MB, please upload it via FTP. ",
-            "import_file" : "Backup file (ZIP)",
-            "import_upload" : "Upload Backup",
-            "files" : "Backup Files",
-            "files_description" : "Download, restore or delete backups.",
-            "file_date" : "Date",
-            "file_name" : "File",
-            "file_size" : "File size",
-            "popup" : {
-                "success_title" : "Backup Finished",
-                "success_description" : "Backup successfully created.",
-                "restore_title" : "Restore Complete",
-                "restore_description" : "Backup restored successfully.",
-                "restore_error" : "Restore Failed",
-                "restore_error_description" : "Please restore the data manually."
+        "export": {
+            "export": "Export Data",
+            "export_description": "Export your data as a ZIP file.",
+            "generate_backup": "Generate Backup",
+            "import": "Import Data",
+            "import_description": "If your backup is larger than {{ fileupload_size }} MB, please upload it via FTP. ",
+            "import_file": "Backup file (ZIP)",
+            "import_upload": "Upload Backup",
+            "files": "Backup Files",
+            "files_description": "Download, restore or delete backups.",
+            "file_date": "Date",
+            "file_name": "File",
+            "file_size": "File size",
+            "popup": {
+                "success_title": "Backup Finished",
+                "success_description": "Backup successfully created.",
+                "restore_title": "Restore Complete",
+                "restore_description": "Backup restored successfully.",
+                "restore_error": "Restore Failed",
+                "restore_error_description": "Please restore the data manually."
             }
         },
-        "menu" : {
-            "title" : "Main Navigation Settings",
-            "description" : "Select some settings for the navigation ",
-            "custommenu" : "Custom Navigation",
-            "custommenu_description" : "Enables the custom navigation.",
-            "custommenu_config" : "Create your own nav menu",
-            "avail_items" : "Available Items",
-            "custommenu_items" : "Custom Menu",
-            "custommenu_link" : "Add Custom Link"
+        "menu": {
+            "title": "Main Navigation Settings",
+            "description": "Select some settings for the navigation ",
+            "custommenu": "Custom Navigation",
+            "custommenu_description": "Enables the custom navigation.",
+            "custommenu_config": "Create your own nav menu",
+            "avail_items": "Available Items",
+            "custommenu_items": "Custom Menu",
+            "custommenu_link": "Add Custom Link"
         },
-        "user" : {
+        "user": {
             "title": "User Management",
             "description": "Create, edit and delete users that can access the backend.",
             "table": {
@@ -256,36 +259,31 @@
                 "self_text": "You can’t delete your own user."
             }
         },
-        "plugin" : {
-            "title" : "Plugins",
-            "description" : "Manage installed plugins and their settings."
+        "plugin": {
+            "title": "Plugins",
+            "description": "Manage installed plugins and their settings."
         },
         "welcome": {
             "title": "Start Page Settings",
             "subtitle": "Choose what visitors will see on the start page.",
-
             "type_title": "Start Page Type",
             "type_description": "Select the content type for your start page.",
             "type_default_label": "Default Page Type",
             "type_start": "Welcome Page",
             "type_page": "Page",
             "type_album": "Album",
-
             "select_page": "Select Page",
             "select_album": "Select Album",
-
             "content_title": "Welcome Page Content",
             "content_subtitle": "Edit the content of the welcome page.",
             "headline": "Headline",
             "subheadline": "Sub Headline",
             "content": "Content",
-
             "cover_title": "Background",
             "cover_subtitle": "Select an image or album to use as background cover.",
             "cover_button_select": "Select Image / Album",
             "cover_button_save": "Save Background",
             "cover_preview_album_prefix": "Album:",
-
             "modal_title": "Select Background Image or Album",
             "modal_description": "Choose an album or a single image for the background.",
             "modal_album_label": "Select Album",
@@ -295,101 +293,105 @@
             "modal_button_cancel": "Cancel"
         }
     },
-    "image" : {
-        "generate_ai_text":"Generate AI Text",
-        "rating" : "Image Rating",
-        "edit" : "Edit Image",
-        "delete" : "Delete Image",
-        "meta_edit" : "Edit Metadata",
-        "meta_sync" : "Sync Metadata",
-        "meta" : "Metadata",
-        "information" : "Information",
-        "upload_image" : "Upload new Image",
-        "all_photos" : "All Photos",
-        "sync_images" : "Sync Images",
-        "filter_images" : "Filter Images",
-        "reset_filter" : "All Images (Reset Filter)",
-        "drop_or_click" : "Drop file here or click here",
-        "choose_files" : "Choose Files",
-        "upload_hint" : "Image Uploader",
-        "generate" : {
+    "image": {
+        "generate_ai_text": "Generate AI Text",
+        "rating": "Image Rating",
+        "edit": "Edit Image",
+        "delete": "Delete Image",
+        "meta_edit": "Edit Metadata",
+        "meta_sync": "Sync Metadata",
+        "meta": "Metadata",
+        "information": "Information",
+        "upload_image": "Upload new Image",
+        "all_photos": "All Photos",
+        "sync_images": "Sync Images",
+        "filter_images": "Filter Images",
+        "reset_filter": "All Images (Reset Filter)",
+        "drop_or_click": "Drop file here or click here",
+        "choose_files": "Choose Files",
+        "upload_hint": "Image Uploader",
+        "generate": {
             "btn": "Generate AI Text",
             "title": "Generate AI Text",
             "text": "Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
         }
     },
-    "exif" :{
-        "camera":"Camera",
-        "iso" : "ISO",
-        "lens" : "Lens",
-        "aperture" : "Aperture",
-        "shutter_speed" : "Shutter Speed",
-        "focal_length" : "Focal Length",
-        "date" : "Date",
-        "gps" : {
-            "label" : "GPS Data",
-            "lat" : "Lat",
-            "lon" : "Lon"
+    "exif": {
+        "camera": "Camera",
+        "iso": "ISO",
+        "lens": "Lens",
+        "aperture": "Aperture",
+        "shutter_speed": "Shutter Speed",
+        "focal_length": "Focal Length",
+        "date": "Date",
+        "gps": {
+            "label": "GPS Data",
+            "lat": "Lat",
+            "lon": "Lon"
         }
     },
-    "album" : {
-        "addToAlbum" : "Add to Album",
-        "removeFromAlbum" : "Remove from Album",
-        "removeFromAlbumText" : "Do you really want to remove this image from the album?",
-        "deleteAlbum" : "Delete Album",
-        "deleteAlbumText" : "Do you really want to delete this album? This action cannot be undone.",
-        "addImage" : "Add Image",
-        "addSelectedImage" : "Add selected images",
-        "removeImage" : "Remove Image",
-        "setHero" : "Set Albumcover",
-        "deleteCollection" : "Delete Collection",
-        "deleteCollectionText" : "Do you really want to delete this collection?"
+    "album": {
+        "addToAlbum": "Add to Album",
+        "removeFromAlbum": "Remove from Album",
+        "removeFromAlbumText": "Do you really want to remove this image from the album?",
+        "deleteAlbum": "Delete Album",
+        "deleteAlbumText": "Do you really want to delete this album? This action cannot be undone.",
+        "addImage": "Add Image",
+        "addSelectedImage": "Add selected images",
+        "removeImage": "Remove Image",
+        "setHero": "Set Albumcover",
+        "deleteCollection": "Delete Collection",
+        "deleteCollectionText": "Do you really want to delete this collection?"
     },
-    "collection" : {
-        "delete" : "Delete Collection",
-        "selectCoverImage" : "Select cover image",
-        "selectCoverImageText" : "Choose one image from albums inside this collection.",
-        "saveCover" : "Save cover",
-        "addAlbums" : "Add albums to collection",
-        "addAlbumsText" : "Select one or more albums.",
-        "addSelected" : "Add selected",
-        "removeFromCollection" : "Remove from Collection",
-        "removeFromCollectionText" : "Are you sure you want to remove this item?",
-        "removeAlbumBtn" : "Remove Album"
+    "collection": {
+        "delete": "Delete Collection",
+        "selectCoverImage": "Select cover image",
+        "selectCoverImageText": "Choose one image from albums inside this collection.",
+        "saveCover": "Save cover",
+        "addAlbums": "Add albums to collection",
+        "addAlbumsText": "Select one or more albums.",
+        "addSelected": "Add selected",
+        "removeFromCollection": "Remove from Collection",
+        "removeFromCollectionText": "Are you sure you want to remove this item?",
+        "removeAlbumBtn": "Remove Album"
     },
-    "blog" : {
-        "foldername" : "Foldername",
-        "content" : "Content",
-        "heroimage" : "Hero Image",
-        "select-heroimage" : "Select Hero Image",
-        "remove-heroimage" : "Remove Hero Image",
-        "delete" : "Delete Post",
-        "new_post" : "New Post",
-        "filter_posts" : "Filter posts",
-        "settings" : {
-            "title" : "Post Settings",
-            "description" : "Visibility &amp; publishing date.",
-            "published" : "Is published",
-            "published-description" : "Change between visible and invisible",
-            "published-date" : "Publishing Date"
+    "blog": {
+        "foldername": "Foldername",
+        "content": "Content",
+        "heroimage": "Hero Image",
+        "select-heroimage": "Select Hero Image",
+        "remove-heroimage": "Remove Hero Image",
+        "delete": "Delete Post",
+        "new_post": "New Post",
+        "filter_posts": "Filter posts",
+        "settings": {
+            "title": "Post Settings",
+            "description": "Visibility &amp; publishing date.",
+            "published": "Is published",
+            "published-description": "Change between visible and invisible",
+            "published-date": "Publishing Date"
         }
     },
-    "page" : {
-        "foldername" : "Foldername",
-        "content" : "Content",
-        "heroimage" : "Heroimage",
-        "select-heroimage" : "Select Heroimage",
-        "remove-heroimage" : "Remove Heroimage",
-        "delete" : "Delete Page",
-        "new_page" : "New Page",
-        "filter_posts" : "Filter pages",
-        "settings" : {
-            "title" : "Page Settings",
-            "description" : "Control visibility and save changes.",
-            "published" : "Is published",
-            "published-description" : "Change between visible and invisible"
+    "page": {
+        "foldername": "Foldername",
+        "content": "Content",
+        "heroimage": "Heroimage",
+        "select-heroimage": "Select Heroimage",
+        "remove-heroimage": "Remove Heroimage",
+        "delete": "Delete Page",
+        "new_page": "New Page",
+        "filter_posts": "Filter pages",
+        "settings": {
+            "title": "Page Settings",
+            "description": "Control visibility and save changes.",
+            "published": "Is published",
+            "published-description": "Change between visible and invisible"
         }
     },
     "greet.user": "Hi {{name}}",
-    "stats.items": { "_0": "No items", "_1": "1 item", "_n": "{{count}} items" }
+    "stats.items": {
+        "_0": "No items",
+        "_1": "1 item",
+        "_n": "{{count}} items"
+    }
 }

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    let simplemde = null;
+    let mdEditor = null;
 
     const normalBtnGroup = document.getElementById("normal-group");
     const editBtnGroup = document.getElementById("edit-group");
@@ -22,11 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
         viewFrame.classList.add("hidden");
         editFrame.classList.remove("hidden");
         // Initialisiere den Editor nur bei Bedarf
-        if (!simplemde) {
-            simplemde = new SimpleMDE({
-                element: document.getElementById("collection-description"),
-                toolbar: ["bold", "italic", "heading", "|", "quote"]
-            });
+        if (!mdEditor) {
+            const wrap = document.getElementById("collection-description")?.closest("[data-md-editor]");
+            if (wrap) {
+                // Lazy init: editor is inside a hidden container at page load
+                MinniarkMarkdownEditor.init(wrap);
+                mdEditor = wrap.mdEditor;
+            }
         }
     });
 
@@ -38,10 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
         editFrame.classList.add("hidden");
 
         // Editor entfernen & zerstören
-        if (simplemde) {
-            simplemde.toTextArea(); // zurückverwandeln in normales <textarea>
-            simplemde = null;       // Referenz löschen
-        }
+        // Editor state is preserved by MinniarkMarkdownEditor between open/close
+        mdEditor = null;
     });
 
     saveBtn.addEventListener("click", () => {

@@ -349,6 +349,18 @@
             <span class="sr-only"><?php echo languageString('dashboard.theme.search'); ?></span>
           </a>
 
+          <!-- Upload Theme button -->
+          <button type="button"
+                  id="openUploadThemeBtn"
+                  title="<?php echo languageString('dashboard.theme.upload.button_title'); ?>"
+                  class="inline-flex items-center gap-2 -m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300">
+            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+            </svg>
+            <span class="sr-only"><?php echo languageString('dashboard.theme.upload.button_title'); ?></span>
+          </button>
+
           <div class="relative" id="notif-wrap">
             <button type="button" id="notifBtn"
                     class="-m-2.5 p-2.5 text-gray-800 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
@@ -513,9 +525,141 @@
     </main>
   </div>
 
+  <!-- ══ Upload Theme Modal ═══════════════════════════════════════════════ -->
+  <div id="uploadThemeModal"
+       class="fixed inset-0 z-50 hidden"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="upload-theme-title"
+       aria-hidden="true">
+
+      <!-- Backdrop -->
+      <div data-upload-modal-backdrop
+           class="fixed inset-0 bg-gray-500/75 dark:bg-black/60"></div>
+
+      <!-- Panel -->
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl
+                      sm:my-8 sm:w-full sm:max-w-lg sm:p-6
+                      dark:bg-black dark:outline dark:-outline-offset-1 dark:outline-white/10">
+
+              <!-- Close -->
+              <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+                  <button type="button"
+                          data-close-upload-modal
+                          class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-cyan-600
+                                 dark:bg-black dark:hover:text-gray-300 dark:focus:outline-white">
+                      <span class="sr-only"><?php echo languageString('general.close'); ?></span>
+                      <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  </button>
+              </div>
+
+              <!-- Header -->
+              <div class="sm:flex sm:items-start">
+                  <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-cyan-100 sm:mx-0 sm:size-10 dark:bg-cyan-500/10">
+                      <svg class="size-6 text-cyan-600 dark:text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+                      </svg>
+                  </div>
+                  <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      <h2 id="upload-theme-title" class="text-base font-semibold text-gray-900 dark:text-white">
+                          <?php echo languageString('dashboard.theme.upload.title'); ?>
+                      </h2>
+                      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                          <?php echo languageString('dashboard.theme.upload.subtitle'); ?>
+                      </p>
+                  </div>
+              </div>
+
+              <!-- Drop zone -->
+              <div class="mt-5">
+                  <div id="uploadThemeDropZone"
+                       class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-black/20 dark:border-white/20
+                              px-6 py-8 cursor-pointer transition-colors hover:border-cyan-500 hover:bg-cyan-50 dark:hover:bg-cyan-900/10">
+
+                      <svg class="mx-auto size-10 text-gray-400 dark:text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12-3-3m0 0-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                      </svg>
+
+                      <p class="mt-3 text-sm text-gray-600 dark:text-gray-400 text-center">
+                          <?php echo languageString('dashboard.theme.upload.dropzone_hint'); ?>
+                      </p>
+                      <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">
+                          <?php echo languageString('dashboard.theme.upload.zip_only'); ?>
+                      </p>
+
+                      <button type="button"
+                              id="uploadThemeBrowseBtn"
+                              class="mt-4 rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-cyan-500
+                                     dark:bg-cyan-500 dark:hover:bg-cyan-400">
+                          <?php echo languageString('dashboard.theme.upload.browse'); ?>
+                      </button>
+
+                      <input id="uploadThemeFileInput" type="file" accept=".zip" class="sr-only">
+                  </div>
+
+                  <!-- Selected file name -->
+                  <p id="uploadThemeFileName"
+                     class="hidden mt-2 text-xs text-gray-500 dark:text-gray-400 truncate"></p>
+
+                  <!-- Theme preview (extracted image.png from ZIP) -->
+                  <div id="uploadThemePreview" class="hidden mt-3 rounded-md overflow-hidden border border-black/10 dark:border-white/10">
+                      <img id="uploadThemePreviewImg"
+                           src=""
+                           alt="Theme preview"
+                           class="w-full h-auto max-h-40 object-cover">
+                  </div>
+
+                  <!-- Progress bar -->
+                  <div id="uploadThemeProgress" class="hidden mt-3">
+                      <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                          <span><?php echo languageString('dashboard.theme.upload.uploading'); ?></span>
+                          <span id="uploadThemeProgressPct">0%</span>
+                      </div>
+                      <div class="w-full bg-gray-200 dark:bg-white/10 rounded-full h-1.5">
+                          <div id="uploadThemeProgressBar"
+                               class="bg-cyan-600 dark:bg-cyan-500 h-1.5 rounded-full transition-all duration-200"
+                               style="width: 0%"></div>
+                      </div>
+                  </div>
+
+                  <!-- Inline feedback -->
+                  <div id="uploadThemeFeedback" class="hidden mt-3 rounded-md px-3 py-2 text-sm">
+                      <span id="uploadThemeFeedbackMsg"></span>
+                  </div>
+              </div>
+
+              <!-- Footer -->
+              <div class="mt-6 sm:flex sm:flex-row-reverse gap-2">
+                  <button type="button"
+                          id="uploadThemeSubmit"
+                          disabled
+                          class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-cyan-500 sm:w-auto
+                                 disabled:opacity-40 disabled:cursor-not-allowed
+                                 dark:bg-cyan-500 dark:hover:bg-cyan-400">
+                      <?php echo languageString('dashboard.theme.upload.install'); ?>
+                  </button>
+                  <button type="button"
+                          data-close-upload-modal
+                          class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto
+                                 dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
+                      <?php echo languageString('general.cancel'); ?>
+                  </button>
+              </div>
+
+          </div>
+      </div>
+  </div>
+  <!-- ══ end Upload Theme Modal ════════════════════════════════════════════ -->
+
   <!-- <script src="js/navbar.js"></script> -->
   <script src="js/tailwind.js"></script>
   <script src="js/search_theme.js"></script>
+  <script src="js/upload_theme.js"></script>
   <script src="js/notify.js"></script>
 
 </body>

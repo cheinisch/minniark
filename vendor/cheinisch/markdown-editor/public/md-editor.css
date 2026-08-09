@@ -1,0 +1,233 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   cheinisch/markdown-editor  –  md-editor.css  v1.0.0
+   
+   THEME CONFIGURATION
+   ───────────────────
+   All visual values are driven by CSS custom properties.
+   Override any of these on :root (or a parent element) to retheme the
+   editor without touching this file:
+
+   :root {
+     --md-accent:          #0891b2;   /* toolbar active + blockquote border  *\/
+     --md-bg:              #ffffff;   /* editor background                   *\/
+     --md-border:          rgba(0,0,0,0.12);
+     --md-toolbar-bg:      #f9f9f9;
+     --md-toolbar-border:  rgba(0,0,0,0.10);
+     --md-btn-color:       #444444;
+     --md-btn-hover-bg:    rgba(0,0,0,0.08);
+     --md-btn-hover-color: #000000;
+     --md-btn-active-bg:   rgba(8,145,178,0.12);
+     --md-btn-active-color:var(--md-accent);
+     --md-sep-color:       rgba(0,0,0,0.15);
+     --md-text-color:      #1a1a1a;
+     --md-placeholder:     #aaaaaa;
+     --md-preview-border:  rgba(0,0,0,0.10);
+     --md-quote-border:    var(--md-accent);
+     --md-quote-bg:        rgba(0,0,0,0.03);
+     --md-quote-color:     #555555;
+     --md-code-bg:         rgba(0,0,0,0.07);
+     --md-link-color:      var(--md-accent);
+     --md-hr-color:        rgba(0,0,0,0.15);
+     --md-font-mono:       'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+     --md-font-ui:         system-ui, -apple-system, sans-serif;
+     --md-radius:          6px;
+   }
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+    --md-accent:           #0891b2;
+    --md-bg:               #ffffff;
+    --md-border:           rgba(0, 0, 0, 0.12);
+    --md-toolbar-bg:       #f9f9f9;
+    --md-toolbar-border:   rgba(0, 0, 0, 0.10);
+    --md-btn-color:        #444444;
+    --md-btn-hover-bg:     rgba(0, 0, 0, 0.08);
+    --md-btn-hover-color:  #000000;
+    --md-btn-active-bg:    rgba(8, 145, 178, 0.12);
+    --md-btn-active-color: var(--md-accent);
+    --md-sep-color:        rgba(0, 0, 0, 0.15);
+    --md-text-color:       #1a1a1a;
+    --md-placeholder:      #aaaaaa;
+    --md-preview-border:   rgba(0, 0, 0, 0.10);
+    --md-quote-border:     var(--md-accent);
+    --md-quote-bg:         rgba(0, 0, 0, 0.03);
+    --md-quote-color:      #555555;
+    --md-code-bg:          rgba(0, 0, 0, 0.07);
+    --md-link-color:       var(--md-accent);
+    --md-hr-color:         rgba(0, 0, 0, 0.15);
+    --md-font-mono:        'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    --md-font-ui:          system-ui, -apple-system, sans-serif;
+    --md-radius:           6px;
+}
+
+/* ── Wrapper ──────────────────────────────────────────────────────────── */
+.md-editor-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--md-border);
+    border-radius: var(--md-radius);
+    background: var(--md-bg);
+    font-family: var(--md-font-ui);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ── Toolbar ──────────────────────────────────────────────────────────── */
+.md-editor-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--md-toolbar-border);
+    background: var(--md-toolbar-bg);
+    border-radius: var(--md-radius) var(--md-radius) 0 0;
+    user-select: none;
+}
+
+.md-editor-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--md-btn-color);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s;
+}
+
+.md-editor-toolbar button:hover {
+    background: var(--md-btn-hover-bg);
+    color: var(--md-btn-hover-color);
+}
+
+.md-editor-toolbar button.active {
+    background: var(--md-btn-active-bg);
+    color: var(--md-btn-active-color);
+}
+
+.md-editor-toolbar .md-sep {
+    width: 1px;
+    height: 20px;
+    margin: 4px 3px;
+    background: var(--md-sep-color);
+    align-self: center;
+    flex-shrink: 0;
+}
+
+/* ── Panes ────────────────────────────────────────────────────────────── */
+.md-editor-panes {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+/* ── Textarea ─────────────────────────────────────────────────────────── */
+.md-editor-textarea {
+    flex: 1;
+    min-height: 200px;
+    padding: 12px;
+    border: none;
+    outline: none;
+    resize: vertical;
+    background: transparent;
+    color: var(--md-text-color);
+    font-family: var(--md-font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    tab-size: 2;
+}
+
+.md-editor-textarea::placeholder {
+    color: var(--md-placeholder);
+}
+
+/* ── Preview pane ─────────────────────────────────────────────────────── */
+.md-editor-preview {
+    display: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    border-left: 1px solid var(--md-preview-border);
+    color: var(--md-text-color);
+    line-height: 1.7;
+}
+
+.md-editor-wrap.preview-mode .md-editor-textarea { display: none; }
+.md-editor-wrap.preview-mode .md-editor-preview  { display: block; }
+.md-editor-wrap.split-mode   .md-editor-textarea { flex: 1; }
+.md-editor-wrap.split-mode   .md-editor-preview  { display: block; flex: 1; }
+
+/* Preview typography */
+.md-editor-preview h1, .md-editor-preview h2, .md-editor-preview h3,
+.md-editor-preview h4, .md-editor-preview h5, .md-editor-preview h6 {
+    font-weight: 600;
+    margin: 1em 0 0.4em;
+}
+.md-editor-preview h1 { font-size: 1.6em; }
+.md-editor-preview h2 { font-size: 1.35em; }
+.md-editor-preview h3 { font-size: 1.15em; }
+.md-editor-preview p  { margin: 0.6em 0; }
+.md-editor-preview ul, .md-editor-preview ol { margin: 0.5em 0; padding-left: 1.6em; }
+
+.md-editor-preview blockquote {
+    margin: 0.8em 0;
+    padding: 0.4em 1em;
+    border-left: 3px solid var(--md-quote-border);
+    color: var(--md-quote-color);
+    background: var(--md-quote-bg);
+}
+
+.md-editor-preview code {
+    font-family: var(--md-font-mono);
+    font-size: 0.88em;
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    background: var(--md-code-bg);
+}
+
+.md-editor-preview pre code {
+    display: block;
+    padding: 0.8em;
+    overflow-x: auto;
+}
+
+.md-editor-preview a {
+    color: var(--md-link-color);
+    text-decoration: underline;
+}
+
+.md-editor-preview hr {
+    border: none;
+    border-top: 1px solid var(--md-hr-color);
+    margin: 1em 0;
+}
+
+/* ── Fullscreen ───────────────────────────────────────────────────────── */
+.md-editor-wrap.fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    border-radius: 0;
+    background: var(--md-bg);
+}
+
+.md-editor-wrap.fullscreen .md-editor-textarea {
+    min-height: 0;
+    resize: none;
+}
+
+/* ── Flash animation (undo/redo visual feedback) ──────────────────────── */
+@keyframes md-flash {
+    0%   { opacity: 0.5; }
+    100% { opacity: 1;   }
+}
+.md-editor-textarea.md-flash {
+    animation: md-flash 0.15s ease-out;
+}

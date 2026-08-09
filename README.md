@@ -58,7 +58,6 @@ These are the planned features for upcoming releases
 
 - Simple image editing (rotate and flip)
 - AI integration for the creation of the image description
-- Simple template managment
 
 ## Technologies Used
 
@@ -71,5 +70,5 @@ This project uses the following technologies:
 - [Parsedown](https://github.com/erusev/parsedown) - parser for markdown
 ---
 
-© 2021-2025 [Christian Heinisch](https://heimfisch.de)  
+© 2021-2026 [Christian Heinisch](https://heimfisch.de)  
 Released under the [MIT license](https:/minniark.app/license)

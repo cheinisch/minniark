@@ -41,6 +41,8 @@ $albumTitle = $albumTitle ?? '';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Images - <?php echo get_sitename(); ?></title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="../vendor/cheinisch/markdown-editor/public/md-editor.css">
+  <script src="../vendor/cheinisch/markdown-editor/public/md-editor.js"></script>
 </head>
 
 <body class="bg-white dark:bg-black">
@@ -217,10 +219,12 @@ $albumTitle = $albumTitle ?? '';
 
                   <div>
                     <label class="block text-sm font-medium text-gray-900 dark:text-gray-200"><?php echo languageString('general.description'); ?></label>
+                    <div data-md-editor data-toolbar='["bold","italic","heading","|","quote"]'>
                     <textarea name="collection-description" rows="6"
                               class="mt-2 block w-full rounded-md bg-white/5 px-3 py-2 text-base text-gray-900 dark:text-white
                                      outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600
                                      dark:bg-white/10 dark:outline-white/10"><?php echo htmlspecialchars($collectiondata['description'] ?? '', ENT_QUOTES); ?></textarea>
+                    </div>
                   </div>
                 </div>
 

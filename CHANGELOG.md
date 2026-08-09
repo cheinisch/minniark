@@ -3,6 +3,26 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
+## [2026.8.0]
+2026-08-09
+
+### Added
+- Theme upload modal: install themes directly from a .zip file via drag & drop or file picker
+- Client-side ZIP preview: extracts `image.png` from the archive before upload using `DecompressionStream`
+- Progress bar and inline error feedback during upload
+- Success toast notification after installation
+
+### Security
+- Admin-only check on `upload_theme.php` endpoint
+- 20 MB file size cap server-side
+- ZIP entry count limit (max 500 entries, prevents Zip-Bomb-Light)
+- Zip-Slip protection: all entry paths validated against realpath before extraction
+- MIME type and extension validation
+
+### i18n
+- Upload keys added to `en-US.json`, `de-DE.json`, `fr-FR.json`
+
+
 ## [2026.7.0]
 2026-07-12
 **Full Changelog**: https://github.com/cheinisch/minniark/compare/v2026.5.0...v2026.7.0

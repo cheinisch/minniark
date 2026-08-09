@@ -27,9 +27,8 @@
     <title><?php echo languageString('general.edit'); ?>: <?php echo $essay['title']; ?> - <?php echo get_sitename(); ?></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- EasyMDE -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+    <link rel="stylesheet" href="../vendor/cheinisch/markdown-editor/public/md-editor.css">
+    <script src="../vendor/cheinisch/markdown-editor/public/md-editor.js"></script>
   </head>
   <body class="bg-white dark:bg-black text-black dark:text-white">
 
@@ -218,7 +217,8 @@
                 <div class="col-span-full">
                   <label for="content" class="block text-xs font-medium"><?php echo languageString('blog.content'); ?></label>
                   <div class="mt-1">
-                    <textarea name="content" id="content" rows="12"
+                    <div data-md-editor data-toolbar='["bold","italic","heading","|","quote","unordered-list","ordered-list","|","preview","fullscreen"]'>
+                  <textarea name="content" id="content" rows="12"
                               class="block w-full bg-white dark:bg-black px-3 py-2 text-sm outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-cyan-600"><?php echo $essay['content']; ?></textarea>
                   </div>
                 </div>
@@ -453,16 +453,7 @@
     <script src="js/remove_hero_image.js"></script>
 
     <script>
-      // EasyMDE init
-      document.addEventListener("DOMContentLoaded", function () {
-        window.easyMDE = new EasyMDE({
-          element: document.getElementById("content"),
-          spellChecker: false,
-          autosave: { enabled: false },
-          placeholder: "Please enter your content",
-          toolbar: ["bold","italic","heading","|","quote","unordered-list","ordered-list","|","preview","guide"]
-        });
-      });
+      // MinniarkMarkdownEditor: auto-initialised via [data-md-editor] on the textarea wrapper
 
       // Slug & Foldername (wie Pages-Layout)
       document.addEventListener("DOMContentLoaded", function () {

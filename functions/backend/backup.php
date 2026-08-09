@@ -3,7 +3,7 @@
     function generateBackup(): bool
     {
         error_log("Generate Backup started");
-        $prefix = read_prefix(); // z. B. 'projectname'
+        $prefix = read_prefix();
         error_log("Backup Prefix: " . $prefix);
         $timestamp = date('Y-m-d_H-i');
         $filename = "{$prefix}_{$timestamp}.zip";
@@ -12,7 +12,6 @@
 
         error_log("Filepath: " . $backupPath);
 
-        // Sicherstellen, dass das Verzeichnis existiert
         if (!is_dir($backupDir)) {
             error_log("Create Backup Folder");
             if (!mkdir($backupDir, 0775, true)) {
@@ -21,7 +20,6 @@
             }
         }
 
-        // ZIP erstellen (z. B. von /userdata)
         $sourceDir = realpath(__DIR__ . '/../../userdata');
 
         $zip = new ZipArchive();
@@ -51,26 +49,73 @@
     }
 
 
-    function restoreBackup($filename)
+    function restoreBackup(string $filename): bool
     {
-        $backupPath = __DIR__ . '/../../backup/' . $filename;
-        $restorePath = __DIR__ . '/../../userdata';
+        // ── Security: validate filename ────────────────────────────────────
+        // Allow only safe characters — no path separators, no null bytes, no dots at start
+        if (
+            !preg_match('/^[a-zA-Z0-9_\-\.]+\.zip$/', $filename) ||
+            str_contains($filename, '..')  ||
+            str_contains($filename, '/')   ||
+            str_contains($filename, '\\')  ||
+            str_contains($filename, "\0")
+        ) {
+            error_log("restoreBackup: rejected unsafe filename: " . $filename);
+            return false;
+        }
+
+        $backupDir  = realpath(__DIR__ . '/../../backup');
+        $restorePath = realpath(__DIR__ . '/../../userdata');
+
+        if (!$backupDir || !$restorePath) {
+            error_log("restoreBackup: could not resolve backup or restore path.");
+            return false;
+        }
+
+        $backupPath = $backupDir . DIRECTORY_SEPARATOR . $filename;
+
+        // Confirm resolved path is still inside backup dir
+        if (!str_starts_with(realpath($backupPath) ?: '', $backupDir . DIRECTORY_SEPARATOR)) {
+            error_log("restoreBackup: path traversal detected for: " . $filename);
+            return false;
+        }
 
         if (!file_exists($backupPath)) {
+            error_log("restoreBackup: file not found: " . $backupPath);
             return false;
-            exit;
         }
 
         $zip = new ZipArchive();
-        if ($zip->open($backupPath) === TRUE) {
-            // Vorher ggf. aufräumen oder sichern?
-            $zip->extractTo($restorePath);
-            $zip->close();
-
-            return true;
-            exit;
-        } else {
+        if ($zip->open($backupPath) !== TRUE) {
+            error_log("restoreBackup: could not open ZIP: " . $backupPath);
             return false;
-            exit;
         }
+
+        // ── Zip-Slip protection: validate all entry paths ──────────────────
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $entry = $zip->getNameIndex($i);
+            if (
+                str_starts_with($entry, '/') ||
+                str_contains($entry, '..') ||
+                str_contains($entry, "\0")
+            ) {
+                $zip->close();
+                error_log("restoreBackup: ZIP contains unsafe path: " . $entry);
+                return false;
+            }
+
+            // Normalise and verify resolved path stays inside restorePath
+            $resolved = $restorePath . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $entry);
+            if (!str_starts_with($resolved, $restorePath . DIRECTORY_SEPARATOR)) {
+                $zip->close();
+                error_log("restoreBackup: path traversal in ZIP entry: " . $entry);
+                return false;
+            }
+        }
+
+        $zip->extractTo($restorePath);
+        $zip->close();
+
+        error_log("restoreBackup: restored successfully from " . $filename);
+        return true;
     }

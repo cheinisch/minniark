@@ -1,8 +1,15 @@
 {
   "name": "cheinisch/markdown-editor",
-  "description": "Einfacher Markdown-Editor (HTML+JS+CSS) als Composer-Paket",
+  "description": "Lightweight Markdown editor component (HTML + JS + CSS) as a Composer package",
+  "version": "1.0.0",
   "type": "library",
   "license": "MIT",
+  "authors": [
+    {
+      "name": "Christian Heinisch",
+      "email": "chris@christian-heinisch.de"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "cheinisch\\MarkdownEditor\\": "src/"

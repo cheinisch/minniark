@@ -19,6 +19,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
+# PHP-Konfiguration: Upload-Limits und Production-Error-Handling
+COPY docker/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+COPY docker/error.ini   /usr/local/etc/php/conf.d/error.ini
+
 # PHP-FPM läuft auf Port 9000
 EXPOSE 9000
 

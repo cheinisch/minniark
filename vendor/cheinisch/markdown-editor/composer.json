@@ -1,26 +1,30 @@
 {
   "name": "cheinisch/markdown-editor",
-  "description": "Lightweight Markdown editor component (HTML + JS + CSS) as a Composer package",
-  "version": "1.0.0",
+  "description": "It's a simple Markdown editor (HTML/JS/CSS) packaged for easy embedding in PHP apps via Composer.",
   "type": "library",
   "license": "MIT",
-  "authors": [
-    {
-      "name": "Christian Heinisch",
-      "email": "chris@christian-heinisch.de"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "cheinisch\\MarkdownEditor\\": "src/"
     }
   },
   "require": {
-    "php": ">=8.0"
+    "php": ">=8.0",
+    "composer-plugin-api": "^2.0"
+  },
+  "require-dev": {
+    "composer/composer": "^2.0"
+  },
+  "scripts": {
+    "post-install-cmd": "cheinisch\\MarkdownEditor\\Composer\\ScriptHandler::publishAssets",
+    "post-update-cmd":  "cheinisch\\MarkdownEditor\\Composer\\ScriptHandler::publishAssets"
   },
   "extra": {
     "branch-alias": {
       "dev-main": "1.x-dev"
+    },
+    "markdown-editor": {
+      "public-dir": "public/vendor/markdown-editor"
     }
   }
 }

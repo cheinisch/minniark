@@ -306,8 +306,8 @@
           <!-- Backup Files -->
           <section class="rounded-sm border border-black/10 dark:border-white/10 bg-white dark:bg-black/40 shadow-xs">
             <header class="px-4 py-3 border-b border-black/10 dark:border-white/10">
-              <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.export.file'); ?></h2>
-              <p class="text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.export.file_description'); ?></p>
+              <h2 class="text-sm font-semibold"><?php echo languageString('dashboard.export.files'); ?></h2>
+              <p class="text-xs text-black/60 dark:text-gray-400"><?php echo languageString('dashboard.export.files_description'); ?></p>
             </header>
             <div class="p-4 overflow-x-auto">
               <table class="w-full text-sm">

@@ -407,10 +407,10 @@ $albumTitle = $albumTitle ?? '';
           <div class="flex items-start justify-between gap-4">
             <div>
               <h2 id="album-modal-title" class="text-lg font-semibold text-gray-900 dark:text-white">
-                <?php echo languageString('collection.addAlbum'); ?>
+                <?php echo languageString('collection.addAlbums'); ?>
               </h2>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                <?php echo languageString('collection.addAlbumText'); ?>
+                <?php echo languageString('collection.addAlbumsText'); ?>
               </p>
             </div>
 
@@ -519,10 +519,10 @@ $albumTitle = $albumTitle ?? '';
                  filter-none backdrop-blur-none">
 
           <h2 id="confirm-delete-title" class="text-base font-semibold text-gray-900 dark:text-white">
-            <?php echo languageString('collection.deleteCollection'); ?>
+            <?php echo languageString('collection.delete'); ?>
           </h2>
           <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            <?php echo languageString('collection.DeleteCollectionText'); ?>
+            <?php echo languageString('album.deleteCollectionText'); ?>
           </p>
 
           <div class="mt-6 flex justify-end gap-2">

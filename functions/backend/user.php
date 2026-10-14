@@ -292,7 +292,7 @@
             $role     = htmlspecialchars($data['user']['userrole'] ?? 'user');
 
             // Optional: Button/Link in letzter Spalte
-            $action = '<a href="?edit=' . urlencode($username) . '" class="text-cyan-600 hover:underline">'.languageString('general.edit').'</a> - <a href="?delete=' . urlencode($username) . '" class="text-rose-600 hover:underline">'.languageString('generel.delete').'</a>';
+            $action = '<a href="?edit=' . urlencode($username) . '" class="text-cyan-600 hover:underline">'.languageString('general.edit').'</a> - <a href="?delete=' . urlencode($username) . '" class="text-rose-600 hover:underline">'.languageString('general.delete').'</a>';
 
             $output .= "<tr>
                         <td class=\"py-2\">$username</td>

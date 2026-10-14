@@ -18,13 +18,15 @@
         "close": "Schließen",
         "copy": "Kopieren",
         "title": "Titel",
+        "description": "Beschreibung",
         "reset_filter": "Filter zurücksetzen",
         "published": "Veröffentlicht",
         "success": "Erfolg",
         "success_save": "Einstellungen gespeichert!",
         "error": "Fehler",
         "error_message": "Etwas ist schiefgelaufen!",
-        "remove": "Entfernen"
+        "remove": "Entfernen",
+        "no_tags": "Noch keine Tags"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -171,7 +173,8 @@
             "license_type_unlimited": "unbegrenzt",
             "license_remaining_days": "Verbleibende Tage",
             "license_expire_date": "Ablaufdatum",
-            "license_activation": "Aktivierung"
+            "license_activation": "Aktivierung",
+            "license_hint_remove": "Entferne die Lizenz, um sie zu deaktivieren!"
         },
         "update": {
             "name": "MinniArk - Versionen",
@@ -184,6 +187,9 @@
             "installed_vers": "Installierte Version",
             "remote_vers": "Remote-Version",
             "no_update": "Du bist auf dem neuesten Stand.",
+            "update_available": "Eine neue Version steht zum Update bereit",
+            "update_now": "Jetzt aktualisieren",
+            "update_docker": "Neues Docker-Image verfügbar",
             "update_avail": "",
             "version_error": "Versionsdaten unvollständig. Werte werden angezeigt, aber nicht verifiziert.",
             "local_releasenotes": {
@@ -311,6 +317,15 @@
             "btn": "KI-Text generieren",
             "title": "KI-Text generieren",
             "text": "Bist du sicher, dass du deinen Account deaktivieren möchtest? Alle Daten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden."
+        },
+        "title": "Titel",
+        "description": "Beschreibung",
+        "upload_file_label": "Dateien hochladen",
+        "text": {
+            "edit": {
+                "title": "Bildtext bearbeiten",
+                "subtitle": "Titel und Beschreibung ändern."
+            }
         }
     },
     "exif": {
@@ -325,10 +340,36 @@
             "label": "GPS-Daten",
             "lat": "Breite",
             "lon": "Länge"
+        },
+        "edit": {
+            "title": "EXIF bearbeiten",
+            "subtitle": "Metadaten anpassen und speichern."
         }
     },
     "album": {
-        "addToAlbum": "Zum Album hinzufügen"
+        "addToAlbum": "Zum Album hinzufügen",
+        "removeFromAlbum": "Aus Album entfernen",
+        "removeFromAlbumText": "Möchtest du dieses Bild wirklich aus dem Album entfernen?",
+        "deleteAlbum": "Album löschen",
+        "deleteAlbumText": "Möchtest du dieses Album wirklich löschen? Das kann nicht rückgängig gemacht werden.",
+        "addImage": "Bild hinzufügen",
+        "addSelectedImage": "Ausgewählte Bilder hinzufügen",
+        "removeImage": "Bild entfernen",
+        "setHero": "Als Albumcover setzen",
+        "deleteCollection": "Sammlung löschen",
+        "deleteCollectionText": "Möchtest du diese Sammlung wirklich löschen?"
+    },
+    "collection": {
+        "delete": "Sammlung löschen",
+        "selectCoverImage": "Titelbild auswählen",
+        "selectCoverImageText": "Wähle ein Bild aus den Alben dieser Sammlung.",
+        "saveCover": "Titelbild speichern",
+        "addAlbums": "Alben zur Sammlung hinzufügen",
+        "addAlbumsText": "Wähle ein oder mehrere Alben aus.",
+        "addSelected": "Auswahl hinzufügen",
+        "removeFromCollection": "Aus Sammlung entfernen",
+        "removeFromCollectionText": "Möchtest du dieses Element wirklich entfernen?",
+        "removeAlbumBtn": "Album entfernen"
     },
     "blog": {
         "foldername": "Ordnername",

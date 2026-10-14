@@ -25,7 +25,8 @@
         "success_save": "Settings are saved!",
         "error": "Error",
         "error_message": "Something gone wrong!",
-        "remove": "Remove"
+        "remove": "Remove",
+        "no_tags": "No tags yet"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -315,6 +316,15 @@
             "btn": "Generate AI Text",
             "title": "Generate AI Text",
             "text": "Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
+        },
+        "title": "Title",
+        "description": "Description",
+        "upload_file_label": "Upload files",
+        "text": {
+            "edit": {
+                "title": "Edit image text",
+                "subtitle": "Change title and description."
+            }
         }
     },
     "exif": {
@@ -329,6 +339,10 @@
             "label": "GPS Data",
             "lat": "Lat",
             "lon": "Lon"
+        },
+        "edit": {
+            "title": "Edit EXIF",
+            "subtitle": "Adjust metadata and save."
         }
     },
     "album": {

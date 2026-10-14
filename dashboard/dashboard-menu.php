@@ -315,7 +315,7 @@
 
 							<!-- Custom Menu -->
 							<div>
-							<h3 class="text-xs font-semibold mb-2"><?php echo languageString('dashboard.menucustommenu_items'); ?></h3>
+							<h3 class="text-xs font-semibold mb-2"><?php echo languageString('dashboard.menu.custommenu_items'); ?></h3>
 							<ul id="menu_list"
 								class="space-y-2 rounded-sm border border-dashed border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-2 min-h-[150px]">
 								<!-- wird per JS befüllt -->

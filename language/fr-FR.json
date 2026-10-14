@@ -18,12 +18,15 @@
         "close": "Fermer",
         "copy": "Copier",
         "title": "Titre",
+        "description": "Description",
         "reset_filter": "Réinitialiser le filtre",
         "published": "Publié",
         "success": "Succès",
         "success_save": "Paramètres enregistrés !",
         "error": "Erreur",
-        "error_message": "Une erreur est survenue !"
+        "error_message": "Une erreur est survenue !",
+        "remove": "Retirer",
+        "no_tags": "Aucun tag pour l’instant"
     },
     "nav": {
         "dashboard": "Tableau de bord",
@@ -170,7 +173,8 @@
             "license_type_unlimited": "illimitée",
             "license_remaining_days": "Jours restants",
             "license_expire_date": "Date d’expiration",
-            "license_activation": "Activation"
+            "license_activation": "Activation",
+            "license_hint_remove": "Supprimez la licence pour la désactiver !"
         },
         "update": {
             "name": "MinniArk - Versions",
@@ -183,8 +187,16 @@
             "installed_vers": "Version installée",
             "remote_vers": "Version distante",
             "no_update": "Vous êtes à jour.",
+            "update_available": "Une nouvelle version est disponible",
+            "update_now": "Mettre à jour maintenant",
+            "update_docker": "Nouvelle image Docker disponible",
             "update_avail": "",
-            "version_error": "Informations de version incomplètes. Les valeurs sont affichées sans vérification."
+            "version_error": "Informations de version incomplètes. Les valeurs sont affichées sans vérification.",
+            "local_releasenotes": {
+                "url": "Ouvrir les notes de version",
+                "dialog_title": "Notes de version - Version",
+                "dialog_text": "Nouveautés de cette version"
+            }
         },
         "export": {
             "export": "Exporter les données",
@@ -305,6 +317,15 @@
             "btn": "Générer un texte IA",
             "title": "Générer un texte IA",
             "text": "Êtes-vous sûr de vouloir désactiver votre compte ? Toutes vos données seront supprimées définitivement. Cette action est irréversible."
+        },
+        "title": "Titre",
+        "description": "Description",
+        "upload_file_label": "Téléverser des fichiers",
+        "text": {
+            "edit": {
+                "title": "Modifier le texte de l’image",
+                "subtitle": "Modifier le titre et la description."
+            }
         }
     },
     "exif": {
@@ -319,10 +340,36 @@
             "label": "Données GPS",
             "lat": "Lat",
             "lon": "Lon"
+        },
+        "edit": {
+            "title": "Modifier les EXIF",
+            "subtitle": "Ajustez les métadonnées et enregistrez."
         }
     },
     "album": {
-        "addToAlbum": "Ajouter à l’album"
+        "addToAlbum": "Ajouter à l’album",
+        "removeFromAlbum": "Retirer de l’album",
+        "removeFromAlbumText": "Voulez-vous vraiment retirer cette image de l’album ?",
+        "deleteAlbum": "Supprimer l’album",
+        "deleteAlbumText": "Voulez-vous vraiment supprimer cet album ? Cette action est irréversible.",
+        "addImage": "Ajouter une image",
+        "addSelectedImage": "Ajouter les images sélectionnées",
+        "removeImage": "Retirer l’image",
+        "setHero": "Définir comme couverture",
+        "deleteCollection": "Supprimer la collection",
+        "deleteCollectionText": "Voulez-vous vraiment supprimer cette collection ?"
+    },
+    "collection": {
+        "delete": "Supprimer la collection",
+        "selectCoverImage": "Choisir l’image de couverture",
+        "selectCoverImageText": "Choisissez une image parmi les albums de cette collection.",
+        "saveCover": "Enregistrer la couverture",
+        "addAlbums": "Ajouter des albums à la collection",
+        "addAlbumsText": "Sélectionnez un ou plusieurs albums.",
+        "addSelected": "Ajouter la sélection",
+        "removeFromCollection": "Retirer de la collection",
+        "removeFromCollectionText": "Voulez-vous vraiment retirer cet élément ?",
+        "removeAlbumBtn": "Retirer l’album"
     },
     "blog": {
         "foldername": "Nom du dossier",

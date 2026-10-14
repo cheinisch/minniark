@@ -1,10 +1,16 @@
 <?php
   require_once(__DIR__ . "/../functions/function_backend.php");
 
+  minniark_session_start();
+
   // Logout
   $logout = $_GET['logout'] ?? null;
   if ($logout === "true") {
-    session_start();
+    $_SESSION = [];
+    if (ini_get('session.use_cookies')) {
+      $p = session_get_cookie_params();
+      setcookie(session_name(), '', time() - 42000, $p['path'], $p['domain'], $p['secure'], $p['httponly']);
+    }
     session_destroy();
     header("Location: index.php");
     exit;
@@ -20,27 +26,44 @@
   $user_wrong = false;
   $pass_wrong = false;
   $login_type = "";
+  $locked_for = 0; // seconds until the next attempt is allowed
 
+  // Brute-force protection: stop before any check or mail is sent
   if ($username !== null) {
+    $locked_for = login_throttle_retry_after($username);
+  }
+
+  if ($username !== null && $locked_for === 0) {
     $user_exist = check_username($username);
     if ($user_exist) {
       $step_2 = true;
     } else {
       $user_wrong = true;
+      login_throttle_hit($username);
     }
   }
 
   if ($step_2) {
     $login_type = get_logintype($username);
     if ($login_type === "mail" && $password === null) {
+      // Each sent code counts as an attempt, so the mail cannot be used for flooding
+      login_throttle_hit($username);
       $mail = get_usermail($username);
       send_otp_mail($mail, $username);
     }
   }
 
-  if ($username !== null && $password !== null) {
+  if ($step_2 && $password !== null) {
     if (check_password($password, $username)) {
-      session_start();
+      login_throttle_reset($username);
+      if ($login_type === "mail") {
+        clear_otp($username); // login codes are single-use
+      }
+
+      // New session ID and CSRF token after login (prevents session fixation)
+      session_regenerate_id(true);
+      unset($_SESSION['csrf_token']);
+
       $_SESSION['loggedin'] = true;
       $_SESSION['username'] = $username;
       $_SESSION['userid']   = getIDfromUsername($username);
@@ -49,9 +72,16 @@
       exit;
     } else {
       $pass_wrong = true;
-      $step_2     = true; // im Fehlerfall auf Schritt 2 bleiben
+      login_throttle_hit($username);
+      $locked_for = login_throttle_retry_after($username);
       if ($login_type === "") { $login_type = get_logintype($username); }
     }
+  }
+
+  if ($locked_for > 0) {
+    $step_2 = false;
+    $user_wrong = false;
+    $pass_wrong = false;
   }
 ?>
 <!doctype html>
@@ -74,6 +104,12 @@
             <?php echo languageString('login.login'); ?>
           </p>
         </header>
+
+        <?php if ($locked_for > 0): ?>
+          <p role="alert" class="mb-4 rounded-sm border border-rose-600/30 bg-rose-600/10 px-3 py-2 text-xs text-rose-700 dark:text-rose-400">
+            <?php echo htmlspecialchars(languageString('login.too_many_attempts', ['minutes' => (int)ceil($locked_for / 60)]), ENT_QUOTES, 'UTF-8'); ?>
+          </p>
+        <?php endif; ?>
 
         <!-- Schritt 1: Username -->
         <form id="user-form"

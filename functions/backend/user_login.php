@@ -69,7 +69,12 @@
 
         if ($user['auth_type'] === 'password') {
             return password_verify($password, $user['password']);
-        } elseif ($user['auth_type'] === 'mail' && isset($user['mail_auth_token'])) {
+        } elseif ($user['auth_type'] === 'mail' && !empty($user['mail_auth_token'])) {
+            // Login codes expire (older accounts without an expiry date are treated as expired codes too)
+            if ((int)($user['mail_auth_expires'] ?? 0) < time()) {
+                error_log("Login code expired");
+                return false;
+            }
             error_log("OTP: ".$password." DATA ".$user['mail_auth_token']);
             if(password_verify($password, $user['mail_auth_token']))
             {
@@ -99,7 +104,18 @@
         $user['mail_auth_token'] = password_hash($otp, PASSWORD_DEFAULT);
         //$user['mail_auth_token'] = $otp;
 
-        $result = updateUserData($username, ['mail_auth_token' => $user['mail_auth_token']], $username);
+        $result = updateUserData($username, [
+            'mail_auth_token'   => $user['mail_auth_token'],
+            'mail_auth_expires' => time() + 600, // valid for 10 minutes
+        ], $username);
+    }
+
+    /**
+     * Invalidates the login code after a successful login.
+     */
+    function clear_otp(string $username): void
+    {
+        updateUserData($username, ['mail_auth_token' => '', 'mail_auth_expires' => 0], $username);
     }
 
     function send_loginmail($mail, $username, $opt)

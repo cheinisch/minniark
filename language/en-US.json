@@ -43,7 +43,8 @@
         "enter_otp": "Enter OTP",
         "username": "Username",
         "username_wrong": "Username is wrong",
-        "change_user": "Select different User"
+        "change_user": "Select different User",
+        "too_many_attempts": "Too many failed attempts. Please try again in {{minutes}} minutes."
     },
     "dashboard": {
         "clear_cache": "Clear Cache",

@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../functions/session_security.php';
+minniark_session_start();
 // Prüfen, ob der Benutzer eingeloggt ist
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     // Benutzer ist eingeloggt, Dashboard anzeigen

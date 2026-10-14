@@ -42,7 +42,8 @@
         "enter_otp": "Einmalcode eingeben",
         "username": "Benutzername",
         "username_wrong": "Benutzername ist falsch",
-        "change_user": "Anderen Benutzer auswählen"
+        "change_user": "Anderen Benutzer auswählen",
+        "too_many_attempts": "Zu viele fehlgeschlagene Versuche. Bitte versuche es in {{minutes}} Minuten erneut."
     },
     "dashboard": {
         "clear_cache": "Cache leeren",

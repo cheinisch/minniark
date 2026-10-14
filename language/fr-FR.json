@@ -41,7 +41,8 @@
         "enter_otp": "Entrer le code OTP",
         "username": "Nom d’utilisateur",
         "username_wrong": "Nom d’utilisateur incorrect",
-        "change_user": "Changer d’utilisateur"
+        "change_user": "Changer d’utilisateur",
+        "too_many_attempts": "Trop de tentatives échouées. Veuillez réessayer dans {{minutes}} minutes."
     },
     "dashboard": {
         "clear_cache": "Vider le cache",

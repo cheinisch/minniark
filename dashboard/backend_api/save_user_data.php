@@ -42,15 +42,11 @@
     {
         $username = $_GET['password'];
 
-        print_r($_POST);
-
         $password_current = $_POST['current_password'];
         $password_new = $_POST['new_password'];
         $password_confirm = $_POST['confirm_password'];
 
         $currentData = getUserDataFromUsername($username);
-
-        print_r($currentData);
 
         
 

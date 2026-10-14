@@ -75,12 +75,6 @@
                 error_log("Login code expired");
                 return false;
             }
-            error_log("OTP: ".$password." DATA ".$user['mail_auth_token']);
-            if(password_verify($password, $user['mail_auth_token']))
-            {
-            }else{
-                error_log("Token is wrong");
-            }
             return password_verify($password, $user['mail_auth_token']);
         }
 

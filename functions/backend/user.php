@@ -46,9 +46,6 @@
 
     function updateUserData($username, $data, $newUsername): bool
     {
-        error_log("TEST");
-        error_log(print_r($data, true));
-
         $ymlDir = __DIR__ . '/../../userdata/config/user/';
         if (!is_dir($ymlDir)) {
             return false;

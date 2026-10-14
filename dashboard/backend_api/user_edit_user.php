@@ -8,7 +8,6 @@
 
     if(isset($_GET['new']))
     {
-        print_r($_POST);
         $username = trim($_POST['username'] ?? '');
         $email    = trim($_POST['mail'] ?? '');
         $password = $_POST['password'] ?? '';
@@ -21,7 +20,6 @@
 
     if(isset($_GET['edit']))
     {
-        print_r($_POST);
         $username = trim($_POST['username_old'] ?? '');
         $newUsername = trim($_POST['username'] ?? '');
         $email    = trim($_POST['mail'] ?? '');

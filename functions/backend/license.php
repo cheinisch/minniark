@@ -16,7 +16,6 @@ function getLicenseInformation()
     $returnValue = [];
 
     $key = getLicenseKey();
-    error_log("Licensekey: " . $key);
 
     if (empty($key)) {
         $returnValue['valid'] = false;
@@ -140,7 +139,7 @@ function activateKey(string $key): void
     if ($http_code !== 200) {
         error_log("License activation failed ($http_code): $response");
     } else {
-        error_log("License activated successfully: $key");
+        error_log("License activated successfully");
     }
 }
 
@@ -165,7 +164,7 @@ function deactivateKey(string $key): void
     if ($http_code !== 200) {
         error_log("License deactivation failed ($http_code): $response");
     } else {
-        error_log("License deactivated successfully: $key");
+        error_log("License deactivated successfully");
     }
 }
 

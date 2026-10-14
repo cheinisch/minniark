@@ -15,7 +15,7 @@
         if(license_isActive())
         {
         ?>
-        <a href="dashboard-ki.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('dashboard_nav.ai'); ?></a>
+        <a href="dashboard-ai.php" class="block px-4 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"><?php echo languageString('dashboard_nav.ai'); ?></a>
         <?php
         }
     }

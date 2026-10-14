@@ -24,7 +24,7 @@
                         if(license_isActive())
                         {
                         ?>
-                          <li><a href="dashboard-ki.php" class="<?php if($settingspage != "ki"){ ?> text-gray-400 hover:<?php } ?>text-cyan-400"><?php echo languageString('dashboard_nav.ai'); ?></a></li>
+                          <li><a href="dashboard-ai.php" class="<?php if($settingspage != "ki"){ ?> text-gray-400 hover:<?php } ?>text-cyan-400"><?php echo languageString('dashboard_nav.ai'); ?></a></li>
                         <?php
                         }
                         ?>

@@ -1,7 +1,9 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// Never show PHP errors to visitors; they go to the error log instead.
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
+ini_set('log_errors', '1');
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -38,15 +40,13 @@ $settingsPath = __DIR__ . '/userdata/config/settings.yml';
 $settings = [];
 
 if (file_exists($settingsPath)) {
-    error_log("File exist!!!");
     try {
         $settings = Yaml::parseFile($settingsPath);
-        error_log(print_r($settings, true));
     } catch (Exception $e) {
         error_log("YAML-Fehler beim Einlesen der Einstellungen: " . $e->getMessage());
     }
 }else{
-    erorr_log("File not exist");
+    error_log("settings.yml not found: " . $settingsPath);
 }
 
 

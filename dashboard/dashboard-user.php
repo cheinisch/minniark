@@ -39,6 +39,7 @@
     	<title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
+	  <?php echo csrf_head(); ?>
 	</head>
 	<body class="bg-white dark:bg-black">
 <?php if ($delete_modal): ?>

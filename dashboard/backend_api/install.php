@@ -5,6 +5,17 @@ require_once __DIR__ . '/../../functions/function_backend.php';
 
 use Symfony\Component\Yaml\Yaml;
 
+// The installer must never run on an installed site (it would create a new admin account).
+if (minniark_is_installed()) {
+    http_response_code(403);
+    die('Minniark is already installed.');
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+    http_response_code(405);
+    die('Method Not Allowed');
+}
+
 // POST-Daten absichern
 $username = trim($_POST['username'] ?? '');
 $email    = trim($_POST['email'] ?? '');

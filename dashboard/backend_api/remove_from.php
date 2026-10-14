@@ -2,6 +2,7 @@
 
     require_once(__DIR__ . "/../../functions/function_backend.php");
     security_checklogin();
+    csrf_require();
 
 
     $filename = $_GET['filename'] ?? null;

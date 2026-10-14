@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 use Symfony\Component\Yaml\Yaml;
 
 header('Content-Type: application/json');
+secure_API_admin();
 
 $cacheDir = __DIR__ . '/../cache/images/';
 $contentDir = __DIR__ . '/../userdata/content/images/';

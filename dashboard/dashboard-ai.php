@@ -4,6 +4,7 @@
   require_once '../vendor/autoload.php';
   $settingspage = "dashboard";
   security_checklogin();
+  onlyAdmin();
 
   $news = getNewsFeed();
 
@@ -21,6 +22,7 @@
     <title>Dashboard - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<!--<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>-->
+	  <?php echo csrf_head(); ?>
 	</head>
 	<body class="bg-white dark:bg-black">
 		<el-dialog>

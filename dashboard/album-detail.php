@@ -36,6 +36,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="../vendor/cheinisch/markdown-editor/public/md-editor.css">
   <script src="../vendor/cheinisch/markdown-editor/public/md-editor.js"></script>
+  <?php echo csrf_head(); ?>
 </head>
 
 <body class="bg-white dark:bg-black">

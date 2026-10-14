@@ -4,7 +4,7 @@
 
     date_default_timezone_set('Europe/Berlin');
     require_once( __DIR__ . "/../functions/function_api.php");
-    secure_API();
+    secure_API_admin();
 
 
 

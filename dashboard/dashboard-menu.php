@@ -3,6 +3,7 @@
   require_once( __DIR__ . "/../functions/function_backend.php");
   $settingspage = "menu";
   security_checklogin();
+  onlyAdmin();
 
   $nav_items = read_navigation();
 
@@ -16,6 +17,7 @@
     	<title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+	  <?php echo csrf_head(); ?>
 	</head>
 	<body class="bg-white dark:bg-black">
 		<el-dialog>

@@ -31,6 +31,7 @@
 										</li>
 									</ul>
 								</li>
+								<?php if (minniark_is_admin()): ?>
 								<!-- Dashboard 2 mit Dropdown -->
 								<li>
 									<button type="button"
@@ -110,6 +111,7 @@
 										</li>
 									</ul>
 								</li>
+								<?php endif; ?>
 								<!-- Dashboard 2 mit Dropdown -->
 								<li>
 									<button type="button"
@@ -142,7 +144,7 @@
 								</li>
 								<!-- Dashboard 2 mit Dropdown -->
 								<?php
-									if(license_isActive())
+									if(license_isActive() && minniark_is_admin())
 									{
 									?>
 								<li>

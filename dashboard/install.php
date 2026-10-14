@@ -1,3 +1,10 @@
+<?php
+    require_once __DIR__ . '/../functions/session_security.php';
+    if (minniark_is_installed()) {
+        header('Location: index.php');
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

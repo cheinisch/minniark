@@ -1,13 +1,13 @@
 <?php
 
 
-    session_start();
-
 
     require_once __DIR__ . '/../../vendor/autoload.php';
     require_once __DIR__ . '/../../functions/function_backend.php';
 
     security_checklogin();
+    onlyAdmin();
+    csrf_require();
 
 
     $filename = $_GET['file'];

@@ -2,7 +2,7 @@
 
 
 require_once( __DIR__ . "/../functions/function_api.php");
-secure_API();
+secure_API_admin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $prefix = trim($_POST['prefix'] ?? '');

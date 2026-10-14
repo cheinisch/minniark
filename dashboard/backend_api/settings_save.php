@@ -12,10 +12,8 @@
 require_once __DIR__ . '/../../functions/function_backend.php';
 require_once __DIR__ . '/../../app/autoload.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-// security_checklogin();
+security_checklogin();
+onlyAdmin();
 
 function redirectBack(): void {
     header("Location: ../dashboard-system.php");

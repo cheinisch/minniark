@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../functions/function_backend.php';
+security_checklogin();
+onlyAdmin();
 
 /**
  * Logging zentral bündeln.

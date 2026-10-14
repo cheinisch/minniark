@@ -80,6 +80,7 @@ if (!is_array($tags)) {
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <meta name="image-file" content="<?php echo htmlspecialchars($image_url); ?>">
+  <?php echo csrf_head(); ?>
 </head>
 
 <body class="bg-white dark:bg-black">

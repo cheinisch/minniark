@@ -3,6 +3,7 @@ require_once(__DIR__ . "/../functions/function_backend.php");
 
 $settingspage = "welcomepage";
 security_checklogin();
+onlyAdmin();
 
 // Home-Konfiguration laden
 $home = getHomeConfig();
@@ -56,6 +57,7 @@ $defaultStyle   = htmlspecialchars($home['default_image_style'] ?? '', ENT_QUOTE
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo languageString('nav.dashboard'); ?> - <?php echo get_sitename(); ?></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <?php echo csrf_head(); ?>
   </head>
   <body class="bg-white dark:bg-black">
 

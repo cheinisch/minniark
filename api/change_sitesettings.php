@@ -6,6 +6,8 @@ require_once(__DIR__ . '/../functions/function_api.php');
 require_once(__DIR__ . '/../functions/backend/sitemap.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
 
+secure_API_admin();
+
 use Symfony\Component\Yaml\Yaml;
 
 $settingsFile = __DIR__ . '/../userdata/config/settings.yml';

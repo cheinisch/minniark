@@ -2,6 +2,8 @@
 
     require_once(__DIR__ . "/../../functions/function_backend.php");
     security_checklogin();
+    onlyAdmin();
+    csrf_require();
 
     if(isset($_GET['update']))
     {

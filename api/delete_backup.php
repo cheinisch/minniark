@@ -1,5 +1,7 @@
 <?php
+require_once(__DIR__ . '/../functions/function_api.php');
 header('Content-Type: application/json');
+secure_API_admin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['filename'])) {
     $filename = basename($_POST['filename']);

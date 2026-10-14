@@ -29,6 +29,7 @@
 
     <link rel="stylesheet" href="../vendor/cheinisch/markdown-editor/public/md-editor.css">
     <script src="../vendor/cheinisch/markdown-editor/public/md-editor.js"></script>
+    <?php echo csrf_head(); ?>
   </head>
   <body class="bg-white dark:bg-black text-black dark:text-white">
 
@@ -520,7 +521,7 @@
       document.getElementById('confirmDelete').addEventListener('click', function() {
         const filename = "<?php echo $essay['source_path'] ?? '';?>";
         if (!filename) return document.getElementById('deleteModal').removeAttribute('open');
-        window.location.href = `/dashboard/backend_api/delete.php?type=essay&filename=${encodeURIComponent(filename)}`;
+        window.location.href = MinniarkCSRF.url(`/dashboard/backend_api/delete.php?type=essay&filename=${encodeURIComponent(filename)}`);
       });
     </script>
   </body>

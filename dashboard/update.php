@@ -2,6 +2,16 @@
 
 header('Content-Type: application/json');
 
+// Admins only, with a valid CSRF token. Runs from /dashboard and from the /temp copy,
+// both one level below the project root.
+require_once dirname(__DIR__) . '/functions/session_security.php';
+minniark_session_start();
+if (!minniark_is_admin() || !csrf_is_valid()) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Not allowed.']);
+    exit;
+}
+
 try {
     $baseDir = __DIR__;
     $tempDir = dirname($baseDir) . '/temp';

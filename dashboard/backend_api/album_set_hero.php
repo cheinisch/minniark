@@ -2,6 +2,8 @@
 
 
 require_once __DIR__ . '/../../functions/function_backend.php';
+security_checklogin();
+csrf_require();
 require_once __DIR__ . '/../../vendor/autoload.php'; // Für Yaml
 
 use Symfony\Component\Yaml\Yaml;

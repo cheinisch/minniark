@@ -3,6 +3,7 @@
 
     require_once(__DIR__ . '/../../functions/function_backend.php');
     security_checklogin();
+    csrf_require();
 
     $type = $_GET['type'] ?? null;
     $filename = $_GET['filename'] ?? null;

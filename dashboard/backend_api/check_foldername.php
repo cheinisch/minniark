@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . '/../../functions/function_backend.php';
+security_checklogin();
+
 header('Content-Type: application/json');
 
 $baseDir = __DIR__ . '/../../userdata/content/essays/';

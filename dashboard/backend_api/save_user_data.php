@@ -3,6 +3,17 @@
     require_once(__DIR__ . "/../../functions/function_backend.php");
     security_checklogin();
 
+    // Users may only change their own account (admins use dashboard-user.php).
+    $self = $_SESSION['username'] ?? '';
+    foreach (['password', 'auth_type'] as $param) {
+        if (isset($_GET[$param]) && $_GET[$param] !== $self) {
+            minniark_deny(403, 'You can only change your own account.');
+        }
+    }
+    if (isset($_GET['userdata']) && ($_POST['old_username'] ?? '') !== $self) {
+        minniark_deny(403, 'You can only change your own account.');
+    }
+
     if(isset($_GET['userdata']))
     {
         $username = $_POST['username'];

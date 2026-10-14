@@ -22,11 +22,12 @@ No database: all content and configuration live as YAML, Markdown and JSON files
 | `index.php` | Public front controller: loads plugins, settings, Twig, routes by URL path |
 | `dashboard/` | Admin backend. One PHP file per page (`dashboard-*.php`, `*-detail.php`), plus `install.php`, `login.php`, `update.php` |
 | `dashboard/backend_api/` | Form/AJAX handlers used by the dashboard (session-protected via `security_checklogin()`) |
-| `dashboard/js/`, `dashboard/css/`, `dashboard/inc/`, `dashboard/layout/` | Dashboard scripts, styles, nav and menu partials |
+| `dashboard/js/`, `dashboard/css/`, `dashboard/layout/` | Dashboard scripts, styles, menu partials (`dashboard/inc/` is legacy and no longer included) |
 | `api/` | JSON endpoints (upload, metadata, EXIF sync, backups, version …), protected via `secure_API()` |
 | `functions/backend/*.php` | Backend helper functions, all auto-included by `functions/function_backend.php` |
 | `functions/frontend/*.php` | Frontend helper functions, auto-included by `functions/function_frontend.php` |
 | `functions/api/*.php` | API helpers, included by `functions/function_api.php` |
+| `functions/session_security.php` | Session start, CSRF token helpers, admin check, error responses — shared by dashboard and API |
 | `functions/twig/twig.php` | Builds the shared `$data` array passed to every Twig render, plugin Twig hooks |
 | `app/classes/` | Non-namespaced classes (`Images`, `LicenseManager`, `Releasenotes`), loaded by `app/autoload.php` (class name = file name) |
 | `language/*.json` | UI translations (`en-US`, `de-DE`, `fr-FR`) |
@@ -58,15 +59,22 @@ Pattern at the top of every page:
 
 ```php
 require_once __DIR__ . '/../functions/function_backend.php';
-security_checklogin();   // redirects to login if no session
+security_checklogin();   // redirects to login if no session; checks the CSRF token on POST
 onlyAdmin();             // additionally, for admin-only pages
 ```
+
+Every page must output `<?php echo csrf_head(); ?>` inside `<head>`. It loads `dashboard/js/csrf.js`, which adds the
+CSRF token to all forms, `fetch()`/XHR requests and links to `backend_api/` or `api/` automatically.
+For manual navigation in JS use `location.href = MinniarkCSRF.url('backend_api/…')`.
 
 Output strings via `languageString('section.key')` — never hard-code UI text.
 Styling uses Tailwind utility classes with `dark:` variants; keep the existing look (see `dashboard/colors.md`).
 
 ### API endpoints (`api/`, `dashboard/backend_api/`)
-- Call `secure_API()` (api/) or `security_checklogin()` (backend_api/) first; add an admin check where the action is privileged.
+- Call `secure_API()` / `secure_API_admin()` (api/) or `security_checklogin()` + `onlyAdmin()` (backend_api/) first.
+  These enforce the CSRF token for POST/PUT/PATCH/DELETE automatically.
+- Endpoints that change data on a GET request (links like `delete.php?…`) must also call `csrf_require()`.
+  Prefer POST for new state-changing endpoints.
 - JSON endpoints: `header('Content-Type: application/json')`, respond with `['success' => bool, 'error' => '...']`
   and a fitting HTTP status code (400/403/404/500).
 - Sanitize every file name from input with `basename()` and validate paths against `realpath()` of the allowed directory.
@@ -97,7 +105,8 @@ This is a public, self-hosted app — treat every endpoint as internet-facing.
 - Uploads: validate extension **and** MIME type, enforce size limits; for ZIPs check entry count and Zip-Slip
   (see `upload_theme.php` as the reference implementation).
 - Escape output: Twig autoescaping in themes, `htmlspecialchars()` in plain PHP pages.
-- There is currently no CSRF protection — don't rely on it existing; flag it when touching state-changing endpoints.
+- CSRF: never bypass `security_checklogin()` / `secure_API()`; new GET endpoints that change data need `csrf_require()`.
+- Login attempts are throttled (`functions/backend/login_throttle.php`); keep new login paths behind it.
 - Never log secrets, license keys or password hashes.
 
 ## Dependencies

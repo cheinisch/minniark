@@ -3,6 +3,30 @@
 > [!NOTE]
 > You find a complete Changelog here [.changelog/Changelog.md](https://github.com/cheinisch/minniark/blob/main/.changelog/Changelog.md)
 
+## [Unreleased]
+
+### Security
+- CSRF protection for all dashboard forms, AJAX requests and action links (token is attached automatically)
+- Login check added to endpoints that were reachable without login (pages, essays, collections, albums, start page, navigation, plugin and site settings, backup deletion, cache rebuild)
+- Admin-only pages and actions (users, system, themes, start page, menu, plugins, backups, updates, AI) now require admin rights; regular users no longer see them in the menu
+- Installer can no longer be run on an installed site (previously anyone could create a new admin account)
+- Self-updater requires an admin session
+- Users can only change their own account data
+- Login brute-force protection: 5 failed attempts per user and IP (20 per IP) lock the login for 15 minutes
+- New session ID after login; session cookie is HttpOnly, SameSite=Lax and Secure on HTTPS
+- Mail login codes expire after 10 minutes and can only be used once
+- Login codes, passwords and license keys are no longer written to the log or echoed in responses
+- PHP errors are no longer shown to visitors on the public site
+
+### Fixed
+- Fatal error on the public site when `settings.yml` is missing (`erorr_log` typo)
+- AI settings link in the legacy navigation pointed to a missing page
+- Several dashboard labels showed raw translation keys
+
+### i18n
+- Completed missing German and French strings
+- Added strings for the image text and EXIF edit dialogs, upload label and empty tag list
+
 ## [2026.8.0]
 2026-08-09
 
